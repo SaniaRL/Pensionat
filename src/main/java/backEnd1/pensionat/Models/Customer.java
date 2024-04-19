@@ -1,18 +1,18 @@
 package backEnd1.pensionat.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Customer {
 
@@ -26,8 +26,13 @@ public class Customer {
     @Email
     private String email;
 
-  /*  @OneToMany
+    @OneToMany
     @JoinColumn
     @JsonIgnore
-    private List <Booking> bookings = new ArrayList<>(); */
+    private List<Booking> bookings = new ArrayList<>();
+
+    public Customer(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
 }
