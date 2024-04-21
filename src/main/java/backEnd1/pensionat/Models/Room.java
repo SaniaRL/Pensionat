@@ -27,7 +27,8 @@ public class Room {
     @JsonIgnore
     private List<OrderLine> orderLines = new ArrayList<>();
 
-    public Room(RoomType typeOfRoom) {
+    public Room(Long id, RoomType typeOfRoom) {
         this.typeOfRoom = typeOfRoom;
+        this.id = id;
     }
 }
