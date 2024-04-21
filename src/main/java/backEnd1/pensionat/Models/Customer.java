@@ -26,7 +26,7 @@ public class Customer {
     @Email
     private String email;
 
-    @OneToMany (mappedBy = "customer")
+    @OneToMany(mappedBy = "customer")
     @JsonIgnore
     private List<Booking> bookings = new ArrayList<>();
 
