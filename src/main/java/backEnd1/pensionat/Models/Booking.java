@@ -25,12 +25,12 @@ public class Booking {
 
     @NotEmpty
     @FutureOrPresent
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
     @NotEmpty
     @Future
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
     public Booking(String name, String email, LocalDate startDate, LocalDate endDate) {
