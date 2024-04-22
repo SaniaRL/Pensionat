@@ -1,0 +1,48 @@
+/* Asså sorry jag måste prova att det blir nåt iaf */
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #70ADB3;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.booking-btn {
+    /* Matchar huset som är ikon */
+    background-color: #70ADB3;
+    border: 2px solid #4F4B6A;
+    border-radius: 12px;
+    font-weight: 500;
+    width: 200px;
+    height: 120px;
+}
+
+.booking-btn:hover {
+    font-weight: 700;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #70ADB3;
+    text-align: center;
+    z-index: 1;
+}
