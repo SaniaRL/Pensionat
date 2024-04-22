@@ -1,20 +1,19 @@
-package backEnd1.pensionat.dtos;
+package backEnd1.pensionat.DTOs;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DetailedCustomerDTO {
+public class SimpleBookingDTO {
 
     private Long id;
-    private String name;
-    private String email;
-    private List<SimpleBookingDTO> bookings;
+    private LocalDate startDate;
+    private LocalDate endDate;
 }
