@@ -20,8 +20,8 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public String addBooking(Booking c) {
-        bookingRepo.save(c);
+    public String addBooking(Booking b) {
+        bookingRepo.save(b);
         return "Booking added successfully";
     }
 

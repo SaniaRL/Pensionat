@@ -10,6 +10,6 @@ public interface BookingService {
 //    public Booking bookingDtoToBooking(BookingDto booking);
 
     List<Booking> getAllBookings();
-    String addBooking(Booking c);
+    String addBooking(Booking b);
     String removeBookingById(Long id);
 }
