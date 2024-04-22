@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,12 +24,12 @@ public class Booking {
     @JoinColumn
     private Customer customer;
 
-    @NotEmpty
+    @NotNull
     @FutureOrPresent
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
-    @NotEmpty
+    @NotNull
     @Future
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;

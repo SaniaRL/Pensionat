@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,7 +22,7 @@ public class Room {
     @Id
     private Long id;
 
-    @NotBlank(message = "Type of room is mandatory")
+    @NotNull(message = "Type of room is mandatory")
     private RoomType typeOfRoom;
 
     @OneToMany(mappedBy = "room")
