@@ -3,6 +3,7 @@ package backEnd1.pensionat.Models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,7 +25,7 @@ public class OrderLine {
     @JsonIgnore
     private Room room;
 
-    @NotEmpty
+    @NotNull
     private int extraBeds;
 
     public OrderLine(Booking booking, Room room, int extraBeds) {
