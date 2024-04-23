@@ -1,22 +1,30 @@
 package backEnd1.pensionat.services.impl;
 
+import backEnd1.pensionat.DTOs.DetailedBookingDTO;
 import backEnd1.pensionat.Models.Booking;
 import backEnd1.pensionat.Repositories.BookingRepo;
+import backEnd1.pensionat.services.convert.BookingConverter;
 import backEnd1.pensionat.services.interfaces.BookingService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class BookingServiceImpl implements BookingService {
 
     private final BookingRepo bookingRepo;
+    BookingConverter bookingConverter;
 
     public BookingServiceImpl(BookingRepo bookingRepo) {
         this.bookingRepo = bookingRepo;
+        bookingConverter = new BookingConverter();
     }
-
     @Override
-    public List<Booking> getAllBookings() {
-        return bookingRepo.findAll();
+    public List<DetailedBookingDTO> getAllBookings() {
+        return bookingRepo.findAll()
+                .stream()
+                .map(bookingConverter::bookingToDetailedBookingDTO)
+                .toList();
     }
 
     @Override

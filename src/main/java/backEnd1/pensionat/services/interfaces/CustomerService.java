@@ -1,5 +1,7 @@
 package backEnd1.pensionat.services.interfaces;
 
+import backEnd1.pensionat.DTOs.DetailedCustomerDTO;
+import backEnd1.pensionat.DTOs.SimpleCustomerDTO;
 import backEnd1.pensionat.Models.Customer;
 
 import java.util.List;
