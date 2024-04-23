@@ -3,9 +3,11 @@ package backEnd1.pensionat.services.impl;
 import backEnd1.pensionat.Models.Customer;
 import backEnd1.pensionat.Repositories.CustomerRepo;
 import backEnd1.pensionat.services.interfaces.CustomerService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepo customerRepo;

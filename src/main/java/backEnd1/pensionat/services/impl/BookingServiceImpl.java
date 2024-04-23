@@ -3,9 +3,11 @@ package backEnd1.pensionat.services.impl;
 import backEnd1.pensionat.Models.Booking;
 import backEnd1.pensionat.Repositories.BookingRepo;
 import backEnd1.pensionat.services.interfaces.BookingService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class BookingServiceImpl implements BookingService {
 
     private final BookingRepo bookingRepo;
