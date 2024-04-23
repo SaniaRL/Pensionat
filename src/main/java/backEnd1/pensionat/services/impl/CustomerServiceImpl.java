@@ -37,19 +37,4 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepo.deleteById(id);
         return "Customer removed successfully";
     }
-
-    @Override
-    public DetailedCustomerDTO customerToDetailedCustomerDTO(Customer customer) {
-        return DetailedCustomerDTO.builder().id(customer.getId())
-                .name(customer.getName()).email(customer.getEmail())
-                .bookings(customer.getBookings()
-                        .stream()
-                        .map(bookingConverter::bookingToSimpleBookingDTO)
-                        .toList()).build();
-    }
-    @Override
-    public SimpleCustomerDTO customerToSimpleCustomerDTO(Customer customer) {
-        return SimpleCustomerDTO.builder().id(customer.getId()).name(customer.getName())
-                .email(customer.getEmail()).build();
-    }
 }
