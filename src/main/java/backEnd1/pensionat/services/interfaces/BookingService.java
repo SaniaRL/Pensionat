@@ -1,5 +1,7 @@
 package backEnd1.pensionat.services.interfaces;
 
+import backEnd1.pensionat.DTOs.DetailedBookingDTO;
+import backEnd1.pensionat.DTOs.SimpleBookingDTO;
 import backEnd1.pensionat.Models.Booking;
 
 import java.util.List;
@@ -12,4 +14,6 @@ public interface BookingService {
     List<Booking> getAllBookings();
     String addBooking(Booking b);
     String removeBookingById(Long id);
+    DetailedBookingDTO bookingToDetailedBookingDTO(Booking booking);
+    SimpleBookingDTO bookingToSimpleBookingDTO(Booking booking);
 }
