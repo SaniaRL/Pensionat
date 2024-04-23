@@ -8,12 +8,8 @@ import java.util.List;
 
 public interface BookingService {
 //    public BookingDto bookingToBookingDto(Booking c);
-
 //    public Booking bookingDtoToBooking(BookingDto booking);
 
-    List<Booking> getAllBookings();
+    List<DetailedBookingDTO> getAllBookings();
     String addBooking(Booking b);
-    String removeBookingById(Long id);
-    DetailedBookingDTO bookingToDetailedBookingDTO(Booking booking);
-    SimpleBookingDTO bookingToSimpleBookingDTO(Booking booking);
-}
+    String removeBookingById(Long id);}

@@ -1,40 +1,31 @@
 package backEnd1.pensionat.services.impl;
 
 import backEnd1.pensionat.DTOs.DetailedBookingDTO;
-import backEnd1.pensionat.DTOs.SimpleBookingDTO;
-import backEnd1.pensionat.DTOs.SimpleCustomerDTO;
 import backEnd1.pensionat.Models.Booking;
 import backEnd1.pensionat.Repositories.BookingRepo;
+import backEnd1.pensionat.services.convert.BookingConverter;
 import backEnd1.pensionat.services.interfaces.BookingService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class BookingServiceImpl implements BookingService {
 
     private final BookingRepo bookingRepo;
+    BookingConverter bookingConverter;
 
     public BookingServiceImpl(BookingRepo bookingRepo) {
         this.bookingRepo = bookingRepo;
+        bookingConverter = new BookingConverter();
     }
-
     @Override
     public List<DetailedBookingDTO> getAllBookings() {
-        return bookingRepo.findAll().stream().map(this::bookingToDetailedBookingDTO).toList();
+        return bookingRepo.findAll()
+                .stream()
+                .map(bookingConverter::bookingToDetailedBookingDTO)
+                .toList();
     }
-
-    @Override
-    public DetailedBookingDTO bookingToDetailedBookingDTO(Booking booking) {
-        return DetailedBookingDTO.builder().id(booking.getId())
-                .customer(new SimpleCustomerDTO(booking.getCustomer().getId(),
-                        booking.getCustomer().getName(), booking.getCustomer().getEmail()))
-                .startDate(booking.getStartDate()).endDate(booking.getEndDate()).build();
-    }
-
-    @Override
-    public SimpleBookingDTO bookingToSimpleBookingDTO(Booking booking) {
-        return null;
-    }
-
 
     @Override
     public String addBooking(Booking b) {
