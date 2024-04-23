@@ -1,4 +1,4 @@
-package backEnd1.pensionat.Controllers;
+package backEnd1.pensionat.controllers;
 
 import backEnd1.pensionat.Models.Customer;
 import backEnd1.pensionat.services.interfaces.CustomerService;

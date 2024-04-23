@@ -7,8 +7,8 @@ import backEnd1.pensionat.Models.Customer;
 public class CustomerConverter {
     private final BookingConverter bookingConverter;
 
-    public CustomerConverter(){
-        bookingConverter = new BookingConverter();
+    public CustomerConverter(BookingConverter bookingConverter){
+        this.bookingConverter = bookingConverter;
     }
 
     public DetailedCustomerDTO customerToDetailedCustomerDTO(Customer customer) {

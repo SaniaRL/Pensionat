@@ -4,13 +4,13 @@ import backEnd1.pensionat.DTOs.DetailedBookingDTO;
 import backEnd1.pensionat.DTOs.SimpleBookingDTO;
 import backEnd1.pensionat.DTOs.SimpleCustomerDTO;
 import backEnd1.pensionat.Models.Booking;
-import backEnd1.pensionat.Models.Customer;
 
 public class BookingConverter {
+
     private final CustomerConverter customerConverter;
 
     public BookingConverter(){
-        customerConverter = new CustomerConverter();
+        customerConverter = new CustomerConverter(this);
     }
 
     public DetailedBookingDTO bookingToDetailedBookingDTO(Booking booking) {
