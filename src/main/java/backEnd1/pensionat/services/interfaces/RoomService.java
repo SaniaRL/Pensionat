@@ -12,5 +12,5 @@ public interface RoomService {
 
     public List<Room> getAllRooms();
     public String addRoom(Room r);
-    public String removeRoomById(Long r);
+    public String removeRoomById(Long id);
 }
