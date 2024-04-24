@@ -80,3 +80,26 @@ body {
     text-align: center;
     z-index: 1;
 }
+
+label {
+    width: 100px;
+    display: inline-block;
+}
+
+.booking-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
+    background-color: #d1d3d4;
+    border: 2px solid #4f4b6a;
+    color: #4f4b6a;
+    padding: 30px;
+}
+
+.left, .right {
+    display: block;
+}
+
+.nr-input {
+    width: 50px;
+}
