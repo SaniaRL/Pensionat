@@ -15,10 +15,11 @@ public class BookingServiceImpl implements BookingService {
     private final BookingRepo bookingRepo;
     BookingConverter bookingConverter;
 
-    public BookingServiceImpl(BookingRepo bookingRepo) {
+    public BookingServiceImpl(BookingRepo bookingRepo, BookingConverter bookingConverter) {
         this.bookingRepo = bookingRepo;
-        bookingConverter = new BookingConverter();
+        this.bookingConverter = bookingConverter;
     }
+
     @Override
     public List<DetailedBookingDTO> getAllBookings() {
         return bookingRepo.findAll()

@@ -3,6 +3,8 @@ package backEnd1.pensionat.services.interfaces;
 import backEnd1.pensionat.DTOs.DetailedCustomerDTO;
 import backEnd1.pensionat.DTOs.SimpleCustomerDTO;
 import backEnd1.pensionat.Models.Customer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -14,4 +16,5 @@ public interface CustomerService {
     List<Customer> getAllCustomers();
     String addCustomer(Customer c);
     String removeCustomerById(Long id);
+    Page<Customer> getCustomersByEmail(String email, Pageable pageable);
 }
