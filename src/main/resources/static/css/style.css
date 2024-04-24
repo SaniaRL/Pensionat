@@ -97,7 +97,6 @@ body {
 
 .content-booking {
     display: grid;
-    grid-template-rows: 1fr 1fr 100px;
 }
 
 .booking-options {
@@ -160,9 +159,16 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 #booking-chosen-rooms {
-
 }
 
 #booking-empty-rooms {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    column-gap: 50px;
+    background-color: #d1d3d4;
+    border: 2px solid #4f4b6a;
+    border-radius: 12px;
+    color: #4f4b6a;
+    padding: 30px;
 
 }

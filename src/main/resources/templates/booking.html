@@ -15,7 +15,7 @@
 </div>
 <div class="content content-booking">
 
-    <form action="" method="post">
+    <form action="/booking" method="get">
       <div class="booking-options">
       <div class="left">
         <div>
@@ -43,10 +43,19 @@
       </div>
     </form>
 
-  <div id="booking-chosen-rooms">
+<!--  <div id="booking-chosen-rooms"></div>-->
 
+  <div id="booking-empty-rooms" th:unless="${#lists.isEmpty(availableRooms)}">
+      <table>
+        <tbody>
+        <tr th:each="room : ${availableRooms}">
+          <td th:text="${room.id}"></td>
+          <td th:text="${room.typeOfRoom}"></td>
+          <td><a th:href="">Add</a></td>
+        </tr>
+        </tbody>
+      </table>
   </div>
-  <div id="booking-empty-rooms"></div>
 
 </div>
 <div class="footer">

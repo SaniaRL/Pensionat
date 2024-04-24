@@ -43,9 +43,14 @@ public class RoomServicelmpl implements RoomService {
         //Kolla alla rum
         //Som inte finns på en order_line
         //Som har en bokning
-        //Som har startdatum mindre eller lika med slut
-        //Som har slutdatum större eller lika med start
+        //Som har startdatum mindre eller lika med slut ??
+        //Som har slutdatum större eller lika med start ??
 
-        
+        //ASSÅ ORKAR INTE TÄNKA SÅ ATM ÄR DET ALLA RUM YES
+        //Klockan är snart 22 chilla asså
+        String jpqlQuery = "SELECT r FROM Room r ";
+
+        return entityManager.createQuery(jpqlQuery, RoomDTO.class)
+                .getResultList();
     }
 }
