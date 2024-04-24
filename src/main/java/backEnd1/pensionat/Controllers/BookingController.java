@@ -5,7 +5,6 @@ import backEnd1.pensionat.Models.Booking;
 import backEnd1.pensionat.services.interfaces.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.List;
 

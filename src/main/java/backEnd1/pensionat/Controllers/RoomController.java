@@ -5,7 +5,6 @@ import backEnd1.pensionat.Models.Room;
 import backEnd1.pensionat.services.interfaces.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController // Ska väl ändras till @Controller om vi bara returnerar html-sidor.
