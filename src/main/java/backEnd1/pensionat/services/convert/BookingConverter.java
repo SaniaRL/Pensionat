@@ -5,7 +5,9 @@ import backEnd1.pensionat.DTOs.SimpleBookingDTO;
 import backEnd1.pensionat.DTOs.SimpleCustomerDTO;
 import backEnd1.pensionat.Models.Booking;
 import backEnd1.pensionat.Models.Customer;
+import org.springframework.stereotype.Component;
 
+@Component
 public class BookingConverter {
     public DetailedBookingDTO bookingToDetailedBookingDTO(Booking booking) {
         return DetailedBookingDTO.builder().id(booking.getId())
