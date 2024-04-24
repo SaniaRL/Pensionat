@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmation</title>
+    <link rel="icon" type="image/x-icon" href="/images/house.png"/>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
+</head>
+<body>
+<h1>Bokningsbekräftelse</h1>
+<div>
+    <h3>Kund:</h3>
+    <p th:text="${name}+', ' +${email}" />
+    <br>
+    <h3>Bokning:</h3>
+    <p th:text="'Incheckning: '+${checkin}" />
+    <p th:text="'Utcheckning: '+${checkout}" />
+    <br>
+    <div class="allOrderLines" th:unless="${#lists.isEmpty(allOrderLines)}">
+        <table>
+            <thead>
+                <tr>
+                    <th>Room ID</th>
+                    <th>Type of Room</th>
+                    <th>Extra Beds</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr th:each="orderLine : ${allOrderLines}">
+                <td th:text="${orderLine.room.id}"></td>
+                <td th:text="${orderLine.room.typeOfRoom}"></td>
+                <td th:text="${orderLine.extraBeds}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>
