@@ -81,17 +81,32 @@ body {
     z-index: 1;
 }
 
-label {
+.label, .label-s {
     width: 100px;
     display: inline-block;
+    padding-bottom: 20px;
+}
+
+.label-s {
+    width: 70px;
+}
+
+.nr-input {
+    width: 50px;
+}
+
+.content-booking {
+    display: grid;
+    grid-template-rows: 1fr 1fr 100px;
 }
 
 .booking-options {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 20px;
+    grid-template-columns: 300px 1fr;
+    column-gap: 50px;
     background-color: #d1d3d4;
     border: 2px solid #4f4b6a;
+    border-radius: 12px;
     color: #4f4b6a;
     padding: 30px;
 }
@@ -100,6 +115,55 @@ label {
     display: block;
 }
 
-.nr-input {
-    width: 50px;
+input[type="date"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+}
+
+input[type="number"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+    opacity: 1;
+    color: #4f4b6a;
+}
+
+.back-link {
+    position: absolute;
+    top: 20px;
+    color: #4f4b6a;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+#submit-booking {
+    color: #4f4b6a;
+    background-color: #00adee;
+    height: 30px;
+    width: 150px;
+    border: 2px solid #4f4b6a;
+    border-radius: 12px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+#submit-booking:hover {
+    cursor: pointer;
+    background-color: #70ADB3;
+}
+
+#booking-chosen-rooms {
+
+}
+
+#booking-empty-rooms {
+    
 }

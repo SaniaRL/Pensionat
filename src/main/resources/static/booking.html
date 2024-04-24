@@ -11,9 +11,9 @@
 </head>
 <body>
 <div class="header">
-
+<a class="back-link" href="index.html">Back</a>
 </div>
-<div class="content">
+<div class="content content-booking">
 
     <form action="" method="post">
       <div class="booking-options">
@@ -29,17 +29,22 @@
       </div>
       <div class="right">
         <div>
-          <label for="number-of-beds" class="label">Beds</label>
+          <label for="number-of-beds" class="label-s">Sängar</label>
           <input class="nr-input" type="number" id="number-of-beds" name="number-of-beds">
         </div>
         <div>
-          <label for="number-of-rooms" class="label">Rooms</label>
+          <label for="number-of-rooms" class="label-s">Rum</label>
           <input class="nr-input" type="number" id="number-of-rooms" name="number-of-rooms">
+        </div>
+        <div>
+          <input type="submit" id="submit-booking" name="submit-booking" value="SÖK LEDIGA RUM">
         </div>
       </div>
       </div>
     </form>
 
+  <div id="booking-chosen-rooms"></div>
+  <div id="booking-empty-rooms"></div>
 
 </div>
 <div class="footer">
