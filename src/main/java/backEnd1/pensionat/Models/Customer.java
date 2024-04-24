@@ -31,7 +31,6 @@ public class Customer {
     private String email;
 
     @OneToMany(mappedBy = "customer")
-    @JsonIgnore
     private List<Booking> bookings = new ArrayList<>();
 
     public Customer(String name, String email) {

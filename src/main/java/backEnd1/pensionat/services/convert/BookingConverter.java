@@ -7,12 +7,6 @@ import backEnd1.pensionat.Models.Booking;
 import backEnd1.pensionat.Models.Customer;
 
 public class BookingConverter {
-    private final CustomerConverter customerConverter;
-
-    public BookingConverter(){
-        customerConverter = new CustomerConverter();
-    }
-
     public DetailedBookingDTO bookingToDetailedBookingDTO(Booking booking) {
         return DetailedBookingDTO.builder().id(booking.getId())
                 .customer(new SimpleCustomerDTO(booking.getCustomer().getId(),
@@ -24,10 +18,14 @@ public class BookingConverter {
                 .startDate(booking.getStartDate()).endDate(booking.getEndDate()).build();
     }
     public Booking DetailedBookingDTOtoBooking(DetailedBookingDTO booking) {
+        //TODO Sök om kunden finns
+        SimpleCustomerDTO customer = booking.getCustomer();
         return Booking.builder().id(booking.getId())
                 .startDate(booking.getStartDate())
                 .endDate(booking.getEndDate())
-                .customer(customerConverter.SimpleCustomerDTOtoCustomer(booking.getCustomer()))
+                .customer(Customer.builder().id(customer.getId())
+                        .name(customer.getName())
+                        .email(customer.getEmail()).build())
                 .build();
     }
     public Booking SimpleBookingDTOtoBooking(SimpleBookingDTO booking) {
@@ -36,6 +34,4 @@ public class BookingConverter {
                 .endDate(booking.getEndDate())
                 .build();
     }
-    //TODO Denna bokning saknar kund - ha i åtanke
-
 }

@@ -1,7 +1,6 @@
 package backEnd1.pensionat.services.impl;
 
 import backEnd1.pensionat.Models.OrderLine;
-import backEnd1.pensionat.Models.Room;
 import backEnd1.pensionat.Repositories.OrderLineRepo;
 import backEnd1.pensionat.services.interfaces.OrderLineService;
 import lombok.RequiredArgsConstructor;
