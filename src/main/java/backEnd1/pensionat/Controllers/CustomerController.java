@@ -4,7 +4,6 @@ import backEnd1.pensionat.Models.Customer;
 import backEnd1.pensionat.services.interfaces.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController // Ska väl ändras till @Controller om vi bara returnerar html-sidor.
