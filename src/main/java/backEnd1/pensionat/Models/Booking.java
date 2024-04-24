@@ -1,6 +1,7 @@
 package backEnd1.pensionat.Models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
@@ -26,6 +27,7 @@ public class Booking {
 
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     private Customer customer;
 
     @NotNull
