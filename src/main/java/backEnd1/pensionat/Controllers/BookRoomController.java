@@ -7,8 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +22,7 @@ public class BookRoomController {
     @GetMapping("/booking")
     public String processBookingForm(@ModelAttribute BookingFormQueryDTO query, Model model){
         List<RoomDTO> availableRooms = new ArrayList<>();
-        if(query.getStartDate() != null){
+        if(query != null){
             availableRooms = roomService.findAvailableRooms(query);
         }
         model.addAttribute("availableRooms", availableRooms);

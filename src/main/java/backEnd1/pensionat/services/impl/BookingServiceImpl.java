@@ -13,17 +13,15 @@ import java.util.List;
 public class BookingServiceImpl implements BookingService {
 
     private final BookingRepo bookingRepo;
-    BookingConverter bookingConverter;
 
     public BookingServiceImpl(BookingRepo bookingRepo) {
         this.bookingRepo = bookingRepo;
-        bookingConverter = new BookingConverter();
     }
     @Override
     public List<DetailedBookingDTO> getAllBookings() {
         return bookingRepo.findAll()
                 .stream()
-                .map(bookingConverter::bookingToDetailedBookingDTO)
+                .map(BookingConverter::bookingToDetailedBookingDTO)
                 .toList();
     }
 

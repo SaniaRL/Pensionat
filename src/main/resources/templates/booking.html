@@ -45,15 +45,34 @@
     </form>
 
 
-<div id="booking-chosen-rooms"></div>
+<div id="booking-chosen-rooms">
+  <p>Valda rum här yolo swag</p>
+</div>
 
   <div id="booking-empty-rooms" th:unless="${#lists.isEmpty(availableRooms)}">
     <table>
-      <tbody>
-      <tr th:each="room : ${availableRooms}">
+      <tbody class="show-rooms">
+      <tr class="header-rooms-idk">
+        <td id="room-id">Room ID:</td>
+        <td id="default-beds">Room Type:</td>
+        <td id="max-beds">Beds:</td>
+        <td></td>
+      </tr>
+
+      <tr th:each="room : ${availableRooms}" class="room-row-av">
         <td th:text="${room.id}"></td>
-<!--        <td th:text="${room.roomType}"></td>-->
-<!--        <td><a th:href="">Add</a></td>-->
+
+        <td>SINGLE</td>
+        <td>2</td>
+        <td id="add-room">ADD</td>
+
+
+        <!--
+        <td th:text="${room.getRoomTypeName()}"></td>
+
+        <td th:text="${room.roomType.defaultNumberOfBeds}"></td>
+        <td th:text="${room.roomType.maxNumberOfBeds}"></td>
+                <td><a th:href="">Add</a></td>-->
       </tr>
       </tbody>
     </table>

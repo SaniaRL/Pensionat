@@ -15,4 +15,15 @@ public class RoomDTO {
     private long id;
     private RoomType roomType;
 
+    public String getRoomTypeName() {
+        return roomType.getRoomType();
+    }
+
+    public int getDefaultNumberOfBeds() {
+        return roomType.getDefaultNumberOfBeds();
+    }
+
+    public int getMaxNumberOfBeds() {
+        return roomType.getMaxNumberOfBeds();
+    }
 }

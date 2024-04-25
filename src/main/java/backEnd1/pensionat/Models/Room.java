@@ -1,6 +1,7 @@
 package backEnd1.pensionat.Models;
 
 import backEnd1.pensionat.Enums.RoomType;
+import backEnd1.pensionat.services.convert.RoomTypeConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -33,4 +34,10 @@ public class Room {
         this.typeOfRoom = typeOfRoom;
         this.id = id;
     }
+
+    public Room(Long id, int typeOfRoom) {
+        this.typeOfRoom = RoomTypeConverter.convertFromInt(typeOfRoom);
+        this.id = id;
+    }
+
 }

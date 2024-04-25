@@ -7,17 +7,17 @@ import backEnd1.pensionat.Models.Booking;
 import backEnd1.pensionat.Models.Customer;
 
 public class BookingConverter {
-    public DetailedBookingDTO bookingToDetailedBookingDTO(Booking booking) {
+    public static DetailedBookingDTO bookingToDetailedBookingDTO(Booking booking) {
         return DetailedBookingDTO.builder().id(booking.getId())
                 .customer(new SimpleCustomerDTO(booking.getCustomer().getId(),
                         booking.getCustomer().getName(), booking.getCustomer().getEmail()))
                 .startDate(booking.getStartDate()).endDate(booking.getEndDate()).build();
     }
-    public SimpleBookingDTO bookingToSimpleBookingDTO(Booking booking) {
+    public static SimpleBookingDTO bookingToSimpleBookingDTO(Booking booking) {
         return SimpleBookingDTO.builder().id(booking.getId())
                 .startDate(booking.getStartDate()).endDate(booking.getEndDate()).build();
     }
-    public Booking DetailedBookingDTOtoBooking(DetailedBookingDTO booking) {
+    public static Booking DetailedBookingDTOtoBooking(DetailedBookingDTO booking) {
         //TODO Sök om kunden finns
         SimpleCustomerDTO customer = booking.getCustomer();
         return Booking.builder().id(booking.getId())
@@ -28,7 +28,7 @@ public class BookingConverter {
                         .email(customer.getEmail()).build())
                 .build();
     }
-    public Booking SimpleBookingDTOtoBooking(SimpleBookingDTO booking) {
+    public static Booking SimpleBookingDTOtoBooking(SimpleBookingDTO booking) {
         return Booking.builder().id(booking.getId())
                 .startDate(booking.getStartDate())
                 .endDate(booking.getEndDate())
