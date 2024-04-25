@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 public class RoomDTO {
 
     private long id;
-    private RoomType typeOfRoom;
+    private RoomType roomType;
 
 }

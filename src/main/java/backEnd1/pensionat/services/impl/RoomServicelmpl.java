@@ -6,6 +6,7 @@ import backEnd1.pensionat.Models.Room;
 import backEnd1.pensionat.Repositories.RoomRepo;
 import backEnd1.pensionat.services.interfaces.RoomService;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.util.List;
 public class RoomServicelmpl implements RoomService {
 
     final private RoomRepo roomRepo;
+    @PersistenceContext
     EntityManager entityManager;
 
     @Override
