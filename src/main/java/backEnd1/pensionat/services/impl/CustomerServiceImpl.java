@@ -1,5 +1,6 @@
 package backEnd1.pensionat.services.impl;
 
+import backEnd1.pensionat.DTOs.SimpleCustomerDTO;
 import backEnd1.pensionat.Models.Customer;
 import backEnd1.pensionat.Repositories.CustomerRepo;
 import backEnd1.pensionat.services.interfaces.CustomerService;
@@ -38,7 +39,18 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public String updateCustomer(Customer c) {
+        customerRepo.save(c);
+        return "Customer updated successfully";
+    }
+
+    @Override
     public Page<Customer> getCustomersByEmail(String email, Pageable pageable) {
         return customerRepo.findByEmailContains(email, pageable);
+    }
+
+    @Override
+    public Customer getCustomerByEmail(String email) {
+        return customerRepo.findByEmail(email);
     }
 }

@@ -28,9 +28,15 @@ public class CustomerController {
         return customerService.addCustomer(new Customer(name, email));
     }
 
-    @RequestMapping("/{id}/remove")
+    @DeleteMapping("/{id}/remove")
     public String removeCustomerById(@PathVariable Long id) {
         return customerService.removeCustomerById(id);
+    }
+
+    @PutMapping("/{id}/update")
+    public String updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
+        customerService.updateCustomer(customer);
+        return "index";
     }
 
     @RequestMapping("/customerOrNot")
