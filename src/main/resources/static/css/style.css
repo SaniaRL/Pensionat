@@ -43,6 +43,21 @@ body {
     margin-top: 30px;
 }
 
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 24px;
+}
+
+input {
+    width: 95%;
+    height: 30px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 8px; /* Rundade hörn */
+    font-size: 18px;
+}
+
 .index-btn {
     background-color: #d1d3d4;
     border: 2px solid #4f4b6a;
@@ -59,7 +74,6 @@ body {
 .booking-btn {
     height: 120px;
 }
-
 
 .index-btn:hover {
     font-weight: 700;

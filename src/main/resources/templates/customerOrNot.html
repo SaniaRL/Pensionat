@@ -7,7 +7,8 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet">
 </head>
 <body>
 
@@ -21,11 +22,21 @@
     </div>
 </div>
 <div class="content">
-    <div>
+    <form action="frontPage" method="post">
         <div>
-            <button class="booking-btn index-btn">Bekräfta</button>
+            <label for="name">Namn: </label>
+            <br>
+            <input id="name" type="text" name="name">
         </div>
-    </div>
+        <div>
+            <label for="email">Email: </label>
+            <br>
+            <input id="email" type="email" name="email">
+        </div>
+        <div>
+            <button type="submit" class="booking-btn index-btn">Bekräfta</button>
+        </div>
+    </form>
 </div>
 <div class="footer">
     <p>&#9824; Eddie Boschek &#9829; Sania Runnfors Larsson &#9827; Sebastian Karlsson &#9830; Simon Nordlund</p>
