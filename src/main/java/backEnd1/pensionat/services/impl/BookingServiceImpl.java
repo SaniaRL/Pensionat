@@ -17,6 +17,7 @@ public class BookingServiceImpl implements BookingService {
     public BookingServiceImpl(BookingRepo bookingRepo) {
         this.bookingRepo = bookingRepo;
     }
+
     @Override
     public List<DetailedBookingDTO> getAllBookings() {
         return bookingRepo.findAll()
