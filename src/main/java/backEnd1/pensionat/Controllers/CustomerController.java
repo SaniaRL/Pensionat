@@ -48,7 +48,6 @@ public class CustomerController {
     @RequestMapping("/handle")
     public String handleCustomers(Model model){
         List<SimpleCustomerDTO> c = customerService.getAllCustomers();
-        System.out.println(c);
         model.addAttribute("allCustomers", c);
         return "handleCustomers.html";
     }
@@ -60,8 +59,16 @@ public class CustomerController {
         }
 
     @GetMapping("/search")
-    public Page<Customer> getCustomerByEmail(@RequestParam String email, @RequestParam int page) {
-        Pageable pageable = PageRequest.of(page, 10);
-        return customerService.getCustomersByEmail(email, pageable);
+    public String getCustomerByEmail(@RequestParam String email, Model model) {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<SimpleCustomerDTO> c = customerService.getCustomersByEmail(email, pageable);
+        model.addAttribute("allCustomers", c.getContent());
+        return "handleCustomers.html";
     }
+
+//    @GetMapping("/searchWithPage")
+//    public Page<Customer> getCustomerByEmailWithPage(@RequestParam String email, @RequestParam int page) {
+//        Pageable pageable = PageRequest.of(page, 10);
+//        return customerService.getCustomersByEmail(email, pageable);
+//    }
 }

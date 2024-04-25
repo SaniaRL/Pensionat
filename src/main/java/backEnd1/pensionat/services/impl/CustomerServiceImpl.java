@@ -46,8 +46,9 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Page<Customer> getCustomersByEmail(String email, Pageable pageable) {
-        return customerRepo.findByEmailContains(email, pageable);
+    public Page<SimpleCustomerDTO> getCustomersByEmail(String email, Pageable pageable) {
+        Page<Customer> page = customerRepo.findByEmailContains(email, pageable);
+        return page.map(CustomerConverter::customerToSimpleCustomerDTO);
     }
 
     @Override

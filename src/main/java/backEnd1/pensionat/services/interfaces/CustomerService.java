@@ -17,6 +17,6 @@ public interface CustomerService {
     String addCustomer(Customer c);
     String removeCustomerById(Long id);
     String updateCustomer(Customer c);
-    Page<Customer> getCustomersByEmail(String email, Pageable pageable);
+    Page<SimpleCustomerDTO> getCustomersByEmail(String email, Pageable pageable);
     Customer getCustomerByEmail(String email);
 }
