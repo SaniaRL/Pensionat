@@ -13,7 +13,7 @@ public interface CustomerService {
 
 //    public Customer customerDtoToCustomer(CustomerDto customer);
 
-    List<Customer> getAllCustomers();
+    List<SimpleCustomerDTO> getAllCustomers();
     String addCustomer(Customer c);
     String removeCustomerById(Long id);
     String updateCustomer(Customer c);

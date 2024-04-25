@@ -1,13 +1,14 @@
 package backEnd1.pensionat.Controllers;
 
+import backEnd1.pensionat.DTOs.SimpleCustomerDTO;
 import backEnd1.pensionat.Models.Customer;
 import backEnd1.pensionat.services.interfaces.CustomerService;
-import ch.qos.logback.core.model.Model;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -18,10 +19,10 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    @RequestMapping("/all")
+   /* @RequestMapping("/all")
     public List<Customer> getAllCustomers() {
         return customerService.getAllCustomers();
-    }
+    } */
 
     @PostMapping("/add")
     public String addCustomer(@RequestParam String name, @RequestParam String email) {
@@ -42,6 +43,14 @@ public class CustomerController {
     @RequestMapping("/customerOrNot")
     public String loadCustomerOrNot(){
         return "customerOrNot.html";
+    }
+
+    @RequestMapping("/handle")
+    public String handleCustomers(Model model){
+        List<SimpleCustomerDTO> c = customerService.getAllCustomers();
+        System.out.println(c);
+        model.addAttribute("allCustomers", c);
+        return "handleCustomers.html";
     }
 
     //Temp metod nedan. Tas bort sen.

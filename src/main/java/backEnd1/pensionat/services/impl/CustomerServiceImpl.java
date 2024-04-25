@@ -3,6 +3,7 @@ package backEnd1.pensionat.services.impl;
 import backEnd1.pensionat.DTOs.SimpleCustomerDTO;
 import backEnd1.pensionat.Models.Customer;
 import backEnd1.pensionat.Repositories.CustomerRepo;
+import backEnd1.pensionat.services.convert.CustomerConverter;
 import backEnd1.pensionat.services.interfaces.CustomerService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,8 +23,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Customer> getAllCustomers() {
-        return customerRepo.findAll();
+    public List<SimpleCustomerDTO> getAllCustomers() {
+        return customerRepo.findAll().stream().map(CustomerConverter::customerToSimpleCustomerDTO).toList();
     }
 
     @Override
