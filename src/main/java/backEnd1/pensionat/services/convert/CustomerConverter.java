@@ -8,7 +8,7 @@ import backEnd1.pensionat.Models.Customer;
 
 public class CustomerConverter {
 
-    public DetailedCustomerDTO customerToDetailedCustomerDTO(Customer customer) {
+    public static DetailedCustomerDTO customerToDetailedCustomerDTO(Customer customer) {
         return DetailedCustomerDTO.builder().id(customer.getId())
                 .name(customer.getName()).email(customer.getEmail())
                 .bookings(customer.getBookings()
@@ -21,7 +21,7 @@ public class CustomerConverter {
                 .build();
     }
 
-    public SimpleCustomerDTO customerToSimpleCustomerDTO(Customer customer) {
+    public static SimpleCustomerDTO customerToSimpleCustomerDTO(Customer customer) {
         return SimpleCustomerDTO.builder()
                 .id(customer.getId())
                 .name(customer.getName())
@@ -29,7 +29,7 @@ public class CustomerConverter {
                 .build();
     }
 
-    public Customer DetailedCustomerDTOtoCustomer(DetailedCustomerDTO customer) {
+    public static Customer DetailedCustomerDTOtoCustomer(DetailedCustomerDTO customer) {
         return Customer.builder().id(customer.getId())
                 .name(customer.getName())
                 .email(customer.getEmail())
@@ -44,7 +44,7 @@ public class CustomerConverter {
                 .build();
     }
 
-    public Customer SimpleCustomerDTOtoCustomer(SimpleCustomerDTO customer) {
+    public static Customer SimpleCustomerDTOtoCustomer(SimpleCustomerDTO customer) {
         return Customer.builder().id(customer.getId())
                         .name(customer.getName())
                         .email(customer.getEmail())

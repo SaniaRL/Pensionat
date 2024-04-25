@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+  <title>Pensionat</title>
+  <link rel="icon" type="image/x-icon" href="/images/house.png"/>
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<div class="header">
+<a class="back-link" href="http://localhost:8080/index.html">Back</a>
+</div>
+<div class="content content-booking">
+
+    <form action="/booking" method="get">
+      <div class="booking-options">
+      <div class="left">
+        <div>
+          <label for="start-date" class="label">Check-in</label>
+          <input type="date" id="start-date" name="start-date">
+        </div>
+        <div>
+          <label for="end-date" class="label">Check-out</label>
+          <input type="date" id="end-date" name="end-date">
+        </div>
+      </div>
+      <div class="right">
+        <div>
+          <label for="number-of-beds" class="label-s">Sängar</label>
+          <input class="nr-input" type="number" id="number-of-beds" name="number-of-beds">
+        </div>
+        <div>
+          <label for="number-of-rooms" class="label-s">Rum</label>
+          <input class="nr-input" type="number" id="number-of-rooms" name="number-of-rooms">
+        </div>
+        <div>
+          <input type="submit" id="submit-booking" name="submit-booking" value="SÖK LEDIGA RUM">
+        </div>
+      </div>
+      </div>
+    </form>
+
+
+<div id="booking-chosen-rooms">
+  <p>Valda rum här yolo swag</p>
+</div>
+
+  <div id="booking-empty-rooms" th:unless="${#lists.isEmpty(availableRooms)}">
+    <table>
+      <tbody class="show-rooms">
+      <tr class="header-rooms-idk">
+        <td id="room-id">Room ID:</td>
+        <td id="default-beds">Room Type:</td>
+        <td id="max-beds">Beds:</td>
+        <td></td>
+      </tr>
+
+      <tr th:each="room : ${availableRooms}" class="room-row-av">
+        <td th:text="${room.id}"></td>
+
+        <td>SINGLE</td>
+        <td>2</td>
+        <td id="add-room">ADD</td>
+
+
+        <!--
+        <td th:text="${room.getRoomTypeName()}"></td>
+
+        <td th:text="${room.roomType.defaultNumberOfBeds}"></td>
+        <td th:text="${room.roomType.maxNumberOfBeds}"></td>
+                <td><a th:href="">Add</a></td>-->
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>
