@@ -43,13 +43,13 @@ body {
     margin-top: 30px;
 }
 
-label {
+.label-CustomerOrNot {
     display: block;
     margin-bottom: 5px;
     font-size: 24px;
 }
 
-input {
+.input-CustomerOrNot {
     width: 95%;
     height: 30px;
     margin-bottom: 20px;
