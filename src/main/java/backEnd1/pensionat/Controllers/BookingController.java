@@ -1,22 +1,20 @@
 package backEnd1.pensionat.Controllers;
 
-import backEnd1.pensionat.DTOs.DetailedBookingDTO;
-import backEnd1.pensionat.Models.Booking;
-import backEnd1.pensionat.Models.Customer;
-import backEnd1.pensionat.Models.OrderLine;
-import backEnd1.pensionat.Models.Room;
+import backEnd1.pensionat.DTOs.BookingDTO;
+import backEnd1.pensionat.DTOs.CustomerDTO;
+import backEnd1.pensionat.DTOs.RoomDTO;
+import backEnd1.pensionat.DTOs.SimpleOrderLineDTO;
 import backEnd1.pensionat.services.interfaces.BookingService;
 import backEnd1.pensionat.services.interfaces.CustomerService;
 import backEnd1.pensionat.services.interfaces.OrderLineService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@RestController // Ska väl ändras till @Controller om vi bara returnerar html-sidor.
+@Controller
 @RequiredArgsConstructor
 @RequestMapping(path = "/booking")
 public class BookingController {
@@ -25,26 +23,28 @@ public class BookingController {
     private final CustomerService customerService;
     private final OrderLineService orderLineService;
 
-    @RequestMapping("/all")
-    public List<DetailedBookingDTO> getAllCustomers() {
+    /*@RequestMapping("/all")
+    //public List<DetailedBookingDTO> getAllBookings() {
         return bookingService.getAllBookings();
-    }
+    }*/
 
     @PostMapping("/add")
-    public String addBooking(@RequestParam String name, @RequestParam String email, Model model) {
-        Customer customer;
-        customer= customerService.getCustomersByEmail(email);
-        if (!customer) {
-            customer = new Customer(name, email);
-            customerService.addCustomer(customer);
+    public String addBooking(@ModelAttribute CustomerDTO customerDTO, Model model) {
+        if (customerService.getCustomerByEmail(customerDTO.getEmail()) == null) {
+            customerService.addCustomerFromCustomerDTO(customerDTO);
         }
-        Booking booking = new Booking(customer, model.getAttribute("startDate"), model.getAttribute("endDate"))
-        bookingService.addBooking(booking);
-        List<Room> rooms = model.getAttribute("rooms");
-        List<Integer> extraBeds = model.getAttribute("extraBeds");
+        Long bookingId = bookingService.addBookingFromBookingDto(new BookingDTO(customerDTO,
+                        (LocalDate) model.getAttribute("startDate"),
+                        (LocalDate) model.getAttribute("endDate")));
+
+        List<RoomDTO> rooms = (List<RoomDTO>) model.getAttribute("rooms");
+        List<Integer> extraBeds = (List<Integer>) model.getAttribute("extraBeds");
         for (int i = 0; i < rooms.size(); i++) {
-            orderLineService.addOrderLine(new OrderLine(booking, rooms.get(i), extraBeds.get(i)));
+            orderLineService.addOrderLineFromSimpleOrderLineDto(new SimpleOrderLineDTO(bookingId,
+                                                                    rooms.get(i), extraBeds.get(i)));
         }
+        model.addAttribute("booking", bookingService.getBookingById(bookingId));
+        model.addAttribute("orderLines", orderLineService.getOrderLinesByBookingId(bookingId));
         return "BookingConfirmation";
     }
 

@@ -36,6 +36,16 @@ public class RoomServicelmpl implements RoomService {
         return "Room " + id + " removed";
     }
 
+    @Override
+    public Room roomDtoToRoom(RoomDTO room) {
+        return Room.builder().id(room.getId()).typeOfRoom(room.getRoomType()).build();
+    }
+
+    @Override
+    public RoomDTO roomToRoomDto(Room room) {
+        return RoomDTO.builder().id(room.getId()).roomType(room.getTypeOfRoom()).build();
+    }
+
     public List<RoomDTO> findAvailableRooms(BookingFormQueryDTO query){
         LocalDate startDate = query.getStartDate();
         LocalDate endDate = query.getEndDate();
