@@ -1,8 +1,7 @@
-package backEnd1.pensionat.Controllers;
+package backEnd1.pensionat.controllers;
 
 import backEnd1.pensionat.DTOs.BookingFormQueryDTO;
 import backEnd1.pensionat.DTOs.RoomDTO;
-import backEnd1.pensionat.DTOs.RoomIdDTO;
 import backEnd1.pensionat.services.impl.RoomServicelmpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

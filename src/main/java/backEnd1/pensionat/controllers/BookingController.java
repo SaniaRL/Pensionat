@@ -1,4 +1,4 @@
-package backEnd1.pensionat.Controllers;
+package backEnd1.pensionat.controllers;
 
 import backEnd1.pensionat.DTOs.BookingDTO;
 import backEnd1.pensionat.DTOs.CustomerDTO;

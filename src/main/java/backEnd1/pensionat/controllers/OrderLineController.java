@@ -1,6 +1,5 @@
-package backEnd1.pensionat.Controllers;
+package backEnd1.pensionat.controllers;
 
-import backEnd1.pensionat.Enums.RoomType;
 import backEnd1.pensionat.Models.Booking;
 import backEnd1.pensionat.Models.OrderLine;
 import backEnd1.pensionat.Models.Room;
