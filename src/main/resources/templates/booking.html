@@ -46,7 +46,7 @@
 
 
 
-    <div id="booking-chosen-rooms" th:unless="${#lists.isEmpty(chosenRooms)}">
+    <div id="booking-chosen-rooms" >
       <div class="scroll-shit">
         <p class="title-booking">BOKNING</p>
         <table>
@@ -61,7 +61,7 @@
           </tr>
           </thead>
           <tbody id="ChosenList" class="show-rooms">
-          <tr th:each="room : ${chosenRooms}" class="room-row-av">
+          <tr th:each="room : ${chosenRooms}" class="room-row-av room-av-row">
             <td class="room-id" th:text="${room.id}"></td>
             <td class="room-type" th:text="${room.roomType.roomType}"></td>
             <td th:text="${room.roomType.defaultNumberOfBeds}"></td>
@@ -69,7 +69,7 @@
             <td>5</td>
 
             <td class="remove-room-btn">
-              <img src="/images/white_delete.png" alt="Add" th:href="@{'booking'}"/></td>
+              <img src="/images/white_delete.png" alt="Remove" /></td>
           </tr>
           </tbody>
         </table>
@@ -93,10 +93,12 @@
           </tr>
           </thead>
           <tbody id="AvailableList" class="show-rooms">
-          <tr th:each="room : ${availableRooms}" class="room-row-av">
+          <tr th:each="room : ${availableRooms}" class="room-row-av room-chosen-row">
             <td class="room-id" th:text="${room.id}"></td>
             <td class="room-type" th:text="${room.roomType.roomType}"></td>
-            <td th:text="${room.roomType.defaultNumberOfBeds}"></td>
+            <td>
+              <input class="bed-number" type="number" th:value="${room.roomType.defaultNumberOfBeds}" th:min="${room.roomType.defaultNumberOfBeds}" th:max="${room.roomType.maxNumberOfBeds}">
+            </td>
             <td>0</td>
             <td>5</td>
             <td class="add-room-btn">

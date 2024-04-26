@@ -2,43 +2,46 @@
 const addRoomButtons = document.querySelectorAll('.add-room-btn');
 const removeRoomButtons = document.querySelectorAll('.remove-room-btn');
 
-addRoomButtons.forEach(function(td) {
-    td.addEventListener("click", function() {
-        console.log("Room clicked");
-        let room = td.parentNode;
-        if(room){
-            const roomID = room.querySelector(".room-id").textContent;
-            const roomType = room.querySelector(".room-type").textContent;
-
-            console.log("Room-id: " + roomID);
-
-            addRoom(roomID, roomType);
-        }
-        else {
-            console.log("Room is null")
-        }
-    });
+addRoomButtons.forEach(e => {
+    e.addEventListener("click", () => add(e));
 });
 
-removeRoomButtons.forEach(function(td) {
-    td.addEventListener("click", function() {
-        console.log("Room clicked");
-        let room = td.parentNode;
-        if(room){
-            const roomID = room.querySelector(".room-id").textContent;
-            const roomType = room.querySelector(".room-type").textContent;
-
-            console.log("Room-id: " + roomID);
-            removeRoom(roomID, roomType);
-        }
-        else {
-            console.log("Room is null")
-        }
-    });
+removeRoomButtons.forEach(e => {
+    e.addEventListener("click", () => remove(e));
 });
 
+const add = (e) => {
+    console.log("Room clicked");
+    let room = e.parentNode;
+    if(room){
+        const roomID = room.querySelector(".room-id").textContent;
+        const roomType = room.querySelector(".room-type").textContent;
 
-function addRoom(roomID, roomType) {
+        console.log("Room-id: " + roomID);
+
+        addRoom(roomID, roomType, room, e);
+    }
+    else {
+        console.log("Room is null")
+    }
+}
+
+const remove = (e) => {
+    console.log("Room clicked");
+    let room = e.parentNode;
+    if (room) {
+        const roomID = room.querySelector(".room-id").textContent;
+        const roomType = room.querySelector(".room-type").textContent;
+
+        console.log("Room-id: " + roomID);
+        removeRoom(roomID, roomType, room, e);
+    } else {
+        console.log("Room is null")
+
+    }
+}
+
+function addRoom(roomID, roomType, room, e) {
     let chosenRooms = JSON.parse(localStorage.getItem("chosenRooms")) || [];
     let availableRooms = JSON.parse(localStorage.getItem("availableRooms")) || [];
 
@@ -51,12 +54,15 @@ function addRoom(roomID, roomType) {
     availableRooms = availableRooms.filter(room => room.id !== roomID);
     localStorage.setItem("availableRooms", JSON.stringify(availableRooms))
 
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://localhost:8080/booking", true);
-    xhr.send(roomID);
+    let roomElement = room.lastElementChild;
+    roomElement.children.item(0).src = "/images/white_delete.png";
+    roomElement.removeEventListener("click", add);
+    roomElement.addEventListener("click", () => remove(e))
+    document.getElementById("ChosenList").appendChild(room);
+    document.getElementById("AvailableList").removeChild(room);
 }
 
-function removeRoom(roomID, roomType){
+function removeRoom(roomID, roomType, room, e){
     let chosenRooms = JSON.parse(localStorage.getItem("chosenRooms")) || [];
     let availableRooms = JSON.parse(localStorage.getItem("availableRooms")) || [];
 
@@ -68,6 +74,13 @@ function removeRoom(roomID, roomType){
 
     chosenRooms = chosenRooms.filter(room => room.id !== roomID);
     localStorage.setItem("chosenRooms", JSON.stringify(chosenRooms))
+
+    let roomElement = room.lastElementChild;
+    roomElement.children.item(0).src = "/images/white_plus.png";
+    roomElement.removeEventListener("click", remove);
+    roomElement.addEventListener("click", () => add(e))
+    document.getElementById("AvailableList").appendChild(room);
+    document.getElementById("ChosenList").removeChild(room);
 }
 
 function saveListsToLocalStorage(availableRooms, chosenRooms) {
