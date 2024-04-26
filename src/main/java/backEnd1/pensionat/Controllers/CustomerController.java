@@ -45,10 +45,24 @@ public class CustomerController {
         return "customerOrNot.html";
     }
 
-    @RequestMapping("/handle")
+    @GetMapping("/handle")
     public String handleCustomers(Model model){
-        List<SimpleCustomerDTO> c = customerService.getAllCustomers();
-        model.addAttribute("allCustomers", c);
+        int currentPage = 1;
+        Page<SimpleCustomerDTO> c = customerService.getAllCustomersPage(currentPage);
+        model.addAttribute("allCustomers", c.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", c.getTotalElements());
+        model.addAttribute("totalPages", c.getTotalPages());
+        return "handleCustomers.html";
+    }
+
+    @GetMapping("/handle/{pageNumber}")
+    public String handleByPage(Model model, @PathVariable("pageNumber") int currentPage){
+        Page<SimpleCustomerDTO> c = customerService.getAllCustomersPage(currentPage);
+        model.addAttribute("allCustomers", c.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", c.getTotalElements());
+        model.addAttribute("totalPages", c.getTotalPages());
         return "handleCustomers.html";
     }
 
@@ -60,15 +74,22 @@ public class CustomerController {
 
     @GetMapping("/search")
     public String getCustomerByEmail(@RequestParam String email, Model model) {
-        Pageable pageable = PageRequest.of(0, 10);
-        Page<SimpleCustomerDTO> c = customerService.getCustomersByEmail(email, pageable);
+        int currentPage = 1;
+        Page<SimpleCustomerDTO> c = customerService.getCustomersByEmail(email, currentPage);
         model.addAttribute("allCustomers", c.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", c.getTotalElements());
+        model.addAttribute("totalPages", c.getTotalPages());
         return "handleCustomers.html";
     }
 
-//    @GetMapping("/searchWithPage")
-//    public Page<Customer> getCustomerByEmailWithPage(@RequestParam String email, @RequestParam int page) {
-//        Pageable pageable = PageRequest.of(page, 10);
-//        return customerService.getCustomersByEmail(email, pageable);
-//    }
+    @GetMapping("/search/{pageNumber}")
+    public String getCustomerByEmailByPage(@RequestParam String email, Model model, @PathVariable("pageNumber") int currentPage) {
+        Page<SimpleCustomerDTO> c = customerService.getCustomersByEmail(email, currentPage);
+        model.addAttribute("allCustomers", c.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", c.getTotalElements());
+        model.addAttribute("totalPages", c.getTotalPages());
+        return "handleCustomers.html";
+    }
 }

@@ -6,6 +6,7 @@ import backEnd1.pensionat.Repositories.CustomerRepo;
 import backEnd1.pensionat.services.convert.CustomerConverter;
 import backEnd1.pensionat.services.interfaces.CustomerService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
@@ -46,8 +47,16 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Page<SimpleCustomerDTO> getCustomersByEmail(String email, Pageable pageable) {
+    public Page<SimpleCustomerDTO> getCustomersByEmail(String email, int pageNum) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 5);
         Page<Customer> page = customerRepo.findByEmailContains(email, pageable);
+        return page.map(CustomerConverter::customerToSimpleCustomerDTO);
+    }
+
+    @Override
+    public Page<SimpleCustomerDTO> getAllCustomersPage(int pageNum) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 5);
+        Page<Customer> page = customerRepo.findAll(pageable);
         return page.map(CustomerConverter::customerToSimpleCustomerDTO);
     }
 
