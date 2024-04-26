@@ -19,13 +19,25 @@
 </div>
 
 <div class="content">
+
+
     <div class="allCustomers" th:unless="${#lists.isEmpty(allCustomers)}">
+
+        <div class="SaveMeSören">
+
         <div>
             <form action="#" th:action="@{/customer/search}" method="get">
                 <input type="text" name="email" class="customer-search" value="" placeholder="Sök">
                 <input class="search-customer-button" type="submit" value="Submit">
             </form>
         </div>
+
+            <div class="return-button">
+                <a th:href="@{frontPage}">Tillbaka</a>
+            </div>
+
+        </div>
+
         <table class="customers-table">
             <tr class="table-header">
                 <th> id</th>

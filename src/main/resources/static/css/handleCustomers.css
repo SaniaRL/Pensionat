@@ -78,3 +78,25 @@ td {
         }
     }
 }
+
+.return-button {
+    font-size: 20px;
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 6px;
+    margin-bottom: 12px;
+}
+
+a, a:visited, a:active, a:link {
+    color: black;
+    text-decoration: none;
+}
+a:hover {
+    color: gold;
+}
+
+.SaveMeSören {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
