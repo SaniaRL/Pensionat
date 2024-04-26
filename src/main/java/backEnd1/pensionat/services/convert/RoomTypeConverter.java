@@ -13,4 +13,13 @@ public class RoomTypeConverter {
             default -> throw new IllegalStateException("Unexpected value: " + value);
         };
     }
+
+    public static int convertToInt(RoomType roomType){
+        return switch (roomType) {
+            case SINGLE -> 0;
+            case DOUBLE -> 1;
+            case PREMIUM -> 2;
+            default -> throw new IllegalStateException("Unexpected roomType: " + roomType);
+        };
+    }
 }
