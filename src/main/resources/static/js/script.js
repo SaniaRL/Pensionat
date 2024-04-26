@@ -50,6 +50,10 @@ function addRoom(roomID, roomType) {
 
     availableRooms = availableRooms.filter(room => room.id !== roomID);
     localStorage.setItem("availableRooms", JSON.stringify(availableRooms))
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://localhost:8080/booking", true);
+    xhr.send(roomID);
 }
 
 function removeRoom(roomID, roomType){

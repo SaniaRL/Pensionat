@@ -39,12 +39,12 @@ public class RoomServicelmpl implements RoomService {
 
     @Override
     public Room roomDtoToRoom(RoomDTO room) {
-        return Room.builder().id(room.getId()).typeOfRoom(room.getRoomType()).build();
+        return Room.builder().id(room.getId()).typeOfRoom(RoomTypeConverter.convertToInt(room.getRoomType())).build();
     }
 
     @Override
     public RoomDTO roomToRoomDto(Room room) {
-        return RoomDTO.builder().id(room.getId()).roomType(room.getTypeOfRoom()).build();
+        return RoomDTO.builder().id(room.getId()).roomType(RoomTypeConverter.convertFromInt(room.getTypeOfRoom())).build();
     }
 
     public List<RoomDTO> findAvailableRooms(BookingFormQueryDTO query){
