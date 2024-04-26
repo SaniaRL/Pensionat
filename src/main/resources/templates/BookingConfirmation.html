@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="sv" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Confirmation</title>
@@ -11,26 +11,26 @@
 <h1>Bokningsbekräftelse</h1>
 <div>
     <h3>Kund:</h3>
-    <p th:text="${name}+', ' +${email}" />
+    <p th:text="${booking.getCustomer().getName()}+', ' +${booking.getCustomer().getEmail()}" />
     <br>
     <h3>Bokning:</h3>
-    <p th:text="'Incheckning: '+${checkin}" />
-    <p th:text="'Utcheckning: '+${checkout}" />
+    <p th:text="'Incheckning: '+${booking.getStartDate()}" />
+    <p th:text="'Utcheckning: '+${booking.getEndDate()}" />
     <br>
-    <div class="allOrderLines" th:unless="${#lists.isEmpty(allOrderLines)}">
+    <div class="orderLines" th:unless="${#lists.isEmpty(orderLines)}">
         <table>
             <thead>
                 <tr>
                     <th>Room ID</th>
                     <th>Type of Room</th>
-                    <th>Extra Beds</th>
+                    <th>Number of Beds</th>
                 </tr>
             </thead>
             <tbody>
-            <tr th:each="orderLine : ${allOrderLines}">
+            <tr th:each="orderLine : ${orderLines}">
                 <td th:text="${orderLine.room.id}"></td>
-                <td th:text="${orderLine.room.typeOfRoom}"></td>
-                <td th:text="${orderLine.extraBeds}"></td>
+                <td th:text="${orderLine.room.roomType}"></td>
+                <td th:text="${orderLine.extraBeds} + ${orderLine.room.roomType.defaultNumberOfBeds}"></td>
             </tr>
             </tbody>
         </table>

@@ -23,9 +23,9 @@ public class CustomerController {
         return customerService.getAllCustomers();
     }
 
-    @PostMapping("/add")
-    public String addCustomer(@RequestParam String name, @RequestParam String email) {
-        return customerService.addCustomer(new Customer(name, email));
+    @RequestMapping("/add")
+    public String addCustomer() {
+        return "customerOrNot";
     }
 
     @DeleteMapping("/{id}/remove")
