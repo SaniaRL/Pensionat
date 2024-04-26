@@ -22,10 +22,12 @@ public class BookRoomController {
     @GetMapping("/booking")
     public String processBookingForm(@ModelAttribute BookingFormQueryDTO query, Model model){
         List<RoomDTO> availableRooms = new ArrayList<>();
+        List<RoomDTO> chosenRooms = new ArrayList<>();
         if(query != null){
             availableRooms = roomService.findAvailableRooms(query);
         }
         model.addAttribute("availableRooms", availableRooms);
+        model.addAttribute("chosenRooms", chosenRooms);
         return "booking";
     }
 }

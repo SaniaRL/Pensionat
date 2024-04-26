@@ -11,10 +11,10 @@
 </head>
 
 <body>
-<div class="header">
-<a class="back-link" href="http://localhost:8080/index.html">Back</a>
+<div class="header booking-header">
+  <a class="back-link" href="http://localhost:8080/index.html">&#129168;Tillbaka</a>
 </div>
-<div class="content content-booking">
+<div class="content booking-content">
 
     <form action="/booking" method="get">
       <div class="booking-options">
@@ -45,39 +45,52 @@
     </form>
 
 
-<div id="booking-chosen-rooms">
-  <p>Valda rum här yolo swag</p>
-</div>
-
-  <div id="booking-empty-rooms" th:unless="${#lists.isEmpty(availableRooms)}">
-    <table>
-      <tbody class="show-rooms">
-      <tr class="header-rooms-idk">
-        <td id="room-id">Room ID:</td>
-        <td id="default-beds">Room Type:</td>
-        <td id="max-beds">Beds:</td>
-        <td></td>
-      </tr>
-
-      <tr th:each="room : ${availableRooms}" class="room-row-av">
-        <td th:text="${room.id}"></td>
-
-        <td>SINGLE</td>
-        <td>2</td>
-        <td id="add-room">ADD</td>
-
-
-        <!--
-        <td th:text="${room.getRoomTypeName()}"></td>
-
-        <td th:text="${room.roomType.defaultNumberOfBeds}"></td>
-        <td th:text="${room.roomType.maxNumberOfBeds}"></td>
-                <td><a th:href="">Add</a></td>-->
-      </tr>
-      </tbody>
-    </table>
+  <div id="booking-chosen-rooms" th:unless="${#lists.isEmpty(chosenRooms)}">
+    <div class="scroll-shit">
+      <table>
+        <thead>
+        <tr class="header-rooms-idk">
+          <td id="room-id-c">Room ID:</td>
+          <td id="default-beds-c">Room Type:</td>
+          <td id="max-beds-c">Beds:</td>
+          <td></td>
+        </tr>
+        </thead>
+        <tbody class="show-rooms">
+        <tr th:each="room : ${chosenRooms}" class="room-row-av">
+          <td th:text="${room.id}"></td>
+          <td>SINGLE</td>
+          <td>2</td>
+          <td id="remove-room">REMOVE</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
+  <div id="booking-empty-rooms" th:unless="${#lists.isEmpty(availableRooms)}">
+    <div class="scroll-shit">
+      <table>
+        <thead>
+        <tr class="header-rooms-idk">
+          <td id="room-id">Room ID:</td>
+          <td id="default-beds">Room Type:</td>
+          <td id="max-beds">Beds:</td>
+          <td></td>
+        </tr>
+        </thead>
+        <tbody class="show-rooms">
+        <tr th:each="room : ${availableRooms}" class="room-row-av">
+          <td th:text="${room.id}"></td>
+          <td>SINGLE</td>
+          <td>2</td>
+          <td id="add-room">ADD</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div><button class="booking-booking-btn">BOKA</button></div>
 </div>
 </body>
 </html>
