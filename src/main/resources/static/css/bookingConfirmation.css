@@ -1,0 +1,74 @@
+.container-1 {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+.container-2 {
+    display: flex;
+    grid-template-columns: 300px 1fr;
+    column-gap: 50px;
+    background-color: #d1d3d4;
+    border: 2px solid #4f4b6a;
+    border-radius: 12px;
+    color: #4f4b6a;
+    padding: 30px;
+    margin-top: 25px;
+}
+.container-3 {
+    display: flex;
+    flex-direction: column;
+
+    background-color: #d1d3d4;
+    border: 2px solid #4f4b6a;
+    border-radius: 12px;
+    color: #4f4b6a;
+    padding: 15px;
+    margin-top: 25px;
+}
+.container-4 {
+    display: flex;
+    grid-template-columns: 300px 1fr;
+    column-gap: 50px;
+    background-color: #d1d3d4;
+    padding: 15px;
+}
+.container-5 {
+    display: flex;
+    justify-content: center;
+    background-color: #d1d3d4;
+    padding: 10px;
+}
+.header-confirmation-page {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.show-rooms-confirmation-page {
+    overflow: scroll;
+}
+.header-rooms-confirmation-page {
+    display: grid;
+    grid-template-columns: 80px 1fr 50px 50px;
+    width: 480px;
+    gap: 5px;
+    font-weight: 600;
+    font-size: 12px;
+}
+.room-row-confirmation-page {
+    display: grid;
+    grid-template-columns: 80px 1fr 50px 50px;
+    width: 480px;
+    gap: 5px;
+    border: 2px solid #4f4b6a;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+.room-row-confirmation-page td {
+    padding: 3px;
+}
+.bold {
+    font-weight: bold;
+}
