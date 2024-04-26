@@ -6,9 +6,7 @@ import backEnd1.pensionat.DTOs.RoomIdDTO;
 import backEnd1.pensionat.services.impl.RoomServicelmpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +41,7 @@ public class BookRoomController {
     }
 
     @GetMapping("/booking")
-    public String booking(Model model, @RequestBody(required = false) RoomIdDTO roomId){
-        System.out.println(roomId.getRoomId());
+    public String booking(Model model){
         List<RoomDTO> availableRooms = new ArrayList<>();
         List<RoomDTO> chosenRooms = new ArrayList<>();
         model.addAttribute("availableRooms", availableRooms);
