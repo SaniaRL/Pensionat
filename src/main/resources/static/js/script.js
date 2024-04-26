@@ -93,3 +93,16 @@ function getListsFromLocalStorage() {
     const chosenRooms = JSON.parse(localStorage.getItem("chosenRooms")) || [];
     return { availableRooms, chosenRooms };
 }
+
+function validateForm(){
+    let validate = true;
+
+    let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+
+    if (name === "" || email === "") {
+        alert("Please fill in all fields.");
+        return false;
+    }
+
+}
