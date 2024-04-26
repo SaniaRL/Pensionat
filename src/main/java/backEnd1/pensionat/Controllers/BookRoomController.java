@@ -19,7 +19,7 @@ public class BookRoomController {
     }
 
     //submit formulär -> /booking - se till att den hämtar lediga rum och har en lista så det kan målas upp
-    @GetMapping("/booking")
+    @GetMapping("/bookingSubmit")
     public String processBookingForm(@ModelAttribute BookingFormQueryDTO query, Model model){
         List<RoomDTO> availableRooms = new ArrayList<>();
         List<RoomDTO> chosenRooms = new ArrayList<>();
@@ -40,4 +40,15 @@ public class BookRoomController {
         model.addAttribute("chosenRooms", chosenRooms);
         return "booking";
     }
+
+    @GetMapping("/booking")
+    public String booking(Model model){
+        List<RoomDTO> availableRooms = new ArrayList<>();
+        List<RoomDTO> chosenRooms = new ArrayList<>();
+        model.addAttribute("availableRooms", availableRooms);
+        model.addAttribute("chosenRooms", chosenRooms);
+        return "booking";
+    }
+
+
 }

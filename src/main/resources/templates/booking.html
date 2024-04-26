@@ -16,7 +16,7 @@
 </div>
 <div class="content booking-content">
 
-    <form action="/booking" method="get">
+    <form action="/bookingSubmit" method="get">
       <div class="booking-options">
       <div class="left">
         <div>
@@ -45,9 +45,10 @@
     </form>
 
 
-  <div id="booking-chosen-rooms">
-    <div th:unless="${#lists.isEmpty(chosenRooms)}">
+
+    <div id="booking-chosen-rooms" th:unless="${#lists.isEmpty(chosenRooms)}">
       <div class="scroll-shit">
+        <p class="title-booking">BOKNING</p>
         <table>
           <thead>
           <tr class="header-rooms-idk">
@@ -74,37 +75,40 @@
         </table>
       </div>
     </div>
-  </div>
 
-  <div id="booking-empty-rooms" th:unless="${#lists.isEmpty(availableRooms)}">
-    <div class="scroll-shit">
-      <table>
-        <thead>
-        <tr class="header-rooms-idk">
-          <td id="room-id">ID:</td>
-          <td id="room-type">Rum:</td>
-          <td id="default-beds">Sängar:</td>
-          <td id="extra-beds">IDK</td>
-          <td id="total-beds">Sängar:</td>
-          <td></td>
-        </tr>
-        </thead>
-        <tbody class="show-rooms">
-        <tr th:each="room : ${availableRooms}" class="room-row-av">
-          <td class="room-id" th:text="${room.id}"></td>
-          <td class="room-type" th:text="${room.roomType.roomType}"></td>
-          <td th:text="${room.roomType.defaultNumberOfBeds}"></td>
-          <td>0</td>
-          <td>5</td>
-          <td class="add-room-btn">
-            <img src="/images/white_plus.png" alt="Add" /></td>
-        </tr>
-        </tbody>
-      </table>
+
+  <div th:unless="${#lists.isEmpty(availableRooms)}">
+    <div id="booking-empty-rooms" >
+      <div class="scroll-shit">
+        <p class="title-booking">LEDIGA RUM</p>
+        <table>
+          <thead>
+          <tr class="header-rooms-idk">
+            <td id="room-id">ID:</td>
+            <td id="room-type">Rum:</td>
+            <td id="default-beds">Sängar:</td>
+            <td id="extra-beds">IDK</td>
+            <td id="total-beds">Sängar:</td>
+            <td></td>
+          </tr>
+          </thead>
+          <tbody class="show-rooms">
+          <tr th:each="room : ${availableRooms}" class="room-row-av">
+            <td class="room-id" th:text="${room.id}"></td>
+            <td class="room-type" th:text="${room.roomType.roomType}"></td>
+            <td th:text="${room.roomType.defaultNumberOfBeds}"></td>
+            <td>0</td>
+            <td>5</td>
+            <td class="add-room-btn">
+              <img src="/images/white_plus.png" alt="Add" /></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+    <div><button class="booking-booking-btn">BOKA</button></div>
   </div>
-  <div><button class="booking-booking-btn">BOKA</button></div>
-</div>
+  </div>
 
 <script th:src="@{/js/script.js}"></script>
 </body>

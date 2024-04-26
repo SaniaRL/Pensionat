@@ -115,10 +115,10 @@ body {
 
 .booking-content {
     display: grid;
-    grid-template-rows: 200px 200px 200px;
-    grid-gap: 10px;
-    width: 500px;
-    margin: 0 auto;
+    grid-template-rows: 1fr 230px 230px;
+    grid-gap: 6px;
+    width: 600px;
+    margin: 20px auto;
 }
 
 .booking-options {
@@ -129,7 +129,7 @@ body {
     border: 2px solid #4f4b6a;
     border-radius: 12px;
     color: #4f4b6a;
-    padding: 30px;
+    padding: 20px;
 }
 
 .left, .right {
@@ -173,7 +173,6 @@ input[type=number]::-webkit-inner-spin-button {
     border: 2px solid #4f4b6a;
     border-radius: 8px;
     font-weight: 700;
-    margin-top: 10px;
 }
 
 #submit-booking:hover {
@@ -187,14 +186,14 @@ input[type=number]::-webkit-inner-spin-button {
     border: 2px solid #4f4b6a;
     border-radius: 12px;
     color: #4f4b6a;
-    padding: 30px;
+    padding: 10px;
 }
 
 .show-rooms {
     display: block;
     overflow-y: auto;
     overflow-x: hidden;
-    max-height: 130px;
+    max-height: 120px;
     padding-right: 20px;
 }
 
@@ -256,4 +255,12 @@ input[type=number]::-webkit-inner-spin-button {
 
 .booking-booking-btn {
     float: right;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.title-booking {
+    height: 15px;
+    font-size: 12px;
+    font-weight: 600;
 }
