@@ -29,8 +29,8 @@
             <tbody>
             <tr th:each="orderLine : ${orderLines}">
                 <td th:text="${orderLine.room.id}"></td>
-                <td th:text="${orderLine.room.typeOfRoom}"></td>
-                <td th:text="${orderLine.extraBeds} + ${orderLine.room.typeOfRoom.defaultNumberOfBeds}"></td>
+                <td th:text="${orderLine.room.roomType}"></td>
+                <td th:text="${orderLine.extraBeds} + ${orderLine.room.roomType.defaultNumberOfBeds}"></td>
             </tr>
             </tbody>
         </table>
