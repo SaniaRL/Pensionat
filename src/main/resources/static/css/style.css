@@ -115,7 +115,7 @@ body {
 
 .booking-content {
     display: grid;
-    grid-template-rows: 200px 200px 1fr;
+    grid-template-rows: 200px 200px 200px;
     grid-gap: 10px;
     width: 500px;
     margin: 0 auto;
@@ -180,17 +180,7 @@ input[type=number]::-webkit-inner-spin-button {
     cursor: pointer;
 }
 
-#booking-chosen-rooms {
-    display: flex;
-    justify-content: center;
-    background-color: #d1d3d4;
-    border: 2px solid #4f4b6a;
-    border-radius: 12px;
-    color: #4f4b6a;
-    padding: 30px;
-}
-
-#booking-empty-rooms {
+#booking-chosen-rooms, #booking-empty-rooms {
     display: flex;
     justify-content: center;
     background-color: #d1d3d4;
@@ -204,7 +194,7 @@ input[type=number]::-webkit-inner-spin-button {
     display: block;
     overflow-y: auto;
     overflow-x: hidden;
-    max-height: 150px;
+    max-height: 130px;
     padding-right: 20px;
 }
 
@@ -223,7 +213,7 @@ input[type=number]::-webkit-inner-spin-button {
 
 .header-rooms-idk {
     display: grid;
-    grid-template-columns: 80px 1fr 50px 50px;
+    grid-template-columns: 80px 1fr 60px 60px 62px 30px;
     width: 480px;
     gap: 5px;
     font-weight: 600;
@@ -250,7 +240,7 @@ input[type=number]::-webkit-inner-spin-button {
     left: 350px;
 }
 
-.add-room-btn {
+.add-room-btn, .remove-room-btn {
     display: flex;
     justify-content: center;
     background-color: #4f4b6a;
@@ -259,7 +249,11 @@ input[type=number]::-webkit-inner-spin-button {
     cursor: pointer;
 }
 
-.add-room-btn img {
+.add-room-btn img, .remove-room-btn img {
     height: 15px;
     width: auto;
+}
+
+.booking-booking-btn {
+    float: right;
 }

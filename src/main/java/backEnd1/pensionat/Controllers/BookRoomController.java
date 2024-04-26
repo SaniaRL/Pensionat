@@ -25,7 +25,17 @@ public class BookRoomController {
         List<RoomDTO> chosenRooms = new ArrayList<>();
         if(query != null){
             availableRooms = roomService.findAvailableRooms(query);
+            //TODO ta bort detta
+            chosenRooms = roomService.findAvailableRooms(query);
         }
+
+        model.addAttribute("availableRooms", availableRooms);
+        model.addAttribute("chosenRooms", chosenRooms);
+        return "booking";
+    }
+
+    @GetMapping("/update")
+    public String processBookingForm(@ModelAttribute List<RoomDTO> availableRooms, @ModelAttribute List<RoomDTO> chosenRooms, Model model){
         model.addAttribute("availableRooms", availableRooms);
         model.addAttribute("chosenRooms", chosenRooms);
         return "booking";

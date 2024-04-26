@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
   <title>Pensionat</title>
-  <link rel="icon" type="image/x-icon" href="/images/house.png"/>
+  <link rel="icon" type="image/x-icon" href="/images/house.png">
   <link rel="stylesheet" type="text/css" href="/css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,18 +51,24 @@
         <table>
           <thead>
           <tr class="header-rooms-idk">
-            <td id="room-id-c">Room ID:</td>
-            <td id="default-beds-c">Room Type:</td>
-            <td id="max-beds-c">Beds:</td>
+            <td id="room-id-c">ID:</td>
+            <td id="room-type-c">Rum:</td>
+            <td id="default-beds-c">Sängar:</td>
+            <td id="extra-beds-c">IDK</td>
+            <td id="total-beds-c">Sängar:</td>
             <td></td>
           </tr>
           </thead>
           <tbody class="show-rooms">
           <tr th:each="room : ${chosenRooms}" class="room-row-av">
-            <td th:text="${room.id}"></td>
-            <td>SINGLE</td>
-            <td>2</td>
-            <td id="remove-room"><button>REMOVE</button></td>
+            <td class="room-id" th:text="${room.id}"></td>
+            <td class="room-type" th:text="${room.roomType.roomType}"></td>
+            <td th:text="${room.roomType.defaultNumberOfBeds}"></td>
+            <td>0</td>
+            <td>5</td>
+
+            <td class="remove-room-btn">
+              <img src="/images/white_delete.png" alt="Add" /></td>
           </tr>
           </tbody>
         </table>
@@ -75,21 +81,23 @@
       <table>
         <thead>
         <tr class="header-rooms-idk">
-          <td id="room-id">Room ID:</td>
-          <td id="default-beds">Room Type:</td>
-          <td id="max-beds">Beds:</td>
+          <td id="room-id">ID:</td>
+          <td id="room-type">Rum:</td>
+          <td id="default-beds">Sängar:</td>
+          <td id="extra-beds">IDK</td>
+          <td id="total-beds">Sängar:</td>
           <td></td>
         </tr>
         </thead>
         <tbody class="show-rooms">
         <tr th:each="room : ${availableRooms}" class="room-row-av">
-          <td th:text="${room.id}"></td>
-          <td th:text="${room.roomType.roomType}"></td>
+          <td class="room-id" th:text="${room.id}"></td>
+          <td class="room-type" th:text="${room.roomType.roomType}"></td>
           <td th:text="${room.roomType.defaultNumberOfBeds}"></td>
           <td>0</td>
           <td>5</td>
           <td class="add-room-btn">
-            <img src="/images/whiteplus.png" alt="Add" /></td>
+            <img src="/images/white_plus.png" alt="Add" /></td>
         </tr>
         </tbody>
       </table>
@@ -97,5 +105,7 @@
   </div>
   <div><button class="booking-booking-btn">BOKA</button></div>
 </div>
+
+<script th:src="@{/js/script.js}"></script>
 </body>
 </html>
