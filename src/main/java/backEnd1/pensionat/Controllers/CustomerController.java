@@ -29,9 +29,21 @@ public class CustomerController {
         return customerService.addCustomer(new Customer(name, email));
     }
 
+    @PostMapping("/addCustomerObject")
+    public String addCustomerObject(@RequestBody Customer customer) {
+        return customerService.addCustomer(customer);
+    }
+
     @DeleteMapping("/{id}/remove")
     public String removeCustomerById(@PathVariable Long id) {
         return customerService.removeCustomerById(id);
+    }
+
+    //DeleteMapping verkar ej fungera? Testar Requestmapping
+    @RequestMapping("/{id}/removeHandler")
+    public String removeCustomerByIdHandler(@PathVariable Long id, Model model) {
+        customerService.removeCustomerById(id);
+        return handleCustomers(model);
     }
 
     @PutMapping("/{id}/update")
