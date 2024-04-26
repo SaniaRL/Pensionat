@@ -45,7 +45,7 @@ public class BookingController {
         }
         model.addAttribute("booking", bookingService.getBookingById(bookingId));
         model.addAttribute("orderLines", orderLineService.getOrderLinesByBookingId(bookingId));
-        return "BookingConfirmation";
+        return "bookingConfirmation";
     }
 
     @RequestMapping("/{id}/remove")

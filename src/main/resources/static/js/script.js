@@ -59,7 +59,7 @@ function addRoom(roomID, roomType, room, e) {
     roomElement.removeEventListener("click", add);
     roomElement.addEventListener("click", () => remove(e))
     document.getElementById("ChosenList").appendChild(room);
-    document.getElementById("AvailableList").removeChild(room);
+//    document.getElementById("AvailableList").removeChild(room);
 }
 
 function removeRoom(roomID, roomType, room, e){
@@ -80,7 +80,7 @@ function removeRoom(roomID, roomType, room, e){
     roomElement.removeEventListener("click", remove);
     roomElement.addEventListener("click", () => add(e))
     document.getElementById("AvailableList").appendChild(room);
-    document.getElementById("ChosenList").removeChild(room);
+//    document.getElementById("ChosenList").removeChild(room);
 }
 
 function saveListsToLocalStorage(availableRooms, chosenRooms) {
@@ -95,14 +95,31 @@ function getListsFromLocalStorage() {
 }
 
 function validateForm(){
-    let validate = true;
 
-    let name = document.getElementById("name").value;
-    let email = document.getElementById("email").value;
+}
 
-    if (name === "" || email === "") {
-        alert("Please fill in all fields.");
-        return false;
-    }
 
+//onClick
+
+function submitBooking(){
+    //Hämta chosenRooms från localstorage
+    let chosenRooms = JSON.parse(localStorage.getItem("chosenRooms")) || [];
+
+    //Stoppa i body i anrop  @PostMapping("/submitBooking")
+    let xhr = new XMLHttpRequest();
+    let url = "/confirmBooking";
+
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    let data = JSON.stringify(chosenRooms);
+    xhr.send(data);
+
+    xhr.onreadystatechange = function () {
+        // Om förfrågan är färdig och svaret är OK (status 200)
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // Hantera svaret här om det behövs
+            console.log(xhr.responseText);
+        }
+    };
 }

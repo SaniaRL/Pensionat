@@ -1,5 +1,6 @@
 package backEnd1.pensionat.controllers;
 
+import backEnd1.pensionat.DTOs.BookingBodyDTO;
 import backEnd1.pensionat.DTOs.BookingFormQueryDTO;
 import backEnd1.pensionat.DTOs.RoomDTO;
 import backEnd1.pensionat.services.impl.RoomServicelmpl;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@SessionAttributes("roomList")
 public class BookRoomController {
     RoomServicelmpl roomService;
 
@@ -32,11 +34,20 @@ public class BookRoomController {
         return "booking";
     }
 
+    /*
     @GetMapping("/update")
     public String processBookingForm(@ModelAttribute List<RoomDTO> availableRooms, @ModelAttribute List<RoomDTO> chosenRooms, Model model){
         model.addAttribute("availableRooms", availableRooms);
         model.addAttribute("chosenRooms", chosenRooms);
         return "booking";
+    }
+
+     */
+
+    @PostMapping("/confirmBooking")
+    public String bookingConfirmation(@RequestBody List<BookingBodyDTO> orderLines, Model model) {
+        model.addAttribute("orderLines", orderLines);
+        return "bookingConfirmation";
     }
 
     @GetMapping("/booking")
