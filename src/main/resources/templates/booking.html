@@ -45,26 +45,28 @@
     </form>
 
 
-  <div id="booking-chosen-rooms" th:unless="${#lists.isEmpty(chosenRooms)}">
-    <div class="scroll-shit">
-      <table>
-        <thead>
-        <tr class="header-rooms-idk">
-          <td id="room-id-c">Room ID:</td>
-          <td id="default-beds-c">Room Type:</td>
-          <td id="max-beds-c">Beds:</td>
-          <td></td>
-        </tr>
-        </thead>
-        <tbody class="show-rooms">
-        <tr th:each="room : ${chosenRooms}" class="room-row-av">
-          <td th:text="${room.id}"></td>
-          <td>SINGLE</td>
-          <td>2</td>
-          <td id="remove-room">REMOVE</td>
-        </tr>
-        </tbody>
-      </table>
+  <div id="booking-chosen-rooms">
+    <div th:unless="${#lists.isEmpty(chosenRooms)}">
+      <div class="scroll-shit">
+        <table>
+          <thead>
+          <tr class="header-rooms-idk">
+            <td id="room-id-c">Room ID:</td>
+            <td id="default-beds-c">Room Type:</td>
+            <td id="max-beds-c">Beds:</td>
+            <td></td>
+          </tr>
+          </thead>
+          <tbody class="show-rooms">
+          <tr th:each="room : ${chosenRooms}" class="room-row-av">
+            <td th:text="${room.id}"></td>
+            <td>SINGLE</td>
+            <td>2</td>
+            <td id="remove-room"><button>REMOVE</button></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -82,9 +84,12 @@
         <tbody class="show-rooms">
         <tr th:each="room : ${availableRooms}" class="room-row-av">
           <td th:text="${room.id}"></td>
-          <td>SINGLE</td>
-          <td>2</td>
-          <td id="add-room">ADD</td>
+          <td th:text="${room.roomType.roomType}"></td>
+          <td th:text="${room.roomType.defaultNumberOfBeds}"></td>
+          <td>0</td>
+          <td>5</td>
+          <td class="add-room-btn">
+            <img src="/images/whiteplus.png" alt="Add" /></td>
         </tr>
         </tbody>
       </table>

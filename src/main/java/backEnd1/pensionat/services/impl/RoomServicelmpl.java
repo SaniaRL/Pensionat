@@ -4,6 +4,7 @@ import backEnd1.pensionat.DTOs.BookingFormQueryDTO;
 import backEnd1.pensionat.DTOs.RoomDTO;
 import backEnd1.pensionat.Models.Room;
 import backEnd1.pensionat.Repositories.RoomRepo;
+import backEnd1.pensionat.services.convert.RoomTypeConverter;
 import backEnd1.pensionat.services.interfaces.RoomService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -52,7 +53,10 @@ public class RoomServicelmpl implements RoomService {
         //Klockan är snart 22 chilla asså
         String jpqlQuery = "SELECT r FROM Room r ";
 
-        return entityManager.createQuery(jpqlQuery, RoomDTO.class)
-                .getResultList();
+        return entityManager.createQuery(jpqlQuery, Room.class)
+                .getResultList().stream().map(r -> RoomDTO.builder()
+                        .id(r.getId())
+                        .roomType(RoomTypeConverter.convertFromInt(r.getTypeOfRoom()))
+                        .build()).toList();
     }
 }
