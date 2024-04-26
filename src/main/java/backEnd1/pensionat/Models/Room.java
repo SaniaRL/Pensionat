@@ -28,19 +28,14 @@ public class Room {
     private Long id;
 
     @NotNull(message = "Type of room is mandatory")
-    private RoomType typeOfRoom;
+    private int typeOfRoom;
 
     @OneToMany(mappedBy = "room")
     @JsonIgnore
     private List<OrderLine> orderLines = new ArrayList<>();
 
-    public Room(Long id, RoomType typeOfRoom) {
-        this.typeOfRoom = typeOfRoom;
-        this.id = id;
-    }
-
     public Room(Long id, int typeOfRoom) {
-        this.typeOfRoom = RoomTypeConverter.convertFromInt(typeOfRoom);
+        this.typeOfRoom = typeOfRoom;
         this.id = id;
     }
 

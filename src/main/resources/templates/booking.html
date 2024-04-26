@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
   <title>Pensionat</title>
-  <link rel="icon" type="image/x-icon" href="/images/house.png"/>
+  <link rel="icon" type="image/x-icon" href="/images/house.png">
   <link rel="stylesheet" type="text/css" href="/css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,12 +11,12 @@
 </head>
 
 <body>
-<div class="header">
-<a class="back-link" href="http://localhost:8080/index.html">Back</a>
+<div class="header booking-header">
+  <a class="back-link" href="http://localhost:8080/index.html">&#129168;Tillbaka</a>
 </div>
-<div class="content content-booking">
+<div class="content booking-content">
 
-    <form action="/booking" method="get">
+    <form action="/bookingSubmit" method="get">
       <div class="booking-options">
       <div class="left">
         <div>
@@ -45,39 +45,71 @@
     </form>
 
 
-<div id="booking-chosen-rooms">
-  <p>Valda rum här yolo swag</p>
-</div>
 
-  <div id="booking-empty-rooms" th:unless="${#lists.isEmpty(availableRooms)}">
-    <table>
-      <tbody class="show-rooms">
-      <tr class="header-rooms-idk">
-        <td id="room-id">Room ID:</td>
-        <td id="default-beds">Room Type:</td>
-        <td id="max-beds">Beds:</td>
-        <td></td>
-      </tr>
+    <div id="booking-chosen-rooms" th:unless="${#lists.isEmpty(chosenRooms)}">
+      <div class="scroll-shit">
+        <p class="title-booking">BOKNING</p>
+        <table>
+          <thead>
+          <tr class="header-rooms-idk">
+            <td id="room-id-c">ID:</td>
+            <td id="room-type-c">Rum:</td>
+            <td id="default-beds-c">Sängar:</td>
+            <td id="extra-beds-c">IDK</td>
+            <td id="total-beds-c">Sängar:</td>
+            <td></td>
+          </tr>
+          </thead>
+          <tbody class="show-rooms">
+          <tr th:each="room : ${chosenRooms}" class="room-row-av">
+            <td class="room-id" th:text="${room.id}"></td>
+            <td class="room-type" th:text="${room.roomType.roomType}"></td>
+            <td th:text="${room.roomType.defaultNumberOfBeds}"></td>
+            <td>0</td>
+            <td>5</td>
 
-      <tr th:each="room : ${availableRooms}" class="room-row-av">
-        <td th:text="${room.id}"></td>
+            <td class="remove-room-btn">
+              <img src="/images/white_delete.png" alt="Add" /></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-        <td>SINGLE</td>
-        <td>2</td>
-        <td id="add-room">ADD</td>
 
-
-        <!--
-        <td th:text="${room.getRoomTypeName()}"></td>
-
-        <td th:text="${room.roomType.defaultNumberOfBeds}"></td>
-        <td th:text="${room.roomType.maxNumberOfBeds}"></td>
-                <td><a th:href="">Add</a></td>-->
-      </tr>
-      </tbody>
-    </table>
+  <div th:unless="${#lists.isEmpty(availableRooms)}">
+    <div id="booking-empty-rooms" >
+      <div class="scroll-shit">
+        <p class="title-booking">LEDIGA RUM</p>
+        <table>
+          <thead>
+          <tr class="header-rooms-idk">
+            <td id="room-id">ID:</td>
+            <td id="room-type">Rum:</td>
+            <td id="default-beds">Sängar:</td>
+            <td id="extra-beds">IDK</td>
+            <td id="total-beds">Sängar:</td>
+            <td></td>
+          </tr>
+          </thead>
+          <tbody class="show-rooms">
+          <tr th:each="room : ${availableRooms}" class="room-row-av">
+            <td class="room-id" th:text="${room.id}"></td>
+            <td class="room-type" th:text="${room.roomType.roomType}"></td>
+            <td th:text="${room.roomType.defaultNumberOfBeds}"></td>
+            <td>0</td>
+            <td>5</td>
+            <td class="add-room-btn">
+              <img src="/images/white_plus.png" alt="Add" /></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div><button class="booking-booking-btn">BOKA</button></div>
+  </div>
   </div>
 
-</div>
+<script th:src="@{/js/script.js}"></script>
 </body>
 </html>
