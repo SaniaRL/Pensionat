@@ -16,7 +16,7 @@ public interface CustomerService {
 
 
     List<SimpleCustomerDTO> getAllCustomers();
-    String addCustomer(Customer c);
+    Customer addCustomer(Customer c);
     public String addCustomerFromCustomerDTO(CustomerDTO customerDTO);
     String removeCustomerById(Long id);
     String updateCustomer(Customer c);
