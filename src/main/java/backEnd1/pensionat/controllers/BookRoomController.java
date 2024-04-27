@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -118,7 +120,6 @@ public class BookRoomController {
                 .map(orderLine -> new OrderLine(booking, roomService.getRoomByID((long) orderLine.getId()), orderLine.getExtraBeds()))
                 .forEach(orderLineService::addOrderLine);
 
-        String confirmationMessage = "Bokning mottagen och bearbetad!";
-        return "index.html";
+        return "redirect:/index.html";
     }
 }
