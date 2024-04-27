@@ -12,6 +12,7 @@ import backEnd1.pensionat.services.impl.CustomerServiceImpl;
 import backEnd1.pensionat.services.impl.OrderLineServicelmpl;
 import backEnd1.pensionat.services.impl.RoomServicelmpl;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -66,8 +67,6 @@ public class BookRoomController {
         return "redirect:/customer/customerOrNot";
     }
 
-
-
     @PostMapping("/submitBookingCustomer")
     public String submitBookingCustomer(@RequestBody BookingData bookingData) {
         String name = bookingData.getName();
@@ -119,6 +118,7 @@ public class BookRoomController {
                 .map(orderLine -> new OrderLine(booking, roomService.getRoomByID((long) orderLine.getId()), orderLine.getExtraBeds()))
                 .forEach(orderLineService::addOrderLine);
 
-        return "redirect:'http://localhost:8080/index.html'";
+        String confirmationMessage = "Bokning mottagen och bearbetad!";
+        return "redirect:index.html";
     }
 }

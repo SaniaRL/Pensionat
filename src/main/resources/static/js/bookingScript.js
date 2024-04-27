@@ -121,8 +121,3 @@ function submitBooking() {
 
     window.location.href = "/customer/customerOrNot";
 }
-
-
-
-
-
