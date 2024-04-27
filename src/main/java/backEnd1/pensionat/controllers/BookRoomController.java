@@ -23,12 +23,21 @@ public class BookRoomController {
     }
 
     //submit formulär -> /booking - se till att den hämtar lediga rum och har en lista så det kan målas upp
-    @GetMapping("/bookingSubmit")
+    @PostMapping("/bookingSubmit")
     public String processBookingForm(@ModelAttribute BookingFormQueryDTO query, Model model) {
         List<RoomDTO> availableRooms = new ArrayList<>();
         List<RoomDTO> chosenRooms = new ArrayList<>();
         if (query != null) {
+            System.out.println("QueryDTO: " + query);
             availableRooms = roomService.findAvailableRooms(query);
+            model.addAttribute("startDate", query.getStartDate());
+            System.out.println("startDate: "+ query.getStartDate());
+            model.addAttribute("endDate", query.getEndDate());
+            System.out.println("endDate: " + query.getEndDate());
+            model.addAttribute("rooms", query.getRooms());
+            System.out.println("rooms: " + query.getRooms());
+            model.addAttribute("beds", query.getBeds());
+            System.out.println("beds: " + query.getBeds());
         }
 
         model.addAttribute("availableRooms", availableRooms);

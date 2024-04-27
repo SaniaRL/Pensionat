@@ -1,4 +1,3 @@
-
 const addRoomButtons = document.querySelectorAll('.add-room-btn');
 const removeRoomButtons = document.querySelectorAll('.remove-room-btn');
 
@@ -139,10 +138,21 @@ function submitBooking(){
     xhr.send(data);
 
     xhr.onreadystatechange = function () {
-        // Om förfrågan är färdig och svaret är OK (status 200)
         if (xhr.readyState === 4 && xhr.status === 200) {
-            // Hantera svaret här om det behövs
             console.log(xhr.responseText);
+            localStorage.clear();
         }
     };
+
+    function keepFormValues(){
+        const startDate = /*[[${#strings.isEmpty(localStorage['startDate']) ? #dates.format(#dates.createNow(), 'yyyy-MM-dd') : "'" + localStorage['startDate'] + "'"}]]*/ '';
+        const endDate = /*[[${#strings.isEmpty(localStorage['endDate']) ? #dates.format(#dates.createNow(), 'yyyy-MM-dd') : "'" + localStorage['endDate'] + "'"}]]*/ '';
+
+        document.getElementById('start-date').value = startDate;
+        document.getElementById('end-date').value = endDate;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        keepFormValues();
+    });
 }
