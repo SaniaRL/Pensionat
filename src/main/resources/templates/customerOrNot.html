@@ -22,7 +22,7 @@
     </div>
 </div>
 <div class="content">
-    <form th:action="@{/booking/add}" method="post">
+    <form th:action="@{/submitBookingCustomer}" method="post" onsubmit="return submitBooking()">
         <div>
             <label for="name" class="label-CustomerOrNot">Namn: </label>
             <br>
@@ -34,7 +34,7 @@
             <input id="email" type="email" th:name="email" class="input-CustomerOrNot" required>
         </div>
         <div>
-            <button type="submit" class="booking-btn index-btn" onclick="submitCustomer()">Bekräfta</button>
+            <button type="submit" class="booking-btn index-btn">Bekräfta</button>
         </div>
     </form>
 </div>

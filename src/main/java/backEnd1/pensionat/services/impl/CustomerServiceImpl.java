@@ -29,10 +29,11 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepo.findAll().stream().map(CustomerConverter::customerToSimpleCustomerDTO).toList();
     }
 
+
+    //TODO idk - sorry
     @Override
-    public String addCustomer(Customer c) {
-        customerRepo.save(c);
-        return "Customer added successfully";
+    public Customer addCustomer(Customer c) {
+        return customerRepo.save(c);
     }
 
     @Override

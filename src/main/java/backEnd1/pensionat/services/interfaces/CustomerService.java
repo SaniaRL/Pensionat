@@ -14,6 +14,7 @@ public interface CustomerService {
 
 //    public Customer customerDtoToCustomer(CustomerDto customer);
 
+
     List<SimpleCustomerDTO> getAllCustomers();
     String addCustomer(Customer c);
     public String addCustomerFromCustomerDTO(CustomerDTO customerDTO);

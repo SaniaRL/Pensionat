@@ -14,7 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class BookingServiceImpl implements BookingService {
+public
+class BookingServiceImpl implements BookingService {
 
     private final BookingRepo bookingRepo;
     private final CustomerRepo customerRepo;
@@ -35,13 +36,14 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public String addBooking(Booking b) {
-        bookingRepo.save(b);
-        return "Booking added successfully";
+    public Booking addBooking(Booking b) {
+        Booking savedBooking = bookingRepo.save(b);
+        return savedBooking;
     }
 
     @Override
     public Long addBookingFromBookingDto(BookingDTO b) {
+        //TODO om kunden inte finns och måste registreras?
         Customer customer = customerRepo.findByEmail(b.getCustomer().getEmail());
         Booking booking = bookingDtoToBooking(b, customer);
         bookingRepo.save(booking);
