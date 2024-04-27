@@ -51,8 +51,6 @@
             <td id="room-id-c">ID:</td>
             <td id="room-type-c">Rum:</td>
             <td id="default-beds-c">Sängar:</td>
-            <td id="extra-beds-c">IDK</td>
-            <td id="total-beds-c">Sängar:</td>
             <td></td>
           </tr>
           </thead>
@@ -61,9 +59,6 @@
             <td class="room-id" th:text="${room.id}"></td>
             <td class="room-type" th:text="${room.roomType.roomType}"></td>
             <td th:text="${room.roomType.defaultNumberOfBeds}"></td>
-            <td>0</td>
-            <td>5</td>
-
             <td class="remove-room-btn">
               <img src="/images/white_delete.png" alt="Remove" /></td>
           </tr>
@@ -83,8 +78,6 @@
             <td id="room-id">ID:</td>
             <td id="room-type">Rum:</td>
             <td id="default-beds">Sängar:</td>
-            <td id="extra-beds">IDK</td>
-            <td id="total-beds">Sängar:</td>
             <td></td>
           </tr>
           </thead>
@@ -97,8 +90,6 @@
                 <input class="bed-number" type="number" th:value="${room.roomType.defaultNumberOfBeds}" th:min="${room.roomType.defaultNumberOfBeds}" th:max="${room.roomType.maxNumberOfBeds}">
               </label>
             </td>
-            <td>0</td>
-            <td>5</td>
             <td class="add-room-btn">
               <img src="/images/white_plus.png" alt="Add" /></td>
           </tr>

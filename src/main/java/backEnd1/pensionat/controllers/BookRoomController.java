@@ -91,10 +91,8 @@ public class BookRoomController {
         System.out.println("-------------------------------------------------");
         System.out.println();
 
-
         //Kolla om kunden finns - hämta kund eller skapa ny
         Customer customer = customerService.getCustomerByEmail(email);
-        System.out.println("Get customer by email: " + customer);
         if(customer == null) {
             customer = new Customer(name, email);
             //Add customer to Repo
