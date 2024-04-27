@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="sv" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
   <title>Pensionat</title>
@@ -16,26 +16,24 @@
 </div>
 <div class="content booking-content">
 
-    <form action="/bookingSubmit" method="get">
+    <form action="/bookingSubmit" method="post" onsubmit="return validateForm()">
       <div class="booking-options">
       <div class="left">
         <div>
           <label for="start-date" class="label">Check-in</label>
-          <input type="date" id="start-date" name="start-date" th:value="${#dates.format(#dates.createNow(), 'dd MMM YYYY')}">
-        </div>
+          <input type="date" id="start-date" name="startDate" th:value="${startDate != null ? startDate : #dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required>        </div>
         <div>
           <label for="end-date" class="label">Check-out</label>
-          <input type="date" id="end-date" name="end-date">
-        </div>
+          <input type="date" id="end-date" name="endDate" th:value="${endDate != null ? endDate : ''}" required>        </div>
       </div>
       <div class="right">
         <div>
           <label for="number-of-beds" class="label-s">Sängar</label>
-          <input class="nr-input" type="number" id="number-of-beds" name="number-of-beds" value="1">
+          <input class="nr-input" type="number" id="number-of-beds" name="beds" th:value="${beds != null ? beds : '1'}" min="1" required>
         </div>
         <div>
           <label for="number-of-rooms" class="label-s">Rum</label>
-          <input class="nr-input" type="number" id="number-of-rooms" name="number-of-rooms" value="1">
+          <input class="nr-input" type="number" id="number-of-rooms" name="rooms" th:value="${rooms != null ? rooms : '1'}" min="1" max="12" required>
         </div>
         <div>
           <input type="submit" id="submit-booking" name="submit-booking" value="SÖK LEDIGA RUM">
@@ -97,7 +95,9 @@
             <td class="room-id" th:text="${room.id}"></td>
             <td class="room-type" th:text="${room.roomType.roomType}"></td>
             <td>
-              <input class="bed-number" type="number" th:value="${room.roomType.defaultNumberOfBeds}" th:min="${room.roomType.defaultNumberOfBeds}" th:max="${room.roomType.maxNumberOfBeds}">
+              <label>
+                <input class="bed-number" type="number" th:value="${room.roomType.defaultNumberOfBeds}" th:min="${room.roomType.defaultNumberOfBeds}" th:max="${room.roomType.maxNumberOfBeds}">
+              </label>
             </td>
             <td>0</td>
             <td>5</td>
@@ -108,10 +108,10 @@
         </table>
       </div>
     </div>
-    <div><button class="booking-booking-btn">BOKA</button></div>
+    <div><button class="booking-booking-btn" onclick=submitBooking()>BOKA</button></div>
   </div>
   </div>
 
-<script th:src="@{/js/script.js}"></script>
+<script th:src="@{/js/bookingScript.js}"></script>
 </body>
 </html>

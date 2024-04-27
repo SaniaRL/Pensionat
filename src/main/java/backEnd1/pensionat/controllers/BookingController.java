@@ -1,4 +1,4 @@
-package backEnd1.pensionat.Controllers;
+package backEnd1.pensionat.controllers;
 
 import backEnd1.pensionat.DTOs.BookingDTO;
 import backEnd1.pensionat.DTOs.CustomerDTO;
@@ -45,7 +45,7 @@ public class BookingController {
         }
         model.addAttribute("booking", bookingService.getBookingById(bookingId));
         model.addAttribute("orderLines", orderLineService.getOrderLinesByBookingId(bookingId));
-        return "BookingConfirmation";
+        return "bookingConfirmation";
     }
 
     @RequestMapping("/{id}/remove")
