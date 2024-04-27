@@ -15,8 +15,8 @@ public interface CustomerService {
 //    public Customer customerDtoToCustomer(CustomerDto customer);
 
     List<Customer> getAllCustomers();
-    String addCustomer(Customer c);
-    public String addCustomerFromCustomerDTO(CustomerDTO customerDTO);
+    Customer addCustomer(Customer c);
+    String addCustomerFromCustomerDTO(CustomerDTO customerDTO);
     String removeCustomerById(Long id);
     String updateCustomer(Customer c);
     Page<Customer> getCustomersByEmail(String email, Pageable pageable);

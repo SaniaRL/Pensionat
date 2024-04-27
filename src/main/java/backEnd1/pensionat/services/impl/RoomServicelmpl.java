@@ -37,6 +37,12 @@ public class RoomServicelmpl implements RoomService {
         return "Room " + id + " removed";
     }
 
+    //TODO Idk
+    @Override
+    public Room getRoomByID(Long Id) {
+        return roomRepo.findById(Id).orElse(new Room());
+    }
+
     @Override
     public Room roomDtoToRoom(RoomDTO room) {
         return Room.builder().id(room.getId()).typeOfRoom(RoomTypeConverter.convertToInt(room.getRoomType())).build();

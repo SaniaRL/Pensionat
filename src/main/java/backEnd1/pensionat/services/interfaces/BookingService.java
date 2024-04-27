@@ -13,7 +13,7 @@ public interface BookingService {
 //    public Booking bookingDtoToBooking(BookingDto booking);
 
     List<DetailedBookingDTO> getAllBookings();
-    String addBooking(Booking b);
+    Booking addBooking(Booking b);
     String removeBookingById(Long id);
     Booking bookingDtoToBooking(BookingDTO b, Customer c);
     Long addBookingFromBookingDto(BookingDTO b);
