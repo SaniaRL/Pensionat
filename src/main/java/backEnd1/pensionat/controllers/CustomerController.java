@@ -1,4 +1,4 @@
-package backEnd1.pensionat.Controllers;
+package backEnd1.pensionat.controllers;
 
 import backEnd1.pensionat.DTOs.SimpleCustomerDTO;
 import backEnd1.pensionat.Models.Customer;
@@ -24,9 +24,9 @@ public class CustomerController {
         return customerService.getAllCustomers();
     } */
 
-    @PostMapping("/add")
-    public String addCustomer(@RequestParam String name, @RequestParam String email) {
-        return customerService.addCustomer(new Customer(name, email));
+    @RequestMapping("/add")
+    public String addCustomer() {
+        return "customerOrNot";
     }
 
     @PostMapping("/addCustomerObject")
@@ -52,9 +52,9 @@ public class CustomerController {
         return "index";
     }
 
-    @RequestMapping("/customerOrNot")
+    @GetMapping("/customerOrNot")
     public String loadCustomerOrNot(){
-        return "customerOrNot.html";
+        return "customerOrNot";
     }
 
     @GetMapping("/handle")

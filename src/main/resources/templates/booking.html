@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="sv" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
   <title>Pensionat</title>
-  <link rel="icon" type="image/x-icon" href="/images/house.png"/>
+  <link rel="icon" type="image/x-icon" href="/images/house.png">
   <link rel="stylesheet" type="text/css" href="/css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,31 +11,29 @@
 </head>
 
 <body>
-<div class="header">
-<a class="back-link" href="http://localhost:8080/index.html">Back</a>
+<div class="header booking-header">
+  <a class="back-link" href="http://localhost:8080/index.html">&#129168;Tillbaka</a>
 </div>
-<div class="content content-booking">
+<div class="content booking-content">
 
-    <form action="/booking" method="get">
+    <form action="/bookingSubmit" method="post" onsubmit="return validateForm()">
       <div class="booking-options">
       <div class="left">
         <div>
           <label for="start-date" class="label">Check-in</label>
-          <input type="date" id="start-date" name="start-date">
-        </div>
+          <input type="date" id="start-date" name="startDate" th:value="${startDate != null ? startDate : #dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required>        </div>
         <div>
           <label for="end-date" class="label">Check-out</label>
-          <input type="date" id="end-date" name="end-date">
-        </div>
+          <input type="date" id="end-date" name="endDate" th:value="${endDate != null ? endDate : ''}" required>        </div>
       </div>
       <div class="right">
         <div>
           <label for="number-of-beds" class="label-s">Sängar</label>
-          <input class="nr-input" type="number" id="number-of-beds" name="number-of-beds">
+          <input class="nr-input" type="number" id="number-of-beds" name="beds" th:value="${beds != null ? beds : '1'}" min="1" required>
         </div>
         <div>
           <label for="number-of-rooms" class="label-s">Rum</label>
-          <input class="nr-input" type="number" id="number-of-rooms" name="number-of-rooms">
+          <input class="nr-input" type="number" id="number-of-rooms" name="rooms" th:value="${rooms != null ? rooms : '1'}" min="1" max="12" required>
         </div>
         <div>
           <input type="submit" id="submit-booking" name="submit-booking" value="SÖK LEDIGA RUM">
@@ -45,39 +43,75 @@
     </form>
 
 
-<div id="booking-chosen-rooms">
-  <p>Valda rum här yolo swag</p>
-</div>
 
-  <div id="booking-empty-rooms" th:unless="${#lists.isEmpty(availableRooms)}">
-    <table>
-      <tbody class="show-rooms">
-      <tr class="header-rooms-idk">
-        <td id="room-id">Room ID:</td>
-        <td id="default-beds">Room Type:</td>
-        <td id="max-beds">Beds:</td>
-        <td></td>
-      </tr>
+    <div id="booking-chosen-rooms" >
+      <div class="scroll-shit">
+        <p class="title-booking">BOKNING</p>
+        <table>
+          <thead>
+          <tr class="header-rooms-idk">
+            <td id="room-id-c">ID:</td>
+            <td id="room-type-c">Rum:</td>
+            <td id="default-beds-c">Sängar:</td>
+            <td id="extra-beds-c">IDK</td>
+            <td id="total-beds-c">Sängar:</td>
+            <td></td>
+          </tr>
+          </thead>
+          <tbody id="ChosenList" class="show-rooms">
+          <tr th:each="room : ${chosenRooms}" class="room-row-av room-av-row">
+            <td class="room-id" th:text="${room.id}"></td>
+            <td class="room-type" th:text="${room.roomType.roomType}"></td>
+            <td th:text="${room.roomType.defaultNumberOfBeds}"></td>
+            <td>0</td>
+            <td>5</td>
 
-      <tr th:each="room : ${availableRooms}" class="room-row-av">
-        <td th:text="${room.id}"></td>
+            <td class="remove-room-btn">
+              <img src="/images/white_delete.png" alt="Remove" /></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-        <td>SINGLE</td>
-        <td>2</td>
-        <td id="add-room">ADD</td>
 
-
-        <!--
-        <td th:text="${room.getRoomTypeName()}"></td>
-
-        <td th:text="${room.roomType.defaultNumberOfBeds}"></td>
-        <td th:text="${room.roomType.maxNumberOfBeds}"></td>
-                <td><a th:href="">Add</a></td>-->
-      </tr>
-      </tbody>
-    </table>
+  <div th:unless="${#lists.isEmpty(availableRooms)}">
+    <div id="booking-empty-rooms" >
+      <div class="scroll-shit">
+        <p class="title-booking">LEDIGA RUM</p>
+        <table>
+          <thead>
+          <tr class="header-rooms-idk">
+            <td id="room-id">ID:</td>
+            <td id="room-type">Rum:</td>
+            <td id="default-beds">Sängar:</td>
+            <td id="extra-beds">IDK</td>
+            <td id="total-beds">Sängar:</td>
+            <td></td>
+          </tr>
+          </thead>
+          <tbody id="AvailableList" class="show-rooms">
+          <tr th:each="room : ${availableRooms}" class="room-row-av room-chosen-row">
+            <td class="room-id" th:text="${room.id}"></td>
+            <td class="room-type" th:text="${room.roomType.roomType}"></td>
+            <td>
+              <label>
+                <input class="bed-number" type="number" th:value="${room.roomType.defaultNumberOfBeds}" th:min="${room.roomType.defaultNumberOfBeds}" th:max="${room.roomType.maxNumberOfBeds}">
+              </label>
+            </td>
+            <td>0</td>
+            <td>5</td>
+            <td class="add-room-btn">
+              <img src="/images/white_plus.png" alt="Add" /></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div><button class="booking-booking-btn" onclick=submitBooking()>BOKA</button></div>
+  </div>
   </div>
 
-</div>
+<script th:src="@{/js/bookingScript.js}"></script>
 </body>
 </html>

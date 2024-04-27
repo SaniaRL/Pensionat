@@ -1,6 +1,5 @@
 package backEnd1.pensionat;
 
-import backEnd1.pensionat.Enums.RoomType;
 import backEnd1.pensionat.Models.Booking;
 import backEnd1.pensionat.Models.Customer;
 import backEnd1.pensionat.Models.OrderLine;
@@ -26,19 +25,25 @@ public class PensionatApplication {
 	}
 
 	//TODO Kommentera bort innan ni får 8726782672627628 extra
-/*
+
 	@Bean
 	public CommandLineRunner demo(BookingRepo bookingRepo, CustomerRepo customerRepo,
 								  OrderLineRepo orderLineRepo, RoomRepo roomRepo) {
 		return args -> {
 
 			List<Room> rooms = Arrays.asList(
-					new Room(201L, RoomType.SINGLE),
-					new Room(202L, RoomType.SINGLE),
-					new Room(203L, RoomType.DOUBLE),
-					new Room(204L, RoomType.DOUBLE),
-					new Room(301L, RoomType.PREMIUM),
-					new Room(302L, RoomType.PREMIUM));
+					new Room(201L, 0),
+					new Room(202L, 0),
+					new Room(203L, 1),
+					new Room(204L, 1),
+					new Room(301L, 2),
+					new Room(302L, 2),
+					new Room(303L, 0),
+					new Room(304L, 0),
+					new Room(401L, 1),
+					new Room(402L, 1),
+					new Room(403L, 2),
+					new Room(404L, 2));
 
 			roomRepo.saveAll(rooms);
 
@@ -55,6 +60,10 @@ public class PensionatApplication {
 					new Booking(customers.get(0), LocalDate.now(), LocalDate.now().plusDays(3)),
 					new Booking(customers.get(1), LocalDate.now().plusDays(4), LocalDate.now().plusDays(9)),
 					new Booking(customers.get(2), LocalDate.now(), LocalDate.now().plusDays(2)),
+					new Booking(customers.get(3), LocalDate.now().plusDays(20), LocalDate.now().plusDays(29)),
+					new Booking(customers.get(0), LocalDate.now().plusDays(40), LocalDate.now().plusDays(50)),
+					new Booking(customers.get(1), LocalDate.now().plusDays(14), LocalDate.now().plusDays(19)),
+					new Booking(customers.get(2), LocalDate.now(), LocalDate.now().plusDays(2)),
 					new Booking(customers.get(3), LocalDate.now().plusDays(10), LocalDate.now().plusDays(20))
 			);
 
@@ -67,14 +76,16 @@ public class PensionatApplication {
 					new OrderLine(bookings.get(2), rooms.get(1), 0),
 					new OrderLine(bookings.get(2), rooms.get(2), 1),
 					new OrderLine(bookings.get(2), rooms.get(5), 2),
+					new OrderLine(bookings.get(3), rooms.get(1), 0),
+					new OrderLine(bookings.get(4), rooms.get(2), 1),
+					new OrderLine(bookings.get(5), rooms.get(1), 0),
+					new OrderLine(bookings.get(6), rooms.get(2), 1),
+					new OrderLine(bookings.get(6), rooms.get(1), 0),
+					new OrderLine(bookings.get(7), rooms.get(2), 1),
 					new OrderLine(bookings.get(3), rooms.get(5), 0)
 			);
 
 			orderLineRepo.saveAll(orderLines);
 		};
 	}
-	
- */
-
-
 }

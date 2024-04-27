@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="sv" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Pensionat</title>
@@ -22,19 +22,19 @@
     </div>
 </div>
 <div class="content">
-    <form action="frontPage" method="post">
+    <form th:action="@{/booking/add}" method="post">
         <div>
             <label for="name" class="label-CustomerOrNot">Namn: </label>
             <br>
-            <input id="name" type="text" name="name" class="input-CustomerOrNot" required>
+            <input id="name" type="text" th:name="name" class="input-CustomerOrNot" required>
         </div>
         <div>
             <label for="email" class="label-CustomerOrNot">Email: </label>
             <br>
-            <input id="email" type="email" name="email" class="input-CustomerOrNot" required>
+            <input id="email" type="email" th:name="email" class="input-CustomerOrNot" required>
         </div>
         <div>
-            <button type="submit" class="booking-btn index-btn">Bekräfta</button>
+            <button type="submit" class="booking-btn index-btn" onclick="submitCustomer()">Bekräfta</button>
         </div>
     </form>
 </div>
@@ -42,5 +42,6 @@
     <p>&#9824; Eddie Boschek &#9829; Sania Runnfors Larsson &#9827; Sebastian Karlsson &#9830; Simon Nordlund</p>
 </div>
 
+<script th:src="@{/js/customerOrNotScript.js}"></script>
 </body>
 </html>

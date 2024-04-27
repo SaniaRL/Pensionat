@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmation</title>
+    <link rel="icon" type="image/x-icon" href="/images/house.png"/>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/bookingConfirmation.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
+</head>
+<body>
+    <div class="container-1">
+        <div>
+            <h1 class="header-confirmation-page">Bokningsbekräftelse</h1>
+        </div>
+        <div class="container-2">
+            <p class="bold">Kund:</p>
+            <p th:text="${booking.getCustomer().getName()}+', ' +${booking.getCustomer().getEmail()}" />
+        </div>
+
+        <div class="container-3">
+        <div class="container-4">
+            <p class="bold">Bokning:</p>
+            <p th:text="'Incheckning: '+${booking.getStartDate()}" />
+            <p th:text="'Utcheckning: '+${booking.getEndDate()}" />
+        </div>
+
+        <div class="container-5" th:unless="${#lists.isEmpty(orderLines)}">
+            <table>
+                <tbody class="show-rooms-confirmation-page">
+                    <tr class="header-rooms-confirmation-page">
+                        <td>Room ID:</td>
+                        <td>Room Type:</td>
+                        <td>Beds:</td>
+                        <td></td>
+                    </tr>
+
+                    <tr th:each="orderLine : ${orderLines}" class="room-row-confirmation-page">
+                        <td th:text="${orderLine.room.id}"></td>
+                        <td th:text="${orderLine.room.roomType}"></td>
+                        <td th:text="${orderLine.extraBeds} + ${orderLine.room.roomType.defaultNumberOfBeds}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
+        <div class="header-confirmation-page">
+            <a class="back-link" href="http://localhost:8080/index.html">Startsidan</a>
+        </div>
+    </div>
+</body>
+</html>

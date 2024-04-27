@@ -1,4 +1,4 @@
-package backEnd1.pensionat.Controllers;
+package backEnd1.pensionat.controllers;
 
 import backEnd1.pensionat.Enums.RoomType;
 import backEnd1.pensionat.Models.Room;
@@ -20,7 +20,7 @@ public class RoomController {
     }
 
     @PostMapping("/add")
-    public String addRoom(@RequestParam Long id, @RequestParam RoomType typeOfRoom) {
+    public String addRoom(@RequestParam Long id, @RequestParam int typeOfRoom) {
         return roomService.addRoom(new Room(id, typeOfRoom));
     }
 

@@ -1,6 +1,5 @@
-package backEnd1.pensionat.Controllers;
+package backEnd1.pensionat.controllers;
 
-import backEnd1.pensionat.Enums.RoomType;
 import backEnd1.pensionat.Models.Booking;
 import backEnd1.pensionat.Models.OrderLine;
 import backEnd1.pensionat.Models.Room;
@@ -25,7 +24,7 @@ public class OrderLineController {
     @PostMapping("/add")
     public String addOrderLine(@RequestParam String name, @RequestParam String email,
                                @RequestParam LocalDate startDate, @RequestParam LocalDate endDate,
-                               @RequestParam Long roomId, @RequestParam RoomType typeOfRoom,
+                               @RequestParam Long roomId, @RequestParam int typeOfRoom,
                                @RequestParam int extraBeds) {
 
         return orderLineService.addOrderLine(new OrderLine(new Booking(name, email, startDate, endDate),
