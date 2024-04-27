@@ -13,6 +13,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -39,6 +41,10 @@ public class Booking {
     @Future
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
+
+    //Lagt till denna för att cascading ska fungera
+    @OneToMany(mappedBy = "booking", cascade = CascadeType.REMOVE)
+    private List<OrderLine> orderLines = new ArrayList<>();
 
     public Booking(String name, String email, LocalDate startDate, LocalDate endDate) {
         this.customer = new Customer(name, email);

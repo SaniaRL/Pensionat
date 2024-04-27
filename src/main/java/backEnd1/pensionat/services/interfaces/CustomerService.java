@@ -14,12 +14,13 @@ public interface CustomerService {
 
 //    public Customer customerDtoToCustomer(CustomerDto customer);
 
-    List<Customer> getAllCustomers();
+    List<SimpleCustomerDTO> getAllCustomers();
     String addCustomer(Customer c);
     public String addCustomerFromCustomerDTO(CustomerDTO customerDTO);
     String removeCustomerById(Long id);
     String updateCustomer(Customer c);
-    Page<Customer> getCustomersByEmail(String email, Pageable pageable);
+    Page<SimpleCustomerDTO> getCustomersByEmail(String email, int num);
+    Page<SimpleCustomerDTO> getAllCustomersPage(int pageNum);
     Customer getCustomerByEmail(String email);
     Customer customerDtoToCustomer(CustomerDTO customerDTO);
 

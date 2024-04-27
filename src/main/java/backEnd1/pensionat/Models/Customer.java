@@ -30,7 +30,8 @@ public class Customer {
     @Email
     private String email;
 
-    @OneToMany(mappedBy = "customer")
+    //Lagt till denna för att cascading ska fungera
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)
     private List<Booking> bookings = new ArrayList<>();
 
     public Customer(String name, String email) {
