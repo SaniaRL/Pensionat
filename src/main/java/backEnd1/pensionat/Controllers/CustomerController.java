@@ -29,25 +29,24 @@ public class CustomerController {
         return customerService.addCustomer(new Customer(name, email));
     }
 
-    @DeleteMapping("/{id}/remove")
-    public String removeCustomerById(@PathVariable Long id) {
-        return customerService.removeCustomerById(id);
-    }
-
-    //Temp för att posta in kunder
     @PostMapping("/addCustomerObject")
     public String addCustomerObject(@RequestBody Customer customer) {
         return customerService.addCustomer(customer);
     }
 
-    //DeleteMapping verkar ej fungera? Testar Requestmapping
+    @DeleteMapping("/{id}/remove")
+    public String removeCustomerById(@PathVariable Long id) {
+        return customerService.removeCustomerById(id);
+    }
+
+    //DeleteMapping ovan verkar ej fungera. Använder temp. Requestmapping.
     @RequestMapping("/{id}/removeHandler")
     public String removeCustomerByIdHandler(@PathVariable Long id, Model model) {
         customerService.removeCustomerById(id);
         return handleCustomers(model);
     }
 
-    //Skapa senare upp en för ID vid behov.
+    //Skapa senare upp en för ID ist för email vid behov.
     @RequestMapping("/{email}/update")
     public String updateCustomerHandler(@PathVariable String email, Model model){
         Customer c = customerService.getCustomerByEmail(email);
@@ -58,7 +57,7 @@ public class CustomerController {
     //Temp också
     @PostMapping("/handle/update")
     public String handleCustomersUpdate(Model model, Customer customer){
-        customerService.addCustomer(customer);
+        customerService.updateCustomer(customer);
         int currentPage = 1;
         Page<SimpleCustomerDTO> c = customerService.getAllCustomersPage(currentPage);
         model.addAttribute("allCustomers", c.getContent());
