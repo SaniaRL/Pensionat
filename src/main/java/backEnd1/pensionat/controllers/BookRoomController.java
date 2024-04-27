@@ -119,6 +119,6 @@ public class BookRoomController {
                 .forEach(orderLineService::addOrderLine);
 
         String confirmationMessage = "Bokning mottagen och bearbetad!";
-        return "redirect:index.html";
+        return "index.html";
     }
 }
