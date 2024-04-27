@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BookingBodyDTO {
+public class OrderLineDTO {
     int id;
     String roomType;
     int extraBeds;

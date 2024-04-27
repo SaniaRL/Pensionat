@@ -25,7 +25,7 @@
         </div>
         <div>
           <label for="end-date" class="label">Check-out</label>
-          <input type="date" id="end-date" name="end-date">
+          <input type="date" id="end-date" name="end-date" required>
         </div>
       </div>
       <div class="right">
@@ -97,7 +97,9 @@
             <td class="room-id" th:text="${room.id}"></td>
             <td class="room-type" th:text="${room.roomType.roomType}"></td>
             <td>
-              <input class="bed-number" type="number" th:value="${room.roomType.defaultNumberOfBeds}" th:min="${room.roomType.defaultNumberOfBeds}" th:max="${room.roomType.maxNumberOfBeds}">
+              <label>
+                <input class="bed-number" type="number" th:value="${room.roomType.defaultNumberOfBeds}" th:min="${room.roomType.defaultNumberOfBeds}" th:max="${room.roomType.maxNumberOfBeds}">
+              </label>
             </td>
             <td>0</td>
             <td>5</td>

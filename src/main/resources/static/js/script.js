@@ -16,10 +16,11 @@ const add = (e) => {
     if(room){
         const roomID = room.querySelector(".room-id").textContent;
         const roomType = room.querySelector(".room-type").textContent;
+        const extraBeds = room.querySelector(".bed-number").value;
 
         console.log("Room-id: " + roomID);
 
-        addRoom(roomID, roomType, room, e);
+        addRoom(roomID, roomType, extraBeds, room, e);
     }
     else {
         console.log("Room is null")
@@ -41,13 +42,14 @@ const remove = (e) => {
     }
 }
 
-function addRoom(roomID, roomType, room, e) {
+function addRoom(roomID, roomType, extraBeds, room, e) {
     let chosenRooms = JSON.parse(localStorage.getItem("chosenRooms")) || [];
     let availableRooms = JSON.parse(localStorage.getItem("availableRooms")) || [];
 
     chosenRooms.push({
         id: roomID,
-        roomType: roomType
+        roomType: roomType,
+        extraBeds: extraBeds
     });
     localStorage.setItem("chosenRooms", JSON.stringify(chosenRooms));
 
@@ -96,14 +98,34 @@ function getListsFromLocalStorage() {
 
 function validateForm(){
 
+    addFormToLocalStorage()
+}
+
+function addFormToLocalStorage(){
+    const startDate = document.getElementById("start-date").value;
+    const endDate = document.getElementById("end-date").value;
+
+    localStorage.setItem("startDate", startDate);
+    localStorage.setItem("endDate", endDate);
 }
 
 
 //onClick
 
 function submitBooking(){
+    //Fan måste ju skicka inställningarna också
+    let startDate = localStorage.getItem("startDate");
+    let endDate = localStorage.getItem("endDate");
+
     //Hämta chosenRooms från localstorage
     let chosenRooms = JSON.parse(localStorage.getItem("chosenRooms")) || [];
+
+    //Vet inte om detta är så bra idk
+    let bookingData = {
+        startDate: startDate,
+        endDate: endDate,
+        chosenRooms: chosenRooms
+    };
 
     //Stoppa i body i anrop  @PostMapping("/submitBooking")
     let xhr = new XMLHttpRequest();
@@ -112,7 +134,8 @@ function submitBooking(){
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
 
-    let data = JSON.stringify(chosenRooms);
+    let data = JSON.stringify(bookingData);
+    console.log("data = " + data);
     xhr.send(data);
 
     xhr.onreadystatechange = function () {
