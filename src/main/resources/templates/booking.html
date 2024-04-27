@@ -21,20 +21,19 @@
       <div class="left">
         <div>
           <label for="start-date" class="label">Check-in</label>
-          <input type="date" id="start-date" name="startDate" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required>
-        </div>
+          <input type="date" id="start-date" name="startDate" th:value="${startDate != null ? startDate : #dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required>        </div>
         <div>
           <label for="end-date" class="label">Check-out</label>
-          <input type="date" id="end-date" name="end-date" th:value="${endDate != null ? endDate : ''}" required>        </div>
+          <input type="date" id="end-date" name="endDate" th:value="${endDate != null ? endDate : ''}" required>        </div>
       </div>
       <div class="right">
         <div>
           <label for="number-of-beds" class="label-s">Sängar</label>
-          <input class="nr-input" type="number" id="number-of-beds" name="beds" value="1" min="1" required>
+          <input class="nr-input" type="number" id="number-of-beds" name="beds" th:value="${beds != null ? beds : '1'}" min="1" required>
         </div>
         <div>
           <label for="number-of-rooms" class="label-s">Rum</label>
-          <input class="nr-input" type="number" id="number-of-rooms" name="rooms" value="1" min="1" max="12" required>
+          <input class="nr-input" type="number" id="number-of-rooms" name="rooms" th:value="${rooms != null ? rooms : '1'}" min="1" max="12" required>
         </div>
         <div>
           <input type="submit" id="submit-booking" name="submit-booking" value="SÖK LEDIGA RUM">
