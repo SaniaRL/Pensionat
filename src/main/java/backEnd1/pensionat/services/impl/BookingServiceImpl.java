@@ -42,6 +42,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Long addBookingFromBookingDto(BookingDTO b) {
+        //TODO om kunden inte finns och måste registreras?
         Customer customer = customerRepo.findByEmail(b.getCustomer().getEmail());
         Booking booking = bookingDtoToBooking(b, customer);
         bookingRepo.save(booking);

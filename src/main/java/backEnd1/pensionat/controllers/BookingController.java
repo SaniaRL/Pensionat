@@ -40,8 +40,13 @@ public class BookingController {
         List<RoomDTO> rooms = (List<RoomDTO>) model.getAttribute("rooms");
         List<Integer> extraBeds = (List<Integer>) model.getAttribute("extraBeds");
         for (int i = 0; i < rooms.size(); i++) {
+            //TODO idk:
+            int xtrBeds = 0;
+            if(extraBeds.get(i) != null){
+                xtrBeds = extraBeds.get(i);
+            }
             orderLineService.addOrderLineFromSimpleOrderLineDto(new SimpleOrderLineDTO(bookingId,
-                                                                    rooms.get(i), extraBeds.get(i)));
+                                                                    rooms.get(i), xtrBeds));
         }
         model.addAttribute("booking", bookingService.getBookingById(bookingId));
         model.addAttribute("orderLines", orderLineService.getOrderLinesByBookingId(bookingId));

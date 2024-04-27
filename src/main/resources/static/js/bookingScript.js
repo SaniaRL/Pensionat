@@ -110,7 +110,7 @@ function addFormToLocalStorage(){
 
 
 //onClick
-/*
+
 function submitBooking() {
 
     //Fan måste ju skicka inställningarna också
@@ -144,19 +144,21 @@ function submitBooking() {
             window.location.href = "/customer/customerOrNot";
         }
     };
+
+    function keepFormValues(){
+        const startDate = /*[[${#strings.isEmpty(localStorage['startDate']) ? #dates.format(#dates.createNow(), 'yyyy-MM-dd') : "'" + localStorage['startDate'] + "'"}]]*/ '';
+        const endDate = /*[[${#strings.isEmpty(localStorage['endDate']) ? #dates.format(#dates.createNow(), 'yyyy-MM-dd') : "'" + localStorage['endDate'] + "'"}]]*/ '';
+
+        document.getElementById('start-date').value = startDate;
+        document.getElementById('end-date').value = endDate;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        keepFormValues();
+    });
 }
 
- */
 
-function keepFormValues(){
-    const startDate = /*[[${#strings.isEmpty(localStorage['startDate']) ? #dates.format(#dates.createNow(), 'yyyy-MM-dd') : "'" + localStorage['startDate'] + "'"}]]*/ '';
-    const endDate = /*[[${#strings.isEmpty(localStorage['endDate']) ? #dates.format(#dates.createNow(), 'yyyy-MM-dd') : "'" + localStorage['endDate'] + "'"}]]*/ '';
 
-    document.getElementById('start-date').value = startDate;
-    document.getElementById('end-date').value = endDate;
-}
 
-document.addEventListener('DOMContentLoaded', function() {
-    keepFormValues();
-});
 

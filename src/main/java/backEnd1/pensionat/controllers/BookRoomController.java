@@ -82,9 +82,21 @@ public class BookRoomController {
         return "booking";
     }
 
+
     @PostMapping("/confirmBooking")
     public String confirmBooking(@RequestBody BookingData bookingData, RedirectAttributes redirectAttributes) {
-        // Hantera bokningsdatan här
+        // Utför bokningsprocessen och returnera lämpligt svar
+        redirectAttributes.addFlashAttribute("bookingData", bookingData);
+        // Här returnerar jag bara en bekräftelsemeddelande som en sträng
+        return "redirect:/customer/customerOrNot";
+    }
+
+
+
+    @PostMapping("/submitBookingCustomer")
+    public String submitBookingCustomer(@RequestBody BookingData bookingData, RedirectAttributes redirectAttributes) {
+        System.out.println("Namn: " + bookingData.getStartDate());
+        System.out.println("Email: " + bookingData.getStartDate());
         System.out.println("Startdatum: " + bookingData.getStartDate());
         System.out.println("Slutdatum: " + bookingData.getEndDate());
         System.out.println("Valda rum: ");
