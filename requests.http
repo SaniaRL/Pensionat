@@ -2,6 +2,6 @@ POST http://localhost:8080/customer/addCustomerObject
 Content-Type: application/json
 
 {
-  "name": "Simon1337",
-  "email": "simonapa@123123.se"
+  "name": "Pedro123123",
+  "email": "siapa@1aa.awdse"
 }

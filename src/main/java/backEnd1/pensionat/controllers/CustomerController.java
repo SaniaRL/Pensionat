@@ -39,20 +39,36 @@ public class CustomerController {
         return customerService.removeCustomerById(id);
     }
 
-    //DeleteMapping verkar ej fungera? Testar Requestmapping
+    //DeleteMapping ovan verkar ej fungera. Använder temp. Requestmapping.
     @RequestMapping("/{id}/removeHandler")
     public String removeCustomerByIdHandler(@PathVariable Long id, Model model) {
         customerService.removeCustomerById(id);
         return handleCustomers(model);
     }
 
-    @PutMapping("/{id}/update")
-    public String updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
-        customerService.updateCustomer(customer);
-        return "index";
+    //Skapa senare upp en för ID ist för email vid behov.
+    @RequestMapping("/{email}/update")
+    public String updateCustomerHandler(@PathVariable String email, Model model){
+        Customer c = customerService.getCustomerByEmail(email);
+        model.addAttribute("kund", c);
+        return "updateCustomers.html";
     }
 
-    @GetMapping("/customerOrNot")
+    //Temp också
+    @PostMapping("/handle/update")
+    public String handleCustomersUpdate(Model model, Customer customer){
+        customerService.updateCustomer(customer);
+        int currentPage = 1;
+        Page<SimpleCustomerDTO> c = customerService.getAllCustomersPage(currentPage);
+        model.addAttribute("allCustomers", c.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", c.getTotalElements());
+        model.addAttribute("totalPages", c.getTotalPages());
+        return "handleCustomers.html";
+    }
+
+
+    @RequestMapping("/customerOrNot")
     public String loadCustomerOrNot(){
         return "customerOrNot";
     }

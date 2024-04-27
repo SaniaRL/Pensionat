@@ -24,6 +24,14 @@ td {
     padding: 5px;
 }
 
+.input-row {
+    background-color: white;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    border-collapse: collapse;
+    padding: 5px;
+}
+
 .table-header {
     border-bottom: 2px solid black;
 }
