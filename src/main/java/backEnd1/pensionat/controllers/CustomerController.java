@@ -38,9 +38,9 @@ public class CustomerController {
         return "index";
     }
 
-    @RequestMapping("/customerOrNot")
+    @GetMapping("/customerOrNot")
     public String loadCustomerOrNot(){
-        return "customerOrNot.html";
+        return "customerOrNot";
     }
 
     //Temp metod nedan. Tas bort sen.

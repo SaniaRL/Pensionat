@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +83,7 @@ public class BookRoomController {
     }
 
     @PostMapping("/confirmBooking")
-    public ResponseEntity<String> confirmBooking(@RequestBody BookingData bookingData) {
+    public String confirmBooking(@RequestBody BookingData bookingData, RedirectAttributes redirectAttributes) {
         // Hantera bokningsdatan här
         System.out.println("Startdatum: " + bookingData.getStartDate());
         System.out.println("Slutdatum: " + bookingData.getEndDate());
@@ -91,7 +93,8 @@ public class BookRoomController {
         }
 
         // Utför bokningsprocessen och returnera lämpligt svar
+        redirectAttributes.addFlashAttribute("bookingData", bookingData);
         // Här returnerar jag bara en bekräftelsemeddelande som en sträng
-        return new ResponseEntity<>("Bokningen har bekräftats!", HttpStatus.OK);
+        return "redirect:/customer/customerOrNot";
     }
 }
