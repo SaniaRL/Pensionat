@@ -1,0 +1,110 @@
+.customers-table {
+    background: #d2d2d2;
+    border: 2px solid black;
+}
+
+table, th, td {
+    border-collapse: collapse;
+}
+
+th {
+    padding: 5px;
+}
+
+tr {
+    display: grid;
+    grid-template-columns: 40px 150px 200px 40px 40px;
+}
+
+td {
+    background-color: white;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    border-collapse: collapse;
+    padding: 5px;
+}
+
+.input-row {
+    background-color: white;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    border-collapse: collapse;
+    padding: 5px;
+}
+
+.table-header {
+    border-bottom: 2px solid black;
+}
+
+.customer-row {
+    :first-child {
+        border-left: none;
+    }
+    :last-child {
+        border-right: none;
+    }
+    border-bottom: none;
+}
+
+.customer-search {
+    margin-bottom: 10px;
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 6px;
+    font-size: 16px;
+}
+
+.search-customer-button {
+    display: none;
+}
+
+.td-icons {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+        height: 1.2rem;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+.remove {
+    svg {
+        &:hover {
+            fill: red;
+        }
+    }
+}
+
+.edit {
+    svg {
+        &:hover {
+            fill: green;
+        }
+    }
+}
+
+.return-button {
+    font-size: 20px;
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 6px;
+    margin-bottom: 12px;
+}
+
+a, a:visited, a:active, a:link {
+    color: black;
+    text-decoration: none;
+}
+a:hover {
+    color: gold;
+}
+
+.SaveMeSören {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

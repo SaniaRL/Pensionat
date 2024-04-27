@@ -1,6 +1,5 @@
 package backEnd1.pensionat;
 
-import backEnd1.pensionat.Enums.RoomType;
 import backEnd1.pensionat.Models.Booking;
 import backEnd1.pensionat.Models.Customer;
 import backEnd1.pensionat.Models.OrderLine;
@@ -33,18 +32,18 @@ public class PensionatApplication {
 		return args -> {
 
 			List<Room> rooms = Arrays.asList(
-					new Room(201L, RoomType.SINGLE),
-					new Room(202L, RoomType.SINGLE),
-					new Room(203L, RoomType.DOUBLE),
-					new Room(204L, RoomType.DOUBLE),
-					new Room(301L, RoomType.PREMIUM),
-					new Room(302L, RoomType.PREMIUM),
-					new Room(303L, RoomType.SINGLE),
-					new Room(304L, RoomType.SINGLE),
-					new Room(401L, RoomType.DOUBLE),
-					new Room(402L, RoomType.DOUBLE),
-					new Room(403L, RoomType.PREMIUM),
-					new Room(404L, RoomType.PREMIUM));
+					new Room(201L, 0),
+					new Room(202L, 0),
+					new Room(203L, 1),
+					new Room(204L, 1),
+					new Room(301L, 2),
+					new Room(302L, 2),
+					new Room(303L, 0),
+					new Room(304L, 0),
+					new Room(401L, 1),
+					new Room(402L, 1),
+					new Room(403L, 2),
+					new Room(404L, 2));
 
 			roomRepo.saveAll(rooms);
 
@@ -88,7 +87,6 @@ public class PensionatApplication {
 
 			orderLineRepo.saveAll(orderLines);
 		};
-	}
 
  */
 }
