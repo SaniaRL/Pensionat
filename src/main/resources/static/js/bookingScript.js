@@ -112,50 +112,14 @@ function addFormToLocalStorage(){
 //onClick
 
 function submitBooking() {
-
     //Fan måste ju skicka inställningarna också
     let startDate = localStorage.getItem("startDate");
     let endDate = localStorage.getItem("endDate");
 
-    //Hämta chosenRooms från localstorage
-    let chosenRooms = JSON.parse(localStorage.getItem("chosenRooms")) || [];
+    document.getElementById('start-date').value = startDate;
+    document.getElementById('end-date').value = endDate;
 
-    //Vet inte om detta är så bra idk
-    let bookingData = {
-        startDate: startDate,
-        endDate: endDate,
-        chosenRooms: chosenRooms
-    };
-
-    //Stoppa i body i anrop  @PostMapping("/submitBooking")
-    let xhr = new XMLHttpRequest();
-    let url = "/confirmBooking";
-
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-
-    let data = JSON.stringify(bookingData);
-    console.log("data = " + data);
-    xhr.send(data);
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log(xhr.responseText);
-            window.location.href = "/customer/customerOrNot";
-        }
-    };
-
-    function keepFormValues(){
-        const startDate = /*[[${#strings.isEmpty(localStorage['startDate']) ? #dates.format(#dates.createNow(), 'yyyy-MM-dd') : "'" + localStorage['startDate'] + "'"}]]*/ '';
-        const endDate = /*[[${#strings.isEmpty(localStorage['endDate']) ? #dates.format(#dates.createNow(), 'yyyy-MM-dd') : "'" + localStorage['endDate'] + "'"}]]*/ '';
-
-        document.getElementById('start-date').value = startDate;
-        document.getElementById('end-date').value = endDate;
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        keepFormValues();
-    });
+    window.location.href = "/customer/customerOrNot";
 }
 
 

@@ -5,10 +5,8 @@ import backEnd1.pensionat.DTOs.BookingFormQueryDTO;
 import backEnd1.pensionat.DTOs.OrderLineDTO;
 import backEnd1.pensionat.DTOs.RoomDTO;
 import backEnd1.pensionat.services.impl.RoomServicelmpl;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -40,6 +38,8 @@ public class BookRoomController {
             System.out.println("rooms: " + query.getRooms());
             model.addAttribute("beds", query.getBeds());
             System.out.println("beds: " + query.getBeds());
+            System.out.println();
+            System.out.println();
         }
 
         model.addAttribute("availableRooms", availableRooms);
@@ -84,19 +84,16 @@ public class BookRoomController {
 
 
     @PostMapping("/confirmBooking")
-    public String confirmBooking(@RequestBody BookingData bookingData, RedirectAttributes redirectAttributes) {
-        // Utför bokningsprocessen och returnera lämpligt svar
-        redirectAttributes.addFlashAttribute("bookingData", bookingData);
-        // Här returnerar jag bara en bekräftelsemeddelande som en sträng
+    public String confirmBooking() {
         return "redirect:/customer/customerOrNot";
     }
 
 
 
     @PostMapping("/submitBookingCustomer")
-    public String submitBookingCustomer(@RequestBody BookingData bookingData, RedirectAttributes redirectAttributes) {
-        System.out.println("Namn: " + bookingData.getStartDate());
-        System.out.println("Email: " + bookingData.getStartDate());
+    public String submitBookingCustomer(@RequestBody BookingData bookingData) {
+        System.out.println("Namn: " + bookingData.getName());
+        System.out.println("Email: " + bookingData.getEmail());
         System.out.println("Startdatum: " + bookingData.getStartDate());
         System.out.println("Slutdatum: " + bookingData.getEndDate());
         System.out.println("Valda rum: ");
@@ -105,8 +102,7 @@ public class BookRoomController {
         }
 
         // Utför bokningsprocessen och returnera lämpligt svar
-        redirectAttributes.addFlashAttribute("bookingData", bookingData);
         // Här returnerar jag bara en bekräftelsemeddelande som en sträng
-        return "redirect:/customer/customerOrNot";
+        return "redirect:index.html";
     }
 }
