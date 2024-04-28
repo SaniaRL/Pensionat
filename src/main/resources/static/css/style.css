@@ -189,6 +189,10 @@ input[type=number]::-webkit-inner-spin-button {
     padding: 10px;
 }
 
+#booking-chosen-rooms {
+    display: none;
+}
+
 .show-rooms {
     display: block;
     overflow-y: auto;
@@ -272,16 +276,16 @@ input[type=number]::-webkit-inner-spin-button {
 
 .error-pop-up {
     position: absolute;
-    top: 100px;
+    top: 200px;
     left: 50%;
     transform: translateX(-50%);
 
     display: flex;
     flex-direction: column;
     height: auto;
-    width: 400px;
+    width: 560px;
 
-    background-color: #ffffff;
+    background-color: #d1d3d4;
     border: 2px solid #4f4b6a;
     border-radius: 12px;
     padding: 20px;
@@ -295,11 +299,12 @@ input[type=number]::-webkit-inner-spin-button {
     color: white;
     font-weight: 800;
     font-size: 12px;
-    width: 40px;
-    height: 40px;
     border-radius: 8px;
-    align-self: end;
-    margin: 10px;
+    align-self: center;
+    margin: 20px;
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .pop-up-header {
