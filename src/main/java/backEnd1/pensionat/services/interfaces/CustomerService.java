@@ -19,11 +19,14 @@ public interface CustomerService {
     Customer addCustomer(Customer c);
     public String addCustomerFromCustomerDTO(CustomerDTO customerDTO);
     String removeCustomerById(Long id);
-    String updateCustomer(Customer c);
+    String updateCustomer(SimpleCustomerDTO c);
     Page<SimpleCustomerDTO> getCustomersByEmail(String email, int num);
     Page<SimpleCustomerDTO> getAllCustomersPage(int pageNum);
     Customer getCustomerByEmail(String email);
     Customer customerDtoToCustomer(CustomerDTO customerDTO);
 
     SimpleCustomerDTO customerToSimpleCustomerDto(Customer c);
+
+    SimpleCustomerDTO getCustomerByEmailSimpleDTO(String email); //Stämmer denna?
+
 }

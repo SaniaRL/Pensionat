@@ -12,8 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import java.util.List;
+
+import static backEnd1.pensionat.services.convert.CustomerConverter.SimpleCustomerDTOtoCustomer;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -49,8 +50,9 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public String updateCustomer(Customer c) {
-        customerRepo.save(c);
+    public String updateCustomer(SimpleCustomerDTO c) {
+        Customer cp = SimpleCustomerDTOtoCustomer(c);
+        customerRepo.save(cp);
         return "Customer updated successfully";
     }
 
@@ -81,5 +83,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public SimpleCustomerDTO customerToSimpleCustomerDto(Customer c) {
         return SimpleCustomerDTO.builder().id(c.getId()).name(c.getName()).email(c.getEmail()).build();
+    }
+
+    @Override
+    public SimpleCustomerDTO getCustomerByEmailSimpleDTO(String email){
+        Customer c = customerRepo.findByEmail(email);
+        return customerToSimpleCustomerDto(c);
     }
 }

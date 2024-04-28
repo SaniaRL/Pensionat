@@ -44,14 +44,14 @@ public class CustomerController {
     //Skapa senare upp en för ID ist för email vid behov.
     @RequestMapping("/{email}/update")
     public String updateCustomerHandler(@PathVariable String email, Model model){
-        Customer c = customerService.getCustomerByEmail(email);
+        SimpleCustomerDTO c = customerService.getCustomerByEmailSimpleDTO(email); //Steg 1
         model.addAttribute("kund", c);
         return "updateCustomers.html";
     }
 
     //Temp också
     @PostMapping("/handle/update")
-    public String handleCustomersUpdate(Model model, Customer customer){
+    public String handleCustomersUpdate(Model model, SimpleCustomerDTO customer){
         customerService.updateCustomer(customer);
         int currentPage = 1;
         Page<SimpleCustomerDTO> c = customerService.getAllCustomersPage(currentPage);
@@ -89,7 +89,7 @@ public class CustomerController {
         return "handleCustomers.html";
     }
 
-    //Temp metod nedan. Tas bort sen.
+    //Temp metod nedan. Tas bort sen/justeras.
     @RequestMapping("/frontPage")
         public String loadFrontPageTest(){
             return "Index.html";
