@@ -80,12 +80,23 @@ public class RoomServicelmpl implements RoomService {
     @Override
     public String enoughRooms(BookingFormQueryDTO query, List<RoomDTO> queryRooms) {
 
+        LocalDate startDate = query.getStartDate();
+        LocalDate endDate = query.getEndDate();
+
         int wantedRooms = query.getRooms();
         int numberOfRooms = queryRooms.size();
 
         int wantedBeds = query.getBeds();
         int maxNumberOfBeds = (int) queryRooms.stream()
                 .map(room -> room.getRoomType().getMaxNumberOfBeds()).count();
+
+        if(startDate.isAfter(endDate)) {
+            return "Startdatum måste vara före slutdatum.";
+        }
+
+        if(startDate.isBefore(LocalDate.now())) {
+            return "Tidigaste accepterade startDatum är dagens datum.";
+        }
 
         if(wantedRooms > wantedBeds) {
             return "Vill du boka fler rum än sängar? Det är orimligt!";

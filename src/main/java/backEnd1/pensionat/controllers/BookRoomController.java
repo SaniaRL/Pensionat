@@ -34,6 +34,7 @@ public class BookRoomController {
 
         if (query != null) {
             availableRooms = roomService.findAvailableRooms(query);
+            //Kan ha if och kolla en annan men palla nu
             status = roomService.enoughRooms(query, availableRooms);
             //Kanske kunde skicka hela vår query men palla nu
             model.addAttribute("startDate", query.getStartDate());
