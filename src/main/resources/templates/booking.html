@@ -18,7 +18,8 @@
 
 <div th:unless="${#strings.isEmpty(status)}">
   <div class="error-pop-up" id="errorPopup">
-    <p th:text="${status}">Här kan texten stå</p>
+    <p class="pop-up-header">Bokningen kan ej genomföras</p>
+    <p th:text="${status}"></p>
     <button class="ok-btn-pop-up" id="closeButton">OK</button>
   </div>
 </div>
