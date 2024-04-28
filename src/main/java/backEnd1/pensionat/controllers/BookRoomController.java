@@ -63,6 +63,12 @@ public class BookRoomController {
         return "booking";
     }
 
+    @PostMapping("/booking/{id}")
+    public String updateBooking(@RequestParam int id, Model model) {
+        model.addAttribute("bookingId", id);
+        return "booking";        
+    }
+
 
     @PostMapping("/confirmBooking")
     public String confirmBooking() {
