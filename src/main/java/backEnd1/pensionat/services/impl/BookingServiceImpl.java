@@ -72,4 +72,11 @@ class BookingServiceImpl implements BookingService {
     public Booking bookingDtoToBooking(BookingDTO b, Customer c) {
         return Booking.builder().customer(c).startDate(b.getStartDate()).endDate(b.getEndDate()).build();
     }
+
+    @Override
+    public boolean getBookingByCustomerId(Long customerId) {
+        List<Booking> bookings = bookingRepo.findByCustomerId(customerId);
+        return !bookings.isEmpty();
+    }
+
 }

@@ -19,4 +19,7 @@ public interface BookingService {
     Long addBookingFromBookingDto(BookingDTO b);
     DetailedBookingDTO getBookingById(Long id);
     DetailedBookingDTO bookingToDetailedBookingDto(Booking b);
+
+
+    boolean getBookingByCustomerId(Long customerId);
 }

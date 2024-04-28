@@ -2,6 +2,7 @@ package backEnd1.pensionat.controllers;
 
 import backEnd1.pensionat.DTOs.SimpleCustomerDTO;
 import backEnd1.pensionat.Models.Customer;
+import backEnd1.pensionat.services.interfaces.BookingService;
 import backEnd1.pensionat.services.interfaces.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,8 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
+    private final BookingService bookingService;
+
    /* @RequestMapping("/all")
     public List<Customer> getAllCustomers() {
         return customerService.getAllCustomers();
@@ -29,6 +32,11 @@ public class CustomerController {
         return "customerOrNot";
     }
 
+    @PostMapping("/addCustomerObject")
+    public Customer addCustomer(@RequestBody Customer c){
+        return customerService.addCustomer(c);
+    }
+
     @DeleteMapping("/{id}/remove")
     public String removeCustomerById(@PathVariable Long id) {
         return customerService.removeCustomerById(id);
@@ -37,7 +45,10 @@ public class CustomerController {
     //DeleteMapping ovan verkar ej fungera. Använder temp. Requestmapping.
     @RequestMapping("/{id}/removeHandler")
     public String removeCustomerByIdHandler(@PathVariable Long id, Model model) {
-        customerService.removeCustomerById(id);
+
+        if (!bookingService.getBookingByCustomerId(id)) {
+            customerService.removeCustomerById(id);
+        }
         return handleCustomers(model);
     }
 
