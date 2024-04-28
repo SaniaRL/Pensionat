@@ -35,11 +35,6 @@ public class CustomerController {
         return "customerOrNot";
     }
 
-    @PostMapping("/addCustomerObject")
-    public Customer addCustomer(@RequestBody Customer c){
-        return customerService.addCustomer(c);
-    }
-
     @DeleteMapping("/{id}/remove")
     public String removeCustomerById(@PathVariable Long id) {
         return customerService.removeCustomerById(id);
