@@ -80,13 +80,17 @@ public class RoomServicelmpl implements RoomService {
         int wantedRooms = query.getRooms();
         int numberOfRooms = queryRooms.size();
 
-        if(wantedRooms > numberOfRooms) {
-            return "Det önskade antalet rum överstiger antalet lediga rum.";
-        }
-
         int wantedBeds = query.getBeds();
         int maxNumberOfBeds = (int) queryRooms.stream()
                 .map(room -> room.getRoomType().getMaxNumberOfBeds()).count();
+
+        if(wantedRooms > wantedBeds) {
+            return "Vill du boka fler rum än sängar? Det är orimligt!";
+        }
+
+        if(wantedRooms > numberOfRooms) {
+            return "Det önskade antalet rum överstiger antalet lediga rum.";
+        }
 
         if(wantedBeds > maxNumberOfBeds) {
             return "Det önskade antalet sängar överstiger antalet lediga sängar";

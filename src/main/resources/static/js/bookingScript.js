@@ -1,8 +1,12 @@
 const addRoomButtons = document.querySelectorAll('.add-room-btn');
 const removeRoomButtons = document.querySelectorAll('.remove-room-btn');
+const chosenRooms = document.getElementById('booking-chosen-rooms');
 
 addRoomButtons.forEach(e => {
-    e.addEventListener("click", () => add(e));
+    e.addEventListener("click", () => {
+        add(e)
+        chosenRooms.style.display = 'flex';
+    });
 });
 
 removeRoomButtons.forEach(e => {
@@ -132,10 +136,3 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href="http://localhost:8080/booking";
     });
 });
-/* Model attribute kan funka */
-function getValuesFromLocalStorage(){
-    const startDate = localStorage.getItem('startDate');
-    const endDate = localStorage.getItem('endDate');
-    const beds = localStorage.getItem('beds');
-    const rooms = localStorage.getItem('rooms');
-}
