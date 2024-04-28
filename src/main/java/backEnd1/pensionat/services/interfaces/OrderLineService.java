@@ -1,5 +1,6 @@
 package backEnd1.pensionat.services.interfaces;
 
+import backEnd1.pensionat.DTOs.DetailedOrderLineDTO;
 import backEnd1.pensionat.DTOs.SimpleOrderLineDTO;
 import backEnd1.pensionat.Models.Booking;
 import backEnd1.pensionat.Models.OrderLine;
@@ -14,6 +15,7 @@ public interface OrderLineService {
 
     public List<OrderLine> getAllOrderLines();
     public String addOrderLine(OrderLine o);
+    String addOrderLine(DetailedOrderLineDTO o);
     public String removeOrderLineById(Long id);
     String addOrderLineFromSimpleOrderLineDto(SimpleOrderLineDTO orderLine);
     OrderLine simpleOrderLineDtoToOrderLine(SimpleOrderLineDTO orderLine, Booking b);

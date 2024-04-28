@@ -2,6 +2,7 @@ package backEnd1.pensionat.controllers;
 
 import backEnd1.pensionat.DTOs.SimpleCustomerDTO;
 import backEnd1.pensionat.Models.Customer;
+import backEnd1.pensionat.services.convert.CustomerConverter;
 import backEnd1.pensionat.services.interfaces.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -44,9 +45,10 @@ public class CustomerController {
     //Skapa senare upp en för ID ist för email vid behov.
     @RequestMapping("/{email}/update")
     public String updateCustomerHandler(@PathVariable String email, Model model){
-        Customer c = customerService.getCustomerByEmail(email);
+        //TODO ska de va en customer? översätter tillbaka till customer
+        Customer c = CustomerConverter.SimpleCustomerDTOtoCustomer(customerService.getCustomerByEmail(email));
         model.addAttribute("kund", c);
-        return "updateCustomers.html";
+        return "updateCustomers";
     }
 
     //Temp också

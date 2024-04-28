@@ -36,9 +36,8 @@ class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Booking addBooking(Booking b) {
-        Booking savedBooking = bookingRepo.save(b);
-        return savedBooking;
+    public DetailedBookingDTO addBooking(DetailedBookingDTO b) {
+        return BookingConverter.bookingToDetailedBookingDTO(bookingRepo.save(BookingConverter.DetailedBookingDTOtoBooking(b)));
     }
 
     @Override
