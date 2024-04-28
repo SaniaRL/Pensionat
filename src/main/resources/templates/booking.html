@@ -12,8 +12,17 @@
 
 <body>
 <div class="header booking-header">
-  <a class="back-link" href="http://localhost:8080/index.html" th:text="${status}">&#129168;Tillbaka</a>
+  <a class="back-link" href="http://localhost:8080/index.html">&#129168;Tillbaka</a>
 </div>
+
+
+<div th:unless="${#strings.isEmpty(status)}">
+  <div class="error-pop-up" id="errorPopup">
+    <p th:text="${status}">Här kan texten stå</p>
+    <button class="ok-btn-pop-up" id="closeButton">OK</button>
+  </div>
+</div>
+
 <div class="content booking-content">
 
     <form action="/bookingSubmit" method="post" onsubmit="return validateForm()">

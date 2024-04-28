@@ -121,3 +121,14 @@ function submitBooking() {
 
     window.location.href = "/customer/customerOrNot";
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const closeButton = document.getElementById('closeButton');
+    const errorPopup = document.getElementById('errorPopup');
+
+    closeButton.addEventListener('click', function() {
+        console.log("Button clicked")
+        errorPopup.style.display = 'none';
+        window.location.href="http://localhost:8080/booking";
+    });
+});

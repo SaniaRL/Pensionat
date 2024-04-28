@@ -269,3 +269,32 @@ input[type=number]::-webkit-inner-spin-button {
     width: 70%;
     padding: 0 !important;
 }
+
+.error-pop-up {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+
+    height: 200px;
+    width: 400px;
+
+    background-color: #ffffff;
+    border: 2px solid #4f4b6a;
+    border-radius: 12px;
+
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.ok-btn-pop-up {
+    background-color: #4f4b6a;
+    color: white;
+    font-weight: 600;
+    width: 100px;
+    height: 40px;
+}
