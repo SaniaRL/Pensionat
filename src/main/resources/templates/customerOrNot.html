@@ -22,7 +22,7 @@
     </div>
 </div>
 <div class="content">
-    <form th:action="@{/submitBookingCustomer}" method="post" onsubmit="return submitBooking()">
+    <div class="not-a-form-anymore">
         <div>
             <label for="name" class="label-CustomerOrNot">Namn: </label>
             <br>
@@ -34,9 +34,9 @@
             <input id="email" type="email" th:name="email" class="input-CustomerOrNot" required>
         </div>
         <div>
-            <button type="submit" class="booking-btn index-btn">Bekräfta</button>
+            <button type="submit" class="booking-btn index-btn" onclick="submitBooking()">Bekräfta</button>
         </div>
-    </form>
+    </div>
 </div>
 <div class="footer">
     <p>&#9824; Eddie Boschek &#9829; Sania Runnfors Larsson &#9827; Sebastian Karlsson &#9830; Simon Nordlund</p>

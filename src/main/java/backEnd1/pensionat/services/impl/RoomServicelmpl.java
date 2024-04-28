@@ -1,5 +1,6 @@
 package backEnd1.pensionat.services.impl;
 
+import Exceptions.RoomAvailabilityException;
 import backEnd1.pensionat.DTOs.BookingFormQueryDTO;
 import backEnd1.pensionat.DTOs.RoomDTO;
 import backEnd1.pensionat.Models.Room;
@@ -53,26 +54,44 @@ public class RoomServicelmpl implements RoomService {
         return RoomDTO.builder().id(room.getId()).roomType(RoomTypeConverter.convertFromInt(room.getTypeOfRoom())).build();
     }
 
-    public List<RoomDTO> findAvailableRooms(BookingFormQueryDTO query){
+    @Override
+    public List<RoomDTO> findAvailableRooms(BookingFormQueryDTO query) throws RoomAvailabilityException {
         LocalDate startDate = query.getStartDate();
         LocalDate endDate = query.getEndDate();
-        int beds = query.getBeds();
-        int rooms = query.getRooms();
 
-        //Kolla alla rum
-        //Som inte finns på en order_line
-        //Som har en bokning
-        //Som har startdatum mindre eller lika med slut ??
-        //Som har slutdatum större eller lika med start ??
-
-        //ASSÅ ORKAR INTE TÄNKA SÅ ATM ÄR DET ALLA RUM YES
-        //Klockan är snart 22 chilla asså
-        String jpqlQuery = "SELECT r FROM Room r ";
+        String jpqlQuery = "SELECT r FROM Room r WHERE r.id NOT IN (" +
+                "SELECT o.room.id FROM OrderLine o WHERE o.booking.id IN (" +
+                "SELECT b.id FROM Booking b WHERE b.endDate >= :startDate AND b.startDate <= :endDate" +
+                ")" +
+                ")";;
 
         return entityManager.createQuery(jpqlQuery, Room.class)
+                .setParameter("startDate", startDate)
+                .setParameter("endDate", endDate)
                 .getResultList().stream().map(r -> RoomDTO.builder()
                         .id(r.getId())
                         .roomType(RoomTypeConverter.convertFromInt(r.getTypeOfRoom()))
                         .build()).toList();
+    }
+
+    @Override
+    public String enoughRooms(BookingFormQueryDTO query, List<RoomDTO> queryRooms) {
+
+        int wantedRooms = query.getRooms();
+        int numberOfRooms = queryRooms.size();
+
+        if(wantedRooms > numberOfRooms) {
+            return "Det önskade antalet rum överstiger antalet lediga rum.";
+        }
+
+        int wantedBeds = query.getBeds();
+        int maxNumberOfBeds = (int) queryRooms.stream()
+                .map(room -> room.getRoomType().getMaxNumberOfBeds()).count();
+
+        if(wantedBeds > maxNumberOfBeds) {
+            return "Det önskade antalet sängar överstiger antalet lediga sängar";
+        }
+
+        return "";
     }
 }
