@@ -31,10 +31,10 @@
       <div class="left">
         <div>
           <label for="start-date" class="label">Check-in</label>
-          <input type="date" id="start-date" name="startDate" th:value="${startDate != null ? startDate : #dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required>        </div>
+          <input type="date" id="start-date" name="startDate" th:value="${startDate != null ? startDate : #dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required></div>
         <div>
           <label for="end-date" class="label">Check-out</label>
-          <input type="date" id="end-date" name="endDate" th:value="${endDate != null ? endDate : ''}" required>        </div>
+          <input type="date" id="end-date" name="endDate" th:value="${endDate != null ? endDate : ''}" required></div>
       </div>
       <div class="right">
         <div>

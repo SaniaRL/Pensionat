@@ -42,6 +42,12 @@ public class BookRoomController {
         if (query != null) {
             availableRooms = roomService.findAvailableRooms(query);
             status = roomService.enoughRooms(query, availableRooms);
+            //Kanske kunde skicka hela vår query men palla nu
+            model.addAttribute("startDate", query.getStartDate());
+            model.addAttribute("endDate", query.getEndDate());
+            model.addAttribute("rooms", query.getRooms());
+            model.addAttribute("beds", query.getBeds());
+
         }
 
         if(status.isEmpty()){
