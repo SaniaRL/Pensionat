@@ -33,8 +33,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     //TODO idk - sorry
     @Override
-    public Customer addCustomer(Customer c) {
-        return customerRepo.save(c);
+    public SimpleCustomerDTO addCustomer(SimpleCustomerDTO c) {
+        return CustomerConverter.customerToSimpleCustomerDTO(customerRepo.save(CustomerConverter.SimpleCustomerDTOtoCustomer(c)));
     }
 
     @Override
@@ -71,8 +71,12 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer getCustomerByEmail(String email) {
-        return customerRepo.findByEmail(email);
+    public SimpleCustomerDTO getCustomerByEmail(String email) {
+        Customer customer = customerRepo.findByEmail(email);
+        if(customer!= null){
+            return CustomerConverter.customerToSimpleCustomerDTO(customer);
+        }
+        return null;
     }
 
     @Override

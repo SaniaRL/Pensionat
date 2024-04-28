@@ -1,24 +1,17 @@
 package backEnd1.pensionat.controllers;
 
-import backEnd1.pensionat.DTOs.BookingData;
-import backEnd1.pensionat.DTOs.BookingFormQueryDTO;
-import backEnd1.pensionat.DTOs.OrderLineDTO;
-import backEnd1.pensionat.DTOs.RoomDTO;
+import backEnd1.pensionat.DTOs.*;
 import backEnd1.pensionat.Models.Booking;
-import backEnd1.pensionat.Models.Customer;
 import backEnd1.pensionat.Models.OrderLine;
+import backEnd1.pensionat.services.convert.BookingConverter;
 import backEnd1.pensionat.services.impl.BookingServiceImpl;
 import backEnd1.pensionat.services.impl.CustomerServiceImpl;
 import backEnd1.pensionat.services.impl.OrderLineServicelmpl;
 import backEnd1.pensionat.services.impl.RoomServicelmpl;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +34,14 @@ public class BookRoomController {
 
         if (query != null) {
             availableRooms = roomService.findAvailableRooms(query);
+            //Kan ha if och kolla en annan men palla nu
             status = roomService.enoughRooms(query, availableRooms);
+            //Kanske kunde skicka hela vår query men palla nu
+            model.addAttribute("startDate", query.getStartDate());
+            model.addAttribute("endDate", query.getEndDate());
+            model.addAttribute("rooms", query.getRooms());
+            model.addAttribute("beds", query.getBeds());
+
         }
 
         if(status.isEmpty()){
@@ -71,10 +71,13 @@ public class BookRoomController {
 
     @PostMapping("/submitBookingCustomer")
     public String submitBookingCustomer(@RequestBody BookingData bookingData) {
-        String name = bookingData.getName();
+        //Status är väl onödigt och vi använder inte men void kändes farligt idk
+        String statusMessage = bookingService.submitBookingCustomer(bookingData);
+        return "redirect:/index.html";
+
+/*        String name = bookingData.getName();
         String email = bookingData.getEmail();
         List<OrderLineDTO> orderLines = bookingData.getChosenRooms();
-        //TODO kolla om detta funkar ens
         LocalDate startDate = LocalDate.parse(bookingData.getStartDate());
         LocalDate endDate = LocalDate.parse(bookingData.getEndDate());
 
@@ -92,32 +95,33 @@ public class BookRoomController {
         System.out.println();
 
         //Kolla om kunden finns - hämta kund eller skapa ny
-        Customer customer = customerService.getCustomerByEmail(email);
+        SimpleCustomerDTO customer = customerService.getCustomerByEmail(email);
         if(customer == null) {
-            customer = new Customer(name, email);
+            customer = new SimpleCustomerDTO(name, email);
             //Add customer to Repo
             customer = customerService.addCustomer(customer);
             System.out.println("New customer added: " + customer);
         }
 
         //Skapa bokning
-        Booking booking = new Booking(customer, startDate, endDate);
-
+        DetailedBookingDTO booking = new DetailedBookingDTO(customer, startDate, endDate);
         System.out.println("New booking: " + booking);
 
-        //Lägg till bokning
-        Booking addedBooking = bookingService.addBooking(booking);
-        System.out.println("Added booking: " + addedBooking);
+        //Lägg till bokning i DATABAS och spara om den
+        booking = bookingService.addBooking(booking);
+        System.out.println("Added booking: " + booking);
 
         //TODO Uppdatera Customer lägg till bokning
 
-        //TODO Översätt totala rum till extra rum
+        //TODO Översätt totala rum till extra rum - rum???? menar säng
 
         //Lägg till orderrader?
+        //TODO har inte ändrat dessa till DTO det bråkar inte med nåt:
+        DetailedBookingDTO finalBooking = booking;
         orderLines.stream()
-                .map(orderLine -> new OrderLine(booking, roomService.getRoomByID((long) orderLine.getId()), orderLine.getExtraBeds()))
+                .map(orderLine -> new DetailedOrderLineDTO(orderLine.getExtraBeds(),finalBooking, roomService.getRoomByID((long) orderLine.getId())))
                 .forEach(orderLineService::addOrderLine);
 
-        return "redirect:/index.html";
+ */
     }
 }

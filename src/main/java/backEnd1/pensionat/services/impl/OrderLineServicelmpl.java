@@ -1,11 +1,14 @@
 package backEnd1.pensionat.services.impl;
 
+import backEnd1.pensionat.DTOs.DetailedOrderLineDTO;
 import backEnd1.pensionat.DTOs.SimpleOrderLineDTO;
 import backEnd1.pensionat.Models.Booking;
-import backEnd1.pensionat.Models.Customer;
 import backEnd1.pensionat.Models.OrderLine;
+import backEnd1.pensionat.Models.Room;
 import backEnd1.pensionat.Repositories.BookingRepo;
 import backEnd1.pensionat.Repositories.OrderLineRepo;
+import backEnd1.pensionat.services.convert.BookingConverter;
+import backEnd1.pensionat.services.convert.RoomTypeConverter;
 import backEnd1.pensionat.services.interfaces.OrderLineService;
 import backEnd1.pensionat.services.interfaces.RoomService;
 import lombok.RequiredArgsConstructor;
@@ -18,28 +21,44 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class OrderLineServicelmpl implements OrderLineService {
 
-    private final OrderLineRepo orderLine;
+    private final OrderLineRepo orderLineRepo;
     private final BookingRepo bookingRepo;
     private final RoomService roomService;
 
     @Override
     public List<OrderLine> getAllOrderLines(){
-        return orderLine.findAll();
+        return orderLineRepo.findAll();
     }
     @Override
     public String addOrderLine(OrderLine o){
-        orderLine.save(o);
+        orderLineRepo.save(o);
+        return "Orderline added";
+    }
+
+    @Override
+    public String addOrderLine(DetailedOrderLineDTO o){
+
+        int extraBeds = o.getExtraBeds();
+        Booking booking = BookingConverter.DetailedBookingDTOtoBooking(o.getBooking());
+        int roomType = RoomTypeConverter.convertToInt(o.getRoom().getRoomType());
+        Room room = Room.builder()
+                .id(o.getRoom().getId())
+                .typeOfRoom(roomType).build();
+
+        OrderLine orderLine = new OrderLine(booking, room, extraBeds);
+        orderLineRepo.save(orderLine);
+
         return "Orderline added";
     }
     @Override
     public String removeOrderLineById(Long id) {
-        orderLine.deleteById(id);
+        orderLineRepo.deleteById(id);
         return "Room " + id + " removed";
     }
     @Override
     public String addOrderLineFromSimpleOrderLineDto(SimpleOrderLineDTO orderLineDTO){
         Booking booking = bookingRepo.findById(orderLineDTO.getBookingId()).orElse(null);
-        orderLine.save(simpleOrderLineDtoToOrderLine(orderLineDTO, booking));
+        orderLineRepo.save(simpleOrderLineDtoToOrderLine(orderLineDTO, booking));
         return "Orderline added";
     }
 
