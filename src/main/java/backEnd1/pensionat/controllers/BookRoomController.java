@@ -12,6 +12,7 @@ import backEnd1.pensionat.services.impl.CustomerServiceImpl;
 import backEnd1.pensionat.services.impl.OrderLineServicelmpl;
 import backEnd1.pensionat.services.impl.RoomServicelmpl;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,21 +37,20 @@ public class BookRoomController {
     public String processBookingForm(@ModelAttribute BookingFormQueryDTO query, Model model) {
         List<RoomDTO> availableRooms = new ArrayList<>();
         List<RoomDTO> chosenRooms = new ArrayList<>();
+        String status = "Error: Query is null";
+
         if (query != null) {
-            System.out.println("QueryDTO: " + query);
             availableRooms = roomService.findAvailableRooms(query);
-            model.addAttribute("startDate", query.getStartDate());
-            System.out.println("startDate: "+ query.getStartDate());
-            model.addAttribute("endDate", query.getEndDate());
-            System.out.println("endDate: " + query.getEndDate());
-            model.addAttribute("rooms", query.getRooms());
-            System.out.println("rooms: " + query.getRooms());
-            model.addAttribute("beds", query.getBeds());
-            System.out.println("beds: " + query.getBeds());
+            status = roomService.enoughRooms(query, availableRooms);
         }
 
-        model.addAttribute("availableRooms", availableRooms);
+        if(status.isEmpty()){
+            model.addAttribute("availableRooms", availableRooms);
+        }
+
         model.addAttribute("chosenRooms", chosenRooms);
+        model.addAttribute("status", status);
+
         return "booking";
     }
 

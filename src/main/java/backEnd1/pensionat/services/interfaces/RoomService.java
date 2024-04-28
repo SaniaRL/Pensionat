@@ -1,5 +1,6 @@
 package backEnd1.pensionat.services.interfaces;
 
+import backEnd1.pensionat.DTOs.BookingFormQueryDTO;
 import backEnd1.pensionat.DTOs.RoomDTO;
 import backEnd1.pensionat.Models.Room;
 
@@ -17,4 +18,7 @@ public interface RoomService {
     Room getRoomByID(Long Id);
     Room roomDtoToRoom(RoomDTO room);
     RoomDTO roomToRoomDto(Room room);
+    List<RoomDTO> findAvailableRooms(BookingFormQueryDTO query);
+
+    String enoughRooms(BookingFormQueryDTO query, List<RoomDTO> rooms);
 }

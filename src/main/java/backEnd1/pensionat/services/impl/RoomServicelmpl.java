@@ -1,5 +1,6 @@
 package backEnd1.pensionat.services.impl;
 
+import Exceptions.RoomAvailabilityException;
 import backEnd1.pensionat.DTOs.BookingFormQueryDTO;
 import backEnd1.pensionat.DTOs.RoomDTO;
 import backEnd1.pensionat.Models.Room;
@@ -53,12 +54,10 @@ public class RoomServicelmpl implements RoomService {
         return RoomDTO.builder().id(room.getId()).roomType(RoomTypeConverter.convertFromInt(room.getTypeOfRoom())).build();
     }
 
-    public List<RoomDTO> findAvailableRooms(BookingFormQueryDTO query){
+    @Override
+    public List<RoomDTO> findAvailableRooms(BookingFormQueryDTO query) throws RoomAvailabilityException {
         LocalDate startDate = query.getStartDate();
         LocalDate endDate = query.getEndDate();
-        //TODO onödig info:
-        int beds = query.getBeds();
-        int rooms = query.getRooms();
 
         String jpqlQuery = "SELECT r FROM Room r WHERE r.id NOT IN (" +
                 "SELECT o.room.id FROM OrderLine o WHERE o.booking.id IN (" +
@@ -73,5 +72,26 @@ public class RoomServicelmpl implements RoomService {
                         .id(r.getId())
                         .roomType(RoomTypeConverter.convertFromInt(r.getTypeOfRoom()))
                         .build()).toList();
+    }
+
+    @Override
+    public String enoughRooms(BookingFormQueryDTO query, List<RoomDTO> queryRooms) {
+
+        int wantedRooms = query.getRooms();
+        int numberOfRooms = queryRooms.size();
+
+        if(wantedRooms > numberOfRooms) {
+            return "Det önskade antalet rum överstiger antalet lediga rum.";
+        }
+
+        int wantedBeds = query.getBeds();
+        int maxNumberOfBeds = (int) queryRooms.stream()
+                .map(room -> room.getRoomType().getMaxNumberOfBeds()).count();
+
+        if(wantedBeds > maxNumberOfBeds) {
+            return "Det önskade antalet sängar överstiger antalet lediga sängar";
+        }
+
+        return "";
     }
 }
