@@ -11,6 +11,7 @@ import backEnd1.pensionat.services.interfaces.BookingService;
 import backEnd1.pensionat.services.interfaces.CustomerService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -73,10 +74,18 @@ class BookingServiceImpl implements BookingService {
         return Booking.builder().customer(c).startDate(b.getStartDate()).endDate(b.getEndDate()).build();
     }
 
-    @Override
+ /*   @Override
     public boolean getBookingByCustomerId(Long customerId) {
         List<Booking> bookings = bookingRepo.findByCustomerId(customerId);
         return !bookings.isEmpty();
+    }*/
+
+
+    public boolean getBookingByCustomerId(Long customerId) {
+        LocalDate today = LocalDate.now();
+        List<Booking> activeBookings  = bookingRepo.findByCustomerIdAndEndDateAfter(customerId, today);
+        return !activeBookings .isEmpty();  // Returns true if there are future bookings
     }
+
 
 }
