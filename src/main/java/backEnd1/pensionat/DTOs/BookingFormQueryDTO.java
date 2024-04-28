@@ -23,6 +23,6 @@ public class BookingFormQueryDTO {
         this.startDate = startDate;
         this.endDate = endDate;
         this.beds = beds;
-        this.rooms = -1;
+        this.rooms = 1;
     }
 }
