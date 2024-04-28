@@ -21,5 +21,9 @@ public interface BookingService {
     DetailedBookingDTO getBookingById(Long id);
     DetailedBookingDTO bookingToDetailedBookingDto(Booking b);
 
+
+    boolean getBookingByCustomerId(Long customerId);
+  
     String submitBookingCustomer(BookingData bookingData);
+
 }

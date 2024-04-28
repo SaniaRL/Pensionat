@@ -103,8 +103,23 @@ a:hover {
     color: gold;
 }
 
-.SaveMeSören {
+.placement-return-button {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+form {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+

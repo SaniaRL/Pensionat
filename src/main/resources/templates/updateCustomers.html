@@ -19,42 +19,40 @@
 </div>
 
 <div class="content">
-
     <div class="allCustomers">
-        <div class="SaveMeSören">
-
+        <div class="placement-return-button">
             <div class="return-button">
                 <a th:href="@{/customer/handle}">Tillbaka</a>
             </div>
-
+            <div>
+                <input form="customer-form" type="submit" value="Uppdatera">
+            </div>
         </div>
 
         <table class="customers-table">
+            <thead>
             <tr class="table-header">
                 <th> namn</th>
                 <th> email</th>
             </tr>
+            </thead>
             <tbody>
             <tr class="customer-row">
-                <form action="#" method="post" th:action="@{/customer/handle/update}" th:object="${kund}">
-                    <input id="name" th:field="*{name}" type="text">
-                    <input id="email" th:field="*{email}" type="text">
-                    <input id="id" th:field="*{id}" type=hidden>
-                    <input type="submit" value="Uppdatera">
-                </form>
+                <td colspan="3">
+                    <form id="customer-form" action="#" method="post" th:action="@{/customer/handle/update}" th:object="${kund}">
+                        <input id="name" th:field="*{name}" type="text">
+                        <input id="email" th:field="*{email}" type="text">
+                        <input id="id" th:field="*{id}" type="hidden">
+                    </form>
+                </td>
             </tr>
             </tbody>
         </table>
-
-
     </div>
-
 </div>
 
-<div class=" footer
-                ">
-    <p>&#9824; Eddie Boschek &#9829; Sania Runnfors Larsson &#9827; Sebastian Karlsson &#9830; Simon
-        Nordlund</p>
+<div class="footer">
+    <p>&#9824; Eddie Boschek &#9829; Sania Runnfors Larsson &#9827; Sebastian Karlsson &#9830; Simon Nordlund</p>
 </div>
 </body>
 </html>
