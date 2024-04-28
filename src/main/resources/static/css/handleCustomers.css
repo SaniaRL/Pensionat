@@ -3,6 +3,14 @@
     border: 2px solid black;
 }
 
+.content {
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically if needed */
+    min-height: 100vh; /* Optional: Makes sure it takes at least the height of the viewport */
+}
+
+
 table, th, td {
     border-collapse: collapse;
 }
