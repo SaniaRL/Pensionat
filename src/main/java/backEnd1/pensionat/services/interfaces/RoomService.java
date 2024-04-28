@@ -15,7 +15,7 @@ public interface RoomService {
     public List<Room> getAllRooms();
     public String addRoom(Room r);
     public String removeRoomById(Long id);
-    Room getRoomByID(Long Id);
+    RoomDTO getRoomByID(Long Id);
     Room roomDtoToRoom(RoomDTO room);
     RoomDTO roomToRoomDto(Room room);
     List<RoomDTO> findAvailableRooms(BookingFormQueryDTO query);

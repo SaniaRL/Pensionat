@@ -17,4 +17,10 @@ public class DetailedBookingDTO {
     private SimpleCustomerDTO customer;
     private LocalDate startDate;
     private LocalDate endDate;
+
+    public DetailedBookingDTO(SimpleCustomerDTO customer, LocalDate startDate, LocalDate endDate) {
+        this.customer = customer;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 }

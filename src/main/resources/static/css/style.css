@@ -189,6 +189,10 @@ input[type=number]::-webkit-inner-spin-button {
     padding: 10px;
 }
 
+#booking-chosen-rooms {
+    display: none;
+}
+
 .show-rooms {
     display: block;
     overflow-y: auto;
@@ -269,3 +273,71 @@ input[type=number]::-webkit-inner-spin-button {
     width: 70%;
     padding: 0 !important;
 }
+
+.error-pop-up {
+    position: absolute;
+    top: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 560px;
+
+    background-color: #d1d3d4;
+    border: 2px solid #4f4b6a;
+    border-radius: 12px;
+    padding: 20px;
+
+    font-size: 14px;
+    text-align: center;
+}
+
+.ok-btn-pop-up {
+    background-color: #4f4b6a;
+    color: white;
+    font-weight: 800;
+    font-size: 12px;
+    border-radius: 8px;
+    align-self: center;
+    margin: 20px;
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    cursor: pointer;
+}
+
+.pop-up-header {
+    margin-bottom: 25px;
+    font-size: 20px;
+}
+
+.con-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin-top: 30px;
+}
+
+.not-a-form-anymore {
+    background-color: #d1d3d4;
+    border: 3px solid #4f4b6a;
+    border-radius: 12px;
+    width: 600px;
+    padding: 30px;
+}
+
+.con-btn {
+    background-color: #4f4b6a;
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 8px;
+    width: 200px;
+    margin-left: 395px;
+}
+
+/* Försök att dölja div */

@@ -12,8 +12,18 @@
 
 <body>
 <div class="header booking-header">
-  <a class="back-link" href="http://localhost:8080/index.html" th:text="${status}">&#129168;Tillbaka</a>
+  <a class="back-link" href="http://localhost:8080/index.html">&#129168;Tillbaka</a>
 </div>
+
+
+<div th:unless="${#strings.isEmpty(status)}">
+  <div class="error-pop-up" id="errorPopup">
+    <p class="pop-up-header">Bokningen kan ej genomföras</p>
+    <p th:text="${status}"></p>
+    <button class="ok-btn-pop-up" id="closeButton">RENSA SÖKNING</button>
+  </div>
+</div>
+
 <div class="content booking-content">
 
     <form action="/bookingSubmit" method="post" onsubmit="return validateForm()">
@@ -21,10 +31,10 @@
       <div class="left">
         <div>
           <label for="start-date" class="label">Check-in</label>
-          <input type="date" id="start-date" name="startDate" th:value="${startDate != null ? startDate : #dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required>        </div>
+          <input type="date" id="start-date" name="startDate" th:value="${startDate != null ? startDate : #dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required></div>
         <div>
           <label for="end-date" class="label">Check-out</label>
-          <input type="date" id="end-date" name="endDate" th:value="${endDate != null ? endDate : ''}" required>        </div>
+          <input type="date" id="end-date" name="endDate" th:value="${endDate != null ? endDate : ''}" required></div>
       </div>
       <div class="right">
         <div>

@@ -26,6 +26,8 @@ public class PensionatApplication {
 
 	//TODO Kommentera bort innan ni får 8726782672627628 extra
 
+
+	/*
 	@Bean
 	public CommandLineRunner demo(BookingRepo bookingRepo, CustomerRepo customerRepo,
 								  OrderLineRepo orderLineRepo, RoomRepo roomRepo) {
@@ -87,6 +89,9 @@ public class PensionatApplication {
 
 			orderLineRepo.saveAll(orderLines);
 		};
+
 	}
+
+	 */
 
 }

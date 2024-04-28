@@ -38,10 +38,12 @@ public class RoomServicelmpl implements RoomService {
         return "Room " + id + " removed";
     }
 
-    //TODO Idk
+    //TODO Idk ska vi inte ha model idk
     @Override
-    public Room getRoomByID(Long Id) {
-        return roomRepo.findById(Id).orElse(new Room());
+    public RoomDTO getRoomByID(Long Id) {
+        Room room = roomRepo.findById(Id).orElse(new Room());
+        return RoomDTO.builder().id(room.getId()).roomType(RoomTypeConverter.convertFromInt(room.getTypeOfRoom())).build();
+
     }
 
     @Override
@@ -65,6 +67,7 @@ public class RoomServicelmpl implements RoomService {
                 ")" +
                 ")";;
 
+                //TODO Uppdatera metod så r ->
         return entityManager.createQuery(jpqlQuery, Room.class)
                 .setParameter("startDate", startDate)
                 .setParameter("endDate", endDate)
@@ -77,16 +80,31 @@ public class RoomServicelmpl implements RoomService {
     @Override
     public String enoughRooms(BookingFormQueryDTO query, List<RoomDTO> queryRooms) {
 
+        LocalDate startDate = query.getStartDate();
+        LocalDate endDate = query.getEndDate();
+
         int wantedRooms = query.getRooms();
         int numberOfRooms = queryRooms.size();
-
-        if(wantedRooms > numberOfRooms) {
-            return "Det önskade antalet rum överstiger antalet lediga rum.";
-        }
 
         int wantedBeds = query.getBeds();
         int maxNumberOfBeds = (int) queryRooms.stream()
                 .map(room -> room.getRoomType().getMaxNumberOfBeds()).count();
+
+        if(startDate.isAfter(endDate)) {
+            return "Startdatum måste vara före slutdatum.";
+        }
+
+        if(startDate.isBefore(LocalDate.now())) {
+            return "Tidigaste accepterade startDatum är dagens datum.";
+        }
+
+        if(wantedRooms > wantedBeds) {
+            return "Vill du boka fler rum än sängar? Det är orimligt!";
+        }
+
+        if(wantedRooms > numberOfRooms) {
+            return "Det önskade antalet rum överstiger antalet lediga rum.";
+        }
 
         if(wantedBeds > maxNumberOfBeds) {
             return "Det önskade antalet sängar överstiger antalet lediga sängar";
