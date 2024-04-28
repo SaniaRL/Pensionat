@@ -1,6 +1,7 @@
 package backEnd1.pensionat.services.interfaces;
 
 import backEnd1.pensionat.DTOs.BookingDTO;
+import backEnd1.pensionat.DTOs.BookingData;
 import backEnd1.pensionat.DTOs.DetailedBookingDTO;
 import backEnd1.pensionat.DTOs.SimpleBookingDTO;
 import backEnd1.pensionat.Models.Booking;
@@ -19,4 +20,6 @@ public interface BookingService {
     Long addBookingFromBookingDto(BookingDTO b);
     DetailedBookingDTO getBookingById(Long id);
     DetailedBookingDTO bookingToDetailedBookingDto(Booking b);
+
+    String submitBookingCustomer(BookingData bookingData);
 }

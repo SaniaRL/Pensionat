@@ -70,7 +70,11 @@ public class BookRoomController {
 
     @PostMapping("/submitBookingCustomer")
     public String submitBookingCustomer(@RequestBody BookingData bookingData) {
-        String name = bookingData.getName();
+        //Status är väl onödigt och vi använder inte men void kändes farligt idk
+        String statusMessage = bookingService.submitBookingCustomer(bookingData);
+        return "redirect:/index.html";
+
+/*        String name = bookingData.getName();
         String email = bookingData.getEmail();
         List<OrderLineDTO> orderLines = bookingData.getChosenRooms();
         LocalDate startDate = LocalDate.parse(bookingData.getStartDate());
@@ -117,6 +121,6 @@ public class BookRoomController {
                 .map(orderLine -> new DetailedOrderLineDTO(orderLine.getExtraBeds(),finalBooking, roomService.getRoomByID((long) orderLine.getId())))
                 .forEach(orderLineService::addOrderLine);
 
-        return "redirect:/index.html";
+ */
     }
 }
