@@ -32,5 +32,14 @@ class RoomTypeConverterTest {
 
     @Test
     void convertToInt() {
+        int type0 = RoomTypeConverter.convertToInt(RoomType.SINGLE);
+        int type1= RoomTypeConverter.convertToInt(RoomType.DOUBLE);
+        int type2 = RoomTypeConverter.convertToInt(RoomType.PREMIUM);
+
+        assertEquals(type0, 0);
+        assertEquals(type1, 1);
+        assertEquals(type2, 2);
+
+        assertNotEquals(type0, 1);
     }
 }
