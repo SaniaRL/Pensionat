@@ -22,5 +22,10 @@ class RoomConverterTest {
 
     @Test
     void roomToRoomDto() {
+        RoomDTO actual = RoomConverter.roomToRoomDto(room);
+
+        assertEquals(actual.getId(), room.getId());
+        assertEquals(actual.getRoomType(), RoomTypeConverter
+                .convertFromInt(room.getTypeOfRoom()));
     }
 }
