@@ -30,6 +30,11 @@ class CustomerConverterTest {
 
     @Test
     void simpleCustomerDTOtoCustomer() {
+        Customer actual = CustomerConverter.simpleCustomerDTOtoCustomer(simpleCustomerDTO);
+
+        assertEquals(actual.getId(), simpleCustomerDTO.getId());
+        assertEquals(actual.getName(), simpleCustomerDTO.getName());
+        assertEquals(actual.getEmail(), simpleCustomerDTO.getEmail());
     }
 
     @Test
