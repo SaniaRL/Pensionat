@@ -21,7 +21,7 @@
 <div class="content">
 
 
-    <div class="allCustomers" th:unless="${#lists.isEmpty(allCustomers)}">
+    <div class="allCustomers">
 
         <div class="placement-return-button">
 
@@ -32,9 +32,9 @@
                 </form>
             </div>
 
-            <div class="return-button">
-                <a th:href="@{/}">Tillbaka</a>
-            </div>
+            <a class="return-link" th:href="@{/}">
+                <div class="return-button">Tillbaka</div>
+            </a>
 
         </div>
 
@@ -66,7 +66,7 @@
             </tr>
             </tbody>
         </table>
-        <div th:if="${totalPages > 1}">
+        <div class="table-pages" th:if="${totalPages > 1}">
             Total Items: [[${totalItems}]]
             &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
 

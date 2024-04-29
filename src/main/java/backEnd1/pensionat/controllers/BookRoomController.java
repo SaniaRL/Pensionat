@@ -60,7 +60,7 @@ public class BookRoomController {
         List<RoomDTO> chosenRooms = new ArrayList<>();
         model.addAttribute("availableRooms", availableRooms);
         model.addAttribute("chosenRooms", chosenRooms);
-        return "booking";
+        return "booking.html";
     }
 
 
