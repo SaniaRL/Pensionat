@@ -6,16 +6,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RoomTypeConverterTest {
-    /*
-    public static RoomType convertFromInt(int value){
-        return switch (value) {
-            case 0 -> RoomType.SINGLE;
-            case 1 -> RoomType.DOUBLE;
-            case 2 -> RoomType.PREMIUM;
-            default -> throw new IllegalStateException("Unexpected value: " + value);
-        };
-    }
-     */
 
     @Test
     void convertFromInt() {
