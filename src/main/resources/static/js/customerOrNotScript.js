@@ -35,8 +35,13 @@ function submitBooking() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             console.log(xhr.responseText);
-            window.location.href="http://localhost:8080/"
-            localStorage.clear();
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(xhr.responseText, 'text/html');
+            document.open();
+            document.write(htmlDoc.documentElement.outerHTML);
+            document.close();
         }
     }
 }
+
+
