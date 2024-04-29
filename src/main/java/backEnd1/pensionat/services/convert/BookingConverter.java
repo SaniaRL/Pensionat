@@ -1,5 +1,6 @@
 package backEnd1.pensionat.services.convert;
 
+import backEnd1.pensionat.DTOs.BookingDTO;
 import backEnd1.pensionat.DTOs.DetailedBookingDTO;
 import backEnd1.pensionat.DTOs.SimpleBookingDTO;
 import backEnd1.pensionat.DTOs.SimpleCustomerDTO;
@@ -14,6 +15,9 @@ public class BookingConverter {
                 .customer(new SimpleCustomerDTO(booking.getCustomer().getId(),
                         booking.getCustomer().getName(), booking.getCustomer().getEmail()))
                 .startDate(booking.getStartDate()).endDate(booking.getEndDate()).build();
+    }
+    public static Booking bookingDtoToBooking(BookingDTO b, Customer c) {
+        return Booking.builder().customer(c).startDate(b.getStartDate()).endDate(b.getEndDate()).build();
     }
     public static SimpleBookingDTO bookingToSimpleBookingDTO(Booking booking) {
         return SimpleBookingDTO.builder().id(booking.getId())

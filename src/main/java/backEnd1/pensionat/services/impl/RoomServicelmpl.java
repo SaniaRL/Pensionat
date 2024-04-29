@@ -47,16 +47,6 @@ public class RoomServicelmpl implements RoomService {
     }
 
     @Override
-    public Room roomDtoToRoom(RoomDTO room) {
-        return Room.builder().id(room.getId()).typeOfRoom(RoomTypeConverter.convertToInt(room.getRoomType())).build();
-    }
-
-    @Override
-    public RoomDTO roomToRoomDto(Room room) {
-        return RoomDTO.builder().id(room.getId()).roomType(RoomTypeConverter.convertFromInt(room.getTypeOfRoom())).build();
-    }
-
-    @Override
     public List<RoomDTO> findAvailableRooms(BookingFormQueryDTO query) throws RoomAvailabilityException {
         LocalDate startDate = query.getStartDate();
         LocalDate endDate = query.getEndDate();

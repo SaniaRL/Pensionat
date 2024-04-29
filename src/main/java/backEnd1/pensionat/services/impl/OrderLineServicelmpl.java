@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
+import static backEnd1.pensionat.services.convert.OrderLineConverter.orderLineTosimpleOrderLineDto;
+import static backEnd1.pensionat.services.convert.OrderLineConverter.simpleOrderLineDtoToOrderLine;
+
 @Service
 @RequiredArgsConstructor
 public class OrderLineServicelmpl implements OrderLineService {
@@ -60,19 +63,6 @@ public class OrderLineServicelmpl implements OrderLineService {
         Booking booking = bookingRepo.findById(orderLineDTO.getBookingId()).orElse(null);
         orderLineRepo.save(simpleOrderLineDtoToOrderLine(orderLineDTO, booking));
         return "Orderline added";
-    }
-
-    @Override
-    public OrderLine simpleOrderLineDtoToOrderLine(SimpleOrderLineDTO orderLine, Booking b) {
-        return OrderLine.builder().booking(b).room(roomService.roomDtoToRoom(orderLine.getRoom()))
-                        .extraBeds(orderLine.getExtraBeds()).build();
-    }
-
-    @Override
-    public SimpleOrderLineDTO orderLineTosimpleOrderLineDto(OrderLine orderLine) {
-        return SimpleOrderLineDTO.builder().bookingId(orderLine.getBooking().getId())
-                                 .room(roomService.roomToRoomDto(orderLine.getRoom()))
-                                 .extraBeds(orderLine.getExtraBeds()).build();
     }
 
     @Override
