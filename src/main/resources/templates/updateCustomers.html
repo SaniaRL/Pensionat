@@ -21,30 +21,30 @@
 <div class="content">
     <div class="allCustomers">
         <div class="placement-return-button">
-            <div class="return-button">
-                <a th:href="@{/customer/handle}">Tillbaka</a>
-            </div>
-            <div>
+            <a class="return-link" th:href="@{/customer/handle}">
+                <div class="return-button">Tillbaka</div>
+            </a>
+            <div class="update-submit-button">
                 <input form="customer-form" type="submit" value="Uppdatera">
             </div>
         </div>
 
         <table class="customers-table">
-            <thead>
-            <tr class="table-header">
+            <tr class="table-header update">
                 <th> namn</th>
                 <th> email</th>
             </tr>
-            </thead>
             <tbody>
-            <tr class="customer-row">
-                <td colspan="3">
-                    <form id="customer-form" action="#" method="post" th:action="@{/customer/handle/update}" th:object="${kund}">
+            <tr class="customer-row update">
+                <form id="customer-form" action="#" method="post" th:action="@{/customer/handle/update}" th:object="${kund}">
+                    <td>
                         <input id="name" th:field="*{name}" type="text">
+                    </td>
+                    <td>
                         <input id="email" th:field="*{email}" type="text">
-                        <input id="id" th:field="*{id}" type="hidden">
-                    </form>
-                </td>
+                    </td>
+                    <input id="id" th:field="*{id}" type="hidden">
+                </form>
             </tr>
             </tbody>
         </table>
