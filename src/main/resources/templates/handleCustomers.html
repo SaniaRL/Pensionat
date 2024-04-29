@@ -20,6 +20,14 @@
 
 <div class="content">
 
+    <div th:unless="${#strings.isEmpty(status)}">
+        <div class="error-pop-up" id="errorPopup">
+            <p class="pop-up-header">Bokningen kan ej genomföras</p>
+            <p th:text="${status}"></p>
+            <button class="ok-btn-pop-up" id="closeButton" onclick="this.parentElement.parentElement.style.display='none';">Stäng fönster</button>
+        </div>
+    </div>
+
 
     <div class="allCustomers">
 
