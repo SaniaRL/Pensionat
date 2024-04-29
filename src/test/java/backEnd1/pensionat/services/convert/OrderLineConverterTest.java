@@ -51,5 +51,14 @@ class OrderLineConverterTest {
 
     @Test
     void orderLineTosimpleOrderLineDto() {
+        SimpleOrderLineDTO actual = OrderLineConverter.orderLineTosimpleOrderLineDto(orderLine);
+
+        assertEquals(actual.getBookingId(), orderLine.getBooking().getId());
+
+        assertEquals(actual.getRoom().getId(), orderLine.getRoom().getId());
+        assertEquals(actual.getRoom().getRoomType(), RoomTypeConverter
+                .convertFromInt(orderLine.getRoom().getTypeOfRoom()));
+
+        assertEquals(actual.getExtraBeds(), orderLine.getExtraBeds());
     }
 }
