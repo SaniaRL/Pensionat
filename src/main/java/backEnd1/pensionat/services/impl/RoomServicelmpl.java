@@ -43,7 +43,6 @@ public class RoomServicelmpl implements RoomService {
     public RoomDTO getRoomByID(Long Id) {
         Room room = roomRepo.findById(Id).orElse(new Room());
         return RoomDTO.builder().id(room.getId()).roomType(RoomTypeConverter.convertFromInt(room.getTypeOfRoom())).build();
-
     }
 
     @Override
@@ -57,7 +56,7 @@ public class RoomServicelmpl implements RoomService {
                 ")" +
                 ")";;
 
-                //TODO Uppdatera metod så r ->
+                //TODO Uppdatera metod så r -> kör färdig metod som kör builder
         return entityManager.createQuery(jpqlQuery, Room.class)
                 .setParameter("startDate", startDate)
                 .setParameter("endDate", endDate)

@@ -63,6 +63,12 @@ public class BookRoomController {
         return "booking";
     }
 
+    @PostMapping("/booking/{id}")
+    public String updateBooking(@RequestParam int id, Model model) {
+        model.addAttribute("bookingId", id);
+        return "booking";        
+    }
+
 
     @PostMapping("/confirmBooking")
     public String confirmBooking() {
@@ -70,58 +76,19 @@ public class BookRoomController {
     }
 
     @PostMapping("/submitBookingCustomer")
-    public String submitBookingCustomer(@RequestBody BookingData bookingData) {
+    public String submitBookingCustomer(@RequestBody BookingData bookingData, Model model) {
         //Status är väl onödigt och vi använder inte men void kändes farligt idk
         String statusMessage = bookingService.submitBookingCustomer(bookingData);
-        return "redirect:/index.html";
+        model.addAttribute("startDate", bookingData.getStartDate());
+        model.addAttribute("endDate", bookingData.getEndDate());
+        model.addAttribute("orderLines", bookingData.getChosenRooms());
+        model.addAttribute("name", bookingData.getName());
+        model.addAttribute("email", bookingData.getEmail());
+        return "redirect:/bookingConfirmation";
+    }
 
-/*        String name = bookingData.getName();
-        String email = bookingData.getEmail();
-        List<OrderLineDTO> orderLines = bookingData.getChosenRooms();
-        LocalDate startDate = LocalDate.parse(bookingData.getStartDate());
-        LocalDate endDate = LocalDate.parse(bookingData.getEndDate());
-
-        System.out.println();
-        System.out.println("Namn: " + name);
-        System.out.println("Email: " + email);
-        System.out.println("Startdatum: " + bookingData.getStartDate());
-        System.out.println("Slutdatum: " + bookingData.getEndDate());
-        System.out.println("Valda rum: ");
-        for (OrderLineDTO room : orderLines) {
-            System.out.println("  - RumID: " + room.getId() + "  - Rumstyp: " + room.getRoomType() + ", Extra sängar: " + room.getExtraBeds());
-        }
-        System.out.println();
-        System.out.println("-------------------------------------------------");
-        System.out.println();
-
-        //Kolla om kunden finns - hämta kund eller skapa ny
-        SimpleCustomerDTO customer = customerService.getCustomerByEmail(email);
-        if(customer == null) {
-            customer = new SimpleCustomerDTO(name, email);
-            //Add customer to Repo
-            customer = customerService.addCustomer(customer);
-            System.out.println("New customer added: " + customer);
-        }
-
-        //Skapa bokning
-        DetailedBookingDTO booking = new DetailedBookingDTO(customer, startDate, endDate);
-        System.out.println("New booking: " + booking);
-
-        //Lägg till bokning i DATABAS och spara om den
-        booking = bookingService.addBooking(booking);
-        System.out.println("Added booking: " + booking);
-
-        //TODO Uppdatera Customer lägg till bokning
-
-        //TODO Översätt totala rum till extra rum - rum???? menar säng
-
-        //Lägg till orderrader?
-        //TODO har inte ändrat dessa till DTO det bråkar inte med nåt:
-        DetailedBookingDTO finalBooking = booking;
-        orderLines.stream()
-                .map(orderLine -> new DetailedOrderLineDTO(orderLine.getExtraBeds(),finalBooking, roomService.getRoomByID((long) orderLine.getId())))
-                .forEach(orderLineService::addOrderLine);
-
- */
+    @GetMapping("/bookingConfirmation")
+    public String showBookingConfirmation(Model model) {
+        return "bookingConfirmation";
     }
 }

@@ -15,17 +15,17 @@
         </div>
         <div class="container-2">
             <p class="bold">Kund:</p>
-            <p th:text="${booking.getCustomer().getName()}+', ' +${booking.getCustomer().getEmail()}" />
+            <p id="customer-name-email"></p>
         </div>
 
         <div class="container-3">
         <div class="container-4">
             <p class="bold">Bokning:</p>
-            <p th:text="'Incheckning: '+${booking.getStartDate()}" />
-            <p th:text="'Utcheckning: '+${booking.getEndDate()}" />
+            <p id="checkin-p" th:text="'Incheckning: '+${startDate}" />
+            <p id="checkout-p" th:text="'Utcheckning: '+${endDate}" />
         </div>
 
-        <div class="container-5" th:unless="${#lists.isEmpty(orderLines)}">
+        <div class="container-5">
             <table>
                 <tbody class="show-rooms-confirmation-page">
                     <tr class="header-rooms-confirmation-page">
@@ -48,5 +48,6 @@
             <a class="back-link" href="http://localhost:8080/index.html">Startsidan</a>
         </div>
     </div>
+    <script th:src="@{/js/bookingConfirmation.js}"></script>
 </body>
 </html>
