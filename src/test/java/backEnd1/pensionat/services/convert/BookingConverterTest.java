@@ -43,6 +43,14 @@ class BookingConverterTest {
 
     @Test
     void bookingDtoToBooking() {
+        Booking actual = BookingConverter.bookingDtoToBooking(bookingDTO, customer);
+
+        assertEquals(actual.getStartDate(), bookingDTO.getStartDate());
+        assertEquals(actual.getEndDate(), bookingDTO.getEndDate());
+
+        assertEquals(actual.getCustomer().getId(), customer.getId());
+        assertEquals(actual.getCustomer().getName(), customer.getName());
+        assertEquals(actual.getCustomer().getEmail(), customer.getEmail());
     }
 
     @Test
