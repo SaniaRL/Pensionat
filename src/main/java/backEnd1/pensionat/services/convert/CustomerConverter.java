@@ -1,5 +1,6 @@
 package backEnd1.pensionat.services.convert;
 
+import backEnd1.pensionat.DTOs.CustomerDTO;
 import backEnd1.pensionat.DTOs.DetailedCustomerDTO;
 import backEnd1.pensionat.DTOs.SimpleBookingDTO;
 import backEnd1.pensionat.DTOs.SimpleCustomerDTO;
@@ -29,6 +30,7 @@ public class CustomerConverter {
                 .build();
     }
 
+
     public static Customer DetailedCustomerDTOtoCustomer(DetailedCustomerDTO customer) {
         return Customer.builder().id(customer.getId())
                 .name(customer.getName())
@@ -49,5 +51,9 @@ public class CustomerConverter {
                         .name(customer.getName())
                         .email(customer.getEmail())
                 .build();
+    }
+
+    public static Customer customerDtoToCustomer(CustomerDTO customerDTO) {
+        return Customer.builder().name(customerDTO.getName()).email(customerDTO.getEmail()).build();
     }
 }

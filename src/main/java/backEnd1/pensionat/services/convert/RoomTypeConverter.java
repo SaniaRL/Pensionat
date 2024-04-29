@@ -1,8 +1,6 @@
 package backEnd1.pensionat.services.convert;
 
-import backEnd1.pensionat.DTOs.RoomDTO;
 import backEnd1.pensionat.Enums.RoomType;
-import backEnd1.pensionat.Models.Room;
 
 public class RoomTypeConverter {
     public static RoomType convertFromInt(int value){

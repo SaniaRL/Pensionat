@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 
+import static backEnd1.pensionat.services.convert.BookingConverter.bookingDtoToBooking;
+import static backEnd1.pensionat.services.convert.BookingConverter.bookingToDetailedBookingDTO;
+
 @Service
 public
 class BookingServiceImpl implements BookingService {
@@ -41,7 +44,7 @@ class BookingServiceImpl implements BookingService {
 
     @Override
     public DetailedBookingDTO addBooking(DetailedBookingDTO b) {
-        return BookingConverter.bookingToDetailedBookingDTO(bookingRepo.save(BookingConverter.DetailedBookingDTOtoBooking(b)));
+        return bookingToDetailedBookingDTO(bookingRepo.save(BookingConverter.DetailedBookingDTOtoBooking(b)));
     }
 
     @Override
@@ -55,14 +58,7 @@ class BookingServiceImpl implements BookingService {
 
     @Override
     public DetailedBookingDTO getBookingById(Long id) {
-        return bookingToDetailedBookingDto(bookingRepo.findById(id).orElse(null));
-    }
-
-    @Override
-    public DetailedBookingDTO bookingToDetailedBookingDto(Booking b) {
-        return DetailedBookingDTO.builder().id(b.getId())
-                .customer(customerService.customerToSimpleCustomerDto(b.getCustomer()))
-                .startDate(b.getStartDate()).endDate(b.getEndDate()).build();
+        return bookingToDetailedBookingDTO(bookingRepo.findById(id).orElse(null));
     }
 
     @Override
@@ -72,19 +68,11 @@ class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Booking bookingDtoToBooking(BookingDTO b, Customer c) {
-        return Booking.builder().customer(c).startDate(b.getStartDate()).endDate(b.getEndDate()).build();
-    }
-
-
-   @Override
     public boolean getBookingByCustomerId(Long customerId) {
         LocalDate today = LocalDate.now();
         List<Booking> activeBookings  = bookingRepo.findByCustomerIdAndEndDateAfter(customerId, today);
         return !activeBookings .isEmpty();  // Returns true if there are future bookings
     }
-
-
 
     @Override
     public String submitBookingCustomer(BookingData bookingData) {

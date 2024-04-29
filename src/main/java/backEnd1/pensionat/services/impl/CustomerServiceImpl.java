@@ -9,12 +9,10 @@ import backEnd1.pensionat.services.interfaces.CustomerService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
-import static backEnd1.pensionat.services.convert.CustomerConverter.SimpleCustomerDTOtoCustomer;
+import static backEnd1.pensionat.services.convert.CustomerConverter.*;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -34,7 +32,7 @@ public class CustomerServiceImpl implements CustomerService {
     //TODO idk - sorry
     @Override
     public SimpleCustomerDTO addCustomer(SimpleCustomerDTO c) {
-        return CustomerConverter.customerToSimpleCustomerDTO(customerRepo.save(CustomerConverter.SimpleCustomerDTOtoCustomer(c)));
+        return customerToSimpleCustomerDTO(customerRepo.save(CustomerConverter.SimpleCustomerDTOtoCustomer(c)));
     }
 
     @Override
@@ -74,24 +72,14 @@ public class CustomerServiceImpl implements CustomerService {
     public SimpleCustomerDTO getCustomerByEmail(String email) {
         Customer customer = customerRepo.findByEmail(email);
         if(customer!= null){
-            return CustomerConverter.customerToSimpleCustomerDTO(customer);
+            return customerToSimpleCustomerDTO(customer);
         }
         return null;
     }
 
     @Override
-    public Customer customerDtoToCustomer(CustomerDTO customerDTO) {
-        return Customer.builder().name(customerDTO.getName()).email(customerDTO.getEmail()).build();
-    }
-
-    @Override
-    public SimpleCustomerDTO customerToSimpleCustomerDto(Customer c) {
-        return SimpleCustomerDTO.builder().id(c.getId()).name(c.getName()).email(c.getEmail()).build();
-    }
-
-    @Override
     public SimpleCustomerDTO getCustomerByEmailSimpleDTO(String email){
         Customer c = customerRepo.findByEmail(email);
-        return customerToSimpleCustomerDto(c);
+        return customerToSimpleCustomerDTO(c);
     }
 }
