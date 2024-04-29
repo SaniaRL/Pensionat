@@ -17,3 +17,30 @@ document.addEventListener("DOMContentLoaded", function () {
     checkoutP.textContent = "Utcheckning: " + checkout;
     }
 )
+
+document.addEventListener("DOMContentLoaded", function () {
+    const orderLines = JSON.parse(localStorage.getItem("chosenRooms")) || [];
+
+    const tbody = document.querySelector(".show-rooms-confirmation-page");
+
+    orderLines.forEach(function(orderLine) {
+        const row = document.createElement("tr");
+        row.classList.add("room-row-confirmation-page");
+
+        const roomIdCell = document.createElement("td");
+        roomIdCell.textContent = orderLine.id;
+        row.appendChild(roomIdCell);
+
+        const roomTypeCell = document.createElement("td");
+        roomTypeCell.textContent = orderLine.roomType;
+        row.appendChild(roomTypeCell);
+
+        const bedsCell = document.createElement("td");
+        bedsCell.textContent = orderLine.extraBeds;
+        row.appendChild(bedsCell);
+
+        tbody.appendChild(row);
+
+        localStorage.clear();
+    });
+});
