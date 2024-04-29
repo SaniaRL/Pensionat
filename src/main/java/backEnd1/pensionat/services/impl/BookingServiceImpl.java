@@ -76,6 +76,16 @@ class BookingServiceImpl implements BookingService {
         return Booking.builder().customer(c).startDate(b.getStartDate()).endDate(b.getEndDate()).build();
     }
 
+
+   @Override
+    public boolean getBookingByCustomerId(Long customerId) {
+        LocalDate today = LocalDate.now();
+        List<Booking> activeBookings  = bookingRepo.findByCustomerIdAndEndDateAfter(customerId, today);
+        return !activeBookings .isEmpty();  // Returns true if there are future bookings
+    }
+
+
+
     @Override
     public String submitBookingCustomer(BookingData bookingData) {
         String name = bookingData.getName();
