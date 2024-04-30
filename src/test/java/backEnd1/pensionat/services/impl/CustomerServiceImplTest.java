@@ -27,25 +27,24 @@ class CustomerServiceImplTest {
     @Mock
     private CustomerRepo customerRepo;
 
+    Long id = 1L;
     String name = "Maria";
     String email = "maria@mail.com";
 
-    Customer customer = new Customer(1L, name, email);
+    Customer customer = new Customer(id, name, email);
     CustomerDTO customerDTO = new CustomerDTO(name, email);
-    SimpleCustomerDTO simpleCustomerDTO = new SimpleCustomerDTO(1L, name, email);
+    SimpleCustomerDTO simpleCustomerDTO = new SimpleCustomerDTO(id, name, email);
 
     @Test
     void getAllCustomers() {
         when(customerRepo.findAll()).thenReturn(Arrays.asList(customer));
         CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
-
         List<SimpleCustomerDTO> allKunder = service.getAllCustomers();
         assertEquals(1, allKunder.size());
     }
 
     @Test //Testet funkar ej, customer är null när det skickas till converter-metoden.
     void addCustomer() {
-        System.out.println("ID: " + customer.getId());
         when(customerRepo.save(customer)).thenReturn(customer);
         CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
         SimpleCustomerDTO actual = service.addCustomer(simpleCustomerDTO);
@@ -54,10 +53,17 @@ class CustomerServiceImplTest {
 
     @Test
     void addCustomerFromCustomerDTO() {
+        when(customerRepo.save(customer)).thenReturn(customer);
+        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
+        String feedback = service.addCustomerFromCustomerDTO(customerDTO);
+        assertTrue(feedback.equalsIgnoreCase("Customer added successfully"));
     }
 
     @Test
     void removeCustomerById() {
+        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
+        String feedback = service.removeCustomerById(id);
+        assertTrue(feedback.equalsIgnoreCase("Customer removed successfully"));
     }
 
     @Test
