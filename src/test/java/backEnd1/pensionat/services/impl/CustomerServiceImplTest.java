@@ -88,20 +88,41 @@ class CustomerServiceImplTest {
     void getCustomersByEmail() {
         when(customerRepo.findByEmailContains(email, pageable)).thenReturn(mockedPage);
         CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
-        Page<SimpleCustomerDTO> actual = service.getCustomersByEmail(email, pageNum);
+        Page<SimpleCustomerDTO> actual = service.getCustomersByEmail(customer.getEmail(), pageNum);
         assertEquals(1, actual.getTotalElements());
-        assertEquals(email, actual.getContent().get(0).getEmail());
+        assertEquals(customer.getId(), actual.getContent().get(0).getId());
+        assertEquals(customer.getName(), actual.getContent().get(0).getName());
+        assertEquals(customer.getEmail(), actual.getContent().get(0).getEmail());
     }
 
     @Test
     void getAllCustomersPage() {
+        when(customerRepo.findAll(pageable)).thenReturn(mockedPage);
+        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
+        Page<SimpleCustomerDTO> actual = service.getAllCustomersPage(pageNum);
+        assertEquals(1, actual.getTotalElements());
+        assertEquals(customer.getId(), actual.getContent().get(0).getId());
+        assertEquals(customer.getName(), actual.getContent().get(0).getName());
+        assertEquals(customer.getEmail(), actual.getContent().get(0).getEmail());
     }
 
     @Test
     void getCustomerByEmail() {
+        when(customerRepo.findByEmail(email)).thenReturn(customer);
+        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
+        SimpleCustomerDTO actual = service.getCustomerByEmail(email);
+        assertEquals(actual.getId(), simpleCustomerDTO.getId());
+        assertEquals(actual.getName(), simpleCustomerDTO.getName());
+        assertEquals(actual.getEmail(), simpleCustomerDTO.getEmail());
     }
 
     @Test
     void getCustomerByEmailSimpleDTO() {
+        when(customerRepo.findByEmail(email)).thenReturn(customer);
+        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
+        SimpleCustomerDTO actual = service.getCustomerByEmailSimpleDTO(email);
+        assertEquals(actual.getId(), simpleCustomerDTO.getId());
+        assertEquals(actual.getName(), simpleCustomerDTO.getName());
+        assertEquals(actual.getEmail(), simpleCustomerDTO.getEmail());
     }
 }
