@@ -26,7 +26,9 @@ class BookingServiceImpl implements BookingService {
     private final RoomServicelmpl roomService;
     private final OrderLineServicelmpl orderLineService;
 
-    public BookingServiceImpl(BookingRepo bookingRepo, CustomerRepo customerRepo, CustomerService customerService, RoomServicelmpl roomServicelmpl, OrderLineServicelmpl orderLineService) {
+    public BookingServiceImpl(BookingRepo bookingRepo, CustomerRepo customerRepo,
+                              CustomerService customerService, RoomServicelmpl roomServicelmpl,
+                              OrderLineServicelmpl orderLineService) {
         this.bookingRepo = bookingRepo;
         this.customerRepo = customerRepo;
         this.customerService = customerService;
@@ -124,6 +126,5 @@ class BookingServiceImpl implements BookingService {
                 .forEach(orderLineService::addOrderLine);
 
         return "Everything is fine";
-
     }
 }
