@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static backEnd1.pensionat.services.convert.BookingConverter.bookingDtoToBooking;
 import static backEnd1.pensionat.services.convert.BookingConverter.bookingToDetailedBookingDTO;
@@ -57,7 +58,7 @@ class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public DetailedBookingDTO getBookingById(Long id) {
+    public DetailedBookingDTO getDetailedBookingById(Long id) {
         return bookingToDetailedBookingDTO(bookingRepo.findById(id).orElse(null));
     }
 

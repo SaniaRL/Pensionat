@@ -22,16 +22,15 @@
 </div>
 <div class="content index-content">
     <div>
+        <form action="#" method="get" th:action="@{/booking/searchById}">
+            <label>
+                <input class="customer-search" name="id" placeholder="Sök" type="text" value="">
+            </label>
+            <input class="search-customer-button" type="submit" value="Submit">
+        </form>
         <div>
-            <button class="booking-btn index-btn" onclick="window.location.href='/booking'">NY BOKNING</button>
-        </div>
-        <div>
-            <a th:href="@{/booking/search}">
-                <button class="edit-booking-btn index-btn" onclick="window.location.href='/booking/search'">REDIGERA BOKNING</button>
-            </a>
-        </div>
-        <div>
-            <button class="edit-customer-btn index-btn" onclick="window.location.href='/customer/handle'">HANTERA KUND</button>
+            <p th:text="${result}">
+            </p>
         </div>
     </div>
 </div>

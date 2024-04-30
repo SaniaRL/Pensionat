@@ -1,9 +1,7 @@
 package backEnd1.pensionat.controllers;
 
-import backEnd1.pensionat.DTOs.BookingDTO;
-import backEnd1.pensionat.DTOs.CustomerDTO;
-import backEnd1.pensionat.DTOs.RoomDTO;
-import backEnd1.pensionat.DTOs.SimpleOrderLineDTO;
+import backEnd1.pensionat.DTOs.*;
+import backEnd1.pensionat.Models.Booking;
 import backEnd1.pensionat.services.interfaces.BookingService;
 import backEnd1.pensionat.services.interfaces.CustomerService;
 import backEnd1.pensionat.services.interfaces.OrderLineService;
@@ -12,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -48,9 +47,33 @@ public class BookingController {
             orderLineService.addOrderLineFromSimpleOrderLineDto(new SimpleOrderLineDTO(bookingId,
                                                                     rooms.get(i), xtrBeds));
         }
-        model.addAttribute("booking", bookingService.getBookingById(bookingId));
+        model.addAttribute("booking", bookingService.getDetailedBookingById(bookingId));
         model.addAttribute("orderLines", orderLineService.getOrderLinesByBookingId(bookingId));
         return "bookingConfirmation";
+    }
+
+    @GetMapping("/search")
+    public String searchBooking() {
+        return "bookingSearch";
+    }
+
+    @GetMapping("/searchById")
+    public String updateBooking(@RequestParam Long id, Model model){
+        System.out.println(id);
+//            model.addAttribute("result", "Hittade inte bokning");
+            return "bookingSearch";
+
+
+//        //TODO sök upp orderrader i vald bokning:
+//        List<SimpleOrderLineDTO> chosenRooms = orderLineService.getOrderLinesByBookingId(id);
+//        //TODO sök tillgängliga rum som inte har samma id som dessa rum
+//        // eller begränsa query till att ej inkludera samma bokning-id
+//        List<OrderLineDTO> availableRooms = new ArrayList<>();
+//        //TODO riktigt id:
+//        model.addAttribute("bookingID", 62L);
+//        model.addAttribute("chosenRooms", chosenRooms);
+//        model.addAttribute("availableRooms", availableRooms);
+//        return "updateBooking";
     }
 
     @RequestMapping("/{id}/remove")
