@@ -67,7 +67,6 @@ class CustomerServiceImplTest {
 
     @Test
     void addCustomerFromCustomerDTO() {
-        when(customerRepo.save(customer)).thenReturn(customer);
         CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
         String feedback = service.addCustomerFromCustomerDTO(customerDTO);
         assertTrue(feedback.equalsIgnoreCase("Customer added successfully"));
