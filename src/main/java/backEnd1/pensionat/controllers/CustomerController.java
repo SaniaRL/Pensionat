@@ -41,10 +41,14 @@ public class CustomerController {
     }
 
     //DeleteMapping ovan verkar ej fungera. Använder temp. Requestmapping.
+    //Behöver bryta ut affärslogik senare
     @RequestMapping("/{id}/removeHandler")
     public String removeCustomerByIdHandler(@PathVariable Long id, Model model) {
 
-        if (!bookingService.getBookingByCustomerId(id)) {
+        if (bookingService.getBookingByCustomerId(id)) {
+            model.addAttribute("status", "En kund kan inte tas bort om det finns aktiva bokningar");
+        }
+        else {
             customerService.removeCustomerById(id);
         }
         return handleCustomers(model);
@@ -59,7 +63,6 @@ public class CustomerController {
         return "updateCustomers";
     }
 
-    //Temp också
     @PostMapping("/handle/update")
     public String handleCustomersUpdate(Model model, SimpleCustomerDTO customer){
         customerService.updateCustomer(customer);
