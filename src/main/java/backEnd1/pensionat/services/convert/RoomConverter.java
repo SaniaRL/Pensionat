@@ -5,9 +5,13 @@ import backEnd1.pensionat.Models.Room;
 
 public class RoomConverter {
     public static Room roomDtoToRoom(RoomDTO room) {
-        return Room.builder().id(room.getId()).typeOfRoom(RoomTypeConverter.convertToInt(room.getRoomType())).build();
+        return Room.builder().id(room.getId())
+                             .typeOfRoom(RoomTypeConverter.convertToInt(room.getRoomType()))
+                             .build();
     }
     public static RoomDTO roomToRoomDto(Room room) {
-        return RoomDTO.builder().id(room.getId()).roomType(RoomTypeConverter.convertFromInt(room.getTypeOfRoom())).build();
+        return RoomDTO.builder().id(room.getId())
+                                .roomType(RoomTypeConverter.convertFromInt(room.getTypeOfRoom()))
+                                .build();
     }
 }

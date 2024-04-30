@@ -42,7 +42,7 @@ public class OrderLineServicelmpl implements OrderLineService {
     public String addOrderLine(DetailedOrderLineDTO o){
 
         int extraBeds = o.getExtraBeds();
-        Booking booking = BookingConverter.DetailedBookingDTOtoBooking(o.getBooking());
+        Booking booking = BookingConverter.detailedBookingDTOtoBooking(o.getBooking());
         int roomType = RoomTypeConverter.convertToInt(o.getRoom().getRoomType());
         Room room = Room.builder()
                 .id(o.getRoom().getId())

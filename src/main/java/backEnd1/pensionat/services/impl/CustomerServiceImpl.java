@@ -32,7 +32,7 @@ public class CustomerServiceImpl implements CustomerService {
     //TODO idk - sorry
     @Override
     public SimpleCustomerDTO addCustomer(SimpleCustomerDTO c) {
-        return customerToSimpleCustomerDTO(customerRepo.save(CustomerConverter.SimpleCustomerDTOtoCustomer(c)));
+        return customerToSimpleCustomerDTO(customerRepo.save(CustomerConverter.simpleCustomerDTOtoCustomer(c)));
     }
 
     @Override
@@ -49,7 +49,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public String updateCustomer(SimpleCustomerDTO c) {
-        Customer cp = SimpleCustomerDTOtoCustomer(c);
+        Customer cp = simpleCustomerDTOtoCustomer(c);
         customerRepo.save(cp);
         return "Customer updated successfully";
     }
