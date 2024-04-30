@@ -2,7 +2,6 @@ package backEnd1.pensionat.services.impl;
 
 import backEnd1.pensionat.DTOs.RoomDTO;
 import backEnd1.pensionat.Enums.RoomType;
-import backEnd1.pensionat.Models.OrderLine;
 import backEnd1.pensionat.Models.Room;
 import backEnd1.pensionat.Repositories.RoomRepo;
 import org.junit.jupiter.api.Test;
@@ -15,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -26,10 +26,9 @@ class RoomServicelmplTest {
     @Mock
     private RoomRepo roomRepo;
 
-    Long roomId1 = 301L;
-    Long roomId2 = 401L;
-    Room room = new Room(roomId1, 2);
-    RoomDTO roomDTO = new RoomDTO(roomId2, RoomType.DOUBLE);
+    Long roomId = 301L;
+    Room room = new Room(roomId, 2);
+    RoomDTO roomDTO = new RoomDTO(roomId, RoomType.DOUBLE);
 
     @Test
     void getAllRooms() {
@@ -49,19 +48,26 @@ class RoomServicelmplTest {
     @Test
     void removeRoomById() {
         RoomServicelmpl service = new RoomServicelmpl(roomRepo);
-        String feedback = service.removeRoomById(roomId1);
-        assertTrue(feedback.equalsIgnoreCase("Room " + roomId1 + " removed"));
+        String feedback = service.removeRoomById(roomId);
+        assertTrue(feedback.equalsIgnoreCase("Room " + roomId + " removed"));
     }
 
     @Test
     void getRoomByID() {
+        when(roomRepo.findById(roomId)).thenReturn(Optional.of(room));
+        RoomServicelmpl service = new RoomServicelmpl(roomRepo);
+        RoomDTO actual = service.getRoomByID(roomId);
+        assertEquals(actual.getId(), roomId);
     }
 
     @Test
     void findAvailableRooms() {
+        //TODO
     }
+
 
     @Test
     void enoughRooms() {
+        //TODO
     }
 }
