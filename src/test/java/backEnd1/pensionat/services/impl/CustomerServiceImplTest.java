@@ -48,8 +48,11 @@ class CustomerServiceImplTest {
     void getAllCustomers() {
         when(customerRepo.findAll()).thenReturn(Arrays.asList(customer));
         CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
-        List<SimpleCustomerDTO> allKunder = service.getAllCustomers();
-        assertEquals(1, allKunder.size());
+        List<SimpleCustomerDTO> actual = service.getAllCustomers();
+        assertEquals(1, actual.size());
+        assertEquals(actual.get(0).getId(), customer.getId());
+        assertEquals(actual.get(0).getName(), customer.getName());
+        assertEquals(actual.get(0).getEmail(), customer.getEmail());
     }
 
     @Test

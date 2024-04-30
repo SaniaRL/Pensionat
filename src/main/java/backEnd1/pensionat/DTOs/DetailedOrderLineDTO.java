@@ -18,7 +18,5 @@ public class DetailedOrderLineDTO {
         this.extraBeds = extraBeds;
         this.booking = booking;
         this.room = room;
-
     }
-
 }
