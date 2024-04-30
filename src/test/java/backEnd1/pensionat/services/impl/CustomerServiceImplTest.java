@@ -12,11 +12,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,9 +36,13 @@ class CustomerServiceImplTest {
     String name = "Maria";
     String email = "maria@mail.com";
 
+
     Customer customer = new Customer(id, name, email);
     CustomerDTO customerDTO = new CustomerDTO(name, email);
     SimpleCustomerDTO simpleCustomerDTO = new SimpleCustomerDTO(id, name, email);
+    int pageNum = 1;
+    Pageable pageable = PageRequest.of(pageNum - 1, 5);
+    Page<Customer> mockedPage = new PageImpl<>(List.of(customer));
 
     @Test
     void getAllCustomers() {
@@ -43,12 +52,14 @@ class CustomerServiceImplTest {
         assertEquals(1, allKunder.size());
     }
 
-    @Test //Testet funkar ej, customer är null när det skickas till converter-metoden.
+    @Test
     void addCustomer() {
-        when(customerRepo.save(customer)).thenReturn(customer);
+        when(customerRepo.save(any(Customer.class))).thenReturn(customer);
         CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
         SimpleCustomerDTO actual = service.addCustomer(simpleCustomerDTO);
-        assertEquals(actual, simpleCustomerDTO);
+        assertEquals(actual.getId(), simpleCustomerDTO.getId());
+        assertEquals(actual.getName(), simpleCustomerDTO.getName());
+        assertEquals(actual.getEmail(), simpleCustomerDTO.getEmail());
     }
 
     @Test
@@ -68,10 +79,18 @@ class CustomerServiceImplTest {
 
     @Test
     void updateCustomer() {
+        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
+        String feedback = service.updateCustomer(simpleCustomerDTO);
+        assertTrue(feedback.equalsIgnoreCase("Customer updated successfully"));
     }
 
     @Test
     void getCustomersByEmail() {
+        when(customerRepo.findByEmailContains(email, pageable)).thenReturn(mockedPage);
+        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
+        Page<SimpleCustomerDTO> actual = service.getCustomersByEmail(email, pageNum);
+        assertEquals(1, actual.getTotalElements());
+        assertEquals(email, actual.getContent().get(0).getEmail());
     }
 
     @Test
