@@ -74,6 +74,20 @@ public class RoomServicelmpl implements RoomService {
         return allRooms.stream().filter(r -> !(chosenRooms.contains(r))).toList();
     }
 
+    public List<RoomDTO> findAvailableRooms(BookingFormQueryDTO query, long id) {
+        String jpqlQuery = "SELECT r FROM Room r WHERE r.id NOT IN (" +
+                "SELECT o.room.id FROM OrderLine o WHERE o.booking.id IN (" +
+                "SELECT b.id FROM Booking b WHERE b.endDate >= :startDate AND b.startDate <= :endDate " +
+                "AND b.id != :bookingID" +
+                ")" +
+                ")";
+
+        return entityManager.createQuery(jpqlQuery, Room.class)
+                .setParameter("startDate", query.getStartDate())
+                .setParameter("endDate", query.getEndDate())
+                .setParameter("bookingID", id)
+                .getResultList().stream().map(RoomConverter::roomToRoomDto).toList();
+    }
 
     @Override
     public String enoughRooms(BookingFormQueryDTO query, List<RoomDTO> queryRooms) {
