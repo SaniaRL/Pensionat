@@ -75,7 +75,13 @@
                 <tr th:each="orderLine : ${chosenRooms}" class="room-row-av room-av-row">
                     <td class="room-id" th:text="${orderLine.room.id}"></td>
                     <td class="room-type" th:text="${orderLine.room.roomType.roomType}"></td>
-                    <td th:text="${orderLine.extraBeds}"></td>
+                    <td>
+                        <label>
+                            <input class="bed-number" type="number" th:value="${orderLine.extraBeds}"
+                                   th:min="${orderLine.room.roomType.defaultNumberOfBeds}"
+                                   th:max="${orderLine.room.roomType.maxNumberOfBeds}">
+                        </label>
+                    </td>
                     <td class="remove-room-btn">
                         <img src="/images/white_delete.png" alt="Remove" /></td>
                 </tr>
