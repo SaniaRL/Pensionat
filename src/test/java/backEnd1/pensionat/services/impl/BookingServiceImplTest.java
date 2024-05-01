@@ -1,14 +1,13 @@
 package backEnd1.pensionat.services.impl;
 
-import backEnd1.pensionat.DTOs.BookingDTO;
-import backEnd1.pensionat.DTOs.CustomerDTO;
-import backEnd1.pensionat.DTOs.DetailedBookingDTO;
-import backEnd1.pensionat.DTOs.SimpleCustomerDTO;
+import backEnd1.pensionat.DTOs.*;
 import backEnd1.pensionat.Models.Booking;
 import backEnd1.pensionat.Models.Customer;
 import backEnd1.pensionat.Models.Room;
 import backEnd1.pensionat.Repositories.BookingRepo;
 import backEnd1.pensionat.Repositories.CustomerRepo;
+import backEnd1.pensionat.services.convert.BookingConverter;
+import backEnd1.pensionat.services.convert.CustomerConverter;
 import backEnd1.pensionat.services.interfaces.CustomerService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,8 +45,8 @@ class BookingServiceImplTest {
     Long id = 1L;
     String name = "Maria";
     String email = "maria@mail.com";
-    LocalDate startDate = LocalDate.parse("2024-05-14");
-    LocalDate endDate = LocalDate.parse("2024-05-17");
+    LocalDate startDate = LocalDate.now();
+    LocalDate endDate = LocalDate.now().plusDays(3);
 
     Customer customer = new Customer(name, email);
     CustomerDTO customerDto = new CustomerDTO(name, email);
@@ -55,6 +54,10 @@ class BookingServiceImplTest {
     Booking booking = new Booking(customer, startDate, endDate);
     DetailedBookingDTO detailedBookingDTO = new DetailedBookingDTO(id, simpleCustomerDTO, startDate, endDate);
     BookingDTO bookingDto = new BookingDTO(customerDto, startDate, endDate);
+    OrderLineDTO orderLineDTO = new OrderLineDTO(1, "Double", 1);
+    List<OrderLineDTO> chosenRooms = List.of(orderLineDTO);
+    DetailedOrderLineDTO detailedOrderLineDTO = new DetailedOrderLineDTO();
+    BookingData bookingData = new BookingData();
 
     @Test
     void getAllBookings() {
@@ -112,9 +115,85 @@ class BookingServiceImplTest {
 
     @Test
     void getBookingByCustomerId() {
+        List<Booking> list = List.of(booking);
+        when(bookingRepo.findByCustomerIdAndEndDateAfter(customer.getId(), LocalDate.now()))
+                                                            .thenReturn(list);
+        BookingServiceImpl service = new BookingServiceImpl(bookingRepo, customerRepo, customerService,
+                                                            roomService, orderLineService);
+        boolean feedback = service.getBookingByCustomerId(customer.getId());
+        assertTrue(feedback);
     }
 
-    @Test
+    @Test //Funkar ej. Behöver fixas.
     void submitBookingCustomer() {
+        booking.setId(1L);
+        SimpleCustomerDTO existingCustomer = new SimpleCustomerDTO(name, email);
+        when(customerService.getCustomerByEmail(email)).thenReturn(existingCustomer);
+
+        when(customerService.getCustomerByEmail(email)).thenReturn(simpleCustomerDTO);
+        when(orderLineService.addOrderLine(any(DetailedOrderLineDTO.class))).thenReturn("Hejhopp");
+        when(BookingConverter.bookingToDetailedBookingDTO(booking)).thenReturn(detailedBookingDTO);
+        when(bookingRepo.save(booking)).thenReturn(booking);
+        bookingData.setName(name);
+        bookingData.setEmail(email);
+        bookingData.setStartDate("2024-05-01");
+        bookingData.setEndDate("2024-05-04");
+        bookingData.setChosenRooms(chosenRooms);
+        BookingServiceImpl service = new BookingServiceImpl(bookingRepo, customerRepo, customerService,
+                                                            roomService, orderLineService);
+        String feedback = service.submitBookingCustomer(bookingData);
+        assertTrue(feedback.equalsIgnoreCase("Everything is fine"));
     }
+    /*
+    public String submitBookingCustomer(BookingData bookingData) {
+        String name = bookingData.getName();
+        String email = bookingData.getEmail();
+        List<OrderLineDTO> orderLines = bookingData.getChosenRooms();
+        LocalDate startDate = LocalDate.parse(bookingData.getStartDate());
+        LocalDate endDate = LocalDate.parse(bookingData.getEndDate());
+
+        System.out.println();
+        System.out.println("Namn: " + name);
+        System.out.println("Email: " + email);
+        System.out.println("Startdatum: " + bookingData.getStartDate());
+        System.out.println("Slutdatum: " + bookingData.getEndDate());
+        System.out.println("Valda rum: ");
+        for (OrderLineDTO room : orderLines) {
+            System.out.println("  - RumID: " + room.getId() + "  - Rumstyp: " + room.getRoomType() + ", Extra sängar: " + room.getExtraBeds());
+        }
+        System.out.println();
+        System.out.println("-------------------------------------------------");
+        System.out.println();
+
+        //Kolla om kunden finns - hämta kund eller skapa ny
+        SimpleCustomerDTO customer = customerService.getCustomerByEmail(email);
+        if (customer == null) {
+            customer = new SimpleCustomerDTO(name, email);
+            //Add customer to Repo
+            customer = customerService.addCustomer(customer);
+            System.out.println("New customer added: " + customer);
+        }
+
+        //Skapa bokning
+        DetailedBookingDTO booking = new DetailedBookingDTO(customer, startDate, endDate);
+        System.out.println("New booking: " + booking);
+
+        //Lägg till bokning i DATABAS och spara om den
+        booking = addBooking(booking);
+        System.out.println("Added booking: " + booking);
+
+        //TODO Uppdatera Customer lägg till bokning
+
+        //TODO Översätt totala rum till extra rum - rum???? menar säng
+
+        //Lägg till orderrader?
+        //TODO har inte ändrat dessa till DTO det bråkar inte med nåt:
+        DetailedBookingDTO finalBooking = booking;
+        orderLines.stream()
+                .map(orderLine -> new DetailedOrderLineDTO(orderLine.getExtraBeds(), finalBooking, roomService.getRoomByID((long) orderLine.getId())))
+                .forEach(orderLineService::addOrderLine);
+
+        return "Everything is fine";
+    }
+     */
 }
