@@ -27,7 +27,7 @@
     <div class="error-pop-up" id="errorPopup">
         <p class="pop-up-header">Bokningen kan ej genomföras</p>
         <p th:text="${status}"></p>
-        <button class="ok-btn-pop-up" id="closeButton">RENSA SÖKNING</button>
+        <button class="ok-btn-pop-up" id="closeButton">OK</button>
     </div>
 </div>
 
@@ -53,7 +53,7 @@
                     <input class="nr-input" type="number" id="number-of-rooms" name="rooms" th:value="${rooms != null ? rooms : '1'}" min="1" max="12" required>
                 </div>
                 <div>
-                    <input type="submit" id="submit-booking" name="submit-booking" value="SÖK LEDIGA RUM">
+                    <input type="submit" id="submit-booking" name="submit-booking" value="SÖK LEDIGA RUM" onclick="showAvailableRoomsDiv()">
                 </div>
             </div>
         </div>
@@ -91,8 +91,8 @@
     </div>
 
 
-    <div th:unless="${#lists.isEmpty(availableRooms)}">
-        <div id="update-booking-empty-rooms" >
+    <div>
+        <div id="update-booking-empty-rooms" th:style="${#lists.isEmpty(availableRooms) ? 'display:none' : 'display:flex'}" >
             <div class="scroll-shit">
                 <p class="title-booking">LEDIGA RUM</p>
                 <table>

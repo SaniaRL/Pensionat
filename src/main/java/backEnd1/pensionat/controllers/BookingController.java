@@ -79,6 +79,8 @@ public class BookingController {
 
         model.addAttribute("booking", booking);
         model.addAttribute("startDate", booking.getStartDate());
+        //Query count beds
+        //Query count orderLines/rooms
         model.addAttribute("endDate", booking.getEndDate());
         model.addAttribute("chosenRooms", chosenRooms);
         model.addAttribute("availableRooms", availableRooms);
@@ -92,10 +94,10 @@ public class BookingController {
     public String updateConfirm(@ModelAttribute BookingFormQueryDTO query,
                                 Model model,
                                 HttpSession session){
+
         List<SimpleOrderLineDTO> availableRooms = new ArrayList<>();
         List<SimpleOrderLineDTO> chosenRooms = (List<SimpleOrderLineDTO>) session.getAttribute("chosenOrderLines");
         String status = "Error: Query is null";
-
 
         if (query != null) {
             availableRooms = roomService.filterNotInChosenRooms(query, chosenRooms);
@@ -108,14 +110,11 @@ public class BookingController {
             model.addAttribute("endDate", query.getEndDate());
             model.addAttribute("rooms", query.getRooms());
             model.addAttribute("beds", query.getBeds());
-
         }
 
         if(status.isEmpty()){
             model.addAttribute("availableRooms", availableRooms);
         }
-
-
 
         model.addAttribute("chosenRooms", chosenRooms);
         model.addAttribute("status", status);

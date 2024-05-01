@@ -1,8 +1,10 @@
 const addRoomButtons = document.querySelectorAll('.add-room-btn');
 const removeRoomButtons = document.querySelectorAll('.remove-room-btn');
-const bookingId = document.getElementById('booking-id');
-const bookingName = document.getElementById('booking-name');
-const bookingEmail = document.getElementById('booking-email');
+const availableRooms = document.getElementById('update-booking-empty-rooms');
+
+function showAvailableRoomsDiv() {
+    availableRooms.style.display = 'flex';
+}
 
 addRoomButtons.forEach(e => {
     e.addEventListener("click", () => {
@@ -11,7 +13,10 @@ addRoomButtons.forEach(e => {
 });
 
 removeRoomButtons.forEach(e => {
-    e.addEventListener("click", () => remove(e));
+    e.addEventListener("click", () => {
+        remove(e)
+        showAvailableRoomsDiv()
+    });
 });
 
 const add = (e) => {
@@ -86,4 +91,14 @@ function removeRoom(roomID, roomType, room, e){
     roomElement.addEventListener("click", () => add(e))
     document.getElementById("AvailableList").appendChild(room);
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const closeButton = document.getElementById('closeButton');
+    const errorPopup = document.getElementById('errorPopup');
+
+    closeButton.addEventListener('click', function() {
+        console.log("Button clicked")
+        errorPopup.style.display = 'none';
+    });
+});
 
