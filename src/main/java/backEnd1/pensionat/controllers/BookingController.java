@@ -1,11 +1,13 @@
 package backEnd1.pensionat.controllers;
 
 import backEnd1.pensionat.DTOs.*;
+import backEnd1.pensionat.services.convert.OrderLineConverter;
 import backEnd1.pensionat.services.convert.RoomConverter;
 import backEnd1.pensionat.services.impl.RoomServicelmpl;
 import backEnd1.pensionat.services.interfaces.BookingService;
 import backEnd1.pensionat.services.interfaces.CustomerService;
 import backEnd1.pensionat.services.interfaces.OrderLineService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.query.Order;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@SessionAttributes({"chosenOrderLines", "booking"})
 @RequestMapping(path = "/booking")
 public class BookingController {
 
@@ -25,10 +28,6 @@ public class BookingController {
     private final OrderLineService orderLineService;
     private final RoomServicelmpl roomService;
 
-    /*@RequestMapping("/all")
-    //public List<DetailedBookingDTO> getAllBookings() {
-        return bookingService.getAllBookings();
-    }*/
 
     @PostMapping("/add")
     public String addBooking(@ModelAttribute CustomerDTO customerDTO, Model model) {
@@ -66,7 +65,7 @@ public class BookingController {
     }
 
     @GetMapping("/update")
-    public String updateBooking(@RequestParam Long id, Model model){
+    public String updateBooking(@RequestParam Long id, Model model, HttpSession session){
 
         DetailedBookingDTO booking = bookingService.getBookingById(id);
         if(booking == null) {
@@ -83,23 +82,44 @@ public class BookingController {
         model.addAttribute("endDate", booking.getEndDate());
         model.addAttribute("chosenRooms", chosenRooms);
         model.addAttribute("availableRooms", availableRooms);
+
+        session.setAttribute("chosenOrderLines", chosenRooms);
+//        session.setAttribute("booking", booking);
         return "updateBooking";
     }
 
-    @GetMapping("/updateConfirm")
-    public String updateConfirm(@RequestParam DetailedBookingDTO booking,
-                                @RequestParam List<SimpleOrderLineDTO> chosenRooms,
-                                @RequestParam BookingFormQueryDTO query,
-                                @RequestParam Model model){
+    @PostMapping("/updateConfirm")
+    public String updateConfirm(@ModelAttribute BookingFormQueryDTO query,
+                                Model model,
+                                HttpSession session){
+        List<SimpleOrderLineDTO> availableRooms = new ArrayList<>();
+        List<SimpleOrderLineDTO> chosenRooms = (List<SimpleOrderLineDTO>) session.getAttribute("chosenOrderLines");
+        String status = "Error: Query is null";
 
 
-        List<RoomDTO> availableRooms = roomService.findAvailableRooms(query);
+        if (query != null) {
+            availableRooms = roomService.filterNotInChosenRooms(query, chosenRooms);
+            List<RoomDTO> availableRoomsAsRoomDTO = availableRooms.stream()
+                    .map(RoomConverter::orderLineToRoomDTO).toList();
 
-        model.addAttribute("booking", booking);
-        model.addAttribute("startDate", query.getStartDate());
-        model.addAttribute("endDate", query.getEndDate());
+
+            status = roomService.enoughRooms(query, availableRoomsAsRoomDTO);
+            model.addAttribute("startDate", query.getStartDate());
+            model.addAttribute("endDate", query.getEndDate());
+            model.addAttribute("rooms", query.getRooms());
+            model.addAttribute("beds", query.getBeds());
+
+        }
+
+        if(status.isEmpty()){
+            model.addAttribute("availableRooms", availableRooms);
+        }
+
+
+
         model.addAttribute("chosenRooms", chosenRooms);
-        model.addAttribute("availableRooms", availableRooms);
+        model.addAttribute("status", status);
+
         return "updateBooking";
     }
 }

@@ -18,7 +18,7 @@ import java.util.List;
 
 @Controller
 @AllArgsConstructor
-@SessionAttributes("roomList")
+@SessionAttributes("chosenOrderLines")
 public class BookRoomController {
     RoomServicelmpl roomService;
     BookingServiceImpl bookingService;

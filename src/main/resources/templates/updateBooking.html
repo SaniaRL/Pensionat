@@ -16,11 +16,11 @@
 </div>
 <div class="booking-info-div">
     <p>BokningID</p>
-    <p class="booking-info-values" th:text="${booking.id}"></p>
+    <p class="booking-info-values" id="booking-id" th:text="${booking.id}"></p>
     <p>Namn:</p>
-    <p class="booking-info-values" th:text="${booking.customer.name}"></p>
+    <p class="booking-info-values" id="booking-name" th:text="${booking.customer.name}"></p>
     <p>Email:</p>
-    <p class="booking-info-values" th:text="${booking.customer.email}"></p>
+    <p class="booking-info-values" id="booking-email" th:text="${booking.customer.email}"></p>
 </div>
 
 <div th:unless="${#strings.isEmpty(status)}">
@@ -33,7 +33,7 @@
 
 <div class="content booking-content">
 
-    <form action="/updateConfirm" method="post">
+    <form action="/booking/updateConfirm" method="post">
         <div class="booking-options">
             <div class="left">
                 <div>
@@ -75,7 +75,7 @@
                 <tr th:each="orderLine : ${chosenRooms}" class="room-row-av room-av-row">
                     <td class="room-id" th:text="${orderLine.room.id}"></td>
                     <td class="room-type" th:text="${orderLine.room.roomType.roomType}"></td>
-                    <td th:text="${orderLine.room.roomType.defaultNumberOfBeds}"></td>
+                    <td th:text="${orderLine.extraBeds}"></td>
                     <td class="remove-room-btn">
                         <img src="/images/white_delete.png" alt="Remove" /></td>
                 </tr>
@@ -86,7 +86,7 @@
 
 
     <div th:unless="${#lists.isEmpty(availableRooms)}">
-        <div id="booking-empty-rooms" >
+        <div id="update-booking-empty-rooms" >
             <div class="scroll-shit">
                 <p class="title-booking">LEDIGA RUM</p>
                 <table>
@@ -104,7 +104,7 @@
                         <td class="room-type" th:text="${orderLine.room.roomType.roomType}"></td>
                         <td>
                             <label>
-                                <input class="bed-number" type="number" th:value="${orderLine.room.roomType.defaultNumberOfBeds}"
+                                <input class="bed-number" type="number" th:value="${orderLine.extraBeds}"
                                        th:min="${orderLine.room.roomType.defaultNumberOfBeds}"
                                        th:max="${orderLine.room.roomType.maxNumberOfBeds}">
                             </label>
