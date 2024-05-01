@@ -68,13 +68,15 @@ public class BookingController {
      */
 
     @GetMapping("/remove")
-    public String removeBookingById(HttpSession session) {
+    public String removeBookingById(HttpSession session, Model model) {
         DetailedBookingDTO booking = (DetailedBookingDTO) session.getAttribute("booking");
         if (booking != null) {
             bookingService.removeBookingById(booking.getId());
+            String status = "BOKNING MED ID " + booking.getId() + " BORTTAGEN";
+            model.addAttribute("status", status);
             session.removeAttribute("booking");
         }
-        return "redirect:/index.html";
+        return "bookingRemoved";
     }
 
     @GetMapping("/update")

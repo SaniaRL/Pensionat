@@ -487,7 +487,6 @@ input[type=number]::-webkit-inner-spin-button {
     z-index: 1000;
 }
 
-/*
 .hidden {
     display: none;
 }
