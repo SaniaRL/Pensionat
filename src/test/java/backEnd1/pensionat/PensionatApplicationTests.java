@@ -1,4 +1,4 @@
-package backEnd1.pensionat.services;
+package backEnd1.pensionat;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
