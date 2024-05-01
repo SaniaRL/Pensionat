@@ -79,6 +79,25 @@ public class BookingController {
         List<SimpleOrderLineDTO> availableRooms = new ArrayList<>();
 
         model.addAttribute("booking", booking);
+        model.addAttribute("startDate", booking.getStartDate());
+        model.addAttribute("endDate", booking.getEndDate());
+        model.addAttribute("chosenRooms", chosenRooms);
+        model.addAttribute("availableRooms", availableRooms);
+        return "updateBooking";
+    }
+
+    @GetMapping("/updateConfirm")
+    public String updateConfirm(@RequestParam DetailedBookingDTO booking,
+                                @RequestParam List<SimpleOrderLineDTO> chosenRooms,
+                                @RequestParam BookingFormQueryDTO query,
+                                @RequestParam Model model){
+
+
+        List<RoomDTO> availableRooms = roomService.findAvailableRooms(query);
+
+        model.addAttribute("booking", booking);
+        model.addAttribute("startDate", query.getStartDate());
+        model.addAttribute("endDate", query.getEndDate());
         model.addAttribute("chosenRooms", chosenRooms);
         model.addAttribute("availableRooms", availableRooms);
         return "updateBooking";
