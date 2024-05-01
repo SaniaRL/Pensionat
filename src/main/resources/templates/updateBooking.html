@@ -53,6 +53,9 @@
                     <input class="nr-input" type="number" id="number-of-rooms" name="rooms" th:value="${rooms != null ? rooms : '1'}" min="1" max="12" required>
                 </div>
                 <div>
+                    <input type="hidden" name="chosenRooms" th:value="${chosenRooms}">
+                </div>
+                <div>
                     <input type="submit" id="submit-booking" name="submit-booking" value="SÖK LEDIGA RUM" onclick="showAvailableRoomsDiv()">
                 </div>
             </div>
@@ -82,8 +85,9 @@
                                    th:max="${orderLine.room.roomType.maxNumberOfBeds}">
                         </label>
                     </td>
-                    <td class="remove-room-btn">
-                        <img src="/images/white_delete.png" alt="Remove" /></td>
+                    <td class="remove-room-btn remove-add-btn">
+                        <img src="/images/white_delete.png" alt="Remove" />
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -115,7 +119,7 @@
                                        th:max="${orderLine.room.roomType.maxNumberOfBeds}">
                             </label>
                         </td>
-                        <td class="add-room-btn">
+                        <td class="add-room-btn remove-add-btn">
                             <img src="/images/white_plus.png" alt="Add" /></td>
                     </tr>
                     </tbody>
@@ -125,7 +129,6 @@
         <div><button class="booking-booking-btn" onclick=submitBooking()>BOKA</button></div>
     </div>
 </div>
-
 <script th:src="@{/js/updateBookingScript.js}"></script>
 </body>
 </html>

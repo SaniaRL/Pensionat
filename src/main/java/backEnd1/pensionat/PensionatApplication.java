@@ -27,7 +27,6 @@ public class PensionatApplication {
 	//TODO Kommentera bort innan ni får 8726782672627628 extra
 
 /*
-
 	@Bean
 	public CommandLineRunner demo(BookingRepo bookingRepo, CustomerRepo customerRepo,
 								  OrderLineRepo orderLineRepo, RoomRepo roomRepo) {
@@ -73,18 +72,18 @@ public class PensionatApplication {
 
 			List<OrderLine> orderLines = Arrays.asList(
 					new OrderLine(bookings.get(0), rooms.get(5), 2),
-					new OrderLine(bookings.get(0), rooms.get(3), 1),
-					new OrderLine(bookings.get(1), rooms.get(2), 0),
-					new OrderLine(bookings.get(2), rooms.get(1), 0),
-					new OrderLine(bookings.get(2), rooms.get(2), 1),
+					new OrderLine(bookings.get(0), rooms.get(3), 2),
+					new OrderLine(bookings.get(1), rooms.get(2), 3),
+					new OrderLine(bookings.get(2), rooms.get(1), 2),
+					new OrderLine(bookings.get(2), rooms.get(2), 2),
 					new OrderLine(bookings.get(2), rooms.get(5), 2),
-					new OrderLine(bookings.get(3), rooms.get(1), 0),
-					new OrderLine(bookings.get(4), rooms.get(2), 1),
-					new OrderLine(bookings.get(5), rooms.get(1), 0),
-					new OrderLine(bookings.get(6), rooms.get(2), 1),
-					new OrderLine(bookings.get(6), rooms.get(1), 0),
-					new OrderLine(bookings.get(7), rooms.get(2), 1),
-					new OrderLine(bookings.get(3), rooms.get(5), 0)
+					new OrderLine(bookings.get(3), rooms.get(1), 2),
+					new OrderLine(bookings.get(4), rooms.get(2), 3),
+					new OrderLine(bookings.get(5), rooms.get(1), 1),
+					new OrderLine(bookings.get(6), rooms.get(2), 2),
+					new OrderLine(bookings.get(6), rooms.get(1), 1),
+					new OrderLine(bookings.get(7), rooms.get(2), 2),
+					new OrderLine(bookings.get(3), rooms.get(5), 4)
 			);
 
 			orderLineRepo.saveAll(orderLines);
@@ -92,6 +91,5 @@ public class PensionatApplication {
 
 
 	}
-	 */
-
+*/
 }

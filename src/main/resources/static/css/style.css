@@ -402,3 +402,17 @@ input[type=number]::-webkit-inner-spin-button {
 .hidden {
     display: none;
 }
+
+.read-only {
+    background-color: #757575;
+    color: #414141;
+    border-color: #414141;
+}
+
+.read-only .bed-number {
+    background-color: #757575;
+    color: #414141;
+}
+.read-only .remove-add-btn {
+    background-color: #757575;
+}
