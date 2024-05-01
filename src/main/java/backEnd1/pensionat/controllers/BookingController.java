@@ -47,7 +47,7 @@ public class BookingController {
             orderLineService.addOrderLineFromSimpleOrderLineDto(new SimpleOrderLineDTO(bookingId,
                                                                     rooms.get(i), xtrBeds));
         }
-        model.addAttribute("booking", bookingService.getDetailedBookingById(bookingId));
+        model.addAttribute("booking", bookingService.getBookingById(bookingId));
         model.addAttribute("orderLines", orderLineService.getOrderLinesByBookingId(bookingId));
         return "bookingConfirmation";
     }
@@ -57,23 +57,18 @@ public class BookingController {
         return "bookingSearch";
     }
 
-    @GetMapping("/searchById")
+    @GetMapping("/update")
     public String updateBooking(@RequestParam Long id, Model model){
-        System.out.println(id);
-//            model.addAttribute("result", "Hittade inte bokning");
-            return "bookingSearch";
-
-
-//        //TODO sök upp orderrader i vald bokning:
-//        List<SimpleOrderLineDTO> chosenRooms = orderLineService.getOrderLinesByBookingId(id);
-//        //TODO sök tillgängliga rum som inte har samma id som dessa rum
-//        // eller begränsa query till att ej inkludera samma bokning-id
-//        List<OrderLineDTO> availableRooms = new ArrayList<>();
-//        //TODO riktigt id:
-//        model.addAttribute("bookingID", 62L);
-//        model.addAttribute("chosenRooms", chosenRooms);
-//        model.addAttribute("availableRooms", availableRooms);
-//        return "updateBooking";
+        //TODO sök upp orderrader i vald bokning:
+        List<SimpleOrderLineDTO> chosenRooms = orderLineService.getOrderLinesByBookingId(id);
+        //TODO sök tillgängliga rum som inte har samma id som dessa rum
+        // eller begränsa query till att ej inkludera samma bokning-id
+        List<OrderLineDTO> availableRooms = new ArrayList<>();
+        //TODO riktigt id:
+        model.addAttribute("bookingID", 62L);
+        model.addAttribute("chosenRooms", chosenRooms);
+        model.addAttribute("availableRooms", availableRooms);
+        return "updateBooking";
     }
 
     @RequestMapping("/{id}/remove")

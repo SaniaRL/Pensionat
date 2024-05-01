@@ -58,7 +58,7 @@ class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public DetailedBookingDTO getDetailedBookingById(Long id) {
+    public DetailedBookingDTO getBookingById(Long id) {
         return bookingToDetailedBookingDTO(bookingRepo.findById(id).orElse(null));
     }
 
@@ -127,4 +127,12 @@ class BookingServiceImpl implements BookingService {
         return "Everything is fine";
 
     }
+
+//    public DetailedBookingData getBookingById(Long id) {
+//        Optional<Booking> booking = bookingRepo.findById(id);
+//        DetailedBookingData bookingData;
+//        if(booking.isPresent()) {
+//            bookingData = DetailedBookingData.builder().id(booking.get().getId()).roomId(booking.get().);
+//        }
+//    }
 }

@@ -13,5 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 @AllArgsConstructor
 public class RoomIdDTO {
     private String roomId;
+    private int extraBeds;
 
 }
