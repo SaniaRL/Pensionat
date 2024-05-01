@@ -1,11 +1,13 @@
 package backEnd1.pensionat.controllers;
 
 import backEnd1.pensionat.DTOs.*;
-import backEnd1.pensionat.Models.Booking;
+import backEnd1.pensionat.services.convert.RoomConverter;
+import backEnd1.pensionat.services.impl.RoomServicelmpl;
 import backEnd1.pensionat.services.interfaces.BookingService;
 import backEnd1.pensionat.services.interfaces.CustomerService;
 import backEnd1.pensionat.services.interfaces.OrderLineService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.query.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ public class BookingController {
     private final BookingService bookingService;
     private final CustomerService customerService;
     private final OrderLineService orderLineService;
+    private final RoomServicelmpl roomService;
 
     /*@RequestMapping("/all")
     //public List<DetailedBookingDTO> getAllBookings() {
@@ -74,5 +77,24 @@ public class BookingController {
     @RequestMapping("/{id}/remove")
     public String removeBookingById(@PathVariable Long id) {
         return bookingService.removeBookingById(id);
+    }
+
+    @GetMapping("/update")
+    public String updateBooking(@ModelAttribute Long id, Model model){
+
+        DetailedBookingDTO booking = bookingService.getBookingById(id);
+        if(booking == null) {
+            String result = "Bokningen hittades ej";
+            model.addAttribute("result", result);
+            return "bookingSearch";
+        }
+
+        List<SimpleOrderLineDTO> chosenRooms = orderLineService.getOrderLinesByBookingId(id);
+        List<SimpleOrderLineDTO> availableRooms = new ArrayList<>();
+
+        model.addAttribute("booking", booking);
+        model.addAttribute("chosenRooms", chosenRooms);
+        model.addAttribute("availableRooms", availableRooms);
+        return "updateBooking";
     }
 }

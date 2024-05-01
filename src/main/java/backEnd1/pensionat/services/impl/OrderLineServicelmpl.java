@@ -8,6 +8,7 @@ import backEnd1.pensionat.Models.Room;
 import backEnd1.pensionat.Repositories.BookingRepo;
 import backEnd1.pensionat.Repositories.OrderLineRepo;
 import backEnd1.pensionat.services.convert.BookingConverter;
+import backEnd1.pensionat.services.convert.OrderLineConverter;
 import backEnd1.pensionat.services.convert.RoomTypeConverter;
 import backEnd1.pensionat.services.interfaces.OrderLineService;
 import backEnd1.pensionat.services.interfaces.RoomService;
@@ -26,7 +27,6 @@ public class OrderLineServicelmpl implements OrderLineService {
 
     private final OrderLineRepo orderLineRepo;
     private final BookingRepo bookingRepo;
-    private final RoomService roomService;
 
     @Override
     public List<OrderLine> getAllOrderLines(){
@@ -35,7 +35,7 @@ public class OrderLineServicelmpl implements OrderLineService {
     @Override
     public String addOrderLine(OrderLine o){
         orderLineRepo.save(o);
-        return "Orderline added";
+        return "OrderLine added";
     }
 
     @Override
@@ -51,7 +51,7 @@ public class OrderLineServicelmpl implements OrderLineService {
         OrderLine orderLine = new OrderLine(booking, room, extraBeds);
         orderLineRepo.save(orderLine);
 
-        return "Orderline added";
+        return "OrderLine added";
     }
     @Override
     public String removeOrderLineById(Long id) {
@@ -62,12 +62,12 @@ public class OrderLineServicelmpl implements OrderLineService {
     public String addOrderLineFromSimpleOrderLineDto(SimpleOrderLineDTO orderLineDTO){
         Booking booking = bookingRepo.findById(orderLineDTO.getBookingId()).orElse(null);
         orderLineRepo.save(simpleOrderLineDtoToOrderLine(orderLineDTO, booking));
-        return "Orderline added";
+        return "OrderLine added";
     }
 
     @Override
     public List<SimpleOrderLineDTO> getOrderLinesByBookingId(Long id) {
         return getAllOrderLines().stream().filter(o -> Objects.equals(o.getBooking().getId(), id))
-                                          .map(o -> orderLineTosimpleOrderLineDto(o)).toList();
+                                          .map(OrderLineConverter::orderLineTosimpleOrderLineDto).toList();
     }
 }
