@@ -95,7 +95,9 @@ public class BookingController {
         model.addAttribute("booking", booking);
         model.addAttribute("startDate", booking.getStartDate());
         //Query count beds
+        List<SimpleOrderLineDTO> orderLines = orderLineService.findOrderLinesByBookingId(id);
         //Query count orderLines/rooms
+        model.addAttribute("rooms", orderLines.size());
         model.addAttribute("endDate", booking.getEndDate());
         model.addAttribute("chosenRooms", chosenRooms);
         model.addAttribute("availableRooms", availableRooms);
