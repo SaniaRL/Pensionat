@@ -32,7 +32,6 @@ class CustomerControllerTest {
     @Autowired
     private MockMvc mvc;
 
-
     @MockBean
     private BookingService bookingService;
 
@@ -50,7 +49,9 @@ class CustomerControllerTest {
     }
 
     @Test
-    void removeCustomerByIdHandler() throws Exception {}
+    void removeCustomerByIdHandler() throws Exception {
+        //TODO när affärslogik utbruten
+    }
 
     @Test
     void updateCustomerHandler() throws Exception {
@@ -63,6 +64,7 @@ class CustomerControllerTest {
 
     @Test
     void handleCustomersUpdate() throws Exception{
+        //TODO
     }
 
     @Test
@@ -97,21 +99,20 @@ class CustomerControllerTest {
     }
 
     @Test
-    void loadFrontPage() throws Exception {
+    void loadFrontPageTest() throws Exception {
         mvc.perform(get("/customer/frontPage"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("Index"));
+                .andExpect(view().name("Index.html"));
     }
-
 
     @Test
     void getCustomerByEmail() throws Exception {
-
+        //TODO
     }
 
     @Test
     void getCustomerByEmailByPage() throws Exception{
-
+        //TODO
     }
 
 
