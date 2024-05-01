@@ -83,6 +83,7 @@ public class BookingController {
     public String updateBooking(@RequestParam Long id, Model model, HttpSession session){
 
         DetailedBookingDTO booking = bookingService.getBookingById(id);
+
         if(booking == null) {
             String result = "Bokningen hittades ej";
             model.addAttribute("result", result);
@@ -91,19 +92,17 @@ public class BookingController {
 
         List<SimpleOrderLineDTO> chosenRooms = orderLineService.getOrderLinesByBookingId(id);
         List<SimpleOrderLineDTO> availableRooms = new ArrayList<>();
+        int rooms = bookingService.getNumberOfRoomsFromBooking(booking.getId());
+        int beds = bookingService.getNumberOfBedsFromBooking(booking.getId());
 
         model.addAttribute("booking", booking);
         model.addAttribute("startDate", booking.getStartDate());
-        //Query count beds
-        List<SimpleOrderLineDTO> orderLines = orderLineService.findOrderLinesByBookingId(id);
-        //Query count orderLines/rooms
-        model.addAttribute("rooms", orderLines.size());
+        model.addAttribute("rooms", rooms);
+        model.addAttribute("beds", beds);
         model.addAttribute("endDate", booking.getEndDate());
         model.addAttribute("chosenRooms", chosenRooms);
         model.addAttribute("availableRooms", availableRooms);
 
-//        session.setAttribute("chosenRooms", chosenRooms);
-//        session.setAttribute("booking", booking);
         return "updateBooking";
     }
 

@@ -92,47 +92,39 @@ class BookingServiceImpl implements BookingService {
         LocalDate startDate = LocalDate.parse(bookingData.getStartDate());
         LocalDate endDate = LocalDate.parse(bookingData.getEndDate());
 
-        System.out.println();
-        System.out.println("Namn: " + name);
-        System.out.println("Email: " + email);
-        System.out.println("Startdatum: " + bookingData.getStartDate());
-        System.out.println("Slutdatum: " + bookingData.getEndDate());
-        System.out.println("Valda rum: ");
-        for (OrderLineDTO room : orderLines) {
-            System.out.println("  - RumID: " + room.getId() + "  - Rumstyp: " + room.getRoomType() + ", Extra sängar: " + room.getExtraBeds());
-        }
-        System.out.println();
-        System.out.println("-------------------------------------------------");
-        System.out.println();
-
-        //Kolla om kunden finns - hämta kund eller skapa ny
         SimpleCustomerDTO customer = customerService.getCustomerByEmail(email);
         if (customer == null) {
             customer = new SimpleCustomerDTO(name, email);
-            //Add customer to Repo
             customer = customerService.addCustomer(customer);
             System.out.println("New customer added: " + customer);
         }
 
-        //Skapa bokning
         DetailedBookingDTO booking = new DetailedBookingDTO(customer, startDate, endDate);
         System.out.println("New booking: " + booking);
 
-        //Lägg till bokning i DATABAS och spara om den
         booking = addBooking(booking);
         System.out.println("Added booking: " + booking);
 
-        //TODO Uppdatera Customer lägg till bokning
-
-        //TODO Översätt totala rum till extra rum - rum???? menar säng
-
-        //Lägg till orderrader?
-        //TODO har inte ändrat dessa till DTO det bråkar inte med nåt:
         DetailedBookingDTO finalBooking = booking;
         orderLines.stream()
                 .map(orderLine -> new DetailedOrderLineDTO(orderLine.getExtraBeds(), finalBooking, roomService.getRoomByID((long) orderLine.getId())))
                 .forEach(orderLineService::addOrderLine);
 
         return "Everything is fine";
+    }
+
+    @Override
+    public int getNumberOfRoomsFromBooking(Long id) {
+        List<SimpleOrderLineDTO> orderLines = orderLineService.getOrderLinesByBookingId(id);
+        return orderLines.size();
+    }
+
+    @Override
+    public int getNumberOfBedsFromBooking(Long id) {
+        List<SimpleOrderLineDTO> orderLines = orderLineService.getOrderLinesByBookingId(id);
+
+        return orderLines.stream()
+                .mapToInt(SimpleOrderLineDTO::getExtraBeds)
+                .sum();
     }
 }
