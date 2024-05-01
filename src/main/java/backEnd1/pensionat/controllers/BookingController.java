@@ -19,7 +19,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@SessionAttributes({"chosenOrderLines", "booking"})
+@SessionAttributes({"chosenRooms", "booking"})
 @RequestMapping(path = "/booking")
 public class BookingController {
 
@@ -85,7 +85,7 @@ public class BookingController {
         model.addAttribute("chosenRooms", chosenRooms);
         model.addAttribute("availableRooms", availableRooms);
 
-        session.setAttribute("chosenOrderLines", chosenRooms);
+//        session.setAttribute("chosenRooms", chosenRooms);
 //        session.setAttribute("booking", booking);
         return "updateBooking";
     }
@@ -94,16 +94,20 @@ public class BookingController {
     public String updateConfirm(@ModelAttribute BookingFormQueryDTO query,
                                 Model model,
                                 HttpSession session){
-
+        System.out.println(query);
         List<SimpleOrderLineDTO> availableRooms = new ArrayList<>();
-        List<SimpleOrderLineDTO> chosenRooms = (List<SimpleOrderLineDTO>) session.getAttribute("chosenOrderLines");
+        List<SimpleOrderLineDTO> chosenRooms = (List<SimpleOrderLineDTO>) session.getAttribute("chosenRooms");
         String status = "Error: Query is null";
+
+        List<SimpleOrderLineDTO> availableRooms2 = new ArrayList<>();
 
         if (query != null) {
             availableRooms = roomService.filterNotInChosenRooms(query, chosenRooms);
             List<RoomDTO> availableRoomsAsRoomDTO = availableRooms.stream()
                     .map(RoomConverter::orderLineToRoomDTO).toList();
 
+
+            availableRooms2 = roomService.findAvailableRooms(query, ((DetailedBookingDTO) session.getAttribute("booking")).getId()).stream().map(OrderLineConverter::roomToSimpleOrderLineDTO).toList();
 
             status = roomService.enoughRooms(query, availableRoomsAsRoomDTO);
             model.addAttribute("startDate", query.getStartDate());
@@ -113,7 +117,7 @@ public class BookingController {
         }
 
         if(status.isEmpty()){
-            model.addAttribute("availableRooms", availableRooms);
+            model.addAttribute("availableRooms", availableRooms2);
         }
 
         model.addAttribute("chosenRooms", chosenRooms);
@@ -121,4 +125,5 @@ public class BookingController {
 
         return "updateBooking";
     }
+
 }
