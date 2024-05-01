@@ -3,11 +3,15 @@ package backEnd1.pensionat.services.impl;
 import backEnd1.pensionat.DTOs.*;
 import backEnd1.pensionat.Models.Booking;
 import backEnd1.pensionat.Models.Customer;
+import backEnd1.pensionat.Models.Room;
 import backEnd1.pensionat.Repositories.BookingRepo;
 import backEnd1.pensionat.Repositories.CustomerRepo;
 import backEnd1.pensionat.services.convert.BookingConverter;
+import backEnd1.pensionat.services.convert.RoomConverter;
 import backEnd1.pensionat.services.interfaces.BookingService;
 import backEnd1.pensionat.services.interfaces.CustomerService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -25,6 +29,8 @@ class BookingServiceImpl implements BookingService {
     private final CustomerService customerService;
     private final RoomServicelmpl roomService;
     private final OrderLineServicelmpl orderLineService;
+    @PersistenceContext
+    EntityManager entityManager;
 
     public BookingServiceImpl(BookingRepo bookingRepo, CustomerRepo customerRepo, CustomerService customerService, RoomServicelmpl roomServicelmpl, OrderLineServicelmpl orderLineService) {
         this.bookingRepo = bookingRepo;
@@ -124,6 +130,5 @@ class BookingServiceImpl implements BookingService {
                 .forEach(orderLineService::addOrderLine);
 
         return "Everything is fine";
-
     }
 }

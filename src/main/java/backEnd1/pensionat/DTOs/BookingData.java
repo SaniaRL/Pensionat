@@ -12,4 +12,5 @@ public class BookingData {
     private String startDate;
     private String endDate;
     private List<OrderLineDTO> chosenRooms;
+
 }

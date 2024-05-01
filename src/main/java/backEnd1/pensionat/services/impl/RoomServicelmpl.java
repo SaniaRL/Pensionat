@@ -5,6 +5,7 @@ import backEnd1.pensionat.DTOs.BookingFormQueryDTO;
 import backEnd1.pensionat.DTOs.RoomDTO;
 import backEnd1.pensionat.Models.Room;
 import backEnd1.pensionat.Repositories.RoomRepo;
+import backEnd1.pensionat.services.convert.RoomConverter;
 import backEnd1.pensionat.services.convert.RoomTypeConverter;
 import backEnd1.pensionat.services.interfaces.RoomService;
 import jakarta.persistence.EntityManager;
@@ -46,7 +47,7 @@ public class RoomServicelmpl implements RoomService {
     }
 
     @Override
-    public List<RoomDTO> findAvailableRooms(BookingFormQueryDTO query) throws RoomAvailabilityException {
+    public List<RoomDTO> findAvailableRooms(BookingFormQueryDTO query) {
         LocalDate startDate = query.getStartDate();
         LocalDate endDate = query.getEndDate();
 
@@ -56,15 +57,31 @@ public class RoomServicelmpl implements RoomService {
                 ")" +
                 ")";;
 
-                //TODO Uppdatera metod så r -> kör färdig metod som kör builder
         return entityManager.createQuery(jpqlQuery, Room.class)
                 .setParameter("startDate", startDate)
                 .setParameter("endDate", endDate)
-                .getResultList().stream().map(r -> RoomDTO.builder()
-                        .id(r.getId())
-                        .roomType(RoomTypeConverter.convertFromInt(r.getTypeOfRoom()))
-                        .build()).toList();
+                .getResultList().stream().map(RoomConverter::roomToRoomDto).toList();
     }
+
+    @Override
+    public List<RoomDTO> findAvailableRoomsNotInBooking(BookingFormQueryDTO query, List<RoomDTO> rooms) {
+        LocalDate startDate = query.getStartDate();
+        LocalDate endDate = query.getEndDate();
+
+        String jpqlQuery = "SELECT r FROM Room r WHERE r.id NOT IN (" +
+                "SELECT o.room.id FROM OrderLine o WHERE o.booking.id IN (" +
+                "SELECT b.id FROM Booking b WHERE b.endDate >= :startDate AND b.startDate <= :endDate" +
+                ")" +
+                ")";;
+
+        List<RoomDTO> allRooms = entityManager.createQuery(jpqlQuery, Room.class)
+                .setParameter("startDate", startDate)
+                .setParameter("endDate", endDate)
+                .getResultList().stream().map(RoomConverter::roomToRoomDto).toList();
+
+        return allRooms.stream().filter(r -> !(rooms.contains(r))).toList();
+    }
+
 
     @Override
     public String enoughRooms(BookingFormQueryDTO query, List<RoomDTO> queryRooms) {
@@ -101,4 +118,5 @@ public class RoomServicelmpl implements RoomService {
 
         return "";
     }
+
 }
