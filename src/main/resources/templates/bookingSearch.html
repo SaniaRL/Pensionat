@@ -22,11 +22,18 @@
 </div>
 <div class="content index-content">
     <div class="booking-search-div">
+        <div>
+            <h1>SÖK BOKNING</h1>
+        </div>
         <form action="#" method="get" th:object="${id}" th:action="@{/booking/update}">
-            <label>
-                <input class="customer-search" name="id" placeholder="Sök" type="text" value="">
-            </label>
-            <input class="search-customer-button" type="submit" value="SÖK">
+            <div>
+                <label>
+                    <input class="customer-search" name="id" placeholder="Sök" type="text" value="" required>
+                </label>
+            </div>
+            <div>
+                <input class="search-customer-button" type="submit" value="SÖK">
+            </div>
         </form>
         <div>
             <p th:text="${result}">
