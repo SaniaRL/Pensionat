@@ -32,7 +32,9 @@ class BookingServiceImpl implements BookingService {
     @PersistenceContext
     EntityManager entityManager;
 
-    public BookingServiceImpl(BookingRepo bookingRepo, CustomerRepo customerRepo, CustomerService customerService, RoomServicelmpl roomServicelmpl, OrderLineServicelmpl orderLineService) {
+    public BookingServiceImpl(BookingRepo bookingRepo, CustomerRepo customerRepo,
+                              CustomerService customerService, RoomServicelmpl roomServicelmpl,
+                              OrderLineServicelmpl orderLineService) {
         this.bookingRepo = bookingRepo;
         this.customerRepo = customerRepo;
         this.customerService = customerService;
