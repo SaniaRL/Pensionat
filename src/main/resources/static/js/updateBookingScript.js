@@ -96,9 +96,39 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeButton = document.getElementById('closeButton');
     const errorPopup = document.getElementById('errorPopup');
 
+    let avList = Array.prototype.slice.call(document.getElementById("AvailableList").children);
+    let chList = Array.prototype.slice.call(document.getElementById("ChosenList").children);
+
+    chList.forEach(c => {
+        console.log(c.firstElementChild.innerHTML);
+    });
+
+    avList.forEach(a => {
+        chList.forEach(c => {
+            if(a.firstElementChild.innerHTML === c.firstElementChild.innerHTML) {
+                a.classList.add("hidden");
+            }
+        })
+    })
+
+    if(avList.length !== 0) {
+        chList.forEach(c => {
+            let bool = false;
+            avList.forEach(a => {
+                if (a.firstElementChild.innerHTML === c.firstElementChild.innerHTML) {
+                    bool = true;
+                }
+            })
+
+            if (!bool) {
+                c.classList.add("read-only");
+            }
+        })
+    }
     closeButton.addEventListener('click', function() {
         console.log("Button clicked")
         errorPopup.style.display = 'none';
     });
+
 });
 

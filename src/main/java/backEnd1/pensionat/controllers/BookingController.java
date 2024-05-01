@@ -117,6 +117,7 @@ public class BookingController {
         }
 
         if(status.isEmpty()){
+
             model.addAttribute("availableRooms", availableRooms2);
         }
 
