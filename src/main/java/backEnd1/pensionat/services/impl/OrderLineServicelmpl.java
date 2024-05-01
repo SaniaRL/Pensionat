@@ -26,7 +26,6 @@ public class OrderLineServicelmpl implements OrderLineService {
 
     private final OrderLineRepo orderLineRepo;
     private final BookingRepo bookingRepo;
-    private final RoomService roomService;
 
     @Override
     public List<OrderLine> getAllOrderLines(){
