@@ -14,6 +14,7 @@
 <div class="header booking-header">
     <a class="back-link" href="http://localhost:8080/index.html">&#129168;Tillbaka</a>
 </div>
+
 <div class="booking-info-div">
     <p class="info-header">BOKNING</p>
     <div class="info-layout">
@@ -40,8 +41,8 @@
 <div class="hidden delete-warning">
     <div>
         <p class="delete-title">ÄR DU SÄKER PÅ ATT DU VILL RADERA BOKNING?</p>
-        <p>Denna åtgärd går ej att ångra</p>
-        <button class="btn" onclick="deleteBooking()">RADERA BOKNING</button>
+        <p class="delete-p">Denna åtgärd går ej att ångra</p>
+        <a th:href="@{/booking/remove}"><button class="btn">RADERA BOKNING</button></a>
         <button class="btn grey-btn" onclick="closeDiv()">AVBRYT</button>
     </div>
 </div>

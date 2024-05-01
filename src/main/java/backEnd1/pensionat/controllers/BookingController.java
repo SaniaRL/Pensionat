@@ -59,9 +59,22 @@ public class BookingController {
         return "bookingSearch";
     }
 
+    /*
     @RequestMapping("/{id}/remove")
     public String removeBookingById(@PathVariable Long id) {
         return bookingService.removeBookingById(id);
+    }
+
+     */
+
+    @GetMapping("/remove")
+    public String removeBookingById(HttpSession session) {
+        DetailedBookingDTO booking = (DetailedBookingDTO) session.getAttribute("booking");
+        if (booking != null) {
+            bookingService.removeBookingById(booking.getId());
+            session.removeAttribute("booking");
+        }
+        return "redirect:/index.html";
     }
 
     @GetMapping("/update")

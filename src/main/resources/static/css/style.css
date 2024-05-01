@@ -456,10 +456,10 @@ input[type=number]::-webkit-inner-spin-button {
     left: 50%;
     transform: translateX(-50%);
     z-index: 1001;
+    height: 200px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    grid-template-rows: 30px 20px 40px;
     text-align: center;
 
     background-color: #d1d3d4;
@@ -473,6 +473,10 @@ input[type=number]::-webkit-inner-spin-button {
     font-weight: 800;
 }
 
+.delete-p {
+    margin-bottom: 50px;
+}
+
 #overlay {
     position: fixed;
     top: 0;
@@ -483,6 +487,7 @@ input[type=number]::-webkit-inner-spin-button {
     z-index: 1000;
 }
 
+/*
 .hidden {
     display: none;
 }
