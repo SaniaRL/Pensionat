@@ -55,6 +55,25 @@ public class BookingController {
         return "bookingConfirmation";
     }
 
+    @GetMapping("/search")
+    public String searchBooking() {
+        return "bookingSearch";
+    }
+
+    @GetMapping("/update")
+    public String updateBooking(@RequestParam Long id, Model model){
+        //TODO sök upp orderrader i vald bokning:
+        List<SimpleOrderLineDTO> chosenRooms = orderLineService.getOrderLinesByBookingId(id);
+        //TODO sök tillgängliga rum som inte har samma id som dessa rum
+        // eller begränsa query till att ej inkludera samma bokning-id
+        List<OrderLineDTO> availableRooms = new ArrayList<>();
+        //TODO riktigt id:
+        model.addAttribute("bookingID", 62L);
+        model.addAttribute("chosenRooms", chosenRooms);
+        model.addAttribute("availableRooms", availableRooms);
+        return "updateBooking";
+    }
+
     @RequestMapping("/{id}/remove")
     public String removeBookingById(@PathVariable Long id) {
         return bookingService.removeBookingById(id);
