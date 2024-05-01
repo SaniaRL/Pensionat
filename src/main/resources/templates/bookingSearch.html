@@ -21,12 +21,12 @@
     </div>
 </div>
 <div class="content index-content">
-    <div>
-        <form action="#" method="get" th:action="@{/booking/searchById}">
+    <div class="booking-search-div">
+        <form action="#" method="get" th:object="${id}" th:action="@{/booking/update}">
             <label>
                 <input class="customer-search" name="id" placeholder="Sök" type="text" value="">
             </label>
-            <input class="search-customer-button" type="submit" value="Submit">
+            <input class="search-customer-button" type="submit" value="SÖK">
         </form>
         <div>
             <p th:text="${result}">

@@ -64,7 +64,11 @@ class BookingServiceImpl implements BookingService {
 
     @Override
     public DetailedBookingDTO getBookingById(Long id) {
-        return bookingToDetailedBookingDTO(bookingRepo.findById(id).orElse(null));
+        Booking booking = bookingRepo.findById(id).orElse(null);
+        if(booking != null){
+            return bookingToDetailedBookingDTO(booking);
+        }
+        return null;
     }
 
     @Override

@@ -1,10 +1,11 @@
 package backEnd1.pensionat.services.impl;
 
-import Exceptions.RoomAvailabilityException;
 import backEnd1.pensionat.DTOs.BookingFormQueryDTO;
 import backEnd1.pensionat.DTOs.RoomDTO;
+import backEnd1.pensionat.DTOs.SimpleOrderLineDTO;
 import backEnd1.pensionat.Models.Room;
 import backEnd1.pensionat.Repositories.RoomRepo;
+import backEnd1.pensionat.services.convert.OrderLineConverter;
 import backEnd1.pensionat.services.convert.RoomConverter;
 import backEnd1.pensionat.services.convert.RoomTypeConverter;
 import backEnd1.pensionat.services.interfaces.RoomService;
@@ -55,7 +56,7 @@ public class RoomServicelmpl implements RoomService {
                 "SELECT o.room.id FROM OrderLine o WHERE o.booking.id IN (" +
                 "SELECT b.id FROM Booking b WHERE b.endDate >= :startDate AND b.startDate <= :endDate" +
                 ")" +
-                ")";;
+                ")";
 
         return entityManager.createQuery(jpqlQuery, Room.class)
                 .setParameter("startDate", startDate)
@@ -64,22 +65,13 @@ public class RoomServicelmpl implements RoomService {
     }
 
     @Override
-    public List<RoomDTO> findAvailableRoomsNotInBooking(BookingFormQueryDTO query, List<RoomDTO> rooms) {
-        LocalDate startDate = query.getStartDate();
-        LocalDate endDate = query.getEndDate();
+    public List<SimpleOrderLineDTO> filterNotInChosenRooms(BookingFormQueryDTO query,
+                                                           List<SimpleOrderLineDTO> chosenRooms) {
 
-        String jpqlQuery = "SELECT r FROM Room r WHERE r.id NOT IN (" +
-                "SELECT o.room.id FROM OrderLine o WHERE o.booking.id IN (" +
-                "SELECT b.id FROM Booking b WHERE b.endDate >= :startDate AND b.startDate <= :endDate" +
-                ")" +
-                ")";;
+        List<SimpleOrderLineDTO> allRooms = findAvailableRooms(query).stream()
+                .map(OrderLineConverter::roomToSimpleOrderLineDTO).toList();
 
-        List<RoomDTO> allRooms = entityManager.createQuery(jpqlQuery, Room.class)
-                .setParameter("startDate", startDate)
-                .setParameter("endDate", endDate)
-                .getResultList().stream().map(RoomConverter::roomToRoomDto).toList();
-
-        return allRooms.stream().filter(r -> !(rooms.contains(r))).toList();
+        return allRooms.stream().filter(r -> !(chosenRooms.contains(r))).toList();
     }
 
 
