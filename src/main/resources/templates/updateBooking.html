@@ -66,10 +66,10 @@
                 </tr>
                 </thead>
                 <tbody id="ChosenList" class="show-rooms">
-                <tr th:each="room : ${chosenRooms}" class="room-row-av room-av-row">
-                    <td class="room-id" th:text="${room.id}"></td>
-                    <td class="room-type" th:text="${room.roomType.roomType}"></td>
-                    <td th:text="${room.roomType.defaultNumberOfBeds}"></td>
+                <tr th:each="orderLine : ${chosenRooms}" class="room-row-av room-av-row">
+                    <td class="room-id" th:text="${orderLine.room.id}"></td>
+                    <td class="room-type" th:text="${orderLine.room.roomType.roomType}"></td>
+                    <td th:text="${orderLine.room.roomType.defaultNumberOfBeds}"></td>
                     <td class="remove-room-btn">
                         <img src="/images/white_delete.png" alt="Remove" /></td>
                 </tr>
@@ -93,12 +93,14 @@
                     </tr>
                     </thead>
                     <tbody id="AvailableList" class="show-rooms">
-                    <tr th:each="room : ${availableRooms}" class="room-row-av room-chosen-row">
-                        <td class="room-id" th:text="${room.id}"></td>
-                        <td class="room-type" th:text="${room.roomType.roomType}"></td>
+                    <tr th:each="orderLine : ${availableRooms}" class="room-row-av room-chosen-row">
+                        <td class="room-id" th:text="${orderLine.room.id}"></td>
+                        <td class="room-type" th:text="${orderLine.room.roomType.roomType}"></td>
                         <td>
                             <label>
-                                <input class="bed-number" type="number" th:value="${room.roomType.defaultNumberOfBeds}" th:min="${room.roomType.defaultNumberOfBeds}" th:max="${room.roomType.maxNumberOfBeds}">
+                                <input class="bed-number" type="number" th:value="${orderLine.room.roomType.defaultNumberOfBeds}"
+                                       th:min="${orderLine.room.roomType.defaultNumberOfBeds}"
+                                       th:max="${orderLine.room.roomType.maxNumberOfBeds}">
                             </label>
                         </td>
                         <td class="add-room-btn">

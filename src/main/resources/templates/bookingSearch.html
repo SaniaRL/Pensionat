@@ -22,7 +22,7 @@
 </div>
 <div class="content index-content">
     <div>
-        <form action="#" method="get" th:action="@{/booking/searchById}">
+        <form action="#" method="get" th:object="${id}" th:action="@{/booking/update}">
             <label>
                 <input class="customer-search" name="id" placeholder="Sök" type="text" value="">
             </label>
