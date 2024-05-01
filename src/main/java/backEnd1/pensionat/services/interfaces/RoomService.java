@@ -14,4 +14,5 @@ public interface RoomService {
     RoomDTO getRoomByID(Long Id);
     List<RoomDTO> findAvailableRooms(BookingFormQueryDTO query);
     String enoughRooms(BookingFormQueryDTO query, List<RoomDTO> rooms);
+    List<RoomDTO> findAvailableRoomsNotInBooking(BookingFormQueryDTO query, List<RoomDTO> rooms);
 }
