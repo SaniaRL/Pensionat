@@ -27,7 +27,8 @@ class OrderLineConverterTest {
     Booking booking = new Booking(customer, startDate, endDate);
     OrderLine orderLine = new OrderLine(booking, room, 2);
     SimpleOrderLineDTO simpleOrderLineDTO = new SimpleOrderLineDTO(booking.getId(), roomDTO, 1);
-
+    RoomDTO testRoomDTO = new RoomDTO(5, RoomType.SINGLE);
+    int expectedExtraBeds = RoomType.SINGLE.defaultNumberOfBeds;
 
 
     @Test
@@ -60,5 +61,13 @@ class OrderLineConverterTest {
                 .convertFromInt(orderLine.getRoom().getTypeOfRoom()));
 
         assertEquals(actual.getExtraBeds(), orderLine.getExtraBeds());
+    }
+
+    @Test
+    void roomToSimpleOrderLineDTO() {
+        SimpleOrderLineDTO actualVersion = OrderLineConverter.roomToSimpleOrderLineDTO(testRoomDTO);
+
+        assertEquals(testRoomDTO, actualVersion.getRoom());
+        assertEquals(expectedExtraBeds, actualVersion.getExtraBeds());
     }
 }
