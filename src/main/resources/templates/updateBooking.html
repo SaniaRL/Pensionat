@@ -15,12 +15,15 @@
     <a class="back-link" href="http://localhost:8080/index.html">&#129168;Tillbaka</a>
 </div>
 <div class="booking-info-div">
-    <p class="info-variable">BokningID</p>
-    <p class="booking-info-values" id="booking-id" th:text="${booking.id}"></p>
-    <p class="info-variable">Namn:</p>
-    <p class="booking-info-values" id="booking-name" th:text="${booking.customer.name}"></p>
-    <p class="info-variable">Email:</p>
-    <p class="booking-info-values" id="booking-email" th:text="${booking.customer.email}"></p>
+    <p class="info-header">BOKNING</p>
+    <div class="info-layout">
+        <p class="info-variable">BokningID</p>
+        <p class="booking-info-values" id="booking-id" th:text="${booking.id}"></p>
+        <p class="info-variable">Namn:</p>
+        <p class="booking-info-values" id="booking-name" th:text="${booking.customer.name}"></p>
+        <p class="info-variable">Email:</p>
+        <p class="booking-info-values" id="booking-email" th:text="${booking.customer.email}"></p>
+    </div>
     <button class="btn" id="delete-booking-btn" onclick="deleteWarning()">AVBOKA</button>
 </div>
 
@@ -29,6 +32,17 @@
         <p class="pop-up-header">Bokningen kan ej genomföras</p>
         <p th:text="${status}"></p>
         <button class="ok-btn-pop-up" id="closeButton">OK</button>
+    </div>
+</div>
+
+<div id="overlay" class="hidden"></div>
+
+<div class="hidden delete-warning">
+    <div>
+        <p class="delete-title">ÄR DU SÄKER PÅ ATT DU VILL RADERA BOKNING?</p>
+        <p>Denna åtgärd går ej att ångra</p>
+        <button class="btn" onclick="deleteBooking()">RADERA BOKNING</button>
+        <button class="btn grey-btn" onclick="closeDiv()">AVBRYT</button>
     </div>
 </div>
 
