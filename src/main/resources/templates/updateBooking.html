@@ -15,12 +15,13 @@
     <a class="back-link" href="http://localhost:8080/index.html">&#129168;Tillbaka</a>
 </div>
 <div class="booking-info-div">
-    <p>BokningID</p>
+    <p class="info-variable">BokningID</p>
     <p class="booking-info-values" id="booking-id" th:text="${booking.id}"></p>
-    <p>Namn:</p>
+    <p class="info-variable">Namn:</p>
     <p class="booking-info-values" id="booking-name" th:text="${booking.customer.name}"></p>
-    <p>Email:</p>
+    <p class="info-variable">Email:</p>
     <p class="booking-info-values" id="booking-email" th:text="${booking.customer.email}"></p>
+    <button class="btn" id="delete-booking-btn" onclick="deleteWarning()">AVBOKA</button>
 </div>
 
 <div th:unless="${#strings.isEmpty(status)}">
