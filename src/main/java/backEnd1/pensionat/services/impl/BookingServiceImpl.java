@@ -3,22 +3,14 @@ package backEnd1.pensionat.services.impl;
 import backEnd1.pensionat.DTOs.*;
 import backEnd1.pensionat.Models.Booking;
 import backEnd1.pensionat.Models.Customer;
-import backEnd1.pensionat.Models.Room;
 import backEnd1.pensionat.Repositories.BookingRepo;
 import backEnd1.pensionat.Repositories.CustomerRepo;
 import backEnd1.pensionat.services.convert.BookingConverter;
-import backEnd1.pensionat.services.convert.RoomConverter;
 import backEnd1.pensionat.services.interfaces.BookingService;
 import backEnd1.pensionat.services.interfaces.CustomerService;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
-
-import static backEnd1.pensionat.services.convert.BookingConverter.bookingDtoToBooking;
-import static backEnd1.pensionat.services.convert.BookingConverter.bookingToDetailedBookingDTO;
 
 @Service
 public
@@ -29,9 +21,6 @@ class BookingServiceImpl implements BookingService {
     private final CustomerService customerService;
     private final RoomServicelmpl roomService;
     private final OrderLineServicelmpl orderLineService;
-
-    @PersistenceContext
-    EntityManager entityManager;
 
     public BookingServiceImpl(BookingRepo bookingRepo, CustomerRepo customerRepo,
                               CustomerService customerService, RoomServicelmpl roomServicelmpl,
@@ -53,14 +42,14 @@ class BookingServiceImpl implements BookingService {
 
     @Override
     public DetailedBookingDTO addBooking(DetailedBookingDTO b) {
-        return bookingToDetailedBookingDTO(bookingRepo.save(BookingConverter.detailedBookingDTOtoBooking(b)));
+        return BookingConverter.bookingToDetailedBookingDTO(bookingRepo.save(BookingConverter.detailedBookingDTOtoBooking(b)));
     }
 
     @Override
     public Long addBookingFromBookingDto(BookingDTO b) {
         //TODO om kunden inte finns och måste registreras?
         Customer customer = customerRepo.findByEmail(b.getCustomer().getEmail());
-        Booking booking = bookingDtoToBooking(b, customer);
+        Booking booking = BookingConverter.bookingDtoToBooking(b, customer);
         bookingRepo.save(booking);
         return booking.getId();
     }
@@ -69,7 +58,7 @@ class BookingServiceImpl implements BookingService {
     public DetailedBookingDTO getBookingById(Long id) {
         Booking booking = bookingRepo.findById(id).orElse(null);
         if(booking != null){
-            return bookingToDetailedBookingDTO(booking);
+            return BookingConverter.bookingToDetailedBookingDTO(booking);
         }
         return null;
     }
@@ -84,7 +73,7 @@ class BookingServiceImpl implements BookingService {
     public boolean getBookingByCustomerId(Long customerId) {
         LocalDate today = LocalDate.now();
         List<Booking> activeBookings  = bookingRepo.findByCustomerIdAndEndDateAfter(customerId, today);
-        return !activeBookings .isEmpty();  // Returns true if there are future bookings
+        return !activeBookings .isEmpty();
     }
 
     @Override

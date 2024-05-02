@@ -13,7 +13,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -40,7 +39,6 @@ public class RoomServicelmpl implements RoomService {
         return "Room " + id + " removed";
     }
 
-    //TODO Idk ska vi inte ha model idk
     @Override
     public RoomDTO getRoomByID(Long Id) {
         Room room = roomRepo.findById(Id).orElse(new Room());

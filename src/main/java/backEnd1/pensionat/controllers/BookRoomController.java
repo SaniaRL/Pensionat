@@ -21,7 +21,6 @@ public class BookRoomController {
     CustomerServiceImpl customerService;
     OrderLineServicelmpl orderLineService;
 
-    //submit formulär -> /booking - se till att den hämtar lediga rum och har en lista så det kan målas upp
     @PostMapping("/bookingSubmit")
     public String processBookingForm(@ModelAttribute BookingFormQueryDTO query, Model model) {
         List<RoomDTO> availableRooms = new ArrayList<>();
@@ -30,14 +29,11 @@ public class BookRoomController {
 
         if (query != null) {
             availableRooms = roomService.findAvailableRooms(query);
-            //Kan ha if och kolla en annan men palla nu
             status = roomService.enoughRooms(query, availableRooms);
-            //Kanske kunde skicka hela vår query men palla nu
             model.addAttribute("startDate", query.getStartDate());
             model.addAttribute("endDate", query.getEndDate());
             model.addAttribute("rooms", query.getRooms());
             model.addAttribute("beds", query.getBeds());
-
         }
 
         if(status.isEmpty()){
@@ -65,7 +61,6 @@ public class BookRoomController {
         return "booking";        
     }
 
-
     @PostMapping("/confirmBooking")
     public String confirmBooking() {
         return "redirect:/customer/customerOrNot";
@@ -73,8 +68,7 @@ public class BookRoomController {
 
     @PostMapping("/submitBookingCustomer")
     public String submitBookingCustomer(@RequestBody BookingData bookingData, Model model) {
-        //Status är väl onödigt och vi använder inte men void kändes farligt idk
-        String statusMessage = bookingService.submitBookingCustomer(bookingData);
+        bookingService.submitBookingCustomer(bookingData);
         model.addAttribute("startDate", bookingData.getStartDate());
         model.addAttribute("endDate", bookingData.getEndDate());
         model.addAttribute("orderLines", bookingData.getChosenRooms());

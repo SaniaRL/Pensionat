@@ -11,10 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-
 import java.util.List;
-
-import static backEnd1.pensionat.services.convert.CustomerConverter.*;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -30,11 +27,9 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepo.findAll().stream().map(CustomerConverter::customerToSimpleCustomerDTO).toList();
     }
 
-
-    //TODO idk - sorry
     @Override
     public SimpleCustomerDTO addCustomer(SimpleCustomerDTO c) {
-        return customerToSimpleCustomerDTO(customerRepo.save(CustomerConverter.simpleCustomerDTOtoCustomer(c)));
+        return CustomerConverter.customerToSimpleCustomerDTO(customerRepo.save(CustomerConverter.simpleCustomerDTOtoCustomer(c)));
     }
 
     @Override
@@ -57,7 +52,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public String addCustomerFromCustomerDTO(CustomerDTO customerDTO) {
-        customerRepo.save(customerDtoToCustomer(customerDTO));
+        customerRepo.save(CustomerConverter.customerDtoToCustomer(customerDTO));
         return "Customer added successfully";
     }
 
@@ -69,7 +64,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public String updateCustomer(SimpleCustomerDTO c) {
-        Customer cp = simpleCustomerDTOtoCustomer(c);
+        Customer cp = CustomerConverter.simpleCustomerDTOtoCustomer(c);
         customerRepo.save(cp);
         return "Customer updated successfully";
     }
@@ -92,7 +87,7 @@ public class CustomerServiceImpl implements CustomerService {
     public SimpleCustomerDTO getCustomerByEmail(String email) {
         Customer customer = customerRepo.findByEmail(email);
         if(customer!= null){
-            return customerToSimpleCustomerDTO(customer);
+            return CustomerConverter.customerToSimpleCustomerDTO(customer);
         }
         return null;
     }

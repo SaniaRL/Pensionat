@@ -9,20 +9,14 @@ import backEnd1.pensionat.Repositories.BookingRepo;
 import backEnd1.pensionat.Repositories.OrderLineRepo;
 import backEnd1.pensionat.services.convert.BookingConverter;
 import backEnd1.pensionat.services.convert.OrderLineConverter;
-import backEnd1.pensionat.services.convert.RoomConverter;
 import backEnd1.pensionat.services.convert.RoomTypeConverter;
 import backEnd1.pensionat.services.interfaces.OrderLineService;
-import backEnd1.pensionat.services.interfaces.RoomService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Objects;
-
-import static backEnd1.pensionat.services.convert.OrderLineConverter.orderLineTosimpleOrderLineDto;
-import static backEnd1.pensionat.services.convert.OrderLineConverter.simpleOrderLineDtoToOrderLine;
 
 @Service
 @RequiredArgsConstructor
@@ -66,7 +60,7 @@ public class OrderLineServicelmpl implements OrderLineService {
     @Override
     public String addOrderLineFromSimpleOrderLineDto(SimpleOrderLineDTO orderLineDTO){
         Booking booking = bookingRepo.findById(orderLineDTO.getBookingId()).orElse(null);
-        orderLineRepo.save(simpleOrderLineDtoToOrderLine(orderLineDTO, booking));
+        orderLineRepo.save(OrderLineConverter.simpleOrderLineDtoToOrderLine(orderLineDTO, booking));
         return "OrderLine added";
     }
 
