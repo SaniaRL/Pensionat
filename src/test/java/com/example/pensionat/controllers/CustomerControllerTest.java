@@ -1,8 +1,8 @@
-package backEnd1.pensionat.controllers;
+package com.example.pensionat.controllers;
 
-import backEnd1.pensionat.DTOs.SimpleCustomerDTO;
-import backEnd1.pensionat.services.interfaces.BookingService;
-import backEnd1.pensionat.services.interfaces.CustomerService;
+import com.example.pensionat.dtos.SimpleCustomerDTO;
+import com.example.pensionat.services.interfaces.BookingService;
+import com.example.pensionat.services.interfaces.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +13,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.ui.Model;
 
 import java.util.List;
 
@@ -44,7 +45,7 @@ class CustomerControllerTest {
     @BeforeEach
     void setUp() {
         SimpleCustomerDTO customer = new SimpleCustomerDTO("test@example.com", "Test Customer");
-        when(customerService.getCustomerByEmailSimpleDTO(anyString())).thenReturn(customer);
+        when(customerService.getCustomerByEmail(anyString())).thenReturn(customer);
         when(customerService.removeCustomerById(anyLong())).thenReturn("Customer removed successfully");
     }
 
@@ -78,32 +79,45 @@ class CustomerControllerTest {
     void handleCustomers() throws Exception {
         int currentPage = 1;
         Page<SimpleCustomerDTO> mockPage = new PageImpl<>(List.of(new SimpleCustomerDTO("Test Customer", "test@example.com")));
-        when(customerService.getAllCustomersPage(currentPage)).thenReturn(mockPage);
+
+        // Mock the behavior of customerService.addToModel to manipulate the model as expected
+        doAnswer(invocation -> {
+            Model model = invocation.getArgument(1);
+            model.addAttribute("allCustomers", mockPage.getContent());
+            model.addAttribute("currentPage", currentPage);
+            model.addAttribute("totalItems", mockPage.getTotalElements());
+            model.addAttribute("totalPages", mockPage.getTotalPages());
+            return null;
+        }).when(customerService).addToModel(eq(currentPage), any(Model.class));
 
         mvc.perform(get("/customer/handle"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("handleCustomers.html"))
-                .andExpect(MockMvcResultMatchers.model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));
+                .andExpect(view().name("handleCustomers"))
+                .andExpect(model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));
     }
+
 
     @Test
     void handleByPage() throws Exception {
         int currentPage = 1;
         Page<SimpleCustomerDTO> mockPage = new PageImpl<>(List.of(new SimpleCustomerDTO("test@example.com", "Test Customer")));
-        when(customerService.getAllCustomersPage(currentPage)).thenReturn(mockPage);
+
+        // Mock the behavior of customerService.addToModel for the specified page number
+        doAnswer(invocation -> {
+            Model model = invocation.getArgument(1);
+            model.addAttribute("allCustomers", mockPage.getContent());
+            model.addAttribute("currentPage", currentPage);
+            model.addAttribute("totalItems", mockPage.getTotalElements());
+            model.addAttribute("totalPages", mockPage.getTotalPages());
+            return null;
+        }).when(customerService).addToModel(eq(currentPage), any(Model.class));
 
         mvc.perform(get("/customer/handle/{pageNumber}", currentPage))
                 .andExpect(status().isOk())
-                .andExpect(view().name("handleCustomers.html"))
+                .andExpect(view().name("handleCustomers"))
                 .andExpect(model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));
     }
 
-    @Test
-    void loadFrontPageTest() throws Exception {
-        mvc.perform(get("/customer/frontPage"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("Index.html"));
-    }
 
     @Test
     void getCustomerByEmail() throws Exception {
@@ -114,8 +128,5 @@ class CustomerControllerTest {
     void getCustomerByEmailByPage() throws Exception{
         //TODO
     }
-
-
-
 
 }
