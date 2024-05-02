@@ -28,6 +28,14 @@
     <button class="btn" id="delete-booking-btn" onclick="deleteWarning()">AVBOKA</button>
 </div>
 
+<div class="hidden no-div" id="no-div">
+    <div class="error-pop-up">
+        <p class="pop-up-header">NEJ</p>
+        <p>Önskad bokning innehåller upptagna rum</p>
+        <button class="ok-btn-pop-up" onclick=closePopUp()>OK</button>
+    </div>
+</div>
+
 <div th:unless="${#strings.isEmpty(status)}">
     <div class="error-pop-up" id="errorPopup">
         <p class="pop-up-header">Bokningen kan ej genomföras</p>

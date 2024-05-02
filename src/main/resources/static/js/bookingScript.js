@@ -99,11 +99,6 @@ function getListsFromLocalStorage() {
     return { availableRooms, chosenRooms };
 }
 
-function validateForm(){
-
-    addFormToLocalStorage()
-}
-
 function addFormToLocalStorage(){
     const startDate = document.getElementById("start-date").value;
     const endDate = document.getElementById("end-date").value;
@@ -113,7 +108,10 @@ function addFormToLocalStorage(){
 }
 
 
-//onClick
+function clearRooms() {
+    localStorage.removeItem("chosenRooms");
+    addFormToLocalStorage()
+}
 
 function submitBooking() {
     //Fan måste ju skicka inställningarna också
