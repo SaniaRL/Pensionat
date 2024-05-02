@@ -59,15 +59,31 @@ public class BookingController {
         return "bookingSearch";
     }
 
+    /*
     @RequestMapping("/{id}/remove")
     public String removeBookingById(@PathVariable Long id) {
         return bookingService.removeBookingById(id);
+    }
+
+     */
+
+    @GetMapping("/remove")
+    public String removeBookingById(HttpSession session, Model model) {
+        DetailedBookingDTO booking = (DetailedBookingDTO) session.getAttribute("booking");
+        if (booking != null) {
+            bookingService.removeBookingById(booking.getId());
+            String status = "BOKNING MED ID " + booking.getId() + " BORTTAGEN";
+            model.addAttribute("status", status);
+            session.removeAttribute("booking");
+        }
+        return "bookingRemoved";
     }
 
     @GetMapping("/update")
     public String updateBooking(@RequestParam Long id, Model model, HttpSession session){
 
         DetailedBookingDTO booking = bookingService.getBookingById(id);
+
         if(booking == null) {
             String result = "Bokningen hittades ej";
             model.addAttribute("result", result);
@@ -76,17 +92,17 @@ public class BookingController {
 
         List<SimpleOrderLineDTO> chosenRooms = orderLineService.getOrderLinesByBookingId(id);
         List<SimpleOrderLineDTO> availableRooms = new ArrayList<>();
+        int rooms = bookingService.getNumberOfRoomsFromBooking(booking.getId());
+        int beds = bookingService.getNumberOfBedsFromBooking(booking.getId());
 
         model.addAttribute("booking", booking);
         model.addAttribute("startDate", booking.getStartDate());
-        //Query count beds
-        //Query count orderLines/rooms
+        model.addAttribute("rooms", rooms);
+        model.addAttribute("beds", beds);
         model.addAttribute("endDate", booking.getEndDate());
         model.addAttribute("chosenRooms", chosenRooms);
         model.addAttribute("availableRooms", availableRooms);
 
-//        session.setAttribute("chosenRooms", chosenRooms);
-//        session.setAttribute("booking", booking);
         return "updateBooking";
     }
 

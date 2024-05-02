@@ -9,9 +9,12 @@ import backEnd1.pensionat.Repositories.BookingRepo;
 import backEnd1.pensionat.Repositories.OrderLineRepo;
 import backEnd1.pensionat.services.convert.BookingConverter;
 import backEnd1.pensionat.services.convert.OrderLineConverter;
+import backEnd1.pensionat.services.convert.RoomConverter;
 import backEnd1.pensionat.services.convert.RoomTypeConverter;
 import backEnd1.pensionat.services.interfaces.OrderLineService;
 import backEnd1.pensionat.services.interfaces.RoomService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +30,8 @@ public class OrderLineServicelmpl implements OrderLineService {
 
     private final OrderLineRepo orderLineRepo;
     private final BookingRepo bookingRepo;
+    @PersistenceContext
+    EntityManager entityManager;
 
     @Override
     public List<OrderLine> getAllOrderLines(){
@@ -70,4 +75,14 @@ public class OrderLineServicelmpl implements OrderLineService {
         return getAllOrderLines().stream().filter(o -> Objects.equals(o.getBooking().getId(), id))
                                           .map(OrderLineConverter::orderLineTosimpleOrderLineDto).toList();
     }
+
+    @Override
+    public List<SimpleOrderLineDTO> findOrderLinesByBookingId(Long bookingId) {
+        String query = "SELECT o FROM OrderLine o INNER JOIN o.booking b WHERE b.id = :bookingId";
+
+        return entityManager.createQuery(query, OrderLine.class)
+                .setParameter("bookingId", bookingId)
+                .getResultList().stream().map(OrderLineConverter::orderLineTosimpleOrderLineDto).toList();
+    }
+
 }

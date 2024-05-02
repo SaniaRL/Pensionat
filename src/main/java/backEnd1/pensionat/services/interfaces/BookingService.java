@@ -19,4 +19,10 @@ public interface BookingService {
     DetailedBookingDTO getBookingById(Long id);
     boolean getBookingByCustomerId(Long customerId);
     String submitBookingCustomer(BookingData bookingData);
+
+    int getNumberOfRoomsFromBooking(Long id);
+
+    int getNumberOfBedsFromBooking(Long id);
+
+
     }

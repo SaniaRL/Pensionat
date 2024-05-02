@@ -243,16 +243,6 @@ input[type=number]::-webkit-inner-spin-button {
     left: 350px;
 }
 
-.booking-info-div {
-    position: absolute;
-    left: 260px;
-    top: 80px;
-    background-color: #d1d3d4;
-    border: 2px solid #4f4b6a;
-    border-radius: 8px;
-    padding: 15px;
-}
-
 .add-room-btn, .remove-room-btn {
     display: flex;
     justify-content: center;
@@ -350,9 +340,56 @@ input[type=number]::-webkit-inner-spin-button {
     margin-left: 395px;
 }
 
+.booking-info-div {
+    position: absolute;
+    left: 180px;
+    top: 80px;
+    width: 220px;
+    display: grid;
+    grid-template-rows: 80px 1fr 80px;
+    background-color: #d1d3d4;
+    border: 2px solid #4f4b6a;
+    border-radius: 8px;
+    padding: 25px 20px 10px 20px;
+}
+
+.info-layout {
+    display: grid;
+    grid-template-rows: repeat(3, 18px 1fr);
+    margin-bottom: 15px;
+}
+
+.info-header {
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.info-variable p {
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: -5px;
+}
+
 .booking-info-values {
     font-size: 18px;
     font-weight: 600;
+}
+
+.btn {
+    background-color: #4f4b6a;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 10px 20px 10px 20px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.grey-btn {
+    background-color: #757575;
+    color: #414141;
 }
 
 #update-booking-chosen-rooms, #update-booking-empty-rooms {
@@ -366,9 +403,10 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .booking-search-div {
-    display: flex;
-    justify-content: center;
-    align-content: center;
+    display: grid;
+    grid-template-rows: 50px 20px 20px 20px;
+    gap: 50px;
+    text-align: center;
     background-color: #d1d3d4;
     border: 2px solid #4f4b6a;
     border-radius: 12px;
@@ -393,14 +431,13 @@ input[type=number]::-webkit-inner-spin-button {
     font-weight: 600;
     font-size: 16px;
     cursor: pointer;
+    align-self: end;
+    margin-top: 20px;
+    margin-bottom: 30px;
 }
 
 #update-booking-empty-rooms {
     display: flex;
-}
-
-.hidden {
-    display: none;
 }
 
 .read-only {
@@ -416,3 +453,57 @@ input[type=number]::-webkit-inner-spin-button {
 .read-only .remove-add-btn {
     background-color: #757575;
 }
+
+.delete-warning {
+    position: absolute;
+    top: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1001;
+    height: 200px;
+
+    display: grid;
+    grid-template-rows: 30px 20px 40px;
+    text-align: center;
+
+    background-color: #d1d3d4;
+    border: 3px solid #4f4b6a;
+    border-radius: 12px;
+    padding: 30px;
+}
+
+.delete-title {
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.delete-p {
+    margin-bottom: 50px;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+}
+
+.hidden {
+    display: none;
+}
+
+.customers-background {
+    background-color: #d1d3d4;
+    border: 3px solid #4f4b6a;
+    border-radius: 12px;
+    padding: 40px;
+}
+
+.table-header {
+    background-color: #4f4b6a;
+    color: #fff;
+}
+

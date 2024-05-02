@@ -14,22 +14,28 @@
 <body>
 <div class="header">
     <div>
-
+        <img class="header-text" src="/images/BedBasse.png" alt="Bed and Basse Pensionat">
+    </div>
+    <br>
+    <div>
+        <img class="header-img" src="/images/house.png" alt="Pensionat-ikon i blått">
     </div>
 </div>
 
 <div class="content">
 
+
     <div th:unless="${#strings.isEmpty(status)}">
-        <div class="error-pop-up" id="errorPopup">
-            <p class="pop-up-header">Bokningen kan ej genomföras</p>
-            <p th:text="${status}"></p>
-            <button class="ok-btn-pop-up" id="closeButton" onclick="this.parentElement.parentElement.style.display='none';">Stäng fönster</button>
+        <div class="overlay"></div>
+        <div class="error-pop-up customer-pop-up" id="errorPopup">
+            <p class="customer-pop-up-header">KUNDEN KAN EJ TAS BORT</p>
+            <p class="customer-pop-up-text" th:text="${status}"></p>
+            <button class="customer-btn-pop-up btn" id="closeButton" onclick="this.parentElement.parentElement.style.display='none';">STÄNG FÖNSTER</button>
         </div>
     </div>
 
 
-    <div class="allCustomers">
+    <div class="allCustomers customers-background">
 
         <div class="placement-return-button">
 
