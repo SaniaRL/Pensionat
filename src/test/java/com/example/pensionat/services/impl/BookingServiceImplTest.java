@@ -62,7 +62,7 @@ class BookingServiceImplTest {
     void getAllBookings() {
         when(bookingRepo.findAll()).thenReturn(Arrays.asList(booking));
         BookingServiceImpl service = new BookingServiceImpl(bookingRepo, customerRepo, customerService,
-                                                            roomService, orderLineService, );
+                                                            roomService, orderLineService);
         List<DetailedBookingDTO> actual = service.getAllBookings();
         assertEquals(1, actual.size());
     }
