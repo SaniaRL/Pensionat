@@ -4,8 +4,6 @@ import com.example.pensionat.dtos.RoomDTO;
 import com.example.pensionat.dtos.SimpleOrderLineDTO;
 import com.example.pensionat.enums.RoomType;
 import com.example.pensionat.models.Room;
-import com.example.pensionat.services.convert.RoomConverter;
-import com.example.pensionat.services.convert.RoomTypeConverter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

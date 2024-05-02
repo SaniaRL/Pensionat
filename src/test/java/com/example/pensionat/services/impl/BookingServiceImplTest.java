@@ -6,7 +6,6 @@ import com.example.pensionat.models.Customer;
 import com.example.pensionat.repositories.BookingRepo;
 import com.example.pensionat.repositories.CustomerRepo;
 import com.example.pensionat.repositories.OrderLineRepo;
-import com.example.pensionat.services.convert.BookingConverter;
 import com.example.pensionat.services.interfaces.CustomerService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -109,80 +108,4 @@ class BookingServiceImplTest {
         boolean feedback = service.getBookingByCustomerId(customer.getId());
         assertTrue(feedback);
     }
-
-    /*
-    @Test //Funkar ej. Behöver fixas.
-    void submitBookingCustomer() {
-        booking.setId(1L);
-        SimpleCustomerDTO existingCustomer = new SimpleCustomerDTO(name, email);
-        when(customerService.getCustomerByEmail(email)).thenReturn(existingCustomer);
-
-        when(customerService.getCustomerByEmail(email)).thenReturn(simpleCustomerDTO);
-        when(orderLineService.addOrderLine(any(DetailedOrderLineDTO.class))).thenReturn("Hejhopp");
-        when(BookingConverter.bookingToDetailedBookingDTO(booking)).thenReturn(detailedBookingDTO);
-        when(bookingRepo.save(booking)).thenReturn(booking);
-        bookingData.setName(name);
-        bookingData.setEmail(email);
-        bookingData.setStartDate("2024-05-01");
-        bookingData.setEndDate("2024-05-04");
-        bookingData.setChosenRooms(chosenRooms);
-        BookingServiceImpl service = new BookingServiceImpl(bookingRepo, customerRepo, customerService,
-                                                            roomService, orderLineService);
-        String feedback = service.submitBookingCustomer(bookingData);
-        assertTrue(feedback.equalsIgnoreCase("Everything is fine"));
-    }
-
-     */
-    /*
-    public String submitBookingCustomer(BookingData bookingData) {
-        String name = bookingData.getName();
-        String email = bookingData.getEmail();
-        List<OrderLineDTO> orderLines = bookingData.getChosenRooms();
-        LocalDate startDate = LocalDate.parse(bookingData.getStartDate());
-        LocalDate endDate = LocalDate.parse(bookingData.getEndDate());
-
-        System.out.println();
-        System.out.println("Namn: " + name);
-        System.out.println("Email: " + email);
-        System.out.println("Startdatum: " + bookingData.getStartDate());
-        System.out.println("Slutdatum: " + bookingData.getEndDate());
-        System.out.println("Valda rum: ");
-        for (OrderLineDTO room : orderLines) {
-            System.out.println("  - RumID: " + room.getId() + "  - Rumstyp: " + room.getRoomType() + ", Extra sängar: " + room.getExtraBeds());
-        }
-        System.out.println();
-        System.out.println("-------------------------------------------------");
-        System.out.println();
-
-        //Kolla om kunden finns - hämta kund eller skapa ny
-        SimpleCustomerDTO customer = customerService.getCustomerByEmail(email);
-        if (customer == null) {
-            customer = new SimpleCustomerDTO(name, email);
-            //Add customer to Repo
-            customer = customerService.addCustomer(customer);
-            System.out.println("New customer added: " + customer);
-        }
-
-        //Skapa bokning
-        DetailedBookingDTO booking = new DetailedBookingDTO(customer, startDate, endDate);
-        System.out.println("New booking: " + booking);
-
-        //Lägg till bokning i DATABAS och spara om den
-        booking = addBooking(booking);
-        System.out.println("Added booking: " + booking);
-
-        //TODO Uppdatera Customer lägg till bokning
-
-        //TODO Översätt totala rum till extra rum - rum???? menar säng
-
-        //Lägg till orderrader?
-        //TODO har inte ändrat dessa till DTO det bråkar inte med nåt:
-        DetailedBookingDTO finalBooking = booking;
-        orderLines.stream()
-                .map(orderLine -> new DetailedOrderLineDTO(orderLine.getExtraBeds(), finalBooking, roomService.getRoomByID((long) orderLine.getId())))
-                .forEach(orderLineService::addOrderLine);
-
-        return "Everything is fine";
-    }
-     */
 }

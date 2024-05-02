@@ -6,7 +6,6 @@ import com.example.pensionat.dtos.DetailedBookingDTO;
 import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.models.Booking;
 import com.example.pensionat.models.Customer;
-import com.example.pensionat.services.convert.BookingConverter;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
