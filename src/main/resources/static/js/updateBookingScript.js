@@ -154,7 +154,7 @@ function closeDiv(){
 }
 
 function validateBooking() {
-
+    addChosenRoomsToLocalStorage();
     submitBooking()
 }
 
