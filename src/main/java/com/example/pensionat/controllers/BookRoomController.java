@@ -31,14 +31,7 @@ public class BookRoomController {
 
         if (query != null) {
             availableRooms = roomService.findAvailableRooms(query);
-            System.out.println("availableRooms: " + availableRooms);
-            System.out.println("Status: " + status);
-            System.out.println("startDate " + query.getStartDate());
-            System.out.println("endDate " + query.getEndDate());
-            System.out.println("rooms " + query.getRooms());
-            System.out.println("beds " + query.getBeds());
             status = roomService.enoughRooms(query, availableRooms);
-            System.out.println("Status: " + status);
             model.addAttribute("startDate", query.getStartDate());
             model.addAttribute("endDate", query.getEndDate());
             model.addAttribute("rooms", query.getRooms());

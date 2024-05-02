@@ -58,19 +58,17 @@ class CustomerControllerTest {
     }
 
     @BeforeEach
-    void init() { //Körs innan varje test
+    void init() {
         Page<SimpleCustomerDTO> mockPage = new PageImpl<>(List.of(customer));
         when(customerService.getCustomerByEmail(anyString())).thenReturn(customer);
         when(customerService.removeCustomerById(anyLong())).thenReturn("Kund borta");
 
-        // Mock för handleByPage, handleCustomers, handleCustomersUpdate
         doAnswer(invocation -> {
             Model model = invocation.getArgument(1);
             mockAddToModel(model, mockPage);
             return null;
         }).when(customerService).addToModel(anyInt(), any(Model.class));
 
-        // Mock för getCustomerByEmail + ByPage
         doAnswer(invocation -> {
             String email = invocation.getArgument(0);
             int currentPage = invocation.getArgument(1);

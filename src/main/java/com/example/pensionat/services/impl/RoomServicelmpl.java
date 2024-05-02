@@ -87,7 +87,6 @@ public class RoomServicelmpl implements RoomService {
 
     @Override
     public String enoughRooms(BookingFormQueryDTO query, List<RoomDTO> queryRooms) {
-        System.out.println("Inne i enough");
         LocalDate startDate = query.getStartDate();
         LocalDate endDate = query.getEndDate();
 
