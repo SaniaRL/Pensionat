@@ -5,6 +5,7 @@ import com.example.pensionat.models.Booking;
 import com.example.pensionat.models.Customer;
 import com.example.pensionat.repositories.BookingRepo;
 import com.example.pensionat.repositories.CustomerRepo;
+import com.example.pensionat.repositories.OrderLineRepo;
 import com.example.pensionat.services.convert.BookingConverter;
 import com.example.pensionat.services.interfaces.CustomerService;
 import org.junit.jupiter.api.Test;
