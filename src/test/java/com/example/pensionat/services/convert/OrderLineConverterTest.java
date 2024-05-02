@@ -7,8 +7,6 @@ import com.example.pensionat.models.Booking;
 import com.example.pensionat.models.Customer;
 import com.example.pensionat.models.OrderLine;
 import com.example.pensionat.models.Room;
-import com.example.pensionat.services.convert.OrderLineConverter;
-import com.example.pensionat.services.convert.RoomTypeConverter;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;

@@ -31,7 +31,6 @@ class RoomServicelmplTest {
 
     Long roomId = 301L;
     Room room = new Room(roomId, 2);
-    RoomDTO roomDTO = new RoomDTO(roomId, RoomType.DOUBLE);
 
     @Test
     void getAllRooms() {
@@ -47,11 +46,6 @@ class RoomServicelmplTest {
         RoomServicelmpl service = new RoomServicelmpl(roomRepo);
         RoomDTO actual = service.getRoomByID(roomId);
         assertEquals(actual.getId(), roomId);
-    }
-
-    @Test
-    void findAvailableRooms() {
-        //TODO
     }
 
     @Test

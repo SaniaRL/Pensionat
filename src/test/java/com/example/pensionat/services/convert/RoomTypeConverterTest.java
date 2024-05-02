@@ -1,7 +1,6 @@
 package com.example.pensionat.services.convert;
 
 import com.example.pensionat.enums.RoomType;
-import com.example.pensionat.services.convert.RoomTypeConverter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
