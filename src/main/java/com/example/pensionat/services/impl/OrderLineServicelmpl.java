@@ -1,6 +1,7 @@
 package com.example.pensionat.services.impl;
 
 import com.example.pensionat.dtos.DetailedOrderLineDTO;
+import com.example.pensionat.dtos.OrderLineDTO;
 import com.example.pensionat.dtos.SimpleOrderLineDTO;
 import com.example.pensionat.models.Booking;
 import com.example.pensionat.models.OrderLine;
@@ -78,5 +79,4 @@ public class OrderLineServicelmpl implements OrderLineService {
                 .setParameter("bookingId", bookingId)
                 .getResultList().stream().map(OrderLineConverter::orderLineTosimpleOrderLineDto).toList();
     }
-
 }

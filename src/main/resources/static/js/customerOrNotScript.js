@@ -14,6 +14,7 @@ function submitBooking() {
 
     //Vet inte om detta är så bra idk
     let bookingData = {
+        id: -1,
         name: name,
         email: email,
         startDate: startDate,

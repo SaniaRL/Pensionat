@@ -11,6 +11,7 @@ import com.example.pensionat.services.convert.BookingConverter;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public
@@ -42,7 +43,14 @@ class BookingServiceImpl implements BookingService {
 
     @Override
     public DetailedBookingDTO addBooking(DetailedBookingDTO b) {
-        return BookingConverter.bookingToDetailedBookingDTO(bookingRepo.save(BookingConverter.detailedBookingDTOtoBooking(b)));
+        return BookingConverter.bookingToDetailedBookingDTO(bookingRepo
+                .save(BookingConverter.detailedBookingDTOtoBooking(b)));
+    }
+
+    @Override
+    public DetailedBookingDTO updateBooking(DetailedBookingDTO b) {
+        return BookingConverter.bookingToDetailedBookingDTO(bookingRepo
+                .save(BookingConverter.detailedBookingDTOtoBooking(b)));
     }
 
     @Override
@@ -78,29 +86,69 @@ class BookingServiceImpl implements BookingService {
 
     @Override
     public String submitBookingCustomer(BookingData bookingData) {
+        Long bookingId = bookingData.getId();
         String name = bookingData.getName();
         String email = bookingData.getEmail();
-        List<OrderLineDTO> orderLines = bookingData.getChosenRooms();
+        List<OrderLineDTO> chosenRooms = bookingData.getChosenRooms();
         LocalDate startDate = LocalDate.parse(bookingData.getStartDate());
         LocalDate endDate = LocalDate.parse(bookingData.getEndDate());
-
         SimpleCustomerDTO customer = customerService.getCustomerByEmail(email);
-        if (customer == null) {
-            customer = new SimpleCustomerDTO(name, email);
-            customer = customerService.addCustomer(customer);
-            System.out.println("New customer added: " + customer);
+        DetailedBookingDTO booking;
+
+
+        if(bookingData.getId() == -1L){
+
+            if (customer == null) {
+                customer = new SimpleCustomerDTO(name, email);
+                customer = customerService.addCustomer(customer);
+                System.out.println("New customer added: " + customer);
+            }
+
+            booking = new DetailedBookingDTO(customer, startDate, endDate);
+
+        }
+        else {
+            booking = new DetailedBookingDTO(bookingId, customer, startDate, endDate);
         }
 
-        DetailedBookingDTO booking = new DetailedBookingDTO(customer, startDate, endDate);
-        System.out.println("New booking: " + booking);
-
         booking = addBooking(booking);
-        System.out.println("Added booking: " + booking);
+
+        //TODO
+        // 1. HÄMTA ALLA ORDER LINES PÅ BOKNING.ID ÖVERSÄTT TILL ID
+
+        List<SimpleOrderLineDTO> orderLines = orderLineService.getOrderLinesByBookingId(bookingId);
+
+        List<Long> chosenRoomIds = chosenRooms.stream()
+                .map(r -> (long) r.getId()).toList();
+
+        //TODO
+        // 2. SEPARERA PÅ SAVE UPDATE DELETE
+        // Update ska ev tas bort men om de uppdateras med id kanske de kan va kvar
+        List<SimpleOrderLineDTO> updateRooms = orderLines.stream()
+                .filter(r -> chosenRoomIds.contains(r.getRoom().getId())).toList();
+
+        List<SimpleOrderLineDTO> deleteRooms = orderLines.stream()
+                .filter(r -> !(chosenRoomIds.contains(r.getRoom().getId()))).toList();
+
+        List<OrderLineDTO> saveRooms = chosenRooms.stream()
+                .filter(r -> !(orderLines.stream()
+                        .map(o -> o.getRoom().getId())
+                        .toList())
+                        .contains((long) r.getId()))
+                .toList();
+
 
         DetailedBookingDTO finalBooking = booking;
-        orderLines.stream()
+        chosenRooms.stream()
                 .map(orderLine -> new DetailedOrderLineDTO(orderLine.getExtraBeds(), finalBooking, roomService.getRoomByID((long) orderLine.getId())))
                 .forEach(orderLineService::addOrderLine);
+
+
+        //TODO
+        // 3. STREAMA OCH SE OM VISSA ORDERRADER MANUELLT SKA TAS BORT
+
+
+
 
         return "Everything is fine";
     }

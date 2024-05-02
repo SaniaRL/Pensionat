@@ -159,15 +159,51 @@ function validateBooking() {
 }
 
 function submitBooking() {
-    let startDate = document.getElementById("start-date").value;
-    let endDate = document.getElementById("end-date").value;
+    let id = document.getElementById("booking-id").textContent;
     let name = document.getElementById("booking-name").textContent;
     let email = document.getElementById("booking-email").textContent;
+    let startDate = document.getElementById("start-date").value;
+    let endDate = document.getElementById("end-date").value;
 
-    localStorage.setItem("startDate", startDate);
-    localStorage.setItem("endDate", endDate);
+
+    localStorage.setItem("id", id);
     localStorage.setItem("name", name);
     localStorage.setItem("email", email);
+    localStorage.setItem("startDate", startDate);
+    localStorage.setItem("endDate", endDate);
+
+    let chosenRooms = JSON.parse(localStorage.getItem("chosenRooms")) || [];
+
+    let bookingData = {
+        id: id,
+        name: name,
+        email: email,
+        startDate: startDate,
+        endDate: endDate,
+        chosenRooms: chosenRooms
+    };
+
+    //Stoppa i body i anrop  @PostMapping("/submitBooking")
+    let xhr = new XMLHttpRequest();
+    let url = "/submitBookingCustomer";
+
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    let data = JSON.stringify(bookingData);
+    console.log("data = " + data);
+    xhr.send(data);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(xhr.responseText);
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(xhr.responseText, 'text/html');
+            document.open();
+            document.write(htmlDoc.documentElement.outerHTML);
+            document.close();
+        }
+    }
 }
 
 function addChosenRoomsToLocalStorage() {
