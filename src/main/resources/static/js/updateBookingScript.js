@@ -124,17 +124,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (!bool) {
                 c.classList.add("read-only");
-                //Change type to read only on values
+                console.log(c);
+                let extraBeds = c.children[2].children[0].children[0];
+                console.log(extraBeds);
+                extraBeds.type = 'hidden';
             }
         })
     }
-    /*
-    closeButton.addEventListener('click', function() {
-        console.log("Button clicked")
-        errorPopup.style.display = 'none';
-    });
-
-     */
 
 });
 

@@ -440,19 +440,7 @@ input[type=number]::-webkit-inner-spin-button {
     display: flex;
 }
 
-.read-only {
-    background-color: #757575;
-    color: #414141;
-    border-color: #414141;
-}
 
-.read-only .bed-number {
-    background-color: #757575;
-    color: #414141;
-}
-.read-only .remove-add-btn {
-    background-color: #757575;
-}
 
 .delete-warning {
     position: absolute;
@@ -507,3 +495,16 @@ input[type=number]::-webkit-inner-spin-button {
     color: #fff;
 }
 
+.read-only {
+    background-color: #757575;
+    color: #414141;
+    border-color: #414141;
+}
+
+.read-only .bed-number {
+    background-color: #757575;
+    color: #414141;
+}
+.read-only .remove-add-btn {
+    background-color: #757575;
+}
