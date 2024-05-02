@@ -1,19 +1,26 @@
 package com.example.pensionat.controllers;
 
+import com.example.pensionat.dtos.BookingData;
+import com.example.pensionat.dtos.OrderLineDTO;
 import com.example.pensionat.services.impl.BookingServiceImpl;
 import com.example.pensionat.services.impl.CustomerServiceImpl;
 import com.example.pensionat.services.impl.OrderLineServicelmpl;
 import com.example.pensionat.services.impl.RoomServicelmpl;
 
-import org.junit.jupiter.api.BeforeEach;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -33,6 +40,8 @@ class BookRoomControllerTest {
     private CustomerServiceImpl customerService;
     @MockBean
     private OrderLineServicelmpl orderLineService;
+
+    OrderLineDTO orderLineDTO = new OrderLineDTO(1, "DOUBLE", 1);
 
     /*@BeforeEach
     void init() {
@@ -67,8 +76,25 @@ class BookRoomControllerTest {
     }
 
     @Test
-    void submitBookingCustomer() {
-        //TODO måste göras
+    void submitBookingCustomer() throws Exception {
+        BookingData bookingData = new BookingData();
+        bookingData.setStartDate("2024-05-02");
+        bookingData.setEndDate("2024-05-03");
+        bookingData.setName("John Doe");
+        bookingData.setEmail("john@example.com");
+        List<OrderLineDTO> chosenRooms = new ArrayList<>();
+        chosenRooms.add(orderLineDTO);
+        bookingData.setChosenRooms(chosenRooms);
+
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonBookingData = objectMapper.writeValueAsString(bookingData);
+
+        mvc.perform(post("/submitBookingCustomer")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonBookingData))
+                        .andExpect(status().isFound())
+                        .andExpect(redirectedUrl("/bookingConfirmation"));
     }
 
     @Test
