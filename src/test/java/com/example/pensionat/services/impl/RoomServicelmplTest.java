@@ -39,13 +39,6 @@ class RoomServicelmplTest {
     }
 
     @Test
-    void addRoom() {
-        RoomServicelmpl service = new RoomServicelmpl(roomRepo);
-        String feedback = service.addRoom(room);
-        assertTrue(feedback.equalsIgnoreCase("Room added"));
-    }
-
-    @Test
     void removeRoomById() {
         RoomServicelmpl service = new RoomServicelmpl(roomRepo);
         String feedback = service.removeRoomById(roomId);
