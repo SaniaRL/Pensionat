@@ -28,32 +28,4 @@ public class CustomerConverter {
                 .email(customerDTO.getEmail())
                 .build();
     }
-    /*
-    public static DetailedCustomerDTO customerToDetailedCustomerDTO(Customer customer) {
-        return DetailedCustomerDTO.builder().id(customer.getId())
-                .name(customer.getName()).email(customer.getEmail())
-                .bookings(customer.getBookings()
-                        .stream()
-                        .map(booking -> SimpleBookingDTO.builder()
-                                .id(booking.getId())
-                                .startDate(booking.getStartDate())
-                                .endDate(booking.getEndDate()).build())
-                        .toList())
-                .build();
-    }
-    public static Customer DetailedCustomerDTOtoCustomer(DetailedCustomerDTO customer) {
-        return Customer.builder().id(customer.getId())
-                .name(customer.getName())
-                .email(customer.getEmail())
-                .bookings(customer.getBookings()
-                        .stream()
-                        .map(booking -> Booking.builder()
-                                .id(booking.getId())
-                                .startDate(booking.getStartDate())
-                                .endDate(booking.getEndDate())
-                                .build())
-                        .toList())
-                .build();
-    }
-     */
 }

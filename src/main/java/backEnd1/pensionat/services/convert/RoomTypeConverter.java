@@ -17,7 +17,6 @@ public class RoomTypeConverter {
             case SINGLE -> 0;
             case DOUBLE -> 1;
             case PREMIUM -> 2;
-            default -> throw new IllegalStateException("Unexpected roomType: " + roomType);
         };
     }
 }

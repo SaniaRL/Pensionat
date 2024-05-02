@@ -20,7 +20,6 @@ public class BookingConverter {
     }
 
     public static Booking detailedBookingDTOtoBooking(DetailedBookingDTO booking) {
-        //TODO Sök om kunden finns
         SimpleCustomerDTO customer = booking.getCustomer();
         return Booking.builder().id(booking.getId())
                 .startDate(booking.getStartDate())
@@ -30,16 +29,4 @@ public class BookingConverter {
                         .email(customer.getEmail()).build())
                 .build();
     }
-    /*
-    public static SimpleBookingDTO bookingToSimpleBookingDTO(Booking booking) {
-        return SimpleBookingDTO.builder().id(booking.getId())
-                .startDate(booking.getStartDate()).endDate(booking.getEndDate()).build();
-    }
-    public static Booking SimpleBookingDTOtoBooking(SimpleBookingDTO booking) {
-        return Booking.builder().id(booking.getId())
-                .startDate(booking.getStartDate())
-                .endDate(booking.getEndDate())
-                .build();
-    }
-     */
 }
