@@ -58,7 +58,7 @@ class OrderLineServicelmplTest {
     void getAllOrderLines() {
         when(orderLineRepo.findAll()).thenReturn(Arrays.asList(orderLine));
         OrderLineServicelmpl service = new OrderLineServicelmpl(orderLineRepo, bookingRepo);
-        List<OrderLine> actual = service.getAllOrderLines();
+        List<SimpleOrderLineDTO> actual = service.getAllOrderLines();
         assertEquals(1, actual.size());
     }
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface OrderLineService {
 
-    List<OrderLine> getAllOrderLines();
+    List<SimpleOrderLineDTO> getAllOrderLines();
     String addOrderLine(OrderLine o);
     String addOrderLine(DetailedOrderLineDTO o);
     String removeOrderLineById(Long id);
