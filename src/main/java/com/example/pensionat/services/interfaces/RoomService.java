@@ -9,7 +9,6 @@ import java.util.List;
 public interface RoomService {
 
     List<RoomDTO> getAllRooms();
-    String removeRoomById(Long id);
     RoomDTO getRoomByID(Long Id);
     List<RoomDTO> findAvailableRooms(BookingFormQueryDTO query);
 
