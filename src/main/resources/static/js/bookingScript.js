@@ -113,7 +113,9 @@ function addFormToLocalStorage(){
 }
 
 
-//onClick
+function clearRooms() {
+    localStorage.removeItem("chosenRooms");
+}
 
 function submitBooking() {
     //Fan måste ju skicka inställningarna också
