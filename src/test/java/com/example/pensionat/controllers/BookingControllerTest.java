@@ -23,6 +23,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -30,6 +31,9 @@ class BookingControllerTest {
 
     @Autowired
     private MockMvc mvc;
+
+    @Autowired
+    private BookingController controller;
 
     @MockBean
     private BookingRepo mockRepo;
@@ -48,6 +52,11 @@ class BookingControllerTest {
             startDate, endDate);
     RoomDTO roomDTO = new RoomDTO(401L, RoomType.DOUBLE);
     SimpleOrderLineDTO simpleOrderLineDTO = new SimpleOrderLineDTO(booking.getId(), roomDTO, 1);
+
+    @Test
+    public void contextLoads() throws Exception {
+        assertThat(controller).isNotNull();
+    }
 
     @Test
     void searchBooking() throws Exception {
