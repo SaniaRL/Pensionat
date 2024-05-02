@@ -37,12 +37,10 @@ class CustomerControllerTest {
 
     @MockBean
     private BookingService bookingService;
-
     @MockBean
     private CustomerService customerService;
-
-    @MockBean //VARFÖR FAN BEHÖVS DEANNANWDNANDANDANWDNAWDNADNAWDN
-    private BookRoomController test;
+    @MockBean
+    private BookRoomController controllertest;
 
     @BeforeEach
     void setUp() {
