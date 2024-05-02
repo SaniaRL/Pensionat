@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="sv" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Pensionat</title>
@@ -14,33 +14,34 @@
 
 <div class="header">
     <div>
-
+        <img class="header-text" src="/images/BedBasse.png" alt="Bed and Basse Pensionat">
     </div>
     <br>
     <div>
-
+        <img class="header-img" src="/images/house.png" alt="Pensionat-ikon i blått">
     </div>
 </div>
-<div class="content">
-    <form action="frontPage" method="post">
+<div class="content con-content">
+    <div class="not-a-form-anymore">
         <div>
             <label for="name" class="label-CustomerOrNot">Namn: </label>
             <br>
-            <input id="name" type="text" name="name" class="input-CustomerOrNot" required>
+            <input id="name" type="text" th:name="name" class="input-CustomerOrNot" required>
         </div>
         <div>
             <label for="email" class="label-CustomerOrNot">Email: </label>
             <br>
-            <input id="email" type="email" name="email" class="input-CustomerOrNot" required>
+            <input id="email" type="email" th:name="email" class="input-CustomerOrNot" required>
         </div>
         <div>
-            <button type="submit" class="booking-btn index-btn">Bekräfta</button>
+            <button type="submit" class="booking-btn con-btn" onclick="submitBooking()">BEKRÄFTA</button>
         </div>
-    </form>
+    </div>
 </div>
 <div class="footer">
     <p>&#9824; Eddie Boschek &#9829; Sania Runnfors Larsson &#9827; Sebastian Karlsson &#9830; Simon Nordlund</p>
 </div>
 
+<script th:src="@{/js/customerOrNotScript.js}"></script>
 </body>
 </html>

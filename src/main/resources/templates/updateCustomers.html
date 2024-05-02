@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Pensionat</title>
+    <link href="/images/house.png" rel="icon" type="image/x-icon"/>
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/css/handleCustomers.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet">
+</head>
+<body>
+<div class="header">
+    <div>
+
+    </div>
+</div>
+
+<div class="content">
+    <div class="allCustomers">
+        <div class="placement-return-button">
+            <a class="return-link" th:href="@{/customer/handle}">
+                <div class="return-button">Tillbaka</div>
+            </a>
+            <div class="update-submit-button">
+                <input form="customer-form" type="submit" value="Uppdatera">
+            </div>
+        </div>
+
+        <table class="customers-table">
+            <tr class="table-header update">
+                <th> namn</th>
+                <th> email</th>
+            </tr>
+            <tbody>
+            <tr class="customer-row update">
+                <form id="customer-form" action="#" method="post" th:action="@{/customer/handle/update}" th:object="${kund}">
+                    <td>
+                        <input id="name" th:field="*{name}" type="text">
+                    </td>
+                    <td>
+                        <input id="email" th:field="*{email}" type="text">
+                    </td>
+                    <input id="id" th:field="*{id}" type="hidden">
+                </form>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="footer">
+    <p>&#9824; Eddie Boschek &#9829; Sania Runnfors Larsson &#9827; Sebastian Karlsson &#9830; Simon Nordlund</p>
+</div>
+</body>
+</html>
