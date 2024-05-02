@@ -1,5 +1,7 @@
 package com.example.pensionat.services.impl;
 
+import com.example.pensionat.repositories.OrderLineRepo;
+import com.example.pensionat.services.convert.OrderLineConverter;
 import com.example.pensionat.services.interfaces.BookingService;
 import com.example.pensionat.services.interfaces.CustomerService;
 import com.example.pensionat.models.Booking;
@@ -22,15 +24,17 @@ class BookingServiceImpl implements BookingService {
     private final CustomerService customerService;
     private final RoomServicelmpl roomService;
     private final OrderLineServicelmpl orderLineService;
+    private final OrderLineRepo orderLineRepo;
 
     public BookingServiceImpl(BookingRepo bookingRepo, CustomerRepo customerRepo,
                               CustomerService customerService, RoomServicelmpl roomServicelmpl,
-                              OrderLineServicelmpl orderLineService) {
+                              OrderLineServicelmpl orderLineService, OrderLineRepo orderLineRepo) {
         this.bookingRepo = bookingRepo;
         this.customerRepo = customerRepo;
         this.customerService = customerService;
         this.roomService = roomServicelmpl;
         this.orderLineService = orderLineService;
+        this.orderLineRepo = orderLineRepo;
     }
 
     @Override
@@ -116,34 +120,45 @@ class BookingServiceImpl implements BookingService {
         //TODO
         // 1. HÄMTA ALLA ORDER LINES PÅ BOKNING.ID ÖVERSÄTT TILL ID
 
-        List<SimpleOrderLineDTO> orderLines = orderLineService.getOrderLinesByBookingId(bookingId);
+        if(bookingId == -1L){
+            DetailedBookingDTO finalBooking = booking;
+            chosenRooms.stream()
+                    .map(orderLine -> new DetailedOrderLineDTO(orderLine.getExtraBeds(), finalBooking, roomService.getRoomByID((long) orderLine.getId())))
+                    .forEach(orderLineService::addOrderLine);
+        } else {
+            List<DetailedOrderLineDTO> orderLines = orderLineService.getDetailedOrderLinesByBookingId(bookingId);
 
-        List<Long> chosenRoomIds = chosenRooms.stream()
-                .map(r -> (long) r.getId()).toList();
+            List<Long> chosenRoomIds = chosenRooms.stream()
+                    .map(r -> (long) r.getId()).toList();
 
-        //TODO
-        // 2. SEPARERA PÅ SAVE UPDATE DELETE
-        // Update ska ev tas bort men om de uppdateras med id kanske de kan va kvar
-        List<SimpleOrderLineDTO> updateRooms = orderLines.stream()
-                .filter(r -> chosenRoomIds.contains(r.getRoom().getId())).toList();
+            //TODO
+            // 2. SEPARERA PÅ SAVE UPDATE DELETE
+            // Update ska ev tas bort men om de uppdateras med id kanske de kan va kvar
+            List<DetailedOrderLineDTO> updateRooms = orderLines.stream()
+                    .filter(r -> chosenRoomIds.contains(r.getRoom().getId())).toList();
 
-        List<SimpleOrderLineDTO> deleteRooms = orderLines.stream()
-                .filter(r -> !(chosenRoomIds.contains(r.getRoom().getId()))).toList();
+            List<DetailedOrderLineDTO> deleteRooms = orderLines.stream()
+                    .filter(r -> !(chosenRoomIds.contains(r.getRoom().getId()))).toList();
 
-        List<OrderLineDTO> saveRooms = chosenRooms.stream()
-                .filter(r -> !(orderLines.stream()
-                        .map(o -> o.getRoom().getId())
-                        .toList())
-                        .contains((long) r.getId()))
-                .toList();
+            List<OrderLineDTO> saveRooms = chosenRooms.stream()
+                    .filter(r -> !(orderLines.stream()
+                            .map(o -> o.getRoom().getId())
+                            .toList())
+                            .contains((long) r.getId()))
+                    .toList();
 
+            DetailedBookingDTO finalBooking = booking;
 
-        DetailedBookingDTO finalBooking = booking;
-        chosenRooms.stream()
-                .map(orderLine -> new DetailedOrderLineDTO(orderLine.getExtraBeds(), finalBooking, roomService.getRoomByID((long) orderLine.getId())))
-                .forEach(orderLineService::addOrderLine);
+            deleteRooms.forEach(dr -> orderLineRepo.deleteById(dr.getId()));
 
 
+            updateRooms.forEach(ur -> orderLineRepo.save(OrderLineConverter.detailedOrderLineDtoToOrderLine(ur, BookingConverter.detailedBookingDTOtoBooking(finalBooking))));
+
+            saveRooms.stream()
+                    .map(orderLine -> new DetailedOrderLineDTO(orderLine.getExtraBeds(), finalBooking, roomService.getRoomByID((long) orderLine.getId())))
+                    .forEach(orderLineService::addOrderLine);
+
+        }
         //TODO
         // 3. STREAMA OCH SE OM VISSA ORDERRADER MANUELLT SKA TAS BORT
 

@@ -1,7 +1,6 @@
 package com.example.pensionat.services.impl;
 
 import com.example.pensionat.dtos.DetailedOrderLineDTO;
-import com.example.pensionat.dtos.OrderLineDTO;
 import com.example.pensionat.dtos.SimpleOrderLineDTO;
 import com.example.pensionat.models.Booking;
 import com.example.pensionat.models.OrderLine;
@@ -69,6 +68,12 @@ public class OrderLineServicelmpl implements OrderLineService {
     public List<SimpleOrderLineDTO> getOrderLinesByBookingId(Long id) {
         return getAllOrderLines().stream().filter(o -> Objects.equals(o.getBooking().getId(), id))
                                           .map(OrderLineConverter::orderLineTosimpleOrderLineDto).toList();
+    }
+
+    @Override
+    public List<DetailedOrderLineDTO> getDetailedOrderLinesByBookingId(Long id) {
+        List<OrderLine> orderLines = orderLineRepo.findAllByBookingId(id);
+        return orderLines.stream().map(OrderLineConverter::orderLineToDetailedOrderLineDto).toList();
     }
 
     @Override

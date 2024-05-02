@@ -41,7 +41,7 @@ public class Booking {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
-    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "booking", cascade = CascadeType.REMOVE)
     private List<OrderLine> orderLines = new ArrayList<>();
 
     public Booking(String name, String email, LocalDate startDate, LocalDate endDate) {
