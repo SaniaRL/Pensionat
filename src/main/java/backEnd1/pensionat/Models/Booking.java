@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,7 +41,6 @@ public class Booking {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
-    //Lagt till denna för att cascading ska fungera
     @OneToMany(mappedBy = "booking", cascade = CascadeType.REMOVE)
     private List<OrderLine> orderLines = new ArrayList<>();
 

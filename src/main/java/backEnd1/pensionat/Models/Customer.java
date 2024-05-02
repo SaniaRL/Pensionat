@@ -1,6 +1,5 @@
 package backEnd1.pensionat.Models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -30,7 +29,6 @@ public class Customer {
     @Email
     private String email;
 
-    //Lagt till denna för att cascading ska fungera
     @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)
     private List<Booking> bookings = new ArrayList<>();
 
