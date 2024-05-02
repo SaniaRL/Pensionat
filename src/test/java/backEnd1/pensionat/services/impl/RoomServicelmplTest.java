@@ -34,14 +34,14 @@ class RoomServicelmplTest {
     void getAllRooms() {
         when(roomRepo.findAll()).thenReturn(Arrays.asList(room));
         RoomServicelmpl service = new RoomServicelmpl(roomRepo);
-        List<Room> actual = service.getAllRooms();
+        List<RoomDTO> actual = service.getAllRooms();
         assertEquals(1, actual.size());
     }
 
     @Test
     void addRoom() {
         RoomServicelmpl service = new RoomServicelmpl(roomRepo);
-        String feedback = service.addRoom(room);
+        String feedback = service.addRoom(roomDTO);
         assertTrue(feedback.equalsIgnoreCase("Room added"));
     }
 
