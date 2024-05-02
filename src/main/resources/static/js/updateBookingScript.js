@@ -159,13 +159,15 @@ function validateBooking() {
 }
 
 function submitBooking() {
-    let startDate = localStorage.getItem("startDate");
-    let endDate = localStorage.getItem("endDate");
+    let startDate = document.getElementById("start-date").value;
+    let endDate = document.getElementById("end-date").value;
+    let name = document.getElementById("booking-name").textContent;
+    let email = document.getElementById("booking-email").textContent;
 
-    document.getElementById('start-date').value = startDate;
-    document.getElementById('end-date').value = endDate;
-
-    window.location.href = "/customer/customerOrNot";
+    localStorage.setItem("startDate", startDate);
+    localStorage.setItem("endDate", endDate);
+    localStorage.setItem("name", name);
+    localStorage.setItem("email", email);
 }
 
 function addChosenRoomsToLocalStorage() {
