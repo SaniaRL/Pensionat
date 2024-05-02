@@ -65,13 +65,6 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void addCustomerFromCustomerDTO() {
-        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
-        String feedback = service.addCustomerFromCustomerDTO(customerDTO);
-        assertTrue(feedback.equalsIgnoreCase("Customer added successfully"));
-    }
-
-    @Test
     void removeCustomerById() {
         CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
         String feedback = service.removeCustomerById(id);

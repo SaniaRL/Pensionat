@@ -13,14 +13,9 @@ public interface BookingService {
     DetailedBookingDTO addBooking(DetailedBookingDTO b);
     DetailedBookingDTO updateBooking(DetailedBookingDTO b);
     String removeBookingById(Long id);
-    Long addBookingFromBookingDto(BookingDTO b);
     DetailedBookingDTO getBookingById(Long id);
     boolean getBookingByCustomerId(Long customerId);
     String submitBookingCustomer(BookingData bookingData);
-
     int getNumberOfRoomsFromBooking(Long id);
-
     int getNumberOfBedsFromBooking(Long id);
-
-
     }

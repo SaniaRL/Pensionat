@@ -84,14 +84,6 @@ class OrderLineServicelmplTest {
     }
 
     @Test
-    void addOrderLineFromSimpleOrderLineDto() {
-        when(bookingRepo.findById(simpleOrderLineDTO.getBookingId())).thenReturn(Optional.of(booking));
-        OrderLineServicelmpl service = new OrderLineServicelmpl(orderLineRepo, bookingRepo);
-        String feedback = service.addOrderLineFromSimpleOrderLineDto(simpleOrderLineDTO);
-        assertTrue(feedback.equalsIgnoreCase("Orderline added"));
-    }
-
-    @Test
     void getOrderLinesByBookingId() {
         when(orderLineRepo.findAll()).thenReturn(Arrays.asList(orderLine));
         OrderLineServicelmpl service = new OrderLineServicelmpl(orderLineRepo, bookingRepo);
