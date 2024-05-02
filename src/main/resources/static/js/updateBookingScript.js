@@ -45,6 +45,12 @@ const remove = (e) => {
 
         console.log("Room-id: " + roomID);
         removeRoom(roomID, roomType, room, e);
+
+        if(room.classList.contains('read-only')) {
+            room.classList.add('hidden');
+        }
+
+
     } else {
         console.log("Room is null")
 
@@ -80,6 +86,9 @@ function removeRoom(roomID, roomType, room, e){
         id: roomID,
         roomType: roomType
     });
+
+    let avList = Array.prototype.slice.call(document.getElementById("AvailableList").children);
+
     localStorage.setItem("availableRooms", JSON.stringify(availableRooms));
 
     chosenRooms = chosenRooms.filter(room => room.id !== roomID);
@@ -109,6 +118,9 @@ document.addEventListener('DOMContentLoaded', function() {
         chList.forEach(c => {
             if(a.firstElementChild.innerHTML === c.firstElementChild.innerHTML) {
                 a.classList.add("hidden");
+            }
+            if(a.classList.contains('read-only')) {
+                a.parent.classList.add('hidden');
             }
         })
     })
@@ -149,7 +161,24 @@ function closeDiv(){
     overlay.classList.add('hidden')
 }
 
+function validate(){
+    let chList = Array.prototype.slice.call(document.getElementById("AvailableList").children);
+
+    chList.forEach( c => {
+        if (c.classList.contains('read-only')) {
+            c.parent.classList.add('hidden');
+        } else {
+            console.log(`${c.id} does not have read-only class`);
+        }
+
+    })
+
+}
+
 function validateBooking() {
+
+
+
     addChosenRoomsToLocalStorage();
     submitBooking()
 }
