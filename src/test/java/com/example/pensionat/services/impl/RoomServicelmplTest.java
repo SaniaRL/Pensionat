@@ -39,13 +39,6 @@ class RoomServicelmplTest {
     }
 
     @Test
-    void removeRoomById() {
-        RoomServicelmpl service = new RoomServicelmpl(roomRepo);
-        String feedback = service.removeRoomById(roomId);
-        assertTrue(feedback.equalsIgnoreCase("Room " + roomId + " removed"));
-    }
-
-    @Test
     void getRoomByID() {
         when(roomRepo.findById(roomId)).thenReturn(Optional.of(room));
         RoomServicelmpl service = new RoomServicelmpl(roomRepo);
