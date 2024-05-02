@@ -15,6 +15,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,8 +30,15 @@ public class OrderLineServicelmpl implements OrderLineService {
     EntityManager entityManager;
 
     @Override
-    public List<OrderLine> getAllOrderLines(){
-        return orderLineRepo.findAll();
+    public List<SimpleOrderLineDTO> getAllOrderLines(){
+        List<OrderLine> allOrderlines = orderLineRepo.findAll();
+        List<SimpleOrderLineDTO> simpleOrderLineDTOs = new ArrayList<>();
+
+        for(OrderLine orderLine : allOrderlines) {
+            simpleOrderLineDTOs.add(OrderLineConverter.orderLineTosimpleOrderLineDto(orderLine));
+        }
+
+        return simpleOrderLineDTOs;
     }
     @Override
     public String addOrderLine(OrderLine o){
@@ -66,8 +75,7 @@ public class OrderLineServicelmpl implements OrderLineService {
 
     @Override
     public List<SimpleOrderLineDTO> getOrderLinesByBookingId(Long id) {
-        return getAllOrderLines().stream().filter(o -> Objects.equals(o.getBooking().getId(), id))
-                                          .map(OrderLineConverter::orderLineTosimpleOrderLineDto).toList();
+        return getAllOrderLines().stream().filter(o -> Objects.equals(o.getBookingId(), id)).toList();
     }
 
     @Override

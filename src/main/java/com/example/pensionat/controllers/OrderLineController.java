@@ -1,16 +1,16 @@
 package com.example.pensionat.controllers;
 
+import com.example.pensionat.dtos.SimpleOrderLineDTO;
 import com.example.pensionat.models.Booking;
 import com.example.pensionat.models.OrderLine;
 import com.example.pensionat.models.Room;
 import com.example.pensionat.services.interfaces.OrderLineService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/orderline")
 public class OrderLineController {
@@ -18,7 +18,7 @@ public class OrderLineController {
     private final OrderLineService orderLineService;
 
     @RequestMapping("/all")
-    public List<OrderLine> getAllOrderLines() {
+    public List<SimpleOrderLineDTO> getAllOrderLines() {
         return orderLineService.getAllOrderLines();
     }
 
