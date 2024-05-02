@@ -18,8 +18,4 @@ public class DetailedBookingFormQueryDTO {
     private int beds;
     private int rooms;
     private List<SimpleOrderLineDTO> chosenRooms;
-
-    public BookingFormQueryDTO getBookingFormQueryDTO() {
-        return new BookingFormQueryDTO(startDate, endDate, beds, rooms);
-    }
 }

@@ -14,5 +14,4 @@ public class RoomDTO {
 
     private long id;
     private RoomType roomType;
-
 }

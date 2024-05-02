@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class DetailedCustomerDTO {
-
     private Long id;
     private String name;
     private String email;
