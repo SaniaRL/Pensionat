@@ -2,6 +2,12 @@ const addRoomButtons = document.querySelectorAll('.add-room-btn');
 const removeRoomButtons = document.querySelectorAll('.remove-room-btn');
 const availableRooms = document.getElementById('update-booking-empty-rooms');
 
+
+function closePopUp(){
+    document.getElementById('no-div').classList.add('hidden');
+    document.getElementById('overlay').classList.add('hidden');
+}
+
 function showAvailableRoomsDiv() {
     availableRooms.style.display = 'flex';
 }
@@ -162,25 +168,30 @@ function closeDiv(){
 }
 
 function validate(){
-    let chList = Array.prototype.slice.call(document.getElementById("AvailableList").children);
+    let chList = Array.prototype.slice.call(document.getElementById("ChosenList").children);
+    let validate = true;
 
     chList.forEach( c => {
         if (c.classList.contains('read-only')) {
-            c.parent.classList.add('hidden');
-        } else {
-            console.log(`${c.id} does not have read-only class`);
+            validate = false;
         }
-
     })
 
+    return validate;
 }
 
 function validateBooking() {
+    const noDiv = document.getElementById('no-div');
+    const overLay = document.getElementById('overlay');
 
-
-
-    addChosenRoomsToLocalStorage();
-    submitBooking()
+    if(validate()) {
+        addChosenRoomsToLocalStorage();
+        submitBooking()
+    }
+    else{
+        overLay.classList.remove('hidden');
+        noDiv.classList.remove('hidden');
+    }
 }
 
 function submitBooking() {
