@@ -52,8 +52,27 @@ class CustomerControllerTest {
     }
 
     @Test
-    void removeCustomerByIdHandler() throws Exception {
-        //TODO när affärslogik utbruten
+    void removeCustomerByIdHandler_WithActiveBookings() throws Exception {
+        Long customerId = 1L;
+        when(bookingService.getBookingByCustomerId(customerId)).thenReturn(true);
+
+        mvc.perform(get("/customer/{id}/removeHandler", customerId))
+                .andExpect(status().isOk())
+                .andExpect(view().name("handleCustomers"))
+                .andExpect(model().attributeExists("status"))
+                .andExpect(model().attribute("status", "En kund kan inte tas bort om det finns aktiva bokningar"));
+    }
+
+    @Test
+    void removeCustomerByIdHandler_NoActiveBookings() throws Exception {
+        Long customerId = 1L;
+        when(bookingService.getBookingByCustomerId(customerId)).thenReturn(false);
+        when(customerService.removeCustomerById(customerId)).thenReturn("Customer removed successfully");
+
+        mvc.perform(get("/customer/{id}/removeHandler", customerId))
+                .andExpect(status().isOk())
+                .andExpect(view().name("handleCustomers"))
+                .andExpect(model().attributeDoesNotExist("status"));
     }
 
     @Test
@@ -146,12 +165,52 @@ class CustomerControllerTest {
 
     @Test
     void getCustomerByEmail() throws Exception {
-        //TODO
+        String email = "test@example.com";
+        int currentPage = 1;
+        Page<SimpleCustomerDTO> mockPage = new PageImpl<>(List.of(new SimpleCustomerDTO("Test Customer", email)));
+
+        // Correct the mocking of addToModelEmail
+        doAnswer(invocation -> {
+            String emailArg = invocation.getArgument(0);
+            int pageArg = invocation.getArgument(1);
+            Model model = invocation.getArgument(2);
+            model.addAttribute("allCustomers", mockPage.getContent());
+            model.addAttribute("currentPage", pageArg);
+            model.addAttribute("totalItems", mockPage.getTotalElements());
+            model.addAttribute("totalPages", mockPage.getTotalPages());
+            return null;
+        }).when(customerService).addToModelEmail(anyString(), anyInt(), any(Model.class));
+
+        mvc.perform(get("/customer/search")
+                        .param("email", email))
+                .andExpect(status().isOk())
+                .andExpect(view().name("handleCustomers"))
+                .andExpect(model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));
     }
 
     @Test
-    void getCustomerByEmailByPage() throws Exception{
-        //TODO
+    void getCustomerByEmailByPage() throws Exception {
+        String email = "test@example.com";
+        int currentPage = 2;
+        Page<SimpleCustomerDTO> mockPage = new PageImpl<>(List.of(new SimpleCustomerDTO("Test Customer", email)));
+
+        // Correct the mocking of addToModelEmail
+        doAnswer(invocation -> {
+            String emailArg = invocation.getArgument(0);
+            int pageArg = invocation.getArgument(1);
+            Model model = invocation.getArgument(2);
+            model.addAttribute("allCustomers", mockPage.getContent());
+            model.addAttribute("currentPage", pageArg);
+            model.addAttribute("totalItems", mockPage.getTotalElements());
+            model.addAttribute("totalPages", mockPage.getTotalPages());
+            return null;
+        }).when(customerService).addToModelEmail(anyString(), anyInt(), any(Model.class));
+
+        mvc.perform(get("/customer/search/{pageNumber}", currentPage)
+                        .param("email", email))
+                .andExpect(status().isOk())
+                .andExpect(view().name("handleCustomers"))
+                .andExpect(model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));
     }
 
 }
