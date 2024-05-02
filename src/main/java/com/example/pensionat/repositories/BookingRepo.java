@@ -9,4 +9,6 @@ import java.util.List;
 public interface BookingRepo extends JpaRepository<Booking, Long> {
 
     List<Booking> findByCustomerIdAndEndDateAfter(Long customerId, LocalDate date);
+
+
 }

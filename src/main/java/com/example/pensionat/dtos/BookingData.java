@@ -7,6 +7,7 @@ import java.util.List;
 @Data
 public class BookingData {
 
+    private Long id;
     private String name;
     private String email;
     private String startDate;

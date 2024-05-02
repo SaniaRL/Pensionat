@@ -11,6 +11,7 @@ public interface BookingService {
 
     List<DetailedBookingDTO> getAllBookings();
     DetailedBookingDTO addBooking(DetailedBookingDTO b);
+    DetailedBookingDTO updateBooking(DetailedBookingDTO b);
     String removeBookingById(Long id);
     DetailedBookingDTO getBookingById(Long id);
     boolean getBookingByCustomerId(Long customerId);

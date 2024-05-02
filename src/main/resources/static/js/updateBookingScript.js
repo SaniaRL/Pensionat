@@ -93,6 +93,8 @@ function removeRoom(roomID, roomType, room, e){
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    addChosenRoomsToLocalStorage();
+
     const closeButton = document.getElementById('closeButton');
     const errorPopup = document.getElementById('errorPopup');
 
@@ -122,13 +124,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (!bool) {
                 c.classList.add("read-only");
+                //Change type to read only on values
             }
         })
     }
+    /*
     closeButton.addEventListener('click', function() {
         console.log("Button clicked")
         errorPopup.style.display = 'none';
     });
+
+     */
 
 });
 
@@ -147,6 +153,75 @@ function closeDiv(){
     overlay.classList.add('hidden')
 }
 
-function deleteBooking(){
+function validateBooking() {
 
+    submitBooking()
+}
+
+function submitBooking() {
+    let id = document.getElementById("booking-id").textContent;
+    let name = document.getElementById("booking-name").textContent;
+    let email = document.getElementById("booking-email").textContent;
+    let startDate = document.getElementById("start-date").value;
+    let endDate = document.getElementById("end-date").value;
+
+
+    localStorage.setItem("id", id);
+    localStorage.setItem("name", name);
+    localStorage.setItem("email", email);
+    localStorage.setItem("startDate", startDate);
+    localStorage.setItem("endDate", endDate);
+
+    let chosenRooms = JSON.parse(localStorage.getItem("chosenRooms")) || [];
+
+    let bookingData = {
+        id: id,
+        name: name,
+        email: email,
+        startDate: startDate,
+        endDate: endDate,
+        chosenRooms: chosenRooms
+    };
+
+    //Stoppa i body i anrop  @PostMapping("/submitBooking")
+    let xhr = new XMLHttpRequest();
+    let url = "/submitBookingCustomer";
+
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    let data = JSON.stringify(bookingData);
+    console.log("data = " + data);
+    xhr.send(data);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(xhr.responseText);
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(xhr.responseText, 'text/html');
+            document.open();
+            document.write(htmlDoc.documentElement.outerHTML);
+            document.close();
+        }
+    }
+}
+
+function addChosenRoomsToLocalStorage() {
+    const chosenRoomsList = document.querySelectorAll('.room-av-row') || [];
+    const chosenRooms = [];
+
+    chosenRoomsList.forEach(r => {
+        let id = r.children[0].textContent;
+        let roomType = r.children[1].textContent;
+        let extraBeds = r.children[2].children[0].children[0].value;
+
+        chosenRooms.push({
+            id: id,
+            roomType: roomType,
+            extraBeds: extraBeds
+        });
+
+        localStorage.setItem("chosenRooms", JSON.stringify(chosenRooms))
+
+    })
 }

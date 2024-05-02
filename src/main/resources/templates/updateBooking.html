@@ -32,7 +32,7 @@
     <div class="error-pop-up" id="errorPopup">
         <p class="pop-up-header">Bokningen kan ej genomföras</p>
         <p th:text="${status}"></p>
-        <button class="ok-btn-pop-up" id="closeButton">OK</button>
+        <button class="ok-btn-pop-up" onclick="this.parentElement.parentElement.style.display='none';">OK</button>
     </div>
 </div>
 
@@ -142,7 +142,7 @@
                 </table>
             </div>
         </div>
-        <div><button class="booking-booking-btn" onclick=submitBooking()>BOKA</button></div>
+        <div><button class="booking-booking-btn" onclick=validateBooking()>BOKA</button></div>
     </div>
 </div>
 <script th:src="@{/js/updateBookingScript.js}"></script>

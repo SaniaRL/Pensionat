@@ -73,6 +73,12 @@ public class OrderLineServicelmpl implements OrderLineService {
     }
 
     @Override
+    public List<DetailedOrderLineDTO> getDetailedOrderLinesByBookingId(Long id) {
+        List<OrderLine> orderLines = orderLineRepo.findAllByBookingId(id);
+        return orderLines.stream().map(OrderLineConverter::orderLineToDetailedOrderLineDto).toList();
+    }
+
+    @Override
     public List<SimpleOrderLineDTO> findOrderLinesByBookingId(Long bookingId) {
         String query = "SELECT o FROM OrderLine o INNER JOIN o.booking b WHERE b.id = :bookingId";
 
@@ -80,5 +86,4 @@ public class OrderLineServicelmpl implements OrderLineService {
                 .setParameter("bookingId", bookingId)
                 .getResultList().stream().map(OrderLineConverter::orderLineTosimpleOrderLineDto).toList();
     }
-
 }
