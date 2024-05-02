@@ -1,7 +1,21 @@
 package com.example.pensionat;
 
+import com.example.pensionat.models.Booking;
+import com.example.pensionat.models.Customer;
+import com.example.pensionat.models.OrderLine;
+import com.example.pensionat.models.Room;
+import com.example.pensionat.repositories.BookingRepo;
+import com.example.pensionat.repositories.CustomerRepo;
+import com.example.pensionat.repositories.OrderLineRepo;
+import com.example.pensionat.repositories.RoomRepo;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 @SpringBootApplication
 public class PensionatApplication {
@@ -11,8 +25,7 @@ public class PensionatApplication {
 	}
 
 	//TODO Kommentera bort innan ni får 8726782672627628 extra
-
-/*
+	/*
 	@Bean
 	public CommandLineRunner demo(BookingRepo bookingRepo, CustomerRepo customerRepo,
 								  OrderLineRepo orderLineRepo, RoomRepo roomRepo) {
@@ -76,6 +89,9 @@ public class PensionatApplication {
 		};
 
 
+
+
 	}
-*/
+
+	 */
 }

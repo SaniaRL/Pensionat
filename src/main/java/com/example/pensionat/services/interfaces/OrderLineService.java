@@ -14,6 +14,10 @@ public interface OrderLineService {
     String removeOrderLineById(Long id);
     String addOrderLineFromSimpleOrderLineDto(SimpleOrderLineDTO orderLine);
     List<SimpleOrderLineDTO> getOrderLinesByBookingId(Long id);
+
+    List<DetailedOrderLineDTO> getDetailedOrderLinesByBookingId(Long id);
+
     List<SimpleOrderLineDTO> findOrderLinesByBookingId(Long bookingId);
+
 
     }
