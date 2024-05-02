@@ -66,12 +66,6 @@ public class OrderLineServicelmpl implements OrderLineService {
         orderLineRepo.deleteById(id);
         return "Room " + id + " removed";
     }
-    @Override
-    public String addOrderLineFromSimpleOrderLineDto(SimpleOrderLineDTO orderLineDTO){
-        Booking booking = bookingRepo.findById(orderLineDTO.getBookingId()).orElse(null);
-        orderLineRepo.save(OrderLineConverter.simpleOrderLineDtoToOrderLine(orderLineDTO, booking));
-        return "OrderLine added";
-    }
 
     @Override
     public List<SimpleOrderLineDTO> getOrderLinesByBookingId(Long id) {

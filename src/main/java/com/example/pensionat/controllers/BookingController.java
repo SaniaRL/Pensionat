@@ -27,35 +27,6 @@ public class BookingController {
     private final OrderLineService orderLineService;
     private final RoomServicelmpl roomService;
 
-    /*
-
-    @PostMapping("/add")
-    public String addBooking(@ModelAttribute CustomerDTO customerDTO, Model model) {
-        if (customerService.getCustomerByEmail(customerDTO.getEmail()) == null) {
-            customerService.addCustomerFromCustomerDTO(customerDTO);
-        }
-        Long bookingId = bookingService.addBookingFromBookingDto(new BookingDTO(customerDTO,
-                        (LocalDate) model.getAttribute("startDate"),
-                        (LocalDate) model.getAttribute("endDate")));
-
-        List<RoomDTO> rooms = (List<RoomDTO>) model.getAttribute("rooms");
-        List<Integer> extraBeds = (List<Integer>) model.getAttribute("extraBeds");
-        for (int i = 0; i < rooms.size(); i++) {
-            //TODO idk:
-            int xtrBeds = 0;
-            if(extraBeds.get(i) != null){
-                xtrBeds = extraBeds.get(i);
-            }
-            orderLineService.addOrderLineFromSimpleOrderLineDto(new SimpleOrderLineDTO(bookingId,
-                                                                    rooms.get(i), xtrBeds));
-        }
-        model.addAttribute("booking", bookingService.getBookingById(bookingId));
-        model.addAttribute("orderLines", orderLineService.getOrderLinesByBookingId(bookingId));
-        return "bookingConfirmation";
-    }
-
-     */
-
     @GetMapping("/search")
     public String searchBooking() {
         return "bookingSearch";
@@ -116,7 +87,9 @@ public class BookingController {
                     .map(RoomConverter::orderLineToRoomDTO).toList();
 
 
-            availableRooms2 = roomService.findAvailableRooms(query, ((DetailedBookingDTO) session.getAttribute("booking")).getId()).stream().map(OrderLineConverter::roomToSimpleOrderLineDTO).toList();
+            availableRooms2 = roomService.findAvailableRooms(query, ((DetailedBookingDTO) session
+                                         .getAttribute("booking")).getId()).stream()
+                                         .map(OrderLineConverter::roomToSimpleOrderLineDTO).toList();
 
             status = roomService.enoughRooms(query, availableRoomsAsRoomDTO);
             model.addAttribute("startDate", query.getStartDate());
@@ -135,5 +108,4 @@ public class BookingController {
 
         return "updateBooking";
     }
-
 }

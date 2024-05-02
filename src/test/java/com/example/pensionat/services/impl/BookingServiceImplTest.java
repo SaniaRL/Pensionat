@@ -78,21 +78,6 @@ class BookingServiceImplTest {
         assertEquals(actual.getEndDate(), detailedBookingDTO.getEndDate());
     }
 
-
-    @Test
-    void addBookingFromBookingDto() {
-        when(customerRepo.findByEmail(booking.getCustomer().getEmail())).thenReturn(customer);
-        when(bookingRepo.save(any(Booking.class))).thenAnswer(invocation -> {
-            Booking savedBooking = invocation.getArgument(0);
-            savedBooking.setId(1L);
-            return savedBooking;
-        });
-        BookingServiceImpl service = new BookingServiceImpl(bookingRepo, customerRepo, customerService,
-                                                            roomService, orderLineService);
-        Long actual = service.addBookingFromBookingDto(bookingDto);
-        assertNotNull(actual);
-    }
-
     @Test
     void getBookingById() {
         booking.setId(id);

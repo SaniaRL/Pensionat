@@ -46,15 +46,6 @@ class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Long addBookingFromBookingDto(BookingDTO b) {
-        //TODO om kunden inte finns och måste registreras?
-        Customer customer = customerRepo.findByEmail(b.getCustomer().getEmail());
-        Booking booking = BookingConverter.bookingDtoToBooking(b, customer);
-        bookingRepo.save(booking);
-        return booking.getId();
-    }
-
-    @Override
     public DetailedBookingDTO getBookingById(Long id) {
         Booking booking = bookingRepo.findById(id).orElse(null);
         if(booking != null){

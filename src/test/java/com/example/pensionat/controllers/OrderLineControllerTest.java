@@ -1,14 +1,11 @@
 package com.example.pensionat.controllers;
 
-import com.example.pensionat.dtos.*;
-import com.example.pensionat.enums.RoomType;
 import com.example.pensionat.models.Booking;
 import com.example.pensionat.models.Customer;
 import com.example.pensionat.models.OrderLine;
 import com.example.pensionat.models.Room;
 import com.example.pensionat.repositories.OrderLineRepo;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,25 +32,21 @@ class OrderLineControllerTest {
     @MockBean
     private OrderLineRepo mockRepo;
 
-    @BeforeEach
-    public void init() {
-        Room room1 = new Room(201L, 0, null);
+    Room room1 = new Room(201L, 0, null);
 
-        String name = "Maria";
-        String email = "maria@mail.com";
-        LocalDate startDate = LocalDate.parse("2024-05-14");
-        LocalDate endDate = LocalDate.parse("2024-05-17");
+    String name = "Maria";
+    String email = "maria@mail.com";
+    LocalDate startDate = LocalDate.parse("2024-05-14");
+    LocalDate endDate = LocalDate.parse("2024-05-17");
 
-        Customer customer = new Customer(name, email);
-        Booking booking = new Booking(1L, customer, startDate, endDate, null);
-        Long orderLineId = 3L;
-        OrderLine orderLine = new OrderLine(orderLineId, booking, room1, 2);
-
-        when(mockRepo.findAll()).thenReturn(Arrays.asList(orderLine));
-    }
+    Customer customer = new Customer(name, email);
+    Booking booking = new Booking(1L, customer, startDate, endDate, null);
+    Long orderLineId = 3L;
+    OrderLine orderLine = new OrderLine(orderLineId, booking, room1, 2);
 
     @Test
     void getAllOrderLines() throws Exception {
+        when(mockRepo.findAll()).thenReturn(Arrays.asList(orderLine));
         this.mvc.perform(get("/orderline/all"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{\"bookingId\":1, \"room\": { \"id\":201 ,\"roomType\": \"SINGLE\"}," +

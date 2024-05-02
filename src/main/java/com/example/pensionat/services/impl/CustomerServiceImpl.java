@@ -51,12 +51,6 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public String addCustomerFromCustomerDTO(CustomerDTO customerDTO) {
-        customerRepo.save(CustomerConverter.customerDtoToCustomer(customerDTO));
-        return "Customer added successfully";
-    }
-
-    @Override
     public String removeCustomerById(Long id) {
         customerRepo.deleteById(id);
         return "Customer removed successfully";

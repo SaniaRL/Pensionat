@@ -11,7 +11,6 @@ public interface CustomerService {
 
     List<SimpleCustomerDTO> getAllCustomers();
     SimpleCustomerDTO addCustomer(SimpleCustomerDTO c);
-    String addCustomerFromCustomerDTO(CustomerDTO customerDTO);
     String removeCustomerById(Long id);
     String updateCustomer(SimpleCustomerDTO c);
     Page<SimpleCustomerDTO> getCustomersByEmail(String email, int num);
