@@ -1,6 +1,7 @@
 package com.example.pensionat.services.convert;
 
 import com.example.pensionat.dtos.RoomDTO;
+import com.example.pensionat.dtos.SimpleOrderLineDTO;
 import com.example.pensionat.enums.RoomType;
 import com.example.pensionat.models.Room;
 import com.example.pensionat.services.convert.RoomConverter;
@@ -12,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RoomConverterTest {
     Room room = new Room(301L, 2);
     RoomDTO roomDTO = new RoomDTO(401L, RoomType.DOUBLE);
+    SimpleOrderLineDTO orderLineDTO = new SimpleOrderLineDTO(501L, roomDTO, 2);
 
     @Test
     void roomDtoToRoom() {
@@ -30,4 +32,13 @@ class RoomConverterTest {
         assertEquals(actual.getRoomType(), RoomTypeConverter
                 .convertFromInt(room.getTypeOfRoom()));
     }
+
+    @Test
+    void orderLineToRoomDTO() {
+        RoomDTO actual = RoomConverter.orderLineToRoomDTO(orderLineDTO);
+
+        assertEquals(actual.getId(), orderLineDTO.getRoom().getId());
+        assertEquals(actual.getRoomType(), orderLineDTO.getRoom().getRoomType());
+    }
+
 }
