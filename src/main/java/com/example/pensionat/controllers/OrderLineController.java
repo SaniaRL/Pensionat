@@ -5,11 +5,12 @@ import com.example.pensionat.models.OrderLine;
 import com.example.pensionat.models.Room;
 import com.example.pensionat.services.interfaces.OrderLineService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping(path = "/orderline")
 public class OrderLineController {

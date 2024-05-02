@@ -13,7 +13,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,8 +27,15 @@ public class RoomServicelmpl implements RoomService {
     EntityManager entityManager;
 
     @Override
-    public List<Room> getAllRooms(){
-        return roomRepo.findAll();
+    public List<RoomDTO> getAllRooms(){
+        List<Room> rooms = roomRepo.findAll();
+        List<RoomDTO> roomDtos = new ArrayList<>();
+
+        for(Room room : rooms) {
+            roomDtos.add(RoomConverter.roomToRoomDto(room));
+        }
+
+        return roomDtos;
     }
 
     @Override
