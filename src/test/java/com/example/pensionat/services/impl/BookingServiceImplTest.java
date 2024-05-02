@@ -40,6 +40,8 @@ class BookingServiceImplTest {
     private RoomServicelmpl roomService;
     @Mock
     private OrderLineServicelmpl orderLineService;
+    @Mock
+    private OrderLineRepo orderLineRepo;
 
     Long id = 1L;
     String name = "Maria";
@@ -62,7 +64,7 @@ class BookingServiceImplTest {
     void getAllBookings() {
         when(bookingRepo.findAll()).thenReturn(Arrays.asList(booking));
         BookingServiceImpl service = new BookingServiceImpl(bookingRepo, customerRepo, customerService,
-                                                            roomService, orderLineService);
+                                                            roomService, orderLineService, orderLineRepo);
         List<DetailedBookingDTO> actual = service.getAllBookings();
         assertEquals(1, actual.size());
     }
@@ -72,7 +74,7 @@ class BookingServiceImplTest {
         booking.setId(id);
         when(bookingRepo.save(any(Booking.class))).thenReturn(booking);
         BookingServiceImpl service = new BookingServiceImpl(bookingRepo, customerRepo, customerService,
-                                                            roomService, orderLineService);
+                                                            roomService, orderLineService, orderLineRepo);
         DetailedBookingDTO actual = service.addBooking(detailedBookingDTO);
         assertEquals(actual.getId(), detailedBookingDTO.getId());
         assertEquals(actual.getStartDate(), detailedBookingDTO.getStartDate());
@@ -84,7 +86,7 @@ class BookingServiceImplTest {
         booking.setId(id);
         when(bookingRepo.findById(id)).thenReturn(Optional.of(booking));
         BookingServiceImpl service = new BookingServiceImpl(bookingRepo, customerRepo, customerService,
-                                                            roomService, orderLineService);
+                                                            roomService, orderLineService, orderLineRepo);
         DetailedBookingDTO actual = service.getBookingById(id);
         assertEquals(actual.getId(), id);
     }
@@ -92,7 +94,7 @@ class BookingServiceImplTest {
     @Test
     void removeBookingById() {
         BookingServiceImpl service = new BookingServiceImpl(bookingRepo, customerRepo, customerService,
-                                                            roomService, orderLineService);
+                                                            roomService, orderLineService, orderLineRepo);
         String feedback = service.removeBookingById(id);
         assertTrue(feedback.equalsIgnoreCase("Booking removed successfully"));
     }
@@ -103,7 +105,7 @@ class BookingServiceImplTest {
         when(bookingRepo.findByCustomerIdAndEndDateAfter(customer.getId(), LocalDate.now()))
                                                             .thenReturn(list);
         BookingServiceImpl service = new BookingServiceImpl(bookingRepo, customerRepo, customerService,
-                                                            roomService, orderLineService);
+                                                            roomService, orderLineService, orderLineRepo);
         boolean feedback = service.getBookingByCustomerId(customer.getId());
         assertTrue(feedback);
     }

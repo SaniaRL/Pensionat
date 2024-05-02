@@ -34,7 +34,6 @@ public class RoomServicelmpl implements RoomService {
         for(Room room : rooms) {
             roomDtos.add(RoomConverter.roomToRoomDto(room));
         }
-
         return roomDtos;
     }
 
