@@ -12,12 +12,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @SpringBootTest
@@ -46,13 +45,19 @@ class BookRoomControllerTest {
     }
 
     @Test
-    void booking() {
-        //TODO måste göras
+    void booking() throws Exception {
+        mvc.perform(get("/booking"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("booking"));
     }
 
     @Test
-    void updateBooking() {
-        //TODO måste göras
+    void updateBooking() throws Exception {
+        mvc.perform(post("/booking")
+                        .param("id", "1"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("booking"))
+                .andExpect(model().attribute("bookingId", 1));
     }
 
     @Test
