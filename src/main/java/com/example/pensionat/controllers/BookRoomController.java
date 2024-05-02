@@ -16,7 +16,7 @@ import java.util.List;
 
 @Controller
 @AllArgsConstructor
-@SessionAttributes("chosenOrderLines")
+@SessionAttributes({"chosenOrderLines", "result"})
 public class BookRoomController {
     RoomServicelmpl roomService;
     BookingServiceImpl bookingService;
@@ -70,12 +70,17 @@ public class BookRoomController {
 
     @PostMapping("/submitBookingCustomer")
     public String submitBookingCustomer(@RequestBody BookingData bookingData, Model model) {
-        bookingService.submitBookingCustomer(bookingData);
+        List<Integer> res = bookingService.submitBookingCustomer(bookingData);
+        if(res.size() > 1){
+            model.addAttribute("booked", res);
+            return "redirect:/booking/update?id=" + bookingData.getId();
+        }
         model.addAttribute("startDate", bookingData.getStartDate());
         model.addAttribute("endDate", bookingData.getEndDate());
         model.addAttribute("orderLines", bookingData.getChosenRooms());
         model.addAttribute("name", bookingData.getName());
         model.addAttribute("email", bookingData.getEmail());
+//        model.addAttribute("result")
         return "redirect:/bookingConfirmation";
     }
 

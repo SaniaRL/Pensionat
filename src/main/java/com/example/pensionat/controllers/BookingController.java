@@ -17,7 +17,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@SessionAttributes({"chosenRooms", "booking"})
+@SessionAttributes({"chosenRooms", "booking", "result"})
 @RequestMapping(path = "/booking")
 public class BookingController {
 

@@ -1,5 +1,6 @@
 package com.example.pensionat.services.impl;
 
+import com.example.pensionat.models.OrderLine;
 import com.example.pensionat.repositories.OrderLineRepo;
 import com.example.pensionat.services.convert.OrderLineConverter;
 import com.example.pensionat.services.interfaces.BookingService;
@@ -12,6 +13,7 @@ import com.example.pensionat.dtos.*;
 import com.example.pensionat.services.convert.BookingConverter;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -80,7 +82,7 @@ class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public String submitBookingCustomer(BookingData bookingData) {
+    public List<Integer> submitBookingCustomer(BookingData bookingData) {
         Long bookingId = bookingData.getId();
         String name = bookingData.getName();
         String email = bookingData.getEmail();
@@ -97,19 +99,20 @@ class BookingServiceImpl implements BookingService {
                 System.out.println("New customer added: " + customer);
             }
             booking = new DetailedBookingDTO(customer, startDate, endDate);
-        }
-        else {
-            booking = new DetailedBookingDTO(bookingId, customer, startDate, endDate);
-        }
-
-        booking = addBooking(booking);
-
-        if(bookingId == -1L){
+            booking = addBooking(booking);
             DetailedBookingDTO finalBooking = booking;
             chosenRooms.stream()
                     .map(orderLine -> new DetailedOrderLineDTO(orderLine.getExtraBeds(), finalBooking, roomService.getRoomByID((long) orderLine.getId())))
                     .forEach(orderLineService::addOrderLine);
-        } else {
+        }
+        else {
+            List<OrderLineDTO> booked = getBookedRooms(startDate, endDate, chosenRooms, bookingId);
+            if(!booked.isEmpty()){
+                return new ArrayList<>(booked.stream().map(OrderLineDTO::getId).toList());
+            }
+
+            booking = new DetailedBookingDTO(bookingId, customer, startDate, endDate);
+
             List<DetailedOrderLineDTO> orderLines = orderLineService.getDetailedOrderLinesByBookingId(bookingId);
 
             List<Long> chosenRoomIds = chosenRooms.stream()
@@ -119,12 +122,13 @@ class BookingServiceImpl implements BookingService {
                     .filter(r -> chosenRoomIds.contains(r.getRoom().getId())).toList();
 
             updateRooms.forEach(ur -> {
-                 chosenRooms.forEach(cr -> {
-                     if(cr.getId() == ur.getRoom().getId()){
-                         ur.setExtraBeds(cr.getExtraBeds());
-                     }
-                 });
+                chosenRooms.forEach(cr -> {
+                    if (cr.getId() == ur.getRoom().getId()) {
+                        ur.setExtraBeds(cr.getExtraBeds());
+                    }
+                });
             });
+
 
             List<DetailedOrderLineDTO> deleteRooms = orderLines.stream()
                     .filter(r -> !(chosenRoomIds.contains(r.getRoom().getId()))).toList();
@@ -136,6 +140,7 @@ class BookingServiceImpl implements BookingService {
                             .contains((long) r.getId()))
                     .toList();
 
+            booking = addBooking(booking);
             DetailedBookingDTO finalBooking = booking;
 
             deleteRooms.forEach(dr -> orderLineRepo.deleteById(dr.getId()));
@@ -149,7 +154,7 @@ class BookingServiceImpl implements BookingService {
                     .forEach(orderLineService::addOrderLine);
 
         }
-        return "Everything is fine";
+        return new ArrayList<>();
     }
 
     @Override
@@ -165,5 +170,23 @@ class BookingServiceImpl implements BookingService {
         return orderLines.stream()
                 .mapToInt(SimpleOrderLineDTO::getExtraBeds)
                 .sum();
+    }
+
+    public List<OrderLineDTO> getBookedRooms(LocalDate startDate, LocalDate endDate, List<OrderLineDTO> rooms, Long id) {
+        List<Booking> bookings = bookingRepo.findByStartDateLessThanAndEndDateGreaterThanAndIdNot(endDate, startDate, id);
+        List<OrderLine> orderLines = new ArrayList<>();
+        bookings.forEach(b -> orderLines.addAll(orderLineRepo.findAllByBookingId(b.getId())));
+
+        List<OrderLineDTO> booked = new ArrayList<>();
+
+        orderLines.forEach(ol -> {
+            rooms.forEach(cr -> {
+                if (ol.getRoom().getId() == cr.getId()) {
+                    booked.add(cr);
+                }
+            });
+        });
+
+        return booked;
     }
 }
