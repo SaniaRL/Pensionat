@@ -93,6 +93,8 @@ function removeRoom(roomID, roomType, room, e){
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    addChosenRoomsToLocalStorage();
+
     const closeButton = document.getElementById('closeButton');
     const errorPopup = document.getElementById('errorPopup');
 
@@ -122,13 +124,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (!bool) {
                 c.classList.add("read-only");
+                //Change type to read only on values
             }
         })
     }
+    /*
     closeButton.addEventListener('click', function() {
         console.log("Button clicked")
         errorPopup.style.display = 'none';
     });
+
+     */
 
 });
 
@@ -147,6 +153,37 @@ function closeDiv(){
     overlay.classList.add('hidden')
 }
 
-function deleteBooking(){
+function validateBooking() {
 
+    submitBooking()
+}
+
+function submitBooking() {
+    let startDate = localStorage.getItem("startDate");
+    let endDate = localStorage.getItem("endDate");
+
+    document.getElementById('start-date').value = startDate;
+    document.getElementById('end-date').value = endDate;
+
+    window.location.href = "/customer/customerOrNot";
+}
+
+function addChosenRoomsToLocalStorage() {
+    const chosenRoomsList = document.querySelectorAll('.room-av-row') || [];
+    const chosenRooms = [];
+
+    chosenRoomsList.forEach(r => {
+        let id = r.children[0].textContent;
+        let roomType = r.children[1].textContent;
+        let extraBeds = r.children[2].children[0].children[0].value;
+
+        chosenRooms.push({
+            id: id,
+            roomType: roomType,
+            extraBeds: extraBeds
+        });
+
+        localStorage.setItem("chosenRooms", JSON.stringify(chosenRooms))
+
+    })
 }
