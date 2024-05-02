@@ -185,7 +185,7 @@ function validateBooking() {
     const overLay = document.getElementById('overlay');
 
     if(validate()) {
-        addChosenRoomsToLocalStorage();
+/*        addChosenRoomsToLocalStorage(); */
         submitBooking()
     }
     else{
