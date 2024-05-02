@@ -42,7 +42,7 @@ class BookRoomControllerTest {
 
     @Test
     void processBookingForm() {
-        //TODO måste göras
+        //TODO måste göra
     }
 
     @Test
