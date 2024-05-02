@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.http.MediaType;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doAnswer;
@@ -24,6 +25,7 @@ import org.springframework.ui.Model;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -64,9 +66,32 @@ class CustomerControllerTest {
     }
 
     @Test
-    void handleCustomersUpdate() throws Exception{
-        //TODO
+    void handleCustomersUpdate() throws Exception {
+        SimpleCustomerDTO customer = new SimpleCustomerDTO("Test Customer", "test@example.com");
+        int currentPage = 1;
+        Page<SimpleCustomerDTO> mockPage = new PageImpl<>(List.of(customer));
+
+        // Mock the service methods used in the controller
+        when(customerService.updateCustomer(customer)).thenReturn("Customer updated successfully");
+        doAnswer(invocation -> {
+            Model model = invocation.getArgument(1);
+            model.addAttribute("allCustomers", mockPage.getContent());
+            model.addAttribute("currentPage", currentPage);
+            model.addAttribute("totalItems", mockPage.getTotalElements());
+            model.addAttribute("totalPages", mockPage.getTotalPages());
+            return null;
+        }).when(customerService).addToModel(eq(currentPage), any(Model.class));
+
+        // Perform the POST request with the DTO
+        mvc.perform(post("/customer/handle/update")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("email", customer.getEmail())
+                        .param("name", customer.getName()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("handleCustomers"))
+                .andExpect(model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));
     }
+
 
     @Test
     void loadCustomerOrNot() throws Exception {
