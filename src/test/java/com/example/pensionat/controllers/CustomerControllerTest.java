@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doAnswer;
@@ -32,12 +33,19 @@ class CustomerControllerTest {
 
     @Autowired
     private MockMvc mvc;
+
+    @Autowired
+    private CustomerController controller;
+
     @MockBean
     private BookingService bookingService;
+
     @MockBean
     private CustomerService customerService;
+
     @MockBean
     private BookRoomController testController;
+
     String email = "gudrun@disco.com";
     SimpleCustomerDTO customer = new SimpleCustomerDTO("evert.persson@outbook.com", "Evert Persson");
     Long customerId = 1L;
@@ -50,19 +58,17 @@ class CustomerControllerTest {
     }
 
     @BeforeEach
-    void init() { //Körs innan varje test
+    void init() {
         Page<SimpleCustomerDTO> mockPage = new PageImpl<>(List.of(customer));
         when(customerService.getCustomerByEmail(anyString())).thenReturn(customer);
         when(customerService.removeCustomerById(anyLong())).thenReturn("Kund borta");
 
-        // Mock för handleByPage, handleCustomers, handleCustomersUpdate
         doAnswer(invocation -> {
             Model model = invocation.getArgument(1);
             mockAddToModel(model, mockPage);
             return null;
         }).when(customerService).addToModel(anyInt(), any(Model.class));
 
-        // Mock för getCustomerByEmail + ByPage
         doAnswer(invocation -> {
             String email = invocation.getArgument(0);
             int currentPage = invocation.getArgument(1);
@@ -70,6 +76,11 @@ class CustomerControllerTest {
             mockAddToModel(model, new PageImpl<>(List.of(new SimpleCustomerDTO("Evert Karlsson", email)), PageRequest.of(currentPage - 1, 5), 1));
             return null;
         }).when(customerService).addToModelEmail(anyString(), anyInt(), any(Model.class));
+    }
+
+    @Test
+    public void contextLoads() throws Exception {
+        assertThat(controller).isNotNull();
     }
 
     @Test

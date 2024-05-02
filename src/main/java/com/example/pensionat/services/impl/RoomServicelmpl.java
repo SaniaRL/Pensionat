@@ -34,7 +34,6 @@ public class RoomServicelmpl implements RoomService {
         for(Room room : rooms) {
             roomDtos.add(RoomConverter.roomToRoomDto(room));
         }
-
         return roomDtos;
     }
 
@@ -88,7 +87,6 @@ public class RoomServicelmpl implements RoomService {
 
     @Override
     public String enoughRooms(BookingFormQueryDTO query, List<RoomDTO> queryRooms) {
-
         LocalDate startDate = query.getStartDate();
         LocalDate endDate = query.getEndDate();
 
@@ -98,6 +96,13 @@ public class RoomServicelmpl implements RoomService {
         int wantedBeds = query.getBeds();
         int maxNumberOfBeds = (int) queryRooms.stream()
                 .map(room -> room.getRoomType().getMaxNumberOfBeds()).count();
+
+        System.out.println("Startdate: " + startDate);
+        System.out.println("Enddate: " + endDate);
+        System.out.println("Wanted rooms: " + wantedRooms);
+        System.out.println("Wanted beds: " + wantedBeds);
+        System.out.println("Number of rooms: " + numberOfRooms);
+        System.out.println("Max number of beds: " + maxNumberOfBeds);
 
         if(startDate.isAfter(endDate)) {
             return "Startdatum måste vara före slutdatum.";
@@ -121,5 +126,4 @@ public class RoomServicelmpl implements RoomService {
 
         return "";
     }
-
 }

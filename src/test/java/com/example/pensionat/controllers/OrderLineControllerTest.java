@@ -11,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -29,6 +31,9 @@ class OrderLineControllerTest {
     @Autowired
     private MockMvc mvc;
 
+    @Autowired
+    private OrderLineController controller;
+
     @MockBean
     private OrderLineRepo mockRepo;
 
@@ -43,6 +48,11 @@ class OrderLineControllerTest {
     Booking booking = new Booking(1L, customer, startDate, endDate, null);
     Long orderLineId = 3L;
     OrderLine orderLine = new OrderLine(orderLineId, booking, room1, 2);
+
+    @Test
+    public void contextLoads() throws Exception {
+        assertThat(controller).isNotNull();
+    }
 
     @Test
     void getAllOrderLines() throws Exception {
