@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
 import java.util.List;
 
 import static backEnd1.pensionat.services.convert.CustomerConverter.*;
@@ -33,6 +35,24 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public SimpleCustomerDTO addCustomer(SimpleCustomerDTO c) {
         return customerToSimpleCustomerDTO(customerRepo.save(CustomerConverter.simpleCustomerDTOtoCustomer(c)));
+    }
+
+    @Override
+    public void addToModel(int currentPage, Model model){
+        Page<SimpleCustomerDTO> c = getAllCustomersPage(currentPage);
+        model.addAttribute("allCustomers", c.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", c.getTotalElements());
+        model.addAttribute("totalPages", c.getTotalPages());
+    }
+
+    @Override
+    public void addToModelEmail(String email, int currentPage, Model model){
+        Page<SimpleCustomerDTO> c = getCustomersByEmail(email, currentPage);
+        model.addAttribute("allCustomers", c.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", c.getTotalElements());
+        model.addAttribute("totalPages", c.getTotalPages());
     }
 
     @Override
@@ -75,11 +95,5 @@ public class CustomerServiceImpl implements CustomerService {
             return customerToSimpleCustomerDTO(customer);
         }
         return null;
-    }
-
-    @Override
-    public SimpleCustomerDTO getCustomerByEmailSimpleDTO(String email){
-        Customer c = customerRepo.findByEmail(email);
-        return customerToSimpleCustomerDTO(c);
     }
 }

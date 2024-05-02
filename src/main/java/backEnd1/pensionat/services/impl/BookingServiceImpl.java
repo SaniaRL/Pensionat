@@ -29,6 +29,7 @@ class BookingServiceImpl implements BookingService {
     private final CustomerService customerService;
     private final RoomServicelmpl roomService;
     private final OrderLineServicelmpl orderLineService;
+
     @PersistenceContext
     EntityManager entityManager;
 

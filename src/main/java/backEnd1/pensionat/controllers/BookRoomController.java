@@ -1,9 +1,6 @@
 package backEnd1.pensionat.controllers;
 
 import backEnd1.pensionat.DTOs.*;
-import backEnd1.pensionat.Models.Booking;
-import backEnd1.pensionat.Models.OrderLine;
-import backEnd1.pensionat.services.convert.BookingConverter;
 import backEnd1.pensionat.services.impl.BookingServiceImpl;
 import backEnd1.pensionat.services.impl.CustomerServiceImpl;
 import backEnd1.pensionat.services.impl.OrderLineServicelmpl;
@@ -12,7 +9,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

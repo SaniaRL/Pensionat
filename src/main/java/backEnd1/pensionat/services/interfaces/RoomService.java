@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface RoomService {
 
-    public List<Room> getAllRooms();
-    public String addRoom(Room r);
-    public String removeRoomById(Long id);
+    List<Room> getAllRooms();
+    String addRoom(Room r);
+    String removeRoomById(Long id);
     RoomDTO getRoomByID(Long Id);
     List<RoomDTO> findAvailableRooms(BookingFormQueryDTO query);
 
