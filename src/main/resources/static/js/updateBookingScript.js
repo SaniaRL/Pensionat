@@ -132,3 +132,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+//CSS ville inte funka när jag hade ID på denna. Då gick id före class hidden eller nåt.
+const warning = document.querySelector('.delete-warning')
+const overlay = document.getElementById('overlay')
+
+
+function deleteWarning(){
+    warning.classList.remove('hidden')
+    overlay.classList.remove('hidden')
+}
+
+function closeDiv(){
+    warning.classList.add('hidden')
+    overlay.classList.add('hidden')
+}
+
+function deleteBooking(){
+
+}
