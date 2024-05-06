@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class OrderLineDTO {
-    int id;
-    String roomType;
-    int extraBeds;
+    private int id;
+    private String roomType;
+    private int extraBeds;
 }
