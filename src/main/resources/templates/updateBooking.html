@@ -81,7 +81,7 @@
                     <input type="hidden" name="chosenRooms" th:value="${chosenRooms}">
                 </div>
                 <div>
-                    <input type="submit" id="submit-booking" name="submit-booking" value="SÖK LEDIGA RUM" onclick="showAvailableRoomsDiv()">
+                    <input class="btn" type="submit" id="submit-booking" name="submit-booking" value="SÖK LEDIGA RUM" onclick="showAvailableRoomsDiv()">
                 </div>
             </div>
         </div>
@@ -151,7 +151,7 @@
                 </table>
             </div>
         </div>
-        <div><button class="booking-booking-btn" onclick=validateBooking()>BOKA</button></div>
+        <div><button class="booking-booking-btn btn" onclick=validateBooking()>BOKA</button></div>
 <!--        <div th:unless="${result.isEmpty()}">-->
 <!--            <div th:each="res : ${result}">-->
 <!--            </div>-->

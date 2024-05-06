@@ -73,4 +73,9 @@ public class CustomerController {
         customerService.addToModelEmail(email, currentPage, model);
         return "handleCustomers";
     }
+
+    @GetMapping("/contractCustomer")
+    public String getContractCustomers() {
+        return "contractCustomers";
+    }
 }
