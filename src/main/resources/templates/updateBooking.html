@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Pensionat</title>
     <link rel="icon" type="image/x-icon" href="/images/house.png">
+    <link rel="stylesheet" type="text/css" href="/css/universal.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,7 +33,7 @@
     <div class="error-pop-up">
         <p class="pop-up-header">NEJ</p>
         <p>Önskad bokning innehåller upptagna rum</p>
-        <button class="ok-btn-pop-up" onclick=closePopUp()>OK</button>
+        <button class="ok-btn-pop-up btn" onclick=closePopUp()>OK</button>
     </div>
 </div>
 
@@ -40,7 +41,7 @@
     <div class="error-pop-up" id="errorPopup">
         <p class="pop-up-header">Bokningen kan ej genomföras</p>
         <p th:text="${status}"></p>
-        <button class="ok-btn-pop-up" onclick="this.parentElement.parentElement.style.display='none';">OK</button>
+        <button class="ok-btn-pop-up btn" onclick="this.parentElement.parentElement.style.display='none';">OK</button>
     </div>
 </div>
 
