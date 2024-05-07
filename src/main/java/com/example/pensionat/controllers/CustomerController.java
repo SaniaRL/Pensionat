@@ -88,6 +88,7 @@ public class CustomerController {
 
     @GetMapping("/contractCustomer/{id}")
     public String getContractCustomer(Model model, @PathVariable long id) {
+        //TODO Hämta baserat på ID
         model.addAttribute("id", id);
         return "contractCustomer";
     }
@@ -95,13 +96,13 @@ public class CustomerController {
     @GetMapping("/contractHandle")
     public String contractHandleCustomers(Model model){
         int currentPage = 1;
-        customerService.addToModel(currentPage, model);
+        contractCustomerService.addToModel(currentPage, model);
         return "contractCustomers";
     }
 
     @GetMapping("/contractHandle/{pageNumber}")
     public String contractHandleByPage(Model model, @PathVariable("pageNumber") int currentPage){
-        customerService.addToModel(currentPage, model);
+        contractCustomerService.addToModel(currentPage, model);
         return "contractCustomers";
     }
 
