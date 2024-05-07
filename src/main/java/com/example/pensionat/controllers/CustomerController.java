@@ -4,8 +4,10 @@ import com.example.pensionat.dtos.ContractCustomerDTO;
 import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.models.customers;
 import com.example.pensionat.services.interfaces.BookingService;
+import com.example.pensionat.services.interfaces.ContractCustomerService;
 import com.example.pensionat.services.interfaces.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
     private final BookingService bookingService;
+    private final ContractCustomerService contractCustomerService;
 
     @RequestMapping("/{id}/removeHandler")
     public String removeCustomerByIdHandler(@PathVariable Long id, Model model) {
