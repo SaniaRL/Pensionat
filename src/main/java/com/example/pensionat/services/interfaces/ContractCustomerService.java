@@ -1,6 +1,5 @@
 package com.example.pensionat.services.interfaces;
 
-import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.models.customers;
 import org.springframework.data.domain.Page;
 
