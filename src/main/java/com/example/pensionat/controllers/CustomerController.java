@@ -4,15 +4,13 @@ import com.example.pensionat.dtos.ContractCustomerDTO;
 import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.models.customers;
 import com.example.pensionat.services.interfaces.BookingService;
+import com.example.pensionat.services.interfaces.ContractCustomerService;
 import com.example.pensionat.services.interfaces.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-//import org.thymeleaf.expression.Arrays;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,6 +19,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
     private final BookingService bookingService;
+    private final ContractCustomerService contractCustomerService;
 
     @RequestMapping("/{id}/removeHandler")
     public String removeCustomerByIdHandler(@PathVariable Long id, Model model) {
@@ -82,15 +81,15 @@ public class CustomerController {
 
     @GetMapping("/contractCustomer")
     public String getContractCustomers(Model model) {
-        //TODO Hämta ordentligt
-        ContractCustomerDTO c1 = new ContractCustomerDTO(1L, "C", "B","Ö");
-        ContractCustomerDTO c2 = new ContractCustomerDTO(2L, "D", "E", "Ä");
-        ContractCustomerDTO c3 = new ContractCustomerDTO(3L, "E", "F", "Å");
-        ContractCustomerDTO c4 = new ContractCustomerDTO(4L, "A", "D", "Ö");
-        ContractCustomerDTO c5 = new ContractCustomerDTO(5L, "F", "C", "Ä");
-        ContractCustomerDTO c6 = new ContractCustomerDTO(6L, "B", "A", "Å");
+        /*
+        int currentPage = 1;
+        customerService.addToModel(currentPage, model);
 
-        List<ContractCustomerDTO> customers = Arrays.asList(c1, c2, c3, c4, c5, c6);
+
+         */
+
+
+        Page<ContractCustomerDTO> customers = contractCustomerService.getAllCustomersPage(1);
         model.addAttribute("contractList", customers);
 
         return "contractCustomers";
@@ -101,4 +100,18 @@ public class CustomerController {
         model.addAttribute("id", id);
         return "contractCustomer";
     }
+
+    @GetMapping("/contractHandle")
+    public String contractHandleCustomers(Model model){
+        int currentPage = 1;
+        customerService.addToModel(currentPage, model);
+        return "contractCustomers";
+    }
+
+    @GetMapping("/contractHandle/{pageNumber}")
+    public String contractHandleByPage(Model model, @PathVariable("pageNumber") int currentPage){
+        customerService.addToModel(currentPage, model);
+        return "contractCustomers";
+    }
+
 }

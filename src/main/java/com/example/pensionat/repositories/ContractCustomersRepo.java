@@ -6,5 +6,5 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ContractCustomersRepo extends JpaRepository<customers, Long> {
-    Page<customers> find(Long customerId, Pageable pageable);
+    Page<customers> findById(Long customerId, Pageable pageable);
 }
