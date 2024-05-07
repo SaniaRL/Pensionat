@@ -1,0 +1,231 @@
+.customers-table {
+    background: #d2d2d2;
+    border: 2px solid black;
+    box-sizing: border-box;
+    font-size: 20px;
+    -webkit-box-shadow: -2px 3px 4px 0 rgba(0,0,0, 0.8);
+    -moz-box-shadow: -2px 3px 4px 0 rgba(0,0,0, 0.8);
+    box-shadow: -2px 3px 4px 0 rgba(0,0,0, 0.8);
+}
+
+.table-pages {
+    margin-top: 12px;
+}
+
+table, th, td {
+    border-collapse: collapse;
+}
+
+th {
+    padding: 5px;
+}
+
+tr {
+    display: grid;
+    grid-template-columns: 250px 250px 250px;
+    cursor: pointer;
+    &:hover {
+        font-weight: 800;
+    }
+}
+
+td {
+    background-color: white;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    border-collapse: collapse;
+    padding: 5px;
+    display: flex;
+}
+
+.input-row {
+    background-color: white;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    border-collapse: collapse;
+    padding: 5px;
+}
+
+.table-header {
+    border-bottom: 2px solid black;
+    display: grid;
+    grid-template-columns: 250px 250px 250px;
+}
+
+.customer-row {
+    :first-child > :not(input) {
+        border-left: none;
+    }
+    :last-child > :not(input) {
+        border-right: none;
+    }
+    border-bottom: none;
+}
+
+.customer-search {
+    margin-bottom: 10px;
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 6px;
+    font-size: 16px;
+}
+
+.search-customer-button {
+    display: none;
+}
+
+.td-icons {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    & svg {
+        height: 1.2rem;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+.remove {
+    & svg {
+        &:hover {
+            fill: red;
+        }
+    }
+}
+
+.edit {
+    & svg {
+        &:hover {
+            fill: green;
+        }
+    }
+}
+
+.return-button {
+    font-size: 20px;
+    border: 2px solid #4f4b6a;
+    border-radius: 4px;
+    padding: 6px;
+    background-color: #4f4b6a;
+    cursor: pointer;
+}
+
+.return-link {
+    background-color: #4f4b6a;
+    margin-left: 2px;
+    border-radius: 4px;
+    -webkit-box-shadow: -2px 3px 4px 0 rgba(0,0,0, 0.8);
+    -moz-box-shadow: -2px 3px 4px 0 rgba(0,0,0, 0.8);
+    box-shadow: -2px 3px 4px 0 rgba(0,0,0, 0.8);
+    height: 40px;
+}
+
+a, a:visited, a:active, a:link {
+    color: #ffffff;
+    text-decoration: none;
+    transition: transform 100ms;
+}
+a:hover {
+    color: gold;
+    transform: scale(1.05);
+}
+
+a:active {
+    transform: scale(0.98);
+    box-shadow: none;
+}
+
+.placement-return-button {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+form {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+input {
+    width: 100%;
+    font-size: 20px;
+}
+
+.update-submit-button {
+    background-color: #4f4b6a;
+    border: 2px solid #4f4b6a;
+    border-radius: 4px;
+
+    -webkit-box-shadow: -2px 3px 4px 0 rgba(0,0,0, 0.8);
+    -moz-box-shadow: -2px 3px 4px 0 rgba(0,0,0, 0.8);
+    box-shadow: -2px 3px 4px 0 rgba(0,0,0, 0.8);
+    cursor: pointer;
+    transition: transform 100ms;
+
+    &:hover {
+        transform: scale(1.05);
+
+        & input {
+            color: gold;
+        }
+    }
+
+    & input {
+        background-color: #4f4b6a;
+        border: none;
+        color: #ffffff;
+        padding: 6px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+}
+
+.customer-pop-up {
+    z-index: 1001;
+}
+
+.customer-pop-up-header {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.customer-pop-up-text {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.customer-btn-pop-up {
+    margin: 30px;
+}
+
+.hidden {
+    display: none;
+}
+
+.table-header img {
+    max-height: 25px;
+    width: auto;
+    vertical-align: middle;
+}
