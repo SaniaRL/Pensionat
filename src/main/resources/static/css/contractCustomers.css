@@ -23,6 +23,10 @@ th {
 tr {
     display: grid;
     grid-template-columns: 250px 250px 250px;
+    cursor: pointer;
+    &:hover {
+        font-weight: 800;
+    }
 }
 
 td {

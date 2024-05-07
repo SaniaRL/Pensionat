@@ -85,11 +85,12 @@ public class CustomerController {
         //TODO Hämta ordentligt
         ContractCustomerDTO c1 = new ContractCustomerDTO(1L, "C", "B","Ö");
         ContractCustomerDTO c2 = new ContractCustomerDTO(2L, "D", "E", "Ä");
-        ContractCustomerDTO c3 = new ContractCustomerDTO(3L, "E", "A", "Å");
+        ContractCustomerDTO c3 = new ContractCustomerDTO(3L, "E", "F", "Å");
         ContractCustomerDTO c4 = new ContractCustomerDTO(4L, "A", "D", "Ö");
-        ContractCustomerDTO c5 = new ContractCustomerDTO(5L, "B", "C", "K");
+        ContractCustomerDTO c5 = new ContractCustomerDTO(5L, "F", "C", "Ä");
+        ContractCustomerDTO c6 = new ContractCustomerDTO(6L, "B", "A", "Å");
 
-        List<ContractCustomerDTO> customers = Arrays.asList(c1, c2, c3, c4, c5);
+        List<ContractCustomerDTO> customers = Arrays.asList(c1, c2, c3, c4, c5, c6);
         model.addAttribute("contractList", customers);
 
         return "contractCustomers";
