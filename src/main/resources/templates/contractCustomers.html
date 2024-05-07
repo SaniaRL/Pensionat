@@ -88,32 +88,6 @@
 
             Pages : [[${totalPages}]]
         </div>
-<!--        <div class="table-pages" th:if="${totalPages > 1}">-->
-<!--            Total Items: [[${totalItems}]]-->
-<!--            &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;-->
-
-<!--            <a th:href="@{'/customer/contractHandle/1'}" th:if="${currentPage > 1}">First</a>-->
-<!--            <span th:unless="${currentPage > 1}">First</span>-->
-<!--            &nbsp;&nbsp;-->
-
-<!--            <a th:href="@{'/customer/contractHandle/' + ${currentPage - 1}}" th:if="${currentPage > 1}">Previous</a>-->
-<!--            <span th:unless="${currentPage > 1}">Previous</span>-->
-
-<!--            &nbsp;&nbsp;-->
-
-<!--            <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
-<!--			<a th:href="@{'/customer/contractHandle/' + ${i}}" th:if="${currentPage != i}">[[${i}]]</a>-->
-<!--			<span th:unless="${currentPage != i}">[[${i}]]</span>-->
-<!--			&nbsp;-->
-<!--		</span>-->
-
-<!--            <a th:href="@{'/customer/contractHandle/' + ${currentPage + 1}}" th:if="${currentPage < totalPages}">Next</a>-->
-<!--            <span th:unless="${currentPage < totalPages}">Next</span>-->
-<!--            &nbsp;&nbsp;-->
-
-<!--            <a th:href="@{'/customer/contractHandle/' + ${totalPages}}" th:if="${currentPage < totalPages}">Last</a>-->
-<!--            <span th:unless="${currentPage < totalPages}">Last</span>-->
-<!--        </div>-->
     </div>
 </div>
 
