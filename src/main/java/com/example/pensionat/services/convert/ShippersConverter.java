@@ -8,16 +8,16 @@ public class ShippersConverter {
     public static SimpleShippersDTO shippersToSimpleShippersDTO(Shippers shipper) {
         return SimpleShippersDTO.builder()
                 .id(shipper.getId())
-                .CompanyName(shipper.getCompanyName())
-                .Phone(shipper.getPhone())
+                .companyName(shipper.getCompanyName())
+                .phone(shipper.getPhone())
                 .build();
     }
-
+/* TempYolo
     public static Shippers simpleShippersDTOToShippers(SimpleShippersDTO shipper) {
         return Shippers.builder()
                 .id(shipper.getId())
-                .CompanyName(shipper.getCompanyName())
-                .Phone(shipper.getPhone())
+                .companyName(shipper.getCompanyName())
+                .phone(shipper.getPhone())
                 .build();
-    }
+    } */
 }

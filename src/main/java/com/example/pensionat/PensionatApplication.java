@@ -30,7 +30,7 @@ public class PensionatApplication {
             application.setWebApplicationType(WebApplicationType.NONE);
             application.run(args);
         } else if (Objects.equals(args[0], "fetchshippers")) {
-            SpringApplication application = new SpringApplication(FetchContractCustomers.class);
+            SpringApplication application = new SpringApplication(FetchShippers.class);
             application.setWebApplicationType(WebApplicationType.NONE);
             application.run(args);
         }
