@@ -94,4 +94,10 @@ public class CustomerController {
 
         return "contractCustomers";
     }
+
+    @GetMapping("/contractCustomer/{id}")
+    public String getContractCustomer(@RequestParam long id, Model model) {
+        model.addAttribute("id", id);
+        return "contractCustomer/{id}";
+    }
 }
