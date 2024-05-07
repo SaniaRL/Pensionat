@@ -1,12 +1,17 @@
 package com.example.pensionat.controllers;
 
 import com.example.pensionat.dtos.SimpleCustomerDTO;
+import com.example.pensionat.models.customers;
 import com.example.pensionat.services.interfaces.BookingService;
 import com.example.pensionat.services.interfaces.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+//import org.thymeleaf.expression.Arrays;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -76,8 +81,17 @@ public class CustomerController {
 
     @GetMapping("/contractCustomer")
     public String getContractCustomers(Model model) {
-        //Skapa lista
-        //Lägg till i lista
+        //TODO Hämta ordentligt
+        customers c1 = new customers(1L, "C", "B", "!", "!", "!", 1, "Ö", "!", "!");
+        customers c2 = new customers(2L, "D", "E", "!", "!", "!", 1, "Ä", "!", "!");
+        customers c3 = new customers(3L, "E", "A", "!", "!", "!", 1, "Å", "!", "!");
+        customers c4 = new customers(4L, "A", "D", "!", "!", "!", 1, "Ö", "!", "!");
+        customers c5 = new customers(5L, "B", "C", "!", "!", "!", 1, "K", "!", "!");
+
+        List<customers> customers = Arrays.asList(c1, c2, c3, c4, c5);
+        model.addAttribute("contractList", customers);
+
+
         return "contractCustomers";
     }
 }
