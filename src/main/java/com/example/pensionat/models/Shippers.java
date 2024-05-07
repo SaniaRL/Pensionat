@@ -1,8 +1,6 @@
 package com.example.pensionat.models;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,11 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class shipper {
-
+public class Shippers {
     @Id
-    @GeneratedValue
-    private int id;
+    private Long id;
     private String CompanyName;
     private String Phone;
 }
