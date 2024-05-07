@@ -6,6 +6,7 @@
     <link href="/images/house.png" rel="icon" type="image/x-icon"/>
     <link href="/css/style.css" rel="stylesheet" type="text/css">
     <link href="/css/contractCustomers.css" rel="stylesheet" type="text/css">
+    <link href="/css/paging.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
@@ -55,32 +56,64 @@
             </tr>
             </tbody>
         </table>
-        <div class="table-pages" th:if="${totalPages > 1}">
-            Total Items: [[${totalItems}]]
+        <nav aria-label="Pagination" th:if="${totalPages > 0}">
+            <ul class="pagination">
+                <li class="page-item font-weight-bold" th:classappend="${currentPage == 1} ? 'disabled'">
+                    <a th:replace="fragments/paging :: paging(1, 'First', 'First Page')"></a>
+                </li>
+                <li class="page-item font-weight-bold" th:classappend="${currentPage == 1} ? 'disabled'">
+                    <a th:replace="fragments/paging :: paging(${currentPage - 1}, 'Prev', 'Previous Page')"></a>
+                </li>
+                <li class="page-item dots font-weight-bold" th:if="${currentPage - 2 > 1}">
+                    <a th:replace="fragments/paging :: paging(${currentPage - 3}, '...', 'Back 3')">...</a>
+                </li>
+                <li class="page-item" th:classappend="${page == currentPage} ? 'active'"
+                th:each="page : ${#numbers.sequence((currentPage > 2 ? currentPage - 2 : 1), (currentPage + 2 < totalPages ? currentPage + 2 : totalPages))}">
+                    <a th:replace="fragments/paging :: paging(${page}, ${page}, 'Page ' + ${page})"></a>
+                </li>
+                <li class="page-item dots font-weight-bold" th:if="${currentPage + 2 < totalPages}">
+                    <a th:replace="fragments/paging :: paging(${currentPage + 3}, '...', 'Forward 3')">...</a>
+                </li>
+                <li class="page-item font-weight-bold" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                    <a th:replace="fragments/paging :: paging(${currentPage + 1}, 'Next', 'Next Page')"></a>
+                </li>
+                <li class="page-item font-weight-bold" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                    <a th:replace="fragments/paging :: paging(${totalPages}, 'Last', 'Last Page')"></a>
+                </li>
+            </ul>
+        </nav>
+        <div th:if="${totalPages > 1}">
+            Total Items : [[${totalItems}]]
             &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
 
-            <a th:href="@{'/customer/contractHandle/1'}" th:if="${currentPage > 1}">First</a>
-            <span th:unless="${currentPage > 1}">First</span>
-            &nbsp;&nbsp;
-
-            <a th:href="@{'/customer/contractHandle/' + ${currentPage - 1}}" th:if="${currentPage > 1}">Previous</a>
-            <span th:unless="${currentPage > 1}">Previous</span>
-
-            &nbsp;&nbsp;
-
-            <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-			<a th:href="@{'/customer/contractHandle/' + ${i}}" th:if="${currentPage != i}">[[${i}]]</a>
-			<span th:unless="${currentPage != i}">[[${i}]]</span>
-			&nbsp;
-		</span>
-
-            <a th:href="@{'/customer/contractHandle/' + ${currentPage + 1}}" th:if="${currentPage < totalPages}">Next</a>
-            <span th:unless="${currentPage < totalPages}">Next</span>
-            &nbsp;&nbsp;
-
-            <a th:href="@{'/customer/contractHandle/' + ${totalPages}}" th:if="${currentPage < totalPages}">Last</a>
-            <span th:unless="${currentPage < totalPages}">Last</span>
+            Pages : [[${totalPages}]]
         </div>
+<!--        <div class="table-pages" th:if="${totalPages > 1}">-->
+<!--            Total Items: [[${totalItems}]]-->
+<!--            &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;-->
+
+<!--            <a th:href="@{'/customer/contractHandle/1'}" th:if="${currentPage > 1}">First</a>-->
+<!--            <span th:unless="${currentPage > 1}">First</span>-->
+<!--            &nbsp;&nbsp;-->
+
+<!--            <a th:href="@{'/customer/contractHandle/' + ${currentPage - 1}}" th:if="${currentPage > 1}">Previous</a>-->
+<!--            <span th:unless="${currentPage > 1}">Previous</span>-->
+
+<!--            &nbsp;&nbsp;-->
+
+<!--            <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
+<!--			<a th:href="@{'/customer/contractHandle/' + ${i}}" th:if="${currentPage != i}">[[${i}]]</a>-->
+<!--			<span th:unless="${currentPage != i}">[[${i}]]</span>-->
+<!--			&nbsp;-->
+<!--		</span>-->
+
+<!--            <a th:href="@{'/customer/contractHandle/' + ${currentPage + 1}}" th:if="${currentPage < totalPages}">Next</a>-->
+<!--            <span th:unless="${currentPage < totalPages}">Next</span>-->
+<!--            &nbsp;&nbsp;-->
+
+<!--            <a th:href="@{'/customer/contractHandle/' + ${totalPages}}" th:if="${currentPage < totalPages}">Last</a>-->
+<!--            <span th:unless="${currentPage < totalPages}">Last</span>-->
+<!--        </div>-->
     </div>
 </div>
 
