@@ -23,7 +23,6 @@ public class CustomerController {
 
     private final CustomerService customerService;
     private final BookingService bookingService;
-    private final ContractCustomerService contractCustomerService;
 
     @RequestMapping("/{id}/removeHandler")
     public String removeCustomerByIdHandler(@PathVariable Long id, Model model) {
