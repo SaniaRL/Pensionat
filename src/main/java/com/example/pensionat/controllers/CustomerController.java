@@ -81,17 +81,8 @@ public class CustomerController {
 
     @GetMapping("/contractCustomer")
     public String getContractCustomers(Model model) {
-        /*
         int currentPage = 1;
-        customerService.addToModel(currentPage, model);
-
-
-         */
-
-
-        Page<ContractCustomerDTO> customers = contractCustomerService.getAllCustomersPage(1);
-        model.addAttribute("contractList", customers);
-
+        contractCustomerService.addToModel(currentPage, model);
         return "contractCustomers";
     }
 

@@ -1,6 +1,7 @@
 package com.example.pensionat.services.impl;
 
 import com.example.pensionat.dtos.ContractCustomerDTO;
+import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.models.customers;
 import com.example.pensionat.repositories.ContractCustomersRepo;
 import com.example.pensionat.services.interfaces.ContractCustomerService;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 @Service
 public class ContractCustomerServiceImpl implements ContractCustomerService {
@@ -22,7 +24,6 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
     @Override
     public Page<ContractCustomerDTO> getAllCustomersPage(int pageNum) {
         Pageable pageable = PageRequest.of(pageNum - 1, 10);
-
         Page<customers> page = contractCustomersRepo.findAll(pageable);
         return page.map(p -> ContractCustomerDTO.builder().id(p.getId())
                 .companyName(p.getCompanyName())
@@ -51,4 +52,15 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
     public customers getCustomerById(Long id) {
         return contractCustomersRepo.findById(id).orElse(null);
     }
+
+
+    @Override
+    public void addToModel(int currentPage, Model model){
+        Page<ContractCustomerDTO> c = getAllCustomersPage(currentPage);
+        model.addAttribute("allCustomers", c.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", c.getTotalElements());
+        model.addAttribute("totalPages", c.getTotalPages());
+    }
+
 }
