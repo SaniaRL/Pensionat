@@ -32,6 +32,10 @@ dependencies {
 	implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation ("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-validation:3.0.5")
+	implementation("com.fasterxml.jackson.core:jackson-core:2.17.1")
+	implementation("com.fasterxml.jackson.core:jackson-databind:2.17.1")
+	implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.1")
+	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.17.1")
 }
 
 tasks.withType<Test> {
