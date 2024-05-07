@@ -75,7 +75,9 @@ public class CustomerController {
     }
 
     @GetMapping("/contractCustomer")
-    public String getContractCustomers() {
+    public String getContractCustomers(Model model) {
+        //Skapa lista
+        //Lägg till i lista
         return "contractCustomers";
     }
 }
