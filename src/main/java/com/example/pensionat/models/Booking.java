@@ -42,7 +42,7 @@ public class Booking {
     private LocalDate endDate;
 
     @OneToMany(mappedBy = "booking", cascade = CascadeType.REMOVE)
-    private List<OrderLine> orderLines = new ArrayList<>();
+    private List<OrderLine> orderLines;
 
     public Booking(String name, String email, LocalDate startDate, LocalDate endDate) {
         this.customer = new Customer(name, email);

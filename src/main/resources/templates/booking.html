@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
   <title>Pensionat</title>
   <link rel="icon" type="image/x-icon" href="/images/house.png">
+  <link rel="stylesheet" type="text/css" href="/css/universal.css">
   <link rel="stylesheet" type="text/css" href="/css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,7 +47,7 @@
           <input class="nr-input" type="number" id="number-of-rooms" name="rooms" th:value="${rooms != null ? rooms : '1'}" min="1" max="12" required>
         </div>
         <div>
-          <input type="submit" id="submit-booking" name="submit-booking" value="SÖK LEDIGA RUM">
+          <input class="btn" type="submit" id="submit-booking" name="submit-booking" value="SÖK LEDIGA RUM">
         </div>
       </div>
       </div>
@@ -107,7 +108,7 @@
         </table>
       </div>
     </div>
-    <div><button class="booking-booking-btn" onclick=submitBooking()>BOKA</button></div>
+    <div><button class="booking-booking-btn btn" onclick=submitBooking()>BOKA</button></div>
   </div>
   </div>
 

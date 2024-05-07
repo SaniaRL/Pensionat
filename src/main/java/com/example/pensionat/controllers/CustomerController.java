@@ -1,9 +1,12 @@
 package com.example.pensionat.controllers;
 
+import com.example.pensionat.dtos.ContractCustomerDTO;
 import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.services.interfaces.BookingService;
+import com.example.pensionat.services.interfaces.ContractCustomerService;
 import com.example.pensionat.services.interfaces.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +18,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
     private final BookingService bookingService;
+    private final ContractCustomerService contractCustomerService;
 
     @RequestMapping("/{id}/removeHandler")
     public String removeCustomerByIdHandler(@PathVariable Long id, Model model) {
@@ -73,4 +77,32 @@ public class CustomerController {
         customerService.addToModelEmail(email, currentPage, model);
         return "handleCustomers";
     }
+
+    @GetMapping("/contractCustomer")
+    public String getContractCustomers(Model model) {
+        int currentPage = 1;
+        contractCustomerService.addToModel(currentPage, model);
+        return "contractCustomers";
+    }
+
+    @GetMapping("/contractCustomer/{id}")
+    public String getContractCustomer(Model model, @PathVariable long id) {
+        //TODO Hämta baserat på ID
+        model.addAttribute("id", id);
+        return "contractCustomer";
+    }
+
+    @GetMapping("/contractHandle")
+    public String contractHandleCustomers(Model model){
+        int currentPage = 1;
+        contractCustomerService.addToModel(currentPage, model);
+        return "contractCustomers";
+    }
+
+    @GetMapping("/contractHandle/{pageNumber}")
+    public String contractHandleByPage(Model model, @PathVariable("pageNumber") int currentPage){
+        contractCustomerService.addToModel(currentPage, model);
+        return "contractCustomers";
+    }
+
 }
