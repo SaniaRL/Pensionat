@@ -1,7 +1,6 @@
 package com.example.pensionat;
 
 import com.example.pensionat.models.allcustomers;
-import com.example.pensionat.models.customers;
 import com.example.pensionat.repositories.ContractCustomersRepo;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
