@@ -1,5 +1,6 @@
 package com.example.pensionat.controllers;
 
+import com.example.pensionat.dtos.ContractCustomerDTO;
 import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.models.customers;
 import com.example.pensionat.services.interfaces.BookingService;
@@ -82,22 +83,21 @@ public class CustomerController {
     @GetMapping("/contractCustomer")
     public String getContractCustomers(Model model) {
         //TODO Hämta ordentligt
-        customers c1 = new customers(1L, "C", "B", "!", "!", "!", 1, "Ö", "!", "!");
-        customers c2 = new customers(2L, "D", "E", "!", "!", "!", 1, "Ä", "!", "!");
-        customers c3 = new customers(3L, "E", "A", "!", "!", "!", 1, "Å", "!", "!");
-        customers c4 = new customers(4L, "A", "D", "!", "!", "!", 1, "Ö", "!", "!");
-        customers c5 = new customers(5L, "B", "C", "!", "!", "!", 1, "K", "!", "!");
+        ContractCustomerDTO c1 = new ContractCustomerDTO(1L, "C", "B","Ö");
+        ContractCustomerDTO c2 = new ContractCustomerDTO(2L, "D", "E", "Ä");
+        ContractCustomerDTO c3 = new ContractCustomerDTO(3L, "E", "A", "Å");
+        ContractCustomerDTO c4 = new ContractCustomerDTO(4L, "A", "D", "Ö");
+        ContractCustomerDTO c5 = new ContractCustomerDTO(5L, "B", "C", "K");
 
-        List<customers> customers = Arrays.asList(c1, c2, c3, c4, c5);
+        List<ContractCustomerDTO> customers = Arrays.asList(c1, c2, c3, c4, c5);
         model.addAttribute("contractList", customers);
-
 
         return "contractCustomers";
     }
 
     @GetMapping("/contractCustomer/{id}")
-    public String getContractCustomer(@RequestParam long id, Model model) {
+    public String getContractCustomer(Model model, @PathVariable long id) {
         model.addAttribute("id", id);
-        return "contractCustomer/{id}";
+        return "contractCustomer";
     }
 }

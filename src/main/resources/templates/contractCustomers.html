@@ -29,7 +29,7 @@
         <div class="placement-return-button">
 
             <div>
-                <form action="#" method="get" th:action="@{/customer/search}">
+                <form action="#" method="get" th:action="@{#}">
                     <input class="customer-search" name="email" placeholder="Sök" type="text" value="">
                     <input class="search-customer-button" type="submit" value="Submit">
                 </form>
@@ -48,10 +48,10 @@
                 <th> Land <a href="#"><img src="/images/white_arrows.png" alt="Sort Customers By Name"></a></th>
             </tr>
             <tbody>
-            <tr class="customer-row" onclick="/customer/" th:each="c : ${contractList}">
-                <td th:text="${c.companyName}"></td>
-                <td th:text="${c.contactName}"></td>
-                <td th:text="${c.country}"></td>
+            <tr class="customer-row" th:each="c : ${contractList}" th:href="@{'customer/contractCustomer/' + ${c.id}}">
+                    <td th:text="${c.companyName}"></td>
+                    <td th:text="${c.contactName}"></td>
+                    <td th:text="${c.country}"></td>
 <!--                <td class="td-icons edit"><a th:href="@{/customer/{email}/update(email=${c.email})}">
                     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"> -->
                         <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
