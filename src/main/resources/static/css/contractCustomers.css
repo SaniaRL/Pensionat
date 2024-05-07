@@ -25,7 +25,10 @@ tr {
     grid-template-columns: 250px 250px 250px;
     cursor: pointer;
     &:hover {
-        font-weight: 800;
+        td {
+            background-color: #d1cfde;
+            color: black;
+        }
     }
 }
 
