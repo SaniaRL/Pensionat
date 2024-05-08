@@ -44,7 +44,7 @@
         <table class="customers-table">
             <tr class="table-header">
                 <th> Företag
-                    <a th:href="@{/customer/contractHandle/companyName/{asc}/{currentPage}(asc=${companyAsc == null ? 'asc' : (companyAsc == true ? 'desc' : 'asc')}, currentPage=${currentPage})}">
+                    <a th:href="@{'/contractCustomer/handle/' + ${currentPage} + '?sort=companyName&order=' + ${order}}">
                         <img src="/images/white_arrows.png" alt="Sort Customers By Name">
                     </a>
                 </th>

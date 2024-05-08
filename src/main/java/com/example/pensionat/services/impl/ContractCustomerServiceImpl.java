@@ -57,4 +57,13 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
         model.addAttribute("totalPages", c.getTotalPages());
     }
 
+    @Override
+    public void addToModelSorted(int currentPage, String sortBy, String order, Model model){
+        Page<ContractCustomerDTO> c = getAllCustomersSortedPage(currentPage, sortBy, order);
+        model.addAttribute("allCustomers", c.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", c.getTotalElements());
+        model.addAttribute("totalPages", c.getTotalPages());
+        model.addAttribute("order", (order.equals("asc") ? "desc" : "asc"));
+    }
 }
