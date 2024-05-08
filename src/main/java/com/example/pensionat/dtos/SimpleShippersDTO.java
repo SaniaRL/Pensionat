@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderLineDTO {
-    private int id;
-    private String roomType;
-    private int extraBeds;
+public class SimpleShippersDTO {
+    private Long id;
+    private String companyName;
+    private String phone;
 }

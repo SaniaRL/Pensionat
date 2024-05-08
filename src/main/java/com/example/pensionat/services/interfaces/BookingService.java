@@ -1,6 +1,5 @@
 package com.example.pensionat.services.interfaces;
 
-import com.example.pensionat.dtos.BookingDTO;
 import com.example.pensionat.dtos.BookingData;
 import com.example.pensionat.dtos.DetailedBookingDTO;
 

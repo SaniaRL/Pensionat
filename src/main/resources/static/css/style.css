@@ -164,7 +164,7 @@ input[type=number]::-webkit-inner-spin-button {
     font-size: 20px;
     font-weight: 600;
 }
-
+/*
 #submit-booking, .booking-booking-btn {
     color: #ffffff;
     background-color: #4f4b6a;
@@ -174,6 +174,8 @@ input[type=number]::-webkit-inner-spin-button {
     border-radius: 8px;
     font-weight: 700;
 }
+
+ */
 
 #submit-booking:hover {
     cursor: pointer;
@@ -376,7 +378,7 @@ input[type=number]::-webkit-inner-spin-button {
     font-size: 18px;
     font-weight: 600;
 }
-
+/*
 .btn {
     background-color: #4f4b6a;
     color: white;
@@ -387,6 +389,8 @@ input[type=number]::-webkit-inner-spin-button {
     height: 50px;
     cursor: pointer;
 }
+
+ */
 
 .grey-btn {
     background-color: #757575;
