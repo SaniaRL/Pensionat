@@ -94,6 +94,11 @@ public class CustomerController {
         customerService.updateBlacklist(email, name, isOk);
     }
 
+    @GetMapping("/blacklist/get")
+    public void getBlacklist() {
+        customerService.getBlacklist();
+    }
+
     @GetMapping("/contractCustomer")
     public String getContractCustomers(Model model) {
         int currentPage = 1;

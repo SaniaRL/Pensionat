@@ -7,7 +7,6 @@ import com.example.pensionat.repositories.CustomerRepo;
 import com.example.pensionat.services.convert.CustomerConverter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -155,6 +154,31 @@ public class CustomerServiceImpl implements CustomerService {
 
             httpRequest(con, postData);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getBlacklist() {
+        try {
+            String url = "https://javabl.systementor.se/api/bed&basse/blacklist";
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+            con.setRequestMethod("GET");
+
+            int responseCode = con.getResponseCode();
+            System.out.println("Response Code : " + responseCode);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            System.out.println("Response : " + response.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

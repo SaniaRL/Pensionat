@@ -119,4 +119,14 @@ class CustomerServiceImplTest {
     void updateBlacklist() {
 
     }
+
+    @Test
+    void getBlacklist() {
+
+    }
+
+    @Test
+    void httpRequest() {
+
+    }
 }

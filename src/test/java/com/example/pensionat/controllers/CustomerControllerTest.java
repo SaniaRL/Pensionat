@@ -181,4 +181,9 @@ class CustomerControllerTest {
     void updateBlacklist() {
 
     }
+
+    @Test
+    void getBlacklist() {
+
+    }
 }

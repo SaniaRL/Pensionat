@@ -1,6 +1,5 @@
 package com.example.pensionat.services.interfaces;
 
-import com.example.pensionat.dtos.CustomerDTO;
 import com.example.pensionat.dtos.SimpleCustomerDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
@@ -23,5 +22,6 @@ public interface CustomerService {
     boolean checkIfEmailBlacklisted(String email);
     void addToBlacklist(String email, String name);
     void updateBlacklist(String email, String name, String isOk);
+    void getBlacklist();
     void httpRequest(HttpURLConnection con, String postData) throws IOException;
     }
