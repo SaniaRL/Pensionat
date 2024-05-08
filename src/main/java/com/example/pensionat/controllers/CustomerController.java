@@ -2,7 +2,6 @@ package com.example.pensionat.controllers;
 
 import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.services.interfaces.BookingService;
-import com.example.pensionat.services.interfaces.ContractCustomerService;
 import com.example.pensionat.services.interfaces.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -16,7 +15,6 @@ public class CustomerController {
 
     private final CustomerService customerService;
     private final BookingService bookingService;
-    private final ContractCustomerService contractCustomerService;
 
     @RequestMapping("/{id}/removeHandler")
     public String removeCustomerByIdHandler(@PathVariable Long id, Model model) {
@@ -106,23 +104,18 @@ public class CustomerController {
         return "contractCustomers";
     }
 
-    @GetMapping("/contractCustomer/{id}")
-    public String getContractCustomer(Model model, @PathVariable long id) {
-        //TODO Hämta baserat på ID
-        model.addAttribute("id", id);
-        return "contractCustomer";
-    }
+    @GetMapping("/contractHandle/{sort}/{asc}/{pageNumber}")
+    public String contractHandleSort(Model model, @PathVariable("sort") String sortBy,
+                                     @PathVariable("asc") String asc,
+                                     @PathVariable("pageNumber") int currentPage){
 
-    @GetMapping("/contractHandle")
-    public String contractHandleCustomers(Model model){
-        int currentPage = 1;
-        contractCustomerService.addToModel(currentPage, model);
-        return "contractCustomers";
-    }
+        //TODO remove 1
+        Page<ContractCustomerDTO> page = contractCustomerService.getAllCustomersSortedPage(currentPage, sortBy, asc);
+        model.addAttribute("allCustomers", page.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("totalPages", page.getTotalPages());
 
-    @GetMapping("/contractHandle/{pageNumber}")
-    public String contractHandleByPage(Model model, @PathVariable("pageNumber") int currentPage){
-        contractCustomerService.addToModel(currentPage, model);
         return "contractCustomers";
     }
 }
