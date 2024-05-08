@@ -43,7 +43,11 @@
 
         <table class="customers-table">
             <tr class="table-header">
-                <th> Företag <a href="#"><img src="/images/white_arrows.png" alt="Sort Customers By Name"></a></th>
+                <th> Företag
+                    <a th:href="@{/customer/contractHandle/companyName/{asc}/{currentPage}(asc=${companyAsc == null ? 'asc' : (companyAsc == true ? 'desc' : 'asc')}, currentPage=${currentPage})}">
+                        <img src="/images/white_arrows.png" alt="Sort Customers By Name">
+                    </a>
+                </th>
                 <th> Kontakt <a href="#"><img src="/images/white_arrows.png" alt="Sort Customers By Name"></a></th>
                 <th> Land <a href="#"><img src="/images/white_arrows.png" alt="Sort Customers By Name"></a></th>
             </tr>

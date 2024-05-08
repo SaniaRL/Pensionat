@@ -82,12 +82,13 @@ public class CustomerController {
     public String getContractCustomers(Model model) {
         int currentPage = 1;
         contractCustomerService.addToModel(currentPage, model);
+        model.addAttribute("asc", false);
         return "contractCustomers";
     }
 
     @GetMapping("/contractCustomer/{id}")
     public String getContractCustomer(Model model, @PathVariable long id) {
-        //TODO Hämta baserat på ID
+        //TODO Hämta model eller DTO baserat på ID
         model.addAttribute("id", id);
         return "contractCustomer";
     }
@@ -102,6 +103,21 @@ public class CustomerController {
     @GetMapping("/contractHandle/{pageNumber}")
     public String contractHandleByPage(Model model, @PathVariable("pageNumber") int currentPage){
         contractCustomerService.addToModel(currentPage, model);
+        return "contractCustomers";
+    }
+
+    @GetMapping("/contractHandle/{sort}/{asc}/{pageNumber}")
+    public String contractHandleSort(Model model, @PathVariable("sort") String sortBy,
+                                     @PathVariable("asc") String asc,
+                                     @PathVariable("pageNumber") int currentPage){
+
+        //TODO remove 1
+        Page<ContractCustomerDTO> page = contractCustomerService.getAllCustomersSortedPage(currentPage, sortBy, asc);
+        model.addAttribute("allCustomers", page.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("totalPages", page.getTotalPages());
+
         return "contractCustomers";
     }
 

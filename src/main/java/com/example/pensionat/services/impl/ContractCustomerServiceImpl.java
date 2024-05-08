@@ -27,7 +27,6 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
         Pageable pageable = PageRequest.of(pageNum - 1, 10);
         Page<customers> page = contractCustomersRepo.findAll(pageable);
         return page.map(ContractCustomerConverter::customersToContractCustomerDto);
-
     }
 
     @Override
@@ -39,7 +38,6 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
             pageable = PageRequest.of(pageNum - 1, 10, Sort.by(sortBy).descending());
         }
 
-        //förmodligen mappa om till DTO
         Page<customers> page = contractCustomersRepo.findAll(pageable);
         return page.map(ContractCustomerConverter::customersToContractCustomerDto);
     }
