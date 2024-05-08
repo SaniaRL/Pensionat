@@ -19,4 +19,5 @@ public interface CustomerService {
     void addToModel(int currentPage, Model model);
     void addToModelEmail(String email, int currentPage, Model model);
     boolean checkIfEmailBlacklisted(String email);
+    void addToBlacklist(String email, String name);
     }
