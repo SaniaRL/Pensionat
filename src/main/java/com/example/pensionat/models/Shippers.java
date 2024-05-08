@@ -15,6 +15,6 @@ import lombok.NoArgsConstructor;
 public class Shippers {
     @Id
     private Long id;
-    private String CompanyName;
-    private String Phone;
+    private String companyName;
+    private String phone;
 }

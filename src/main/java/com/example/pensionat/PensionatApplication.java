@@ -22,17 +22,21 @@ import java.util.Objects;
 @SpringBootApplication
 public class PensionatApplication {
 
-	public static void main(String[] args) {
-		if(args.length == 0){
-			SpringApplication.run(PensionatApplication.class, args);
-		} else if (Objects.equals(args[0], "fetchcontractcustomers")){
-			SpringApplication application = new SpringApplication(FetchContractCustomers.class);
-			application.setWebApplicationType(WebApplicationType.NONE);
-			application.run(args);
-		}
-	}
+    public static void main(String[] args) {
+        if (args.length == 0) {
+            SpringApplication.run(PensionatApplication.class, args);
+        } else if (Objects.equals(args[0], "fetchcontractcustomers")) {
+            SpringApplication application = new SpringApplication(FetchContractCustomers.class);
+            application.setWebApplicationType(WebApplicationType.NONE);
+            application.run(args);
+        } else if (Objects.equals(args[0], "fetchshippers")) {
+            SpringApplication application = new SpringApplication(FetchShippers.class);
+            application.setWebApplicationType(WebApplicationType.NONE);
+            application.run(args);
+        }
+    }
 
-	//TODO Kommentera bort innan ni får 8726782672627628 extra
+    //TODO Kommentera bort innan ni får 8726782672627628 extra
 	/*
 	@Bean
 	public CommandLineRunner demo(BookingRepo bookingRepo, CustomerRepo customerRepo,

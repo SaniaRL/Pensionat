@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SimpleShippersDTO {
     private Long id;
-    private String CompanyName;
-    private String Phone;
+    private String companyName;
+    private String phone;
 }
