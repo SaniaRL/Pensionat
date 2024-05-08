@@ -3,7 +3,7 @@ function submitBooking() {
     const email = document.getElementById("email").value;
 
     let xhr1 = new XMLHttpRequest();
-    let url1 = "/customer/blacklisted/" + email;
+    let url1 = "/customer/blacklistcheck/" + email;
 
     xhr1.open("GET", url1, true);
     xhr1.send();

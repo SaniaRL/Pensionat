@@ -1,12 +1,10 @@
 package com.example.pensionat.controllers;
 
-import com.example.pensionat.dtos.ContractCustomerDTO;
 import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.services.interfaces.BookingService;
 import com.example.pensionat.services.interfaces.ContractCustomerService;
 import com.example.pensionat.services.interfaces.CustomerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +44,6 @@ public class CustomerController {
         return "handleCustomers";
     }
 
-
     @RequestMapping("/customerOrNot")
     public String loadCustomerOrNot(){
         return "customerOrNot";
@@ -78,13 +75,28 @@ public class CustomerController {
         return "handleCustomers";
     }
 
-    @GetMapping("/blacklisted/{email}")
+    @GetMapping("/blacklistcheck/{email}")
     public String checkIfEmailBlacklisted(@PathVariable("email") String email, Model model) {
         if (!customerService.checkIfEmailBlacklisted(email)) {
             model.addAttribute("status", "Kunden med email " + email + " är SVARTLISTAD!");
             return "customerOrNot";
         }
         return "bookingConfirmation";
+    }
+
+    @RequestMapping("/blacklist/add")
+    public void addToBlacklist(@RequestParam String email, @RequestParam String name) {
+        customerService.addToBlacklist(email, name);
+    }
+
+    @RequestMapping("/blacklist/update")
+    public void updateBlacklist(@RequestParam String email, @RequestParam String name, @RequestParam String isOk) {
+        customerService.updateBlacklist(email, name, isOk);
+    }
+
+    @GetMapping("/blacklist/get")
+    public void getBlacklist() {
+        customerService.getBlacklist();
     }
 
     @GetMapping("/contractCustomer")

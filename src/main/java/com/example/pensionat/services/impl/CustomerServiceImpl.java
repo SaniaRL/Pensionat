@@ -1,17 +1,12 @@
 package com.example.pensionat.services.impl;
 
-import com.example.pensionat.dtos.CustomerDTO;
 import com.example.pensionat.dtos.SimpleCustomerDTO;
-import com.example.pensionat.models.allcustomers;
 import com.example.pensionat.services.interfaces.CustomerService;
 import com.example.pensionat.models.Customer;
 import com.example.pensionat.repositories.CustomerRepo;
 import com.example.pensionat.services.convert.CustomerConverter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.client.RestTemplate;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 
 import java.net.URL;
 import java.util.List;
@@ -27,9 +27,6 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepo customerRepo;
-
-    @Value("${blacklist.api.url}")
-    private String blacklistApiUrl;
 
     public CustomerServiceImpl(CustomerRepo customerRepo) {
         this.customerRepo = customerRepo;
@@ -101,6 +98,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public boolean checkIfEmailBlacklisted(String email) {
+        String blacklistApiUrl= "https://javabl.systementor.se/api/bed&basse/blacklistcheck/";
         boolean notBlacklisted = false;
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -120,5 +118,91 @@ public class CustomerServiceImpl implements CustomerService {
             e.printStackTrace();
         }
         return notBlacklisted;
+    }
+    @Override
+    public void addToBlacklist(String email, String name) {
+        try {
+            String url = "https://javabl.systementor.se/api/bed&basse/blacklist";
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+            con.setRequestMethod("POST");
+
+            con.setRequestProperty("Content-Type", "application/json");
+
+            String postData = "{\"email\":\"" + email + "\",\"name\":\"" + name + "\",\"ok\":false}";
+
+            httpRequest(con, postData);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateBlacklist(String email, String name, String isOk) {
+        try {
+            String url = "https://javabl.systementor.se/api/bed&basse/blacklist/" + email;
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+            con.setRequestMethod("PUT");
+
+            con.setRequestProperty("Content-Type", "application/json");
+
+            String postData = "{\"name\":\"" + name + "\",\"ok\":\"" + isOk + "\"}";
+
+            httpRequest(con, postData);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getBlacklist() {
+        try {
+            String url = "https://javabl.systementor.se/api/bed&basse/blacklist";
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+            con.setRequestMethod("GET");
+
+            int responseCode = con.getResponseCode();
+            System.out.println("Response Code : " + responseCode);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            System.out.println("Response : " + response.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void httpRequest(HttpURLConnection con, String postData) throws IOException {
+        con.setDoOutput(true);
+        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+        wr.writeBytes(postData);
+        wr.flush();
+        wr.close();
+
+        int responseCode = con.getResponseCode();
+        System.out.println("Response Code : " + responseCode);
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        System.out.println("Response : " + response.toString());
     }
 }
