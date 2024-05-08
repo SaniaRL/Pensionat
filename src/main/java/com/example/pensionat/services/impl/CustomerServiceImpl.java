@@ -48,9 +48,9 @@ public class CustomerServiceImpl implements CustomerService {
         );
 
         try {
-            JsonNode node1 = objectMapper.readValue(responseEntity.getBody(), JsonNode.class);
+            JsonNode node = objectMapper.readValue(responseEntity.getBody(), JsonNode.class);
 
-            isBlacklisted = node1.get("ok").asBoolean();
+            isBlacklisted = node.get("ok").asBoolean();
 
         } catch (Exception e) {
             e.printStackTrace();
