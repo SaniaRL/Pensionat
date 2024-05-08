@@ -1,12 +1,10 @@
 package com.example.pensionat.controllers;
 
-import com.example.pensionat.dtos.ContractCustomerDTO;
 import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.services.interfaces.BookingService;
 import com.example.pensionat.services.interfaces.ContractCustomerService;
 import com.example.pensionat.services.interfaces.CustomerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -88,8 +86,12 @@ public class CustomerController {
 
     @RequestMapping("/blacklist/add")
     public void addToBlacklist(@RequestParam String email, @RequestParam String name) {
-        System.out.println("Controller anropad!");
         customerService.addToBlacklist(email, name);
+    }
+
+    @RequestMapping("/blacklist/update")
+    public void updateBlacklist(@RequestParam String email, @RequestParam String name, @RequestParam String isOk) {
+        customerService.updateBlacklist(email, name, isOk);
     }
 
     @GetMapping("/contractCustomer")

@@ -171,4 +171,14 @@ class CustomerControllerTest {
     void checkIfEmailBlacklisted() {
 
     }
+
+    @Test
+    void addToBlacklist() {
+
+    }
+
+    @Test
+    void updateBlacklist() {
+
+    }
 }

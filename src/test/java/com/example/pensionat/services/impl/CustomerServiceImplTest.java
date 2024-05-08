@@ -109,4 +109,14 @@ class CustomerServiceImplTest {
     void checkIfEmailBlacklisted() {
 
     }
+
+    @Test
+    void addToBlacklist() {
+
+    }
+
+    @Test
+    void updateBlacklist() {
+
+    }
 }
