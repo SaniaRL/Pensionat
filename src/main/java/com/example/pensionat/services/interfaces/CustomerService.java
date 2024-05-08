@@ -18,5 +18,5 @@ public interface CustomerService {
     SimpleCustomerDTO getCustomerByEmail(String email);
     void addToModel(int currentPage, Model model);
     void addToModelEmail(String email, int currentPage, Model model);
-
+    boolean checkIfEmailBlacklisted(String email);
     }

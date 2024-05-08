@@ -78,6 +78,15 @@ public class CustomerController {
         return "handleCustomers";
     }
 
+    @GetMapping("/blacklisted/{email}")
+    public String checkIfEmailBlacklisted(@PathVariable("email") String email, Model model) {
+        if (!customerService.checkIfEmailBlacklisted(email)) {
+            model.addAttribute("status", "Kunden med email " + email + " är SVARTLISTAD!");
+            return "customerOrNot";
+        }
+        return "bookingConfirmation";
+    }
+
     @GetMapping("/contractCustomer")
     public String getContractCustomers(Model model) {
         int currentPage = 1;
@@ -104,5 +113,4 @@ public class CustomerController {
         contractCustomerService.addToModel(currentPage, model);
         return "contractCustomers";
     }
-
 }

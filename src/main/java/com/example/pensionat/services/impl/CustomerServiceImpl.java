@@ -2,21 +2,34 @@ package com.example.pensionat.services.impl;
 
 import com.example.pensionat.dtos.CustomerDTO;
 import com.example.pensionat.dtos.SimpleCustomerDTO;
+import com.example.pensionat.models.allcustomers;
 import com.example.pensionat.services.interfaces.CustomerService;
 import com.example.pensionat.models.Customer;
 import com.example.pensionat.repositories.CustomerRepo;
 import com.example.pensionat.services.convert.CustomerConverter;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.client.RestTemplate;
+
+import java.net.URL;
 import java.util.List;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepo customerRepo;
+
+    @Value("${blacklist.api.url}")
+    private String blacklistApiUrl;
 
     public CustomerServiceImpl(CustomerRepo customerRepo) {
         this.customerRepo = customerRepo;
@@ -84,5 +97,28 @@ public class CustomerServiceImpl implements CustomerService {
             return CustomerConverter.customerToSimpleCustomerDTO(customer);
         }
         return null;
+    }
+
+    @Override
+    public boolean checkIfEmailBlacklisted(String email) {
+        boolean notBlacklisted = false;
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(
+                blacklistApiUrl + "/" + email,
+                String.class
+        );
+
+        try {
+            JsonNode node = objectMapper.readValue(responseEntity.getBody(), JsonNode.class);
+
+            notBlacklisted = node.get("ok").asBoolean();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return notBlacklisted;
     }
 }
