@@ -95,7 +95,6 @@ public class CustomerController {
         contractCustomerService.addToModel(currentPage, model);
         return "contractCustomers";
     }
-    //Temp nedan Sören
     @GetMapping("/contractCustomer/{id}")
     public String getContractCustomer(Model model, @PathVariable long id) {
         DetailedContractCustomerDTO cc = contractCustomerService.getDetailedContractCustomerById(id);
