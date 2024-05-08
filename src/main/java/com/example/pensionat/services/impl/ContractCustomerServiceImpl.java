@@ -64,6 +64,7 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalItems", c.getTotalElements());
         model.addAttribute("totalPages", c.getTotalPages());
-        model.addAttribute("order", (order.equals("asc") ? "desc" : "asc"));
+        model.addAttribute("order", order);
+        model.addAttribute("sort", sortBy);
     }
 }

@@ -17,7 +17,7 @@ public class ContractCustomerController {
     private final ContractCustomerService contractCustomerService;
 
     @GetMapping("/handle/{pageNumber}")
-    public String contractHandleByPageSortedBy(
+    public String contractHandleByPage(
             Model model,
             @PathVariable("pageNumber") int currentPage,
             @RequestParam(defaultValue = "id") String sort,
@@ -27,16 +27,18 @@ public class ContractCustomerController {
         return "contractCustomers";
     }
 
-/*
-    @GetMapping("/contractCustomer")
-    public String getContractCustomers(Model model) {
-        int currentPage = 1;
-        contractCustomerService.addToModel(currentPage, model);
-        model.addAttribute("asc", false);
+    @GetMapping("/handle/sort/{pageNumber}")
+    public String contractHandleByPageSortedBy(
+            Model model,
+            @PathVariable("pageNumber") int currentPage,
+            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(defaultValue = "asc") String order){
+        System.out.println(sort + " " + order);
+        //TODO Kolla om det ens är rätt shit
+        order = (order.equals("asc") ? "desc" : "asc");
+        contractCustomerService.addToModelSorted(currentPage, sort, order, model);
         return "contractCustomers";
     }
-
- */
 
     @GetMapping("/{id}")
     public String getContractCustomer(Model model, @PathVariable long id) {
@@ -49,7 +51,6 @@ public class ContractCustomerController {
     public String contractHandleCustomers(Model model){
         int currentPage = 1;
         contractCustomerService.addToModel(currentPage, model);
-        model.addAttribute("order", "asc");
         return "contractCustomers";
     }
 }
