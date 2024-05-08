@@ -166,4 +166,24 @@ class CustomerControllerTest {
                 .andExpect(view().name("handleCustomers"))
                 .andExpect(model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));
     }
+
+    @Test
+    void checkIfEmailBlacklisted() {
+
+    }
+
+    @Test
+    void addToBlacklist() {
+
+    }
+
+    @Test
+    void updateBlacklist() {
+
+    }
+
+    @Test
+    void getBlacklist() {
+
+    }
 }
