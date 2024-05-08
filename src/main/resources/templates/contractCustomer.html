@@ -22,7 +22,22 @@
 </div>
 
 <div class="content index-content">
-    <h1 th:text="'Hello ' + ${id}"></h1></div>
+
+    <table class="customers-table" th:object="${kund}">
+        <tr class="customer-row">
+            <td th:text="'ID: ' + ${kund.id}"></td>
+            <td th:text="'Company Name: ' + ${kund.companyName}"></td>
+            <td th:text="'Contact Name: ' + ${kund.contactName}"></td>
+            <td th:text="'Company Title: ' + ${kund.contactTitle}"></td>
+            <td th:text="'Adress: ' + ${kund.streetAddress}"></td>
+            <td th:text="'City: ' + ${kund.city}"></td>
+            <td th:text="'Postal code: ' + ${kund.postalCode}"></td>
+            <td th:text="'Country: ' + ${kund.country}"></td>
+            <td th:text="'Phone: ' + ${kund.phone}"></td>
+            <td th:text="'Fax: ' + ${kund.fax}"></td>
+        </tr>
+    </table>
+</div>
 <div class="footer">
     <p>&#9824; Eddie Boschek &#9829; Sania Runnfors Larsson &#9827; Sebastian Karlsson &#9830; Simon Nordlund</p>
 </div>

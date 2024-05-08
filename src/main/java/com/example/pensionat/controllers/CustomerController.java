@@ -1,6 +1,8 @@
 package com.example.pensionat.controllers;
 
 import com.example.pensionat.dtos.ContractCustomerDTO;
+import com.example.pensionat.dtos.DetailedContractCustomerDTO;
+import com.example.pensionat.dtos.DetailedCustomerDTO;
 import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.services.interfaces.BookingService;
 import com.example.pensionat.services.interfaces.ContractCustomerService;
@@ -93,11 +95,11 @@ public class CustomerController {
         contractCustomerService.addToModel(currentPage, model);
         return "contractCustomers";
     }
-
+    //Temp nedan Sören
     @GetMapping("/contractCustomer/{id}")
     public String getContractCustomer(Model model, @PathVariable long id) {
-        //TODO Hämta baserat på ID
-        model.addAttribute("id", id);
+        DetailedContractCustomerDTO cc = contractCustomerService.getDetailedContractCustomerById(id);
+        model.addAttribute("kund", cc);
         return "contractCustomer";
     }
 
