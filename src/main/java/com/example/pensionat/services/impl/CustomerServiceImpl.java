@@ -36,29 +36,6 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public boolean checkIfEmailBlacklisted(String email) {
-        boolean isBlacklisted = false;
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        RestTemplate restTemplate = new RestTemplate();
-
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(
-                blacklistApiUrl + "/" + email,
-                String.class
-        );
-
-        try {
-            JsonNode node = objectMapper.readValue(responseEntity.getBody(), JsonNode.class);
-
-            isBlacklisted = node.get("ok").asBoolean();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return isBlacklisted;
-    }
-
-    @Override
     public List<SimpleCustomerDTO> getAllCustomers() {
         return customerRepo.findAll().stream().map(CustomerConverter::customerToSimpleCustomerDTO).toList();
     }
@@ -120,5 +97,28 @@ public class CustomerServiceImpl implements CustomerService {
             return CustomerConverter.customerToSimpleCustomerDTO(customer);
         }
         return null;
+    }
+
+    @Override
+    public boolean checkIfEmailBlacklisted(String email) {
+        boolean notBlacklisted = false;
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(
+                blacklistApiUrl + "/" + email,
+                String.class
+        );
+
+        try {
+            JsonNode node = objectMapper.readValue(responseEntity.getBody(), JsonNode.class);
+
+            notBlacklisted = node.get("ok").asBoolean();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return notBlacklisted;
     }
 }

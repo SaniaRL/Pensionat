@@ -104,4 +104,9 @@ class CustomerServiceImplTest {
         assertEquals(actual.getName(), simpleCustomerDTO.getName());
         assertEquals(actual.getEmail(), simpleCustomerDTO.getEmail());
     }
+
+    @Test
+    void checkIfEmailBlacklisted() {
+
+    }
 }
