@@ -33,9 +33,7 @@ public class ContractCustomerController {
             @PathVariable("pageNumber") int currentPage,
             @RequestParam(defaultValue = "id") String sort,
             @RequestParam(defaultValue = "asc") String order){
-        System.out.println(sort + " " + order);
         //TODO Kolla om det ens är rätt shit
-//        order = (order.equals("asc") ? "desc" : "asc");
         contractCustomerService.addToModelSorted(currentPage, sort, order, model);
         return "contractCustomers";
     }
