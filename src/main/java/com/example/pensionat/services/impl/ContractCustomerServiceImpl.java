@@ -1,9 +1,12 @@
 package com.example.pensionat.services.impl;
 
 import com.example.pensionat.dtos.ContractCustomerDTO;
+import com.example.pensionat.dtos.DetailedContractCustomerDTO;
+import com.example.pensionat.dtos.DetailedCustomerDTO;
 import com.example.pensionat.models.customers;
 import com.example.pensionat.repositories.ContractCustomersRepo;
 import com.example.pensionat.services.convert.ContractCustomerConverter;
+import com.example.pensionat.services.convert.CustomerConverter;
 import com.example.pensionat.services.interfaces.ContractCustomerService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -58,6 +61,15 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
     }
 
     @Override
+    public DetailedContractCustomerDTO getDetailedContractCustomerById(Long id) {
+        customers cCustomer = contractCustomersRepo.findById(id).orElse(null);
+        if(cCustomer!= null){
+            return ContractCustomerConverter.contractCustomerToDetailedContractCustomer(cCustomer);
+        }
+        return null;
+    }
+
+    @Override
     public void addToModelSorted(int currentPage, String sortBy, String order, Model model){
         Page<ContractCustomerDTO> c = getAllCustomersSortedPage(currentPage, sortBy, order);
         model.addAttribute("allCustomers", c.getContent());
@@ -67,4 +79,5 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
         model.addAttribute("order", order);
         model.addAttribute("sort", sortBy);
     }
+
 }

@@ -5,6 +5,7 @@
     <title>Pensionat</title>
     <link rel="icon" type="image/x-icon" href="/images/house.png"/>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link href="/css/contractCustomer.css" rel="stylesheet" type="text/css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -22,7 +23,26 @@
 </div>
 
 <div class="content index-content">
-    <h1 th:text="'Hello ' + ${id}"></h1></div>
+
+    <table class="customers-table" th:object="${kund}">
+
+        <a class="return-link" th:href="@{/customer/contractHandle}">
+            <div class="return-button">Tillbaka</div>
+        </a>
+        <tr class="customer-row">
+            <td th:text="'ID: ' + ${kund.id}"></td>
+            <td th:text="'Company Name: ' + ${kund.companyName}"></td>
+            <td th:text="'Contact Name: ' + ${kund.contactName}"></td>
+            <td th:text="'Company Title: ' + ${kund.contactTitle}"></td>
+            <td th:text="'Adress: ' + ${kund.streetAddress}"></td>
+            <td th:text="'City: ' + ${kund.city}"></td>
+            <td th:text="'Postal code: ' + ${kund.postalCode}"></td>
+            <td th:text="'Country: ' + ${kund.country}"></td>
+            <td th:text="'Phone: ' + ${kund.phone}"></td>
+            <td th:text="'Fax: ' + ${kund.fax}"></td>
+        </tr>
+    </table>
+</div>
 <div class="footer">
     <p>&#9824; Eddie Boschek &#9829; Sania Runnfors Larsson &#9827; Sebastian Karlsson &#9830; Simon Nordlund</p>
 </div>

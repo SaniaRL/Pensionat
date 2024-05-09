@@ -1,5 +1,8 @@
 package com.example.pensionat.controllers;
 
+import com.example.pensionat.dtos.ContractCustomerDTO;
+import com.example.pensionat.dtos.DetailedContractCustomerDTO;
+import com.example.pensionat.dtos.DetailedCustomerDTO;
 import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.services.interfaces.BookingService;
 import com.example.pensionat.services.interfaces.CustomerService;
@@ -85,6 +88,20 @@ public class CustomerController {
     @RequestMapping("/blacklist/add")
     public void addToBlacklist(@RequestParam String email, @RequestParam String name) {
         customerService.addToBlacklist(email, name);
+    }
+
+    @GetMapping("/contractCustomer/{id}")
+    public String getContractCustomer(Model model, @PathVariable long id) {
+        DetailedContractCustomerDTO cc = contractCustomerService.getDetailedContractCustomerById(id);
+        model.addAttribute("kund", cc);
+        return "contractCustomer";
+    }
+
+    @GetMapping("/contractHandle/{pageNumber}/{id}")
+    public String getContractCustomerPageble(Model model, @PathVariable long id) {
+        DetailedContractCustomerDTO cc = contractCustomerService.getDetailedContractCustomerById(id);
+        model.addAttribute("kund", cc);
+        return "contractCustomer";
     }
 
     @RequestMapping("/blacklist/update")

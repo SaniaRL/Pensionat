@@ -4,6 +4,7 @@ import com.example.pensionat.dtos.DetailedShippersDTO;
 import com.example.pensionat.models.Shippers;
 import com.example.pensionat.repositories.ShippersRepo;
 import com.example.pensionat.services.convert.ShippersConverter;
+import com.example.pensionat.services.interfaces.ShippersService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import java.util.List;
 public class FetchShippers implements CommandLineRunner {
 
     @Autowired
-    private ShippersRepo shippersRepo;
+    ShippersService shippersService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -26,14 +27,7 @@ public class FetchShippers implements CommandLineRunner {
         objMapper.registerModule(new JavaTimeModule());
 
         DetailedShippersDTO[] shippersArray = objMapper.readValue(new URL("https://javaintegration.systementor.se/shippers"), DetailedShippersDTO[].class);
-        List<DetailedShippersDTO> detailedShippersList = Arrays.asList(shippersArray);
-
-        List<Shippers> shippersList = new ArrayList<>();
-
-        for (DetailedShippersDTO tempShipper : detailedShippersList) {
-            Shippers convertedShipper = ShippersConverter.detailedShippersDTOToShippers(tempShipper);
-            shippersList.add(convertedShipper);
-        }
-        shippersRepo.saveAll(shippersList);
+        String respons = shippersService.saveDownAllShippersToDB(shippersArray);
+        System.out.println(respons);
     }
 }
