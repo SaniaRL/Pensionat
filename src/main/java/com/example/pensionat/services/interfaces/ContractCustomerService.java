@@ -11,5 +11,4 @@ public interface ContractCustomerService {
     customers getCustomerById(Long id);
     void addToModel(int currentPage, Model model);
     void addToModelSorted(int currentPage, String sortBy, String order, Model model);
-
-    }
+}

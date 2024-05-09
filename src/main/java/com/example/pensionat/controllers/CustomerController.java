@@ -96,26 +96,4 @@ public class CustomerController {
     public void getBlacklist() {
         customerService.getBlacklist();
     }
-
-    @GetMapping("/contractCustomer")
-    public String getContractCustomers(Model model) {
-        int currentPage = 1;
-        contractCustomerService.addToModel(currentPage, model);
-        return "contractCustomers";
-    }
-
-    @GetMapping("/contractHandle/{sort}/{asc}/{pageNumber}")
-    public String contractHandleSort(Model model, @PathVariable("sort") String sortBy,
-                                     @PathVariable("asc") String asc,
-                                     @PathVariable("pageNumber") int currentPage){
-
-        //TODO remove 1
-        Page<ContractCustomerDTO> page = contractCustomerService.getAllCustomersSortedPage(currentPage, sortBy, asc);
-        model.addAttribute("allCustomers", page.getContent());
-        model.addAttribute("currentPage", currentPage);
-        model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("totalPages", page.getTotalPages());
-
-        return "contractCustomers";
-    }
 }
