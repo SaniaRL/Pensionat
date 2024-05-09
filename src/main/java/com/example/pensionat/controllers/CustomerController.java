@@ -102,6 +102,13 @@ public class CustomerController {
         return "contractCustomer";
     }
 
+    @GetMapping("/contractHandle/{pageNumber}/{id}")
+    public String getContractCustomerPageble(Model model, @PathVariable long id) {
+        DetailedContractCustomerDTO cc = contractCustomerService.getDetailedContractCustomerById(id);
+        model.addAttribute("kund", cc);
+        return "contractCustomer";
+    }
+
     @GetMapping("/contractHandle")
     public String contractHandleCustomers(Model model){
         int currentPage = 1;
