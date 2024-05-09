@@ -28,9 +28,18 @@ body {
     z-index: 10;
 }
 
-@keyframes spin {     from {         transform: rotate(0deg);     }     to {         transform: rotate(360deg);     } }
+@keyframes spin {
+    from {
+        transform: translateX(-50%) rotate(0deg);
+    }
+    to {
+        transform: translateX(-50%) rotate(360deg);
+    }
+}
+
 .header-img:hover {
     animation: spin 1s linear infinite;
+    transform-origin: center;
 }
 
 .header-text {
