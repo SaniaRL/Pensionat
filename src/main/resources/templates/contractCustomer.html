@@ -5,6 +5,7 @@
     <title>Pensionat</title>
     <link rel="icon" type="image/x-icon" href="/images/house.png"/>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/universal.css">
     <link href="/css/contractCustomer.css" rel="stylesheet" type="text/css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,34 +15,55 @@
 
 <div class="header index-header">
     <div>
-        <img class="header-text" src="/images/BedBasse.png" alt="Bed and Basse Pensionat">
+        <a th:href="@{/}">
+            <img class="header-text" src="/images/BedBasse.png" alt="Bed and Basse Pensionat">
+        </a>
     </div>
     <br>
     <div>
-        <img class="header-img" src="/images/house.png" alt="Pensionat-ikon i blått">
+        <a th:href="@{/}">
+            <img class="header-img" src="/images/house.png" alt="Pensionat-ikon i blått">
+        </a>
     </div>
 </div>
 
+
+
 <div class="content index-content">
 
-    <table class="customers-table" th:object="${kund}">
+    <div class="section">
+        <div class="JAVAD23">
+            <a class="btn" th:href="@{/contractCustomer/handle/1}">
+                Tillbaka
+            </a>
+        </div>
+        <div>
+            <table class="customers-table" th:object="${kund}">
 
-        <a class="return-link" th:href="@{/contractCustomer/contractHandle}">
-            <div class="return-button">Tillbaka</div>
-        </a>
-        <tr class="customer-row">
-            <td th:text="'ID: ' + ${kund.id}"></td>
-            <td th:text="'Company Name: ' + ${kund.companyName}"></td>
-            <td th:text="'Contact Name: ' + ${kund.contactName}"></td>
-            <td th:text="'Company Title: ' + ${kund.contactTitle}"></td>
-            <td th:text="'Adress: ' + ${kund.streetAddress}"></td>
-            <td th:text="'City: ' + ${kund.city}"></td>
-            <td th:text="'Postal code: ' + ${kund.postalCode}"></td>
-            <td th:text="'Country: ' + ${kund.country}"></td>
-            <td th:text="'Phone: ' + ${kund.phone}"></td>
-            <td th:text="'Fax: ' + ${kund.fax}"></td>
-        </tr>
-    </table>
+                <tr class="customer-row">
+                    <td th:text="'ID: ' + ${kund.id}"></td>
+                    <td th:text="'Company Name: ' + ${kund.companyName}"></td>
+                </tr>
+                <tr>
+                    <td th:text="'Contact Name: ' + ${kund.contactName}"></td>
+                    <td th:text="'Company Title: ' + ${kund.contactTitle}"></td>
+                </tr>
+                <tr>
+                    <td th:text="'Adress: ' + ${kund.streetAddress}"></td>
+                    <td th:text="'City: ' + ${kund.city}"></td>
+                </tr>
+                <tr>
+                    <td th:text="'Postal code: ' + ${kund.postalCode}"></td>
+                    <td th:text="'Country: ' + ${kund.country}"></td>
+                </tr>
+                <tr>
+                    <td th:text="'Phone: ' + ${kund.phone}"></td>
+                    <td th:text="'Fax: ' + ${kund.fax}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
 </div>
 <div class="footer">
     <p>&#9824; Eddie Boschek &#9829; Sania Runnfors Larsson &#9827; Sebastian Karlsson &#9830; Simon Nordlund</p>
