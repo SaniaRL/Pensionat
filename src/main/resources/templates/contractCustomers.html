@@ -45,17 +45,17 @@
         <table class="customers-table">
             <tr class="table-header">
                 <th> Företag
-                    <a th:href="@{'/contractCustomer/handle/sort/' + ${currentPage} + '?sort=companyName&order=' + ${order=='asc' ? 'desc' : 'asc'}}">
+                    <a th:href="@{'/contractCustomer/handle/sort/' + ${currentPage} + '?sort=companyName&order=' + ${order=='asc' && sort == 'companyName' ? 'desc' : 'asc'}}">
                         <img src="/images/white_arrows.png" alt="Sort Customers By Name">
                     </a>
                 </th>
                 <th> Kontakt
-                    <a th:href="@{'/contractCustomer/handle/sort/' + ${currentPage} + '?sort=contactName&order=' + ${order=='asc' ? 'desc' : 'asc'}}">
+                    <a th:href="@{'/contractCustomer/handle/sort/' + ${currentPage} + '?sort=contactName&order=' + ${order=='asc' && sort == 'contactName' ? 'desc' : 'asc'}}">
                         <img src="/images/white_arrows.png" alt="Sort Customers By Name">
                     </a>
                 </th>
                 <th> Land
-                    <a th:href="@{'/contractCustomer/handle/sort/' + ${currentPage} + '?sort=country&order=' + ${order=='asc' ? 'desc' : 'asc'}}">
+                    <a th:href="@{'/contractCustomer/handle/sort/' + ${currentPage} + '?sort=country&order=' + ${order=='asc' && sort == 'country' ? 'desc' : 'asc'}}">
                         <img src="/images/white_arrows.png" alt="Sort Customers By Name">
                     </a>
             </tr>
