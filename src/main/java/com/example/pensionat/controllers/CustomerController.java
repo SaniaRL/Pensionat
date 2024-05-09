@@ -5,10 +5,8 @@ import com.example.pensionat.dtos.DetailedContractCustomerDTO;
 import com.example.pensionat.dtos.DetailedCustomerDTO;
 import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.services.interfaces.BookingService;
-import com.example.pensionat.services.interfaces.ContractCustomerService;
 import com.example.pensionat.services.interfaces.CustomerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +18,6 @@ public class CustomerController {
 
     private final CustomerService customerService;
     private final BookingService bookingService;
-    private final ContractCustomerService contractCustomerService;
 
     @RequestMapping("/{id}/removeHandler")
     public String removeCustomerByIdHandler(@PathVariable Long id, Model model) {
@@ -47,7 +44,6 @@ public class CustomerController {
         customerService.addToModel(currentPage, model);
         return "handleCustomers";
     }
-
 
     @RequestMapping("/customerOrNot")
     public String loadCustomerOrNot(){
@@ -80,7 +76,7 @@ public class CustomerController {
         return "handleCustomers";
     }
 
-    @GetMapping("/blacklisted/{email}")
+    @GetMapping("/blacklistcheck/{email}")
     public String checkIfEmailBlacklisted(@PathVariable("email") String email, Model model) {
         if (!customerService.checkIfEmailBlacklisted(email)) {
             model.addAttribute("status", "Kunden med email " + email + " är SVARTLISTAD!");
@@ -89,12 +85,11 @@ public class CustomerController {
         return "bookingConfirmation";
     }
 
-    @GetMapping("/contractCustomer")
-    public String getContractCustomers(Model model) {
-        int currentPage = 1;
-        contractCustomerService.addToModel(currentPage, model);
-        return "contractCustomers";
+    @RequestMapping("/blacklist/add")
+    public void addToBlacklist(@RequestParam String email, @RequestParam String name) {
+        customerService.addToBlacklist(email, name);
     }
+
     @GetMapping("/contractCustomer/{id}")
     public String getContractCustomer(Model model, @PathVariable long id) {
         DetailedContractCustomerDTO cc = contractCustomerService.getDetailedContractCustomerById(id);
@@ -109,16 +104,35 @@ public class CustomerController {
         return "contractCustomer";
     }
 
-    @GetMapping("/contractHandle")
-    public String contractHandleCustomers(Model model){
+    @RequestMapping("/blacklist/update")
+    public void updateBlacklist(@RequestParam String email, @RequestParam String name, @RequestParam String isOk) {
+        customerService.updateBlacklist(email, name, isOk);
+    }
+
+    @GetMapping("/blacklist/get")
+    public void getBlacklist() {
+        customerService.getBlacklist();
+    }
+
+    @GetMapping("/contractCustomer")
+    public String getContractCustomers(Model model) {
         int currentPage = 1;
         contractCustomerService.addToModel(currentPage, model);
         return "contractCustomers";
     }
 
-    @GetMapping("/contractHandle/{pageNumber}")
-    public String contractHandleByPage(Model model, @PathVariable("pageNumber") int currentPage){
-        contractCustomerService.addToModel(currentPage, model);
+    @GetMapping("/contractHandle/{sort}/{asc}/{pageNumber}")
+    public String contractHandleSort(Model model, @PathVariable("sort") String sortBy,
+                                     @PathVariable("asc") String asc,
+                                     @PathVariable("pageNumber") int currentPage){
+
+        //TODO remove 1
+        Page<ContractCustomerDTO> page = contractCustomerService.getAllCustomersSortedPage(currentPage, sortBy, asc);
+        model.addAttribute("allCustomers", page.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("totalPages", page.getTotalPages());
+
         return "contractCustomers";
     }
 }

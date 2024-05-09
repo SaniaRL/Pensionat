@@ -30,7 +30,6 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
         Pageable pageable = PageRequest.of(pageNum - 1, 10);
         Page<customers> page = contractCustomersRepo.findAll(pageable);
         return page.map(ContractCustomerConverter::customersToContractCustomerDto);
-
     }
 
     @Override
@@ -42,7 +41,6 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
             pageable = PageRequest.of(pageNum - 1, 10, Sort.by(sortBy).descending());
         }
 
-        //förmodligen mappa om till DTO
         Page<customers> page = contractCustomersRepo.findAll(pageable);
         return page.map(ContractCustomerConverter::customersToContractCustomerDto);
     }
@@ -69,6 +67,17 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
             return ContractCustomerConverter.contractCustomerToDetailedContractCustomer(cCustomer);
         }
         return null;
+    }
+
+    @Override
+    public void addToModelSorted(int currentPage, String sortBy, String order, Model model){
+        Page<ContractCustomerDTO> c = getAllCustomersSortedPage(currentPage, sortBy, order);
+        model.addAttribute("allCustomers", c.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", c.getTotalElements());
+        model.addAttribute("totalPages", c.getTotalPages());
+        model.addAttribute("order", order);
+        model.addAttribute("sort", sortBy);
     }
 
 }
