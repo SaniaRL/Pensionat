@@ -90,20 +90,6 @@ public class CustomerController {
         customerService.addToBlacklist(email, name);
     }
 
-    @GetMapping("/contractCustomer/{id}")
-    public String getContractCustomer(Model model, @PathVariable long id) {
-        DetailedContractCustomerDTO cc = contractCustomerService.getDetailedContractCustomerById(id);
-        model.addAttribute("kund", cc);
-        return "contractCustomer";
-    }
-
-    @GetMapping("/contractHandle/{pageNumber}/{id}")
-    public String getContractCustomerPageble(Model model, @PathVariable long id) {
-        DetailedContractCustomerDTO cc = contractCustomerService.getDetailedContractCustomerById(id);
-        model.addAttribute("kund", cc);
-        return "contractCustomer";
-    }
-
     @RequestMapping("/blacklist/update")
     public void updateBlacklist(@RequestParam String email, @RequestParam String name, @RequestParam String isOk) {
         customerService.updateBlacklist(email, name, isOk);

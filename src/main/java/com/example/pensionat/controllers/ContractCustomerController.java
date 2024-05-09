@@ -1,5 +1,6 @@
 package com.example.pensionat.controllers;
 
+import com.example.pensionat.dtos.DetailedContractCustomerDTO;
 import com.example.pensionat.services.interfaces.ContractCustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -38,17 +39,31 @@ public class ContractCustomerController {
         return "contractCustomers";
     }
 
-    @GetMapping("/{id}")
-    public String getContractCustomer(Model model, @PathVariable long id) {
-        //TODO Hämta model eller DTO baserat på ID
-        model.addAttribute("id", id);
-        return "contractCustomer";
-    }
-
     @GetMapping("/contractHandle")
     public String contractHandleCustomers(Model model){
         int currentPage = 1;
         contractCustomerService.addToModel(currentPage, model);
         return "contractCustomers";
+    }
+
+    @GetMapping("/handle/contractCustomer/{id}")
+    public String getContractCustomer(Model model, @PathVariable long id) {
+        DetailedContractCustomerDTO cc = contractCustomerService.getDetailedContractCustomerById(id);
+        model.addAttribute("kund", cc);
+        return "contractCustomer";
+    }
+
+    @GetMapping("/contractCustomer/{id}")
+    public String getContractCustomerTwo(Model model, @PathVariable long id) {
+        DetailedContractCustomerDTO cc = contractCustomerService.getDetailedContractCustomerById(id);
+        model.addAttribute("kund", cc);
+        return "contractCustomer";
+    }
+
+    @GetMapping("/handle/sort/contractCustomer/{id}")
+    public String getContractCustomerWhileSorted(Model model, @PathVariable long id) {
+        DetailedContractCustomerDTO cc = contractCustomerService.getDetailedContractCustomerById(id);
+        model.addAttribute("kund", cc);
+        return "contractCustomer";
     }
 }
