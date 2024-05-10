@@ -70,26 +70,26 @@
         <nav aria-label="Pagination" th:if="${totalPages > 0}">
             <ul class="pagination">
                 <li class="page-item font-weight-bold" th:classappend="${currentPage == 1} ? 'disabled'">
-                    <a th:replace="fragments/paging :: paging(1, 'First', 'First Page') "></a>
+                    <a th:replace="~{fragments/paging :: paging(1, 'First', 'First Page')}"></a>
                 </li>
                 <li class="page-item font-weight-bold" th:classappend="${currentPage == 1} ? 'disabled'">
-                    <a th:replace="fragments/paging :: paging(${currentPage - 1}, 'Prev', 'Previous Page')"></a>
+                    <a th:replace="~{fragments/paging :: paging(${currentPage - 1}, 'Prev', 'Previous Page')}"></a>
                 </li>
                 <li class="page-item dots font-weight-bold" th:if="${currentPage - 2 > 1}">
-                    <a th:replace="fragments/paging :: paging(${currentPage - 3}, '...', 'Back 3')">...</a>
+                    <a th:replace="~{fragments/paging :: paging(${currentPage - 3}, '...', 'Back 3')}">...</a>
                 </li>
                 <li class="page-item" th:classappend="${page == currentPage} ? 'active'"
                 th:each="page : ${#numbers.sequence((currentPage > 2 ? currentPage - 2 : 1), (currentPage + 2 < totalPages ? currentPage + 2 : totalPages))}">
-                    <a th:replace="fragments/paging :: paging(${page}, ${page}, 'Page ' + ${page})"></a>
+                    <a th:replace="~{fragments/paging :: paging(${page}, ${page}, 'Page ' + ${page})}"></a>
                 </li>
                 <li class="page-item dots font-weight-bold" th:if="${currentPage + 2 < totalPages}">
-                    <a th:replace="fragments/paging :: paging(${currentPage + 3}, '...', 'Forward 3')">...</a>
+                    <a th:replace="~{fragments/paging :: paging(${currentPage + 3}, '...', 'Forward 3')}">...</a>
                 </li>
                 <li class="page-item font-weight-bold" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                    <a th:replace="fragments/paging :: paging(${currentPage + 1}, 'Next', 'Next Page')"></a>
+                    <a th:replace="~{fragments/paging :: paging(${currentPage + 1}, 'Next', 'Next Page')}"></a>
                 </li>
                 <li class="page-item font-weight-bold" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                    <a th:replace="fragments/paging :: paging(${totalPages}, 'Last', 'Last Page')"></a>
+                    <a th:replace="~{fragments/paging :: paging(${totalPages}, 'Last', 'Last Page')}"></a>
                 </li>
             </ul>
         </nav>
