@@ -1,6 +1,7 @@
 package com.example.pensionat.services.convert;
 
 import com.example.pensionat.dtos.CustomerDTO;
+import com.example.pensionat.dtos.SimpleBlacklistCustomerDTO;
 import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.models.Customer;
 import org.junit.jupiter.api.Test;
@@ -40,5 +41,10 @@ class CustomerConverterTest {
 
         assertEquals(actual.getName(), customerDTO.getName());
         assertEquals(actual.getEmail(), customerDTO.getEmail());
+    }
+
+    @Test
+    void SimpleBlacklistCustomerDTO() {
+
     }
 }
