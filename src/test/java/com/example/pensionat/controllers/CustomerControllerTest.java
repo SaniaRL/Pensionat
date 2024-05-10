@@ -186,4 +186,9 @@ class CustomerControllerTest {
     void handleBlacklist() {
 
     }
+
+    @Test
+    void handleBlacklistByPage() {
+
+    }
 }

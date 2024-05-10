@@ -94,6 +94,12 @@ public class CustomerController {
         return "handleBlacklist";
     }
 
+    @GetMapping("/blacklist/handle/{pageNumber}")
+    public String handleBlacklistByPage(Model model, @PathVariable("pageNumber") int currentPage) throws IOException {
+        customerService.addToModelBlacklist(currentPage, model);
+        return "handleBlacklist";
+    }
+
     @RequestMapping("/blacklist/add")
     public void addToBlacklist(@RequestParam String email, @RequestParam String name) {
         customerService.addToBlacklist(email, name);

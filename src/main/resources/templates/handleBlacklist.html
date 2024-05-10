@@ -83,7 +83,7 @@
                     </svg>
                 </a>
                 </td>
-                <td class="td-icons remove"><a th:href="@{/customer/{id}/removeHandler(id=${c.id})}">
+                <td class="td-icons remove"><a th:href="@{/customer/1/removeHandler}">
                     <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
                         <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
                         <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
@@ -97,26 +97,26 @@
             Total Items: [[${totalItems}]]
             &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
 
-            <a th:href="@{'/customer/handle/1'}" th:if="${currentPage > 1}">First</a>
+            <a th:href="@{'/customer/blacklist/handle/1'}" th:if="${currentPage > 1}">First</a>
             <span th:unless="${currentPage > 1}">First</span>
             &nbsp;&nbsp;
 
-            <a th:href="@{'/customer/handle/' + ${currentPage - 1}}" th:if="${currentPage > 1}">Previous</a>
+            <a th:href="@{'/customer/blacklist/handle/' + ${currentPage - 1}}" th:if="${currentPage > 1}">Previous</a>
             <span th:unless="${currentPage > 1}">Previous</span>
 
             &nbsp;&nbsp;
 
             <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-			<a th:href="@{'/customer/handle/' + ${i}}" th:if="${currentPage != i}">[[${i}]]</a>
+			<a th:href="@{'/customer/blacklist/handle/' + ${i}}" th:if="${currentPage != i}">[[${i}]]</a>
 			<span th:unless="${currentPage != i}">[[${i}]]</span>
 			&nbsp;
 		</span>
 
-            <a th:href="@{'/customer/handle/' + ${currentPage + 1}}" th:if="${currentPage < totalPages}">Next</a>
+            <a th:href="@{'/customer/blacklist/handle/' + ${currentPage + 1}}" th:if="${currentPage < totalPages}">Next</a>
             <span th:unless="${currentPage < totalPages}">Next</span>
             &nbsp;&nbsp;
 
-            <a th:href="@{'/customer/handle/' + ${totalPages}}" th:if="${currentPage < totalPages}">Last</a>
+            <a th:href="@{'/customer/blacklist/handle/' + ${totalPages}}" th:if="${currentPage < totalPages}">Last</a>
             <span th:unless="${currentPage < totalPages}">Last</span>
         </div>
     </div>
