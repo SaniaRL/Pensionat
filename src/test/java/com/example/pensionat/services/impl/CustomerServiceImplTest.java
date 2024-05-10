@@ -129,4 +129,9 @@ class CustomerServiceImplTest {
     void httpRequest() {
 
     }
+
+    @Test
+    void addToModelBlacklist() {
+
+    }
 }

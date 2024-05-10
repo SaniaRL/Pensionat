@@ -1,13 +1,17 @@
 package com.example.pensionat.services.impl;
 
 import com.example.pensionat.dtos.SimpleCustomerDTO;
+import com.example.pensionat.dtos.DetailedBlacklistCustomerDTO;
+import com.example.pensionat.dtos.SimpleBlacklistCustomerDTO;
 import com.example.pensionat.services.interfaces.CustomerService;
 import com.example.pensionat.models.Customer;
 import com.example.pensionat.repositories.CustomerRepo;
 import com.example.pensionat.services.convert.CustomerConverter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +24,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -119,6 +125,16 @@ public class CustomerServiceImpl implements CustomerService {
         }
         return notBlacklisted;
     }
+
+    @Override
+    public void addToModelBlacklist(int currentPage, Model model) throws IOException {
+        Page<SimpleBlacklistCustomerDTO> c = getBlacklist(currentPage);
+        model.addAttribute("allCustomers", c.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", c.getTotalElements());
+        model.addAttribute("totalPages", c.getTotalPages());
+    }
+
     @Override
     public void addToBlacklist(String email, String name) {
         try {
@@ -159,29 +175,25 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
-    public void getBlacklist() {
-        try {
-            String url = "https://javabl.systementor.se/api/bed&basse/blacklist";
-            URL obj = new URL(url);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+    public Page<SimpleBlacklistCustomerDTO> getBlacklist(int pageNum) throws IOException {
 
-            con.setRequestMethod("GET");
+        Pageable pageable = PageRequest.of(pageNum - 1, 5);
 
-            int responseCode = con.getResponseCode();
-            System.out.println("Response Code : " + responseCode);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuilder response = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
+        DetailedBlacklistCustomerDTO[] response = objectMapper.readValue(new URL("https://javabl.systementor.se/api/bed&basse/blacklist")
+                                                    , DetailedBlacklistCustomerDTO[].class);
 
-            System.out.println("Response : " + response.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        List<SimpleBlacklistCustomerDTO> blacklist = Arrays.stream(response)
+                            .map(CustomerConverter::detailedBlacklistCustomerDTOToSimpleBlacklistCustomerDTO)
+                            .toList();
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), blacklist.size());
+        Page<SimpleBlacklistCustomerDTO> page = new PageImpl<>(blacklist.subList(start, end), pageable, blacklist.size());
+
+        return page;
     }
 
     @Override

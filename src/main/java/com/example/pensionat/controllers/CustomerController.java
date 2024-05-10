@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping(path = "/customer")
@@ -85,6 +87,13 @@ public class CustomerController {
         return "bookingConfirmation";
     }
 
+    @GetMapping("/blacklist/handle")
+    public String handleBlacklist(Model model) throws IOException {
+        int currentPage = 1;
+        customerService.addToModelBlacklist(currentPage, model);
+        return "handleBlacklist";
+    }
+
     @RequestMapping("/blacklist/add")
     public void addToBlacklist(@RequestParam String email, @RequestParam String name) {
         customerService.addToBlacklist(email, name);
@@ -93,10 +102,5 @@ public class CustomerController {
     @RequestMapping("/blacklist/update")
     public void updateBlacklist(@RequestParam String email, @RequestParam String name, @RequestParam String isOk) {
         customerService.updateBlacklist(email, name, isOk);
-    }
-
-    @GetMapping("/blacklist/get")
-    public void getBlacklist() {
-        customerService.getBlacklist();
     }
 }

@@ -183,7 +183,7 @@ class CustomerControllerTest {
     }
 
     @Test
-    void getBlacklist() {
+    void handleBlacklist() {
 
     }
 }
