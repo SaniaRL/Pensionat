@@ -121,6 +121,11 @@ class CustomerServiceImplTest {
     }
 
     @Test
+    void getBlacklistPage() {
+
+    }
+
+    @Test
     void getBlacklist() {
 
     }
@@ -132,6 +137,11 @@ class CustomerServiceImplTest {
 
     @Test
     void addToModelBlacklist() {
+
+    }
+
+    @Test
+    void getCustomerFromBlacklistByEmail() {
 
     }
 }

@@ -1,8 +1,6 @@
 package com.example.pensionat.controllers;
 
-import com.example.pensionat.dtos.ContractCustomerDTO;
-import com.example.pensionat.dtos.DetailedContractCustomerDTO;
-import com.example.pensionat.dtos.DetailedCustomerDTO;
+import com.example.pensionat.dtos.SimpleBlacklistCustomerDTO;
 import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.services.interfaces.BookingService;
 import com.example.pensionat.services.interfaces.CustomerService;
@@ -100,13 +98,23 @@ public class CustomerController {
         return "handleBlacklist";
     }
 
+    @RequestMapping("/blacklist/{email}/update")
+    public String updateBlacklistCustomer(@PathVariable String email, Model model) throws IOException {
+        SimpleBlacklistCustomerDTO c = customerService.getCustomerFromBlacklistByEmail(email);
+        model.addAttribute("kund", c);
+        return "updateBlacklistCustomers";
+    }
+
+    @PostMapping("/blacklist/handle/update")
+    public String handleBlacklistCustomerUpdate(Model model, SimpleBlacklistCustomerDTO c) throws IOException {
+        customerService.updateBlacklistCustomer(c);
+        int currentPage = 1;
+        customerService.addToModelBlacklist(currentPage, model);
+        return "handleBlacklist";
+    }
+
     @RequestMapping("/blacklist/add")
     public void addToBlacklist(@RequestParam String email, @RequestParam String name) {
         customerService.addToBlacklist(email, name);
-    }
-
-    @RequestMapping("/blacklist/update")
-    public void updateBlacklist(@RequestParam String email, @RequestParam String name, @RequestParam String isOk) {
-        customerService.updateBlacklist(email, name, isOk);
     }
 }

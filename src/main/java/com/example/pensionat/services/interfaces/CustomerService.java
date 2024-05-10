@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.util.List;
 
 public interface CustomerService {
@@ -24,7 +23,8 @@ public interface CustomerService {
     boolean checkIfEmailBlacklisted(String email);
     void addToModelBlacklist(int currentPage, Model model) throws IOException;
     void addToBlacklist(String email, String name);
-    void updateBlacklist(String email, String name, String isOk);
-    Page<SimpleBlacklistCustomerDTO> getBlacklist(int pageNum) throws IOException;
+    String updateBlacklistCustomer(SimpleBlacklistCustomerDTO c);
+    Page<SimpleBlacklistCustomerDTO> getBlacklistPage(int pageNum) throws IOException;
+    SimpleBlacklistCustomerDTO getCustomerFromBlacklistByEmail(String email) throws IOException;
     void httpRequest(HttpURLConnection con, String postData) throws IOException;
     }
