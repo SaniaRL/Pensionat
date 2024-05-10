@@ -113,8 +113,17 @@ public class CustomerController {
         return "handleBlacklist";
     }
 
-    @RequestMapping("/blacklist/add")
-    public void addToBlacklist(@RequestParam String email, @RequestParam String name) {
-        customerService.addToBlacklist(email, name);
+    @PostMapping("/blacklist/form/add")
+    public String addToBlacklist(@RequestParam("name") String name, @RequestParam("email") String email) {
+        SimpleBlacklistCustomerDTO c = new SimpleBlacklistCustomerDTO();
+        c.setName(name);
+        c.setEmail(email);
+        customerService.addToBlacklist(c);
+        return "redirect:/customer/blacklist/handle";
+    }
+
+    @GetMapping("/blacklist/form")
+    public String showBlacklistForm() {
+        return "blacklistForm";
     }
 }

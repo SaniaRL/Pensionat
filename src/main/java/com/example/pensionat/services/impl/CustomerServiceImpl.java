@@ -136,7 +136,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void addToBlacklist(String email, String name) {
+    public String addToBlacklist(SimpleBlacklistCustomerDTO c) {
         try {
             String url = "https://javabl.systementor.se/api/bed&basse/blacklist";
             URL obj = new URL(url);
@@ -146,13 +146,14 @@ public class CustomerServiceImpl implements CustomerService {
 
             con.setRequestProperty("Content-Type", "application/json");
 
-            String postData = "{\"email\":\"" + email + "\",\"name\":\"" + name + "\",\"ok\":false}";
+            String postData = "{\"email\":\"" + c.getEmail() + "\",\"name\":\"" + c.getName() + "\",\"ok\":false}";
 
             httpRequest(con, postData);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return "Blacklist updated successfully";
     }
 
     @Override
