@@ -17,19 +17,6 @@ public class ContractCustomerController {
 
     private final ContractCustomerService contractCustomerService;
 
-/*
-    @GetMapping("/handle/{pageNumber}")
-    public String contractHandleByPage(
-            Model model,
-            @PathVariable("pageNumber") int currentPage,
-            @RequestParam(defaultValue = "id") String sort,
-            @RequestParam(defaultValue = "asc") String order){
-        System.out.println(sort + " " + order);
-        contractCustomerService.addToModelSorted(currentPage, sort, order, model);
-        return "contractCustomers";
-    }
-*/
-
     @GetMapping("/handle/{pageNumber}")
     public String contractHandleByPageSortedBy(
             Model model,
@@ -41,15 +28,25 @@ public class ContractCustomerController {
         return "contractCustomers";
     }
 
-    @GetMapping("/contractHandle")
-    public String contractHandleCustomers(Model model){
-        int currentPage = 1;
-        contractCustomerService.addToModel(currentPage, model);
-        return "contractCustomers";
-    }
+//    @GetMapping("/contractHandle")
+//    public String contractHandleCustomers(Model model){
+//        int currentPage = 1;
+//        contractCustomerService.addToModel(currentPage, model);
+//        return "contractCustomers";
+//    }
 
     @GetMapping(value = "/handle/{pageNumber}", params = "search")
     public String contractSearch(Model model,
+                                 @PathVariable("pageNumber") int currentPage,
+                                 @RequestParam String search,
+                                 @RequestParam(defaultValue = "id") String sort,
+                                 @RequestParam(defaultValue = "asc") String order){
+        contractCustomerService.addToModelSearch(currentPage, search, sort, order, model);
+        return "contractCustomers";
+    }
+
+    @GetMapping(value = "/handle/{pageNumber}", params = {"search", "sort", "order"})
+    public String contractSearchSorted(Model model,
                                  @PathVariable("pageNumber") int currentPage,
                                  @RequestParam String search,
                                  @RequestParam(defaultValue = "id") String sort,

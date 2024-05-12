@@ -72,19 +72,13 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
     @Override
     public void addToModel(int currentPage, Model model){
         Page<ContractCustomerDTO> c = getAllCustomersPage(currentPage);
-        model.addAttribute("allCustomers", c.getContent());
-        model.addAttribute("currentPage", currentPage);
-        model.addAttribute("totalItems", c.getTotalElements());
-        model.addAttribute("totalPages", c.getTotalPages());
+        addToModelFour(c, model, currentPage);
     }
 
     @Override
     public void addToModelSorted(int currentPage, String sortBy, String order, Model model){
         Page<ContractCustomerDTO> c = getAllCustomersSortedPage(currentPage, sortBy, order);
-        model.addAttribute("allCustomers", c.getContent());
-        model.addAttribute("currentPage", currentPage);
-        model.addAttribute("totalItems", c.getTotalElements());
-        model.addAttribute("totalPages", c.getTotalPages());
+        addToModelFour(c, model, currentPage);
         model.addAttribute("order", order);
         model.addAttribute("sort", sortBy);
     }
@@ -92,10 +86,16 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
     @Override
     public void addToModelSearch(int currentPage, String search, String sort, String order, Model model) {
         Page<ContractCustomerDTO> p = getCustomersBySearch(currentPage, search, sort, order);
+        addToModelFour(p, model, currentPage);
+        model.addAttribute("order", order);
+        model.addAttribute("sort", sort);
+        model.addAttribute("search", search);
+    }
+
+    private void addToModelFour(Page<ContractCustomerDTO> p, Model model, int currentPage){
         model.addAttribute("allCustomers", p.getContent());
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalItems", p.getTotalElements());
         model.addAttribute("totalPages", p.getTotalPages());
-        model.addAttribute("search", search);
     }
 }
