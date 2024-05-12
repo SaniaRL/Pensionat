@@ -11,6 +11,11 @@ public interface ContractCustomerService {
     Page<ContractCustomerDTO> getAllCustomersSortedPage(int pageNum, String sortBy, String order);
     customers getCustomerById(Long id);
     DetailedContractCustomerDTO getDetailedContractCustomerById(Long id);
+
+    Page<ContractCustomerDTO> getCustomersBySearch(int pageNum, String search, String sortBy, String order);
+
     void addToModel(int currentPage, Model model);
     void addToModelSorted(int currentPage, String sortBy, String order, Model model);
+
+    void addToModelSearch(int currentPage, String search, String sort, String order, Model model);
 }

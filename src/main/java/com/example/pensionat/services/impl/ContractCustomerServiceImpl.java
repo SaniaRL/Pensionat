@@ -2,11 +2,9 @@ package com.example.pensionat.services.impl;
 
 import com.example.pensionat.dtos.ContractCustomerDTO;
 import com.example.pensionat.dtos.DetailedContractCustomerDTO;
-import com.example.pensionat.dtos.DetailedCustomerDTO;
 import com.example.pensionat.models.customers;
 import com.example.pensionat.repositories.ContractCustomersRepo;
 import com.example.pensionat.services.convert.ContractCustomerConverter;
-import com.example.pensionat.services.convert.CustomerConverter;
 import com.example.pensionat.services.interfaces.ContractCustomerService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -50,6 +48,26 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
         return contractCustomersRepo.findById(id).orElse(null);
     }
 
+    @Override
+    public DetailedContractCustomerDTO getDetailedContractCustomerById(Long id) {
+        customers cCustomer = contractCustomersRepo.findById(id).orElse(null);
+        if(cCustomer!= null){
+            return ContractCustomerConverter.contractCustomerToDetailedContractCustomer(cCustomer);
+        }
+        return null;
+    }
+
+    @Override
+    public Page<ContractCustomerDTO> getCustomersBySearch(int pageNum, String search, String sort, String order){
+        Pageable pageable;
+        if(order.equals("asc")) {
+            pageable = PageRequest.of(pageNum - 1, 10, Sort.by(sort).ascending());
+        } else {
+            pageable = PageRequest.of(pageNum - 1, 10, Sort.by(sort).descending());
+        }
+        Page<customers> page = contractCustomersRepo.findByCompanyNameContainsOrContactNameContains(search, search, pageable);
+        return page.map(ContractCustomerConverter::customersToContractCustomerDto);
+    }
 
     @Override
     public void addToModel(int currentPage, Model model){
@@ -58,15 +76,6 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalItems", c.getTotalElements());
         model.addAttribute("totalPages", c.getTotalPages());
-    }
-
-    @Override
-    public DetailedContractCustomerDTO getDetailedContractCustomerById(Long id) {
-        customers cCustomer = contractCustomersRepo.findById(id).orElse(null);
-        if(cCustomer!= null){
-            return ContractCustomerConverter.contractCustomerToDetailedContractCustomer(cCustomer);
-        }
-        return null;
     }
 
     @Override
@@ -80,4 +89,13 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
         model.addAttribute("sort", sortBy);
     }
 
+    @Override
+    public void addToModelSearch(int currentPage, String search, String sort, String order, Model model) {
+        Page<ContractCustomerDTO> p = getCustomersBySearch(currentPage, search, sort, order);
+        model.addAttribute("allCustomers", p.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", p.getTotalElements());
+        model.addAttribute("totalPages", p.getTotalPages());
+        model.addAttribute("search", search);
+    }
 }

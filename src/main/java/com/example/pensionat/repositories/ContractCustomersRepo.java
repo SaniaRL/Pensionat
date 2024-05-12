@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 public interface ContractCustomersRepo extends JpaRepository<customers, Long> {
+    Page<customers> findByCompanyNameContainsOrContactNameContains(String searchParam1, String searchParam2, Pageable pageable);
 }

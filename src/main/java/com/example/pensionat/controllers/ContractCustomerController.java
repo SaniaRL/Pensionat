@@ -17,6 +17,7 @@ public class ContractCustomerController {
 
     private final ContractCustomerService contractCustomerService;
 
+/*
     @GetMapping("/handle/{pageNumber}")
     public String contractHandleByPage(
             Model model,
@@ -27,8 +28,9 @@ public class ContractCustomerController {
         contractCustomerService.addToModelSorted(currentPage, sort, order, model);
         return "contractCustomers";
     }
+*/
 
-    @GetMapping("/handle/sort/{pageNumber}")
+    @GetMapping("/handle/{pageNumber}")
     public String contractHandleByPageSortedBy(
             Model model,
             @PathVariable("pageNumber") int currentPage,
@@ -43,6 +45,16 @@ public class ContractCustomerController {
     public String contractHandleCustomers(Model model){
         int currentPage = 1;
         contractCustomerService.addToModel(currentPage, model);
+        return "contractCustomers";
+    }
+
+    @GetMapping(value = "/handle/{pageNumber}", params = "search")
+    public String contractSearch(Model model,
+                                 @PathVariable("pageNumber") int currentPage,
+                                 @RequestParam String search,
+                                 @RequestParam(defaultValue = "id") String sort,
+                                 @RequestParam(defaultValue = "asc") String order){
+        contractCustomerService.addToModelSearch(currentPage, search, sort, order, model);
         return "contractCustomers";
     }
 
