@@ -1,13 +1,17 @@
 package com.example.pensionat.services.impl;
 
 import com.example.pensionat.dtos.SimpleCustomerDTO;
+import com.example.pensionat.dtos.DetailedBlacklistCustomerDTO;
+import com.example.pensionat.dtos.SimpleBlacklistCustomerDTO;
 import com.example.pensionat.services.interfaces.CustomerService;
 import com.example.pensionat.models.Customer;
 import com.example.pensionat.repositories.CustomerRepo;
 import com.example.pensionat.services.convert.CustomerConverter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +24,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -119,8 +125,18 @@ public class CustomerServiceImpl implements CustomerService {
         }
         return notBlacklisted;
     }
+
     @Override
-    public void addToBlacklist(String email, String name) {
+    public void addToModelBlacklist(int currentPage, Model model) throws IOException {
+        Page<SimpleBlacklistCustomerDTO> c = getBlacklistPage(currentPage);
+        model.addAttribute("allCustomers", c.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", c.getTotalElements());
+        model.addAttribute("totalPages", c.getTotalPages());
+    }
+
+    @Override
+    public String addToBlacklist(SimpleBlacklistCustomerDTO c) {
         try {
             String url = "https://javabl.systementor.se/api/bed&basse/blacklist";
             URL obj = new URL(url);
@@ -130,19 +146,20 @@ public class CustomerServiceImpl implements CustomerService {
 
             con.setRequestProperty("Content-Type", "application/json");
 
-            String postData = "{\"email\":\"" + email + "\",\"name\":\"" + name + "\",\"ok\":false}";
+            String postData = "{\"email\":\"" + c.getEmail() + "\",\"name\":\"" + c.getName() + "\",\"ok\":false}";
 
             httpRequest(con, postData);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return "Blacklist updated successfully";
     }
 
     @Override
-    public void updateBlacklist(String email, String name, String isOk) {
+    public String updateBlacklistCustomer(SimpleBlacklistCustomerDTO c) {
         try {
-            String url = "https://javabl.systementor.se/api/bed&basse/blacklist/" + email;
+            String url = "https://javabl.systementor.se/api/bed&basse/blacklist/" + c.getEmail();
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -150,38 +167,50 @@ public class CustomerServiceImpl implements CustomerService {
 
             con.setRequestProperty("Content-Type", "application/json");
 
-            String postData = "{\"name\":\"" + name + "\",\"ok\":\"" + isOk + "\"}";
+            String postData = "{\"name\":\"" + c.getName() + "\",\"ok\":\"" + c.getOk() + "\"}";
 
             httpRequest(con, postData);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return "Blacklist updated successfully";
     }
 
-    public void getBlacklist() {
-        try {
-            String url = "https://javabl.systementor.se/api/bed&basse/blacklist";
-            URL obj = new URL(url);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+    public List<SimpleBlacklistCustomerDTO> getBlacklist() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
 
-            con.setRequestMethod("GET");
+        DetailedBlacklistCustomerDTO[] respone = objectMapper.readValue(new URL("https://javabl.systementor.se/api/bed&basse/blacklist")
+                , DetailedBlacklistCustomerDTO[].class);
 
-            int responseCode = con.getResponseCode();
-            System.out.println("Response Code : " + responseCode);
+        return Arrays.stream(respone)
+                .map(CustomerConverter::detailedBlacklistCustomerDTOToSimpleBlacklistCustomerDTO)
+                .toList();
+    }
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuilder response = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
+    public Page<SimpleBlacklistCustomerDTO> getBlacklistPage(int pageNum) throws IOException {
 
-            System.out.println("Response : " + response.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Pageable pageable = PageRequest.of(pageNum - 1, 5);
+
+        List<SimpleBlacklistCustomerDTO> blacklist = getBlacklist();
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), blacklist.size());
+        Page<SimpleBlacklistCustomerDTO> page = new PageImpl<>(blacklist.subList(start, end), pageable, blacklist.size());
+
+        return page;
+    }
+
+    @Override
+    public SimpleBlacklistCustomerDTO getCustomerFromBlacklistByEmail(String email) throws IOException {
+        List<SimpleBlacklistCustomerDTO> blacklist = getBlacklist();
+        blacklist.forEach(objekt -> {
+        });
+        return blacklist.stream().filter(c -> c.getEmail() != null).filter(c -> c.getEmail()
+                                 .equalsIgnoreCase(email))
+                                 .toList()
+                                 .get(0);
     }
 
     @Override

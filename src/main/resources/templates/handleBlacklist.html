@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Pensionat</title>
+    <link href="/images/house.png" rel="icon" type="image/x-icon"/>
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/css/handleBlacklist.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet">
+</head>
+<body>
+<div class="header index-header">
+    <div>
+        <a th:href="@{/}">
+            <img class="header-text" src="/images/BedBasse.png" alt="Bed and Basse Pensionat">
+        </a>
+    </div>
+    <br>
+    <div>
+        <a th:href="@{/}">
+            <img class="header-img" src="/images/house.png" alt="Pensionat-ikon i blått">
+        </a>
+    </div>
+</div>
+
+<div class="content index-content">
+
+
+    <div th:unless="${#strings.isEmpty(status)}">
+        <div class="overlay"></div>
+        <div class="error-pop-up customer-pop-up" id="errorPopup">
+            <p class="customer-pop-up-header">KUNDEN KAN EJ TAS BORT</p>
+            <p class="customer-pop-up-text" th:text="${status}"></p>
+            <button class="customer-btn-pop-up btn" id="closeButton" onclick="this.parentElement.parentElement.style.display='none';">STÄNG FÖNSTER</button>
+        </div>
+    </div>
+
+
+    <div class="hidden delete-warning">
+        <div>
+            <p class="delete-title">ÄR DU SÄKER PÅ ATT DU VILL RADERA BOKNING?</p>
+            <p class="delete-p">Denna åtgärd går ej att ångra</p>
+            <a th:href="@{/booking/remove}"><button class="btn">RADERA BOKNING</button></a>
+            <button class="btn grey-btn" onclick="closeDiv()">AVBRYT</button>
+        </div>
+    </div>
+
+    <div class="allCustomers customers-background">
+
+        <div class="placement-return-button">
+
+            <div>
+                <form action="#" method="get" th:action="@{/customer/search}">
+                    <input class="customer-search" name="email" placeholder="Sök" type="text" value="">
+                    <input class="search-customer-button" type="submit" value="Submit">
+                </form>
+            </div>
+
+            <a class="return-link" th:href="@{/}">
+                <div class="return-button">Tillbaka</div>
+            </a>
+
+        </div>
+
+        <table class="customers-table">
+            <tr class="table-header">
+                <th> namn</th>
+                <th> email</th>
+                <th> blacklisted</th>
+            </tr>
+            <tbody>
+            <tr class="customer-row" th:each="c : ${allCustomers}">
+                <td th:text="${c.name}"></td>
+                <td th:text="${c.email}"></td>
+                <td th:text="${c.ok}"></td>
+                <td class="td-icons edit"><a th:href="@{/customer/blacklist/{email}/update(email=${c.email})}">
+                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                        <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                        <path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/>
+                    </svg>
+                </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="table-pages" th:if="${totalPages > 1}">
+            Total Items: [[${totalItems}]]
+            &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
+
+            <a th:href="@{'/customer/blacklist/handle/1'}" th:if="${currentPage > 1}">First</a>
+            <span th:unless="${currentPage > 1}">First</span>
+            &nbsp;&nbsp;
+
+            <a th:href="@{'/customer/blacklist/handle/' + ${currentPage - 1}}" th:if="${currentPage > 1}">Previous</a>
+            <span th:unless="${currentPage > 1}">Previous</span>
+
+            &nbsp;&nbsp;
+
+            <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+			<a th:href="@{'/customer/blacklist/handle/' + ${i}}" th:if="${currentPage != i}">[[${i}]]</a>
+			<span th:unless="${currentPage != i}">[[${i}]]</span>
+			&nbsp;
+		</span>
+
+            <a th:href="@{'/customer/blacklist/handle/' + ${currentPage + 1}}" th:if="${currentPage < totalPages}">Next</a>
+            <span th:unless="${currentPage < totalPages}">Next</span>
+            &nbsp;&nbsp;
+
+            <a th:href="@{'/customer/blacklist/handle/' + ${totalPages}}" th:if="${currentPage < totalPages}">Last</a>
+            <span th:unless="${currentPage < totalPages}">Last</span>
+        </div>
+    </div>
+</div>
+
+<div class=" footer">
+    <p>&#9824; Eddie Boschek &#9829; Sania Runnfors Larsson &#9827; Sebastian Karlsson &#9830; Simon
+        Nordlund</p>
+</div>
+</body>
+</html>
