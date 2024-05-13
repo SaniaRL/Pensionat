@@ -40,7 +40,7 @@ public class PensionatApplication {
 
     }
 
-    @Bean
+ /*   @Bean
     public CommandLineRunner demo2(EventRepo eventRepo) {
 
         return args -> {
@@ -79,7 +79,7 @@ public class PensionatApplication {
 
 
         };
-    }
+    } */
 
     //TODO Kommentera bort innan ni får 8726782672627628 extra
 	/*

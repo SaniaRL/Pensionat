@@ -27,9 +27,9 @@ import java.time.LocalDateTime;
 })
 public class Event {
     @Id
+    @GeneratedValue
     private Long id;
     public LocalDateTime TimeStamp;
     //@Column(insertable=false, updatable=false)
     private String type;
-    private String RoomNo;
 }
