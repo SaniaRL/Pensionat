@@ -2,7 +2,6 @@ package com.example.pensionat;
 
 import com.example.pensionat.models.events.Event;
 import com.example.pensionat.repositories.EventRepo;
-import com.example.pensionat.services.interfaces.ShippersService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -43,15 +42,10 @@ public class FetchEvents implements CommandLineRunner {
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
             String message = new String(delivery.getBody(), "UTF-8");
             System.out.println(" [x] Received '" + message + "'");
-            try {
-                Event event = mapper.readValue(message, Event.class); // Deserialize JSON to Event
-                eventRepo.save(event); // Save the event immediately
-            } catch (Exception e) {
-                e.printStackTrace(); // Log any deserialization or database errors
-            }
-        };
 
+            Event event = mapper.readValue(message, Event.class);
+            eventRepo.save(event);
+        };
         channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {});
-        //eventRepo.saveAll(eventList);
     }
 }
