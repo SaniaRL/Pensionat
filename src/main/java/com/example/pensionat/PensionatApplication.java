@@ -41,17 +41,18 @@ public class PensionatApplication {
 
     }
 
- /*   @Bean
+    @Bean
     public CommandLineRunner demo2(EventRepo eventRepo) {
 
         return args -> {
-            List<Event> events = Arrays.asList(
-                            new RoomOpened(1L, LocalDateTime.now(), "Sören", "Pedro"),
-                            new RoomOpened(2L, LocalDateTime.now(), "Sören", "Sören")
-                    );
-            eventRepo.saveAll(events);
+            Event event = new RoomOpened();
+            event.setId(1L);
+            event.setTimeStamp(LocalDateTime.now());
+            event.setRoomNo("101");
+            event.setType("RoomOpened");
+            eventRepo.save(event);
         };
-    } */
+    }
 
     //TODO Kommentera bort innan ni får 8726782672627628 extra
 	/*
