@@ -11,7 +11,7 @@ import com.rabbitmq.client.DeliverCallback;
 
 public class FetchEvents implements CommandLineRunner {
 
-    private String queueName = "3b009a69-8ab6-4437-a13a-cfc9c4069067";
+    private String queueName = "a15b4de3-5b2d-4355-b21a-469593d26c86"; //Bed & Basse
 
     @Override
     public void run(String... args) throws Exception {
