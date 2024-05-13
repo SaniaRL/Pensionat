@@ -12,6 +12,8 @@ import com.example.pensionat.repositories.CustomerRepo;
 import com.example.pensionat.dtos.*;
 import com.example.pensionat.services.convert.BookingConverter;
 import org.springframework.stereotype.Service;
+
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -172,7 +174,7 @@ class BookingServiceImpl implements BookingService {
                 .sum();
     }
 
-    public List<OrderLineDTO> getBookedRooms(LocalDate startDate, LocalDate endDate, List<OrderLineDTO> rooms, Long id) {
+    private List<OrderLineDTO> getBookedRooms(LocalDate startDate, LocalDate endDate, List<OrderLineDTO> rooms, Long id) {
         List<Booking> bookings = bookingRepo.findByStartDateLessThanAndEndDateGreaterThanAndIdNot(endDate, startDate, id);
         List<OrderLine> orderLines = new ArrayList<>();
         bookings.forEach(b -> orderLines.addAll(orderLineRepo.findAllByBookingId(b.getId())));
@@ -188,5 +190,35 @@ class BookingServiceImpl implements BookingService {
         });
 
         return booked;
+    }
+
+    @Override
+    public double generatePrice(BookingData bookingData){
+
+
+        //Kolla summan av alla rum för en natt
+        double sum = bookingData.getChosenRooms().stream()
+                .mapToDouble(r -> roomService.getRoomByID((long) r.getId()).getPrice())
+                .sum();
+
+        System.out.println("sum for 1 night: " + sum);
+
+        //Kolla antal nätter
+        int nights = bookingData.getEndDate().compareTo(bookingData.getStartDate());
+        System.out.println("number of nights: " + nights);
+        sum = sum * nights;
+        System.out.println("Sum * nights: " + sum * nights);
+
+
+        //Multiplicera med antal nätter - om nu inte måndag bråkar idk
+
+        //Kolla om det är två eller fler nätter
+
+        //Kolla om det är sön-mån
+        //TODO - kolla om det måste vara endast för natten
+
+        //Kolla om kunden har hyrt fler än 10 nätter det senaste året
+
+        return sum;
     }
 }

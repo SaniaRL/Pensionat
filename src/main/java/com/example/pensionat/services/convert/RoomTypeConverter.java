@@ -19,4 +19,14 @@ public class RoomTypeConverter {
             case PREMIUM -> 2;
         };
     }
+
+    public static RoomType convertFromString(String value){
+        return switch (value) {
+            case "Single" -> RoomType.SINGLE;
+            case "Double" -> RoomType.DOUBLE;
+            case "Premium" -> RoomType.PREMIUM;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
+    }
+
 }

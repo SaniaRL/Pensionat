@@ -75,13 +75,21 @@ public class BookRoomController {
             model.addAttribute("booked", res);
             return "redirect:/booking/update?id=" + bookingData.getId();
         }
+
+        System.out.println("bookingData: " + bookingData);
+        double price = bookingService.generatePrice(bookingData);
+        System.out.println("price after: " + price);
+        /*
         model.addAttribute("startDate", bookingData.getStartDate());
         model.addAttribute("endDate", bookingData.getEndDate());
         model.addAttribute("orderLines", bookingData.getChosenRooms());
         model.addAttribute("name", bookingData.getName());
         model.addAttribute("email", bookingData.getEmail());
+
+         */
+        model.addAttribute("price", price);
 //        model.addAttribute("result")
-        return "redirect:/bookingConfirmation";
+        return "bookingConfirmation";
     }
 
     @GetMapping("/bookingConfirmation")

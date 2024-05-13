@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -30,6 +32,7 @@ public class OrderLine {
 
     @NotNull
     private int extraBeds;
+
 
     public OrderLine(Booking booking, Room room, int extraBeds) {
         this.booking = booking;
