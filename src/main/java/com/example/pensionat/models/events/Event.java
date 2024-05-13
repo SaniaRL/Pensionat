@@ -31,5 +31,4 @@ public class Event {
     private Long id;
     public LocalDateTime TimeStamp;
     //@Column(insertable=false, updatable=false)
-    private String type;
 }
