@@ -1,8 +1,11 @@
 package com.example.pensionat;
 
+import com.example.pensionat.repositories.EventRepo;
+import com.example.pensionat.services.interfaces.ShippersService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -10,10 +13,17 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @ComponentScan
 public class FetchEvents implements CommandLineRunner {
 
+    @Autowired
+    EventRepo eventRepo;
+
     String queueName = "a15b4de3-5b2d-4355-b21a-469593d26c86"; //Bed & Basse
+    List <String> eventList = new ArrayList<>();
 
     @Override
     public void run(String... args) throws Exception {
@@ -32,7 +42,9 @@ public class FetchEvents implements CommandLineRunner {
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
             String message = new String(delivery.getBody(), "UTF-8");
             System.out.println(" [x] Received '" + message + "'");
+            eventList.add(message);
         };
         channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {});
+        //eventRepo.saveAll(eventList);
     }
 }
