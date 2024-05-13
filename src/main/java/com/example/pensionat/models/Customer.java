@@ -30,16 +30,18 @@ public class Customer {
     private String email;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)
-    private List<Booking> bookings = new ArrayList<>();
+    private List<Booking> bookings;
 
     public Customer(String name, String email) {
         this.name = name;
         this.email = email;
+        this.bookings = new ArrayList<>();
     }
 
     public Customer(Long id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.bookings = new ArrayList<>();
     }
 }
