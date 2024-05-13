@@ -4,8 +4,7 @@ import com.example.pensionat.models.Booking;
 import com.example.pensionat.models.Customer;
 import com.example.pensionat.models.OrderLine;
 import com.example.pensionat.models.Room;
-import com.example.pensionat.models.events.Event;
-import com.example.pensionat.models.events.RoomOpened;
+import com.example.pensionat.models.events.*;
 import com.example.pensionat.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -51,6 +50,34 @@ public class PensionatApplication {
             event.setRoomNo("101");
             event.setType("RoomOpened");
             eventRepo.save(event);
+
+            RoomClosed roomClosed = new RoomClosed();
+            roomClosed.setId(2L);
+            roomClosed.setTimeStamp(LocalDateTime.now());
+            roomClosed.setRoomNo("102");
+            roomClosed.setType("RoomClosed");
+            eventRepo.save(roomClosed);
+
+
+            RoomCleaningStarted roomCleaningStarted = new RoomCleaningStarted();
+            roomCleaningStarted.setId(3L);
+            roomCleaningStarted.setTimeStamp(LocalDateTime.now());
+            roomCleaningStarted.setRoomNo("103");
+            roomCleaningStarted.setCleaningByUser("Janitor Joe");
+            roomCleaningStarted.setType("RoomCleaningStarted");
+            eventRepo.save(roomCleaningStarted);
+
+            RoomCleaningFinished roomCleaningFinished = new RoomCleaningFinished();
+            roomCleaningFinished.setId(4L);
+            roomCleaningFinished.setTimeStamp(LocalDateTime.now());
+            roomCleaningFinished.setRoomNo("104");
+            roomCleaningFinished.setCleaningByUser("Janitor Jane");
+            roomCleaningFinished.setType("RoomCleaningFinished");
+            eventRepo.save(roomCleaningFinished);
+
+
+
+
         };
     }
 
