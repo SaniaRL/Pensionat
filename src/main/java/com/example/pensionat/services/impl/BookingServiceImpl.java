@@ -209,16 +209,25 @@ class BookingServiceImpl implements BookingService {
         sum = sum * nights;
         System.out.println("Sum * nights: " + sum * nights);
 
+        double discount = 0;
+        int nightsNeededForDiscount = 2;
+
+        if(nights >= nightsNeededForDiscount){
+            discount += 0.005;
+        }
 
         //Multiplicera med antal nätter - om nu inte måndag bråkar idk
 
         //Kolla om det är två eller fler nätter
+
+        //- om man bokar två nätter eller fler får man automatiskt 0.5% rabatt
+        //- natten söndag till måndag ger alltid 2% rabatt
 
         //Kolla om det är sön-mån
         //TODO - kolla om det måste vara endast för natten
 
         //Kolla om kunden har hyrt fler än 10 nätter det senaste året
 
-        return sum;
+        return sum * (1 - discount);
     }
 }
