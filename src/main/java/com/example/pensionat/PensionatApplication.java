@@ -33,7 +33,12 @@ public class PensionatApplication {
             SpringApplication application = new SpringApplication(FetchShippers.class);
             application.setWebApplicationType(WebApplicationType.NONE);
             application.run(args);
+        } else if (Objects.equals(args[0], "fetchevents")) {
+            SpringApplication application = new SpringApplication(FetchEvents.class);
+            application.setWebApplicationType(WebApplicationType.NONE);
+            application.run(args);
         }
+
     }
 
  /*   @Bean
