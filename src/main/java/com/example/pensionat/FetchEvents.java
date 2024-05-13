@@ -8,10 +8,12 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
+import org.springframework.context.annotation.ComponentScan;
 
+@ComponentScan
 public class FetchEvents implements CommandLineRunner {
 
-    private String queueName = "a15b4de3-5b2d-4355-b21a-469593d26c86"; //Bed & Basse
+    String queueName = "a15b4de3-5b2d-4355-b21a-469593d26c86"; //Bed & Basse
 
     @Override
     public void run(String... args) throws Exception {
