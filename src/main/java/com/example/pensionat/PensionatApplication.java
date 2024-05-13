@@ -4,10 +4,9 @@ import com.example.pensionat.models.Booking;
 import com.example.pensionat.models.Customer;
 import com.example.pensionat.models.OrderLine;
 import com.example.pensionat.models.Room;
-import com.example.pensionat.repositories.BookingRepo;
-import com.example.pensionat.repositories.CustomerRepo;
-import com.example.pensionat.repositories.OrderLineRepo;
-import com.example.pensionat.repositories.RoomRepo;
+import com.example.pensionat.models.events.Event;
+import com.example.pensionat.models.events.RoomOpened;
+import com.example.pensionat.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -15,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -35,6 +35,18 @@ public class PensionatApplication {
             application.run(args);
         }
     }
+
+ /*   @Bean
+    public CommandLineRunner demo2(EventRepo eventRepo) {
+
+        return args -> {
+            List<Event> events = Arrays.asList(
+                            new RoomOpened(1L, LocalDateTime.now(), "Sören", "Pedro"),
+                            new RoomOpened(2L, LocalDateTime.now(), "Sören", "Sören")
+                    );
+            eventRepo.saveAll(events);
+        };
+    } */
 
     //TODO Kommentera bort innan ni får 8726782672627628 extra
 	/*
