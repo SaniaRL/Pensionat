@@ -42,6 +42,7 @@ class ShippersServiceImplTest {
     }
     @Test
     void saveDownAllShippersToDB() {
+        //Kmr fixa strax när vi fått info om hur man mockar db/h2
     }
 
 }
