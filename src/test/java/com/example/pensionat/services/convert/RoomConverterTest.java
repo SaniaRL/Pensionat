@@ -32,6 +32,11 @@ class RoomConverterTest {
     }
 
     @Test
+    void roomToDetailedRoomDto() {
+
+    }
+
+    @Test
     void orderLineToRoomDTO() {
         RoomDTO actual = RoomConverter.orderLineToRoomDTO(orderLineDTO);
 

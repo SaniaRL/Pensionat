@@ -1,5 +1,6 @@
 package com.example.pensionat.services.convert;
 
+import com.example.pensionat.dtos.DetailedRoomDTO;
 import com.example.pensionat.dtos.RoomDTO;
 import com.example.pensionat.dtos.SimpleOrderLineDTO;
 import com.example.pensionat.models.Room;
@@ -14,6 +15,13 @@ public class RoomConverter {
         return RoomDTO.builder().id(room.getId())
                                 .roomType(RoomTypeConverter.convertFromInt(room.getTypeOfRoom()))
                                 .build();
+    }
+
+    public static DetailedRoomDTO roomToDetailedRoomDto(Room room) {
+        return DetailedRoomDTO.builder().id(room.getId())
+                .roomType(RoomTypeConverter.convertFromInt(room.getTypeOfRoom()))
+                .price(room.getPrice())
+                .build();
     }
 
     public static RoomDTO orderLineToRoomDTO(SimpleOrderLineDTO orderLine) {
