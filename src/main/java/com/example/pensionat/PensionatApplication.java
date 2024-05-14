@@ -40,6 +40,7 @@ public class PensionatApplication {
 
     }
 
+    //Mock data for events
     /*
     @Bean
     public CommandLineRunner demo2(EventRepo eventRepo) {
