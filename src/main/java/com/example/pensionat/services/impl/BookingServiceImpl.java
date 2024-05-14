@@ -1,40 +1,42 @@
 package com.example.pensionat.services.impl;
 
+import com.example.pensionat.models.Customer;
 import com.example.pensionat.models.OrderLine;
 import com.example.pensionat.repositories.OrderLineRepo;
 import com.example.pensionat.services.convert.OrderLineConverter;
 import com.example.pensionat.services.interfaces.BookingService;
 import com.example.pensionat.services.interfaces.CustomerService;
 import com.example.pensionat.models.Booking;
-import com.example.pensionat.models.Customer;
 import com.example.pensionat.repositories.BookingRepo;
 import com.example.pensionat.repositories.CustomerRepo;
 import com.example.pensionat.dtos.*;
 import com.example.pensionat.services.convert.BookingConverter;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
-public
-class BookingServiceImpl implements BookingService {
-
+public class BookingServiceImpl implements BookingService {
     private final BookingRepo bookingRepo;
-    private final CustomerRepo customerRepo;
     private final CustomerService customerService;
     private final RoomServicelmpl roomService;
     private final OrderLineServicelmpl orderLineService;
     private final OrderLineRepo orderLineRepo;
 
-    public BookingServiceImpl(BookingRepo bookingRepo, CustomerRepo customerRepo,
+    @PersistenceContext
+    EntityManager entityManager;
+
+
+    public BookingServiceImpl(BookingRepo bookingRepo,
                               CustomerService customerService, RoomServicelmpl roomServicelmpl,
                               OrderLineServicelmpl orderLineService, OrderLineRepo orderLineRepo) {
         this.bookingRepo = bookingRepo;
-        this.customerRepo = customerRepo;
         this.customerService = customerService;
         this.roomService = roomServicelmpl;
         this.orderLineService = orderLineService;
@@ -195,30 +197,39 @@ class BookingServiceImpl implements BookingService {
     @Override
     public double generatePrice(BookingData bookingData){
 
+        LocalDate startDate = LocalDate.parse(bookingData.getStartDate());
+        LocalDate endDate = LocalDate.parse(bookingData.getEndDate());
+        long numberOfNights = Math.abs(ChronoUnit.DAYS.between(startDate, endDate));
 
-        //Kolla summan av alla rum för en natt
+        //10 bokningar senaste året eller va?
+        String customerEmail = bookingData.getEmail();
+
+
+        //Kolla summan av alla rum för en standardnatt
         double sum = bookingData.getChosenRooms().stream()
                 .mapToDouble(r -> roomService.getRoomByID((long) r.getId()).getPrice())
                 .sum();
 
-        System.out.println("sum for 1 night: " + sum);
 
-        //Kolla antal nätter
-        int nights = bookingData.getEndDate().compareTo(bookingData.getStartDate());
-        System.out.println("number of nights: " + nights);
-        sum = sum * nights;
-        System.out.println("Sum * nights: " + sum * nights);
+        System.out.println("sum for 1 night: " + sum);
+        System.out.println("Start Date: " + bookingData.getStartDate());
+        System.out.println("End Date: " + bookingData.getEndDate());
+        System.out.println("number of numberOfNights: " + numberOfNights);
+        System.out.println("Sum * numberOfNights: " + sum * numberOfNights);
+
+        //Ev ändra baserat på hur vi tolkar saker
+        sum = sum * numberOfNights;
 
         double discount = 0;
         int nightsNeededForDiscount = 2;
 
-        if(nights >= nightsNeededForDiscount){
+        if(numberOfNights >= nightsNeededForDiscount){
             discount += 0.005;
         }
 
-        //Multiplicera med antal nätter - om nu inte måndag bråkar idk
+        System.out.println(discount);
 
-        //Kolla om det är två eller fler nätter
+        //Multiplicera med antal nätter - om nu inte måndag bråkar idk
 
         //- om man bokar två nätter eller fler får man automatiskt 0.5% rabatt
         //- natten söndag till måndag ger alltid 2% rabatt
@@ -228,6 +239,20 @@ class BookingServiceImpl implements BookingService {
 
         //Kolla om kunden har hyrt fler än 10 nätter det senaste året
 
+        System.out.println(1-discount);
+
         return sum * (1 - discount);
+    }
+
+    private boolean tenOrMoreNights(String email) {
+        String customerQuery = "SELECT c.id FROM Customer c WHERE email = :email";
+        long customerId = entityManager.createQuery(customerQuery, Long.class)
+                .setParameter("email", email)
+                .getSingleResult();
+
+        String bookingQuery = "SELECT b.startDate, b.endDate FROM Booking b WHERE b.customerId = :customerId";
+
+
+        return true;
     }
 }
