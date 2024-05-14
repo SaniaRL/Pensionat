@@ -1,5 +1,6 @@
 package com.example.pensionat.services.impl;
 
+import com.example.pensionat.dtos.DetailedRoomDTO;
 import com.example.pensionat.services.convert.OrderLineConverter;
 import com.example.pensionat.services.convert.RoomConverter;
 import com.example.pensionat.services.convert.RoomTypeConverter;
@@ -27,14 +28,14 @@ public class RoomServicelmpl implements RoomService {
     EntityManager entityManager;
 
     @Override
-    public List<RoomDTO> getAllRooms(){
+    public List<DetailedRoomDTO> getAllRooms() {
         List<Room> rooms = roomRepo.findAll();
-        List<RoomDTO> roomDtos = new ArrayList<>();
+        List<DetailedRoomDTO> detailedRoomDtos = new ArrayList<>();
 
         for(Room room : rooms) {
-            roomDtos.add(RoomConverter.roomToRoomDto(room));
+            detailedRoomDtos.add(RoomConverter.roomToDetailedRoomDto(room));
         }
-        return roomDtos;
+        return detailedRoomDtos;
     }
 
     @Override

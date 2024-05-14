@@ -1,6 +1,7 @@
 package com.example.pensionat.services.impl;
 
 import com.example.pensionat.dtos.BookingFormQueryDTO;
+import com.example.pensionat.dtos.DetailedRoomDTO;
 import com.example.pensionat.dtos.RoomDTO;
 import com.example.pensionat.enums.RoomType;
 import com.example.pensionat.models.Room;
@@ -36,7 +37,7 @@ class RoomServicelmplTest {
     void getAllRooms() {
         when(roomRepo.findAll()).thenReturn(Arrays.asList(room));
         RoomServicelmpl service = new RoomServicelmpl(roomRepo);
-        List<RoomDTO> actual = service.getAllRooms();
+        List<DetailedRoomDTO> actual = service.getAllRooms();
         assertEquals(1, actual.size());
     }
 
