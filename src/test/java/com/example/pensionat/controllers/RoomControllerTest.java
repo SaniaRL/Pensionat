@@ -9,4 +9,18 @@ class RoomControllerTest {
     @Test
     void getAllRooms() {
     }
+
+    @Test
+    void roomsByPage() {
+    }
+
+    @Test
+    void getEventList() {
+
+    }
+
+    @Test
+    void eventListByPage() {
+
+    }
 }
