@@ -250,8 +250,17 @@ public class BookingServiceImpl implements BookingService {
                 .setParameter("email", email)
                 .getSingleResult();
 
-        String bookingQuery = "SELECT b.startDate, b.endDate FROM Booking b WHERE b.customerId = :customerId";
+        //Kollar om email funkar
+/*
+        String bookingQuery = "SELECT SUM(DATEDIFF(b.endDate, b.startDate))" +
+                "FROM Booking b WHERE b.customer_id = :customerId";
 
+        long dateDiff = entityManager.createQuery(bookingQuery, Long.class)
+                .setParameter("customerId", customerId)
+                .getSingleResult();
+
+
+ */
 
         return true;
     }
