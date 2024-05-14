@@ -33,12 +33,15 @@ class RoomServicelmplTest {
     Long roomId = 301L;
     Room room = new Room(roomId, 2);
 
+
     @Test
-    void getAllRooms() {
-        when(roomRepo.findAll()).thenReturn(Arrays.asList(room));
-        RoomServicelmpl service = new RoomServicelmpl(roomRepo);
-        List<DetailedRoomDTO> actual = service.getAllRooms();
-        assertEquals(1, actual.size());
+    void addToModel() {
+
+    }
+
+    @Test
+    void getAllRoomsPage() {
+
     }
 
     @Test

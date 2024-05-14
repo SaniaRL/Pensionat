@@ -1,22 +1,22 @@
 package com.example.pensionat.services.impl;
 
-import com.example.pensionat.dtos.DetailedRoomDTO;
+import com.example.pensionat.dtos.*;
 import com.example.pensionat.services.convert.OrderLineConverter;
 import com.example.pensionat.services.convert.RoomConverter;
 import com.example.pensionat.services.convert.RoomTypeConverter;
-import com.example.pensionat.dtos.BookingFormQueryDTO;
-import com.example.pensionat.dtos.RoomDTO;
-import com.example.pensionat.dtos.SimpleOrderLineDTO;
 import com.example.pensionat.services.interfaces.RoomService;
 import com.example.pensionat.models.Room;
 import com.example.pensionat.repositories.RoomRepo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,14 +28,19 @@ public class RoomServicelmpl implements RoomService {
     EntityManager entityManager;
 
     @Override
-    public List<DetailedRoomDTO> getAllRooms() {
-        List<Room> rooms = roomRepo.findAll();
-        List<DetailedRoomDTO> detailedRoomDtos = new ArrayList<>();
+    public void addToModel(int currentPage, Model model){
+        Page<DetailedRoomDTO> c = getAllRoomsPage(currentPage);
+        model.addAttribute("allRooms", c.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", c.getTotalElements());
+        model.addAttribute("totalPages", c.getTotalPages());
+    }
 
-        for(Room room : rooms) {
-            detailedRoomDtos.add(RoomConverter.roomToDetailedRoomDto(room));
-        }
-        return detailedRoomDtos;
+    @Override
+    public Page<DetailedRoomDTO> getAllRoomsPage(int pageNum) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 6);
+        Page<Room> page = roomRepo.findAll(pageable);
+        return page.map(RoomConverter::roomToDetailedRoomDto);
     }
 
     @Override

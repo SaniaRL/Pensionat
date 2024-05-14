@@ -15,9 +15,16 @@ public class RoomController {
 
     private final RoomService roomService;
 
-    @GetMapping ("/allrooms")
+    @GetMapping ("/all")
     public String getAllRooms(Model model) {
-        model.addAttribute("allRooms", roomService.getAllRooms());
+        int currentPage = 1;
+        roomService.addToModel(currentPage, model);
+        return "allRooms";
+    }
+
+    @GetMapping("/all/{pageNumber}")
+    public String roomsByPage(Model model, @PathVariable("pageNumber") int currentPage){
+        roomService.addToModel(currentPage, model);
         return "allRooms";
     }
 
