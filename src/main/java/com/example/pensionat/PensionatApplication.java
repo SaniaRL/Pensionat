@@ -40,22 +40,22 @@ public class PensionatApplication {
 
     }
 
- /*   @Bean
+    //Mock data for events
+    /*
+    @Bean
     public CommandLineRunner demo2(EventRepo eventRepo) {
 
         return args -> {
-            Event event = new RoomOpened();
-            event.setId(1L);
-            event.setTimeStamp(LocalDateTime.now());
-            event.setRoomNo("101");
-            event.setType("RoomOpened");
-            eventRepo.save(event);
+            RoomOpened roomOpened = new RoomOpened();
+            roomOpened.setId(1L);
+            roomOpened.setTimeStamp(LocalDateTime.now());
+            roomOpened.setRoomNo("101");
+            eventRepo.save(roomOpened);
 
             RoomClosed roomClosed = new RoomClosed();
             roomClosed.setId(2L);
             roomClosed.setTimeStamp(LocalDateTime.now());
             roomClosed.setRoomNo("102");
-            roomClosed.setType("RoomClosed");
             eventRepo.save(roomClosed);
 
 
@@ -63,23 +63,19 @@ public class PensionatApplication {
             roomCleaningStarted.setId(3L);
             roomCleaningStarted.setTimeStamp(LocalDateTime.now());
             roomCleaningStarted.setRoomNo("103");
-            roomCleaningStarted.setCleaningByUser("Janitor Joe");
-            roomCleaningStarted.setType("RoomCleaningStarted");
+           // roomCleaningStarted.setCleaningByUser("Kekko");
             eventRepo.save(roomCleaningStarted);
 
             RoomCleaningFinished roomCleaningFinished = new RoomCleaningFinished();
             roomCleaningFinished.setId(4L);
             roomCleaningFinished.setTimeStamp(LocalDateTime.now());
             roomCleaningFinished.setRoomNo("104");
-            roomCleaningFinished.setCleaningByUser("Janitor Jane");
-            roomCleaningFinished.setType("RoomCleaningFinished");
+          //  roomCleaningFinished.setCleaningByUser("Sören");
             eventRepo.save(roomCleaningFinished);
-
-
-
 
         };
     } */
+
 
     //TODO Kommentera bort innan ni får 8726782672627628 extra
 	/*
