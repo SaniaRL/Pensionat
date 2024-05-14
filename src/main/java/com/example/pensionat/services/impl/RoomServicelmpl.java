@@ -29,11 +29,11 @@ public class RoomServicelmpl implements RoomService {
 
     @Override
     public void addToModel(int currentPage, Model model){
-        Page<DetailedRoomDTO> c = getAllRoomsPage(currentPage);
-        model.addAttribute("allRooms", c.getContent());
+        Page<DetailedRoomDTO> r = getAllRoomsPage(currentPage);
+        model.addAttribute("allRooms", r.getContent());
         model.addAttribute("currentPage", currentPage);
-        model.addAttribute("totalItems", c.getTotalElements());
-        model.addAttribute("totalPages", c.getTotalPages());
+        model.addAttribute("totalItems", r.getTotalElements());
+        model.addAttribute("totalPages", r.getTotalPages());
     }
 
     @Override

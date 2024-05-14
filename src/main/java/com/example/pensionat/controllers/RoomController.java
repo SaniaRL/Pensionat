@@ -1,6 +1,5 @@
 package com.example.pensionat.controllers;
 
-import com.example.pensionat.repositories.EventRepo;
 import com.example.pensionat.services.interfaces.EventService;
 import com.example.pensionat.services.interfaces.RoomService;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +32,14 @@ public class RoomController {
 
     @GetMapping ("/eventlist/{id}")
     public String getEventList(@PathVariable Long id, Model model) {
-        eventService.getEventsByRoomId(id.toString());
+        int currentPage = 1;
+        eventService.addToModel(id.toString(), currentPage, model);
+        return "allRooms";
+    }
+
+    @GetMapping("/eventlist/{id}/{pageNumber}")
+    public String roomsByPage(@PathVariable Long id, Model model, @PathVariable("pageNumber") int currentPage){
+        eventService.addToModel(id.toString(), currentPage, model);
         return "allRooms";
     }
 }
