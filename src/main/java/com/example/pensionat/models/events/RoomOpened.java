@@ -8,6 +8,5 @@ import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
 public class RoomOpened extends Event {
 }
