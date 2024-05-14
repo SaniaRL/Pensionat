@@ -36,6 +36,8 @@ dependencies {
 	implementation("com.fasterxml.jackson.core:jackson-databind:2.17.1")
 	implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.1")
 	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.17.1")
+	implementation("com.rabbitmq:amqp-client:5.21.0")
+	implementation("com.fasterxml.jackson.core:jackson-annotations:2.17.1")
 }
 
 tasks.withType<Test> {
