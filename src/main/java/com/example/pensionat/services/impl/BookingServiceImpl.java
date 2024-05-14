@@ -16,6 +16,7 @@ import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -203,6 +204,7 @@ public class BookingServiceImpl implements BookingService {
 
         //10 bokningar senaste året eller va?
         String customerEmail = bookingData.getEmail();
+        boolean tenNightOrMore = tenOrMoreNights(customerEmail);
 
 
         //Kolla summan av alla rum för en standardnatt
@@ -223,21 +225,21 @@ public class BookingServiceImpl implements BookingService {
         double discount = 0;
         int nightsNeededForDiscount = 2;
 
+        //- om man bokar två nätter eller fler får man automatiskt 0.5% rabatt
         if(numberOfNights >= nightsNeededForDiscount){
             discount += 0.005;
+        }
+        //Kolla om kunden har hyrt fler än 10 nätter det senaste året
+        if(tenNightOrMore) {
+            discount += 0.02;
         }
 
         System.out.println(discount);
 
-        //Multiplicera med antal nätter - om nu inte måndag bråkar idk
-
-        //- om man bokar två nätter eller fler får man automatiskt 0.5% rabatt
         //- natten söndag till måndag ger alltid 2% rabatt
+        int now = LocalDate.now().getDayOfWeek().getValue();
 
-        //Kolla om det är sön-mån
-        //TODO - kolla om det måste vara endast för natten
-
-        //Kolla om kunden har hyrt fler än 10 nätter det senaste året
+        startDate.datesUntil(endDate).map(LocalDate::getDayOfWeek).filter(d -> d.equals(DayOfWeek.MONDAY));
 
         System.out.println(1-discount);
 
@@ -245,23 +247,26 @@ public class BookingServiceImpl implements BookingService {
     }
 
     private boolean tenOrMoreNights(String email) {
-        String customerQuery = "SELECT c.id FROM Customer c WHERE email = :email";
-        long customerId = entityManager.createQuery(customerQuery, Long.class)
-                .setParameter("email", email)
-                .getSingleResult();
 
-        //Kollar om email funkar
-/*
-        String bookingQuery = "SELECT SUM(DATEDIFF(b.endDate, b.startDate))" +
-                "FROM Booking b WHERE b.customer_id = :customerId";
+        long customerId = customerService.getCustomerByEmail(email).getId();
 
-        long dateDiff = entityManager.createQuery(bookingQuery, Long.class)
+        LocalDate now = LocalDate.now();
+        LocalDate yearAgo = now.minusYears(1);
+
+        String bookingQuery = "SELECT SUM(DATEDIFF('day', b.endDate, b.startDate))" +
+                "FROM Booking b WHERE b.customer.id = :customerId" +
+                " AND b.endDate > :yearAgo AND startDate < :now";
+
+        //TODO TA HÄNSYN TILL ÖVERLAPPNING
+
+        long dateDiff = Math.abs(entityManager.createQuery(bookingQuery, Long.class)
                 .setParameter("customerId", customerId)
-                .getSingleResult();
+                .setParameter("yearAgo", yearAgo)
+                .setParameter("now", now)
+                .getSingleResult());
 
+        System.out.println(dateDiff);
 
- */
-
-        return true;
+        return dateDiff >= 10;
     }
 }
