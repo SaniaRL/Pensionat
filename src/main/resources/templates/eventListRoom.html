@@ -36,7 +36,9 @@
             </tr>
             <tbody>
             <tr class="customer-row event-row" th:each="r : ${allRoomEvents}">
-                <td th:text="${r}"></td>
+                <td th:text="${r.typeOfEvent}"></td>
+                <td th:text="${r.timeStamp}"></td>
+                <td th:text="${r.cleaningByUser}"></td>
             </tr>
             </tbody>
         </table>

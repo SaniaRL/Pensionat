@@ -31,7 +31,8 @@ tr {
 }
 
 .event-row {
-    display: block;
+    display: grid;
+    grid-template-columns: 200px 200px 280px;
 }
 
 td {

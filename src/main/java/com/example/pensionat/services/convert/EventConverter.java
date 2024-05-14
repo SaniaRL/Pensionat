@@ -7,20 +7,34 @@ import java.time.LocalDateTime;
 
 public class EventConverter {
 
-    public static String eventToString(Event e) {
-        String eventText = "";
+    public static EventDTO eventToEventDTO(Event e) {
+        EventDTO eventDTO = null;
         if (e instanceof RoomCleaningStarted started) {
-            eventText += "Städning påbörjad av " + started.getCleaningByUser() + " "
-                        + localDateTimeFormat(e.getTimeStamp());
+            eventDTO = EventDTO.builder()
+                               .typeOfEvent("Städning påbörjad")
+                               .timeStamp(localDateTimeFormat(e.getTimeStamp()))
+                               .cleaningByUser("av " + started.getCleaningByUser())
+                               .build();
         } else if (e instanceof RoomCleaningFinished finished) {
-            eventText += "Städning avslutad av " + finished.getCleaningByUser() + " "
-                    + localDateTimeFormat(e.getTimeStamp());
+            eventDTO = EventDTO.builder()
+                               .typeOfEvent("Städning avslutad")
+                               .timeStamp(localDateTimeFormat(e.getTimeStamp()))
+                               .cleaningByUser("av " + finished.getCleaningByUser())
+                               .build();
         } else if (e instanceof RoomOpened) {
-            eventText += "Dörren öppnad " + localDateTimeFormat(e.getTimeStamp());
+            eventDTO = EventDTO.builder()
+                               .typeOfEvent("Dörren öppnad")
+                               .timeStamp(localDateTimeFormat(e.getTimeStamp()))
+                               .cleaningByUser("")
+                               .build();
         } else if (e instanceof RoomClosed) {
-            eventText += "Dörren stängd " + localDateTimeFormat(e.getTimeStamp());
+            eventDTO = EventDTO.builder()
+                               .typeOfEvent("Dörren stängd")
+                               .timeStamp(localDateTimeFormat(e.getTimeStamp()))
+                               .cleaningByUser("")
+                               .build();
         }
-        return eventText;
+        return eventDTO;
     }
 
     public static String localDateTimeFormat(LocalDateTime dateTime) {

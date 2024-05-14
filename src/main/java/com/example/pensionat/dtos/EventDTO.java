@@ -14,6 +14,6 @@ import java.time.LocalDateTime;
 public class EventDTO {
 
     private String typeOfEvent;
-    private LocalDateTime timeStamp;
+    private String timeStamp;
     private String cleaningByUser;
 }

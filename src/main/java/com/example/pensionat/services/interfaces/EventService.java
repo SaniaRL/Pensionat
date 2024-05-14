@@ -9,5 +9,5 @@ import java.util.List;
 public interface EventService {
 
     void addToModel(String id, int currentPage, Model model);
-    Page<String> getEventsByRoomId(String id, int pageNum);
+    Page<EventDTO> getEventsByRoomId(String id, int pageNum);
 }

@@ -38,7 +38,7 @@ public class RoomController {
     }
 
     @GetMapping("/eventlist/{id}/{pageNumber}")
-    public String roomsByPage(@PathVariable Long id, Model model, @PathVariable("pageNumber") int currentPage){
+    public String eventListByPage(@PathVariable Long id, Model model, @PathVariable("pageNumber") int currentPage){
         eventService.addToModel(id.toString(), currentPage, model);
         return "eventListRoom";
     }
