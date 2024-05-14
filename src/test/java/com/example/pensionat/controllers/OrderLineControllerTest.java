@@ -37,7 +37,7 @@ class OrderLineControllerTest {
     @MockBean
     private OrderLineRepo mockRepo;
 
-    Room room1 = new Room(201L, 0, null);
+    Room room1 = new Room(201L, 0, 0, null);
 
     String name = "Maria";
     String email = "maria@mail.com";
