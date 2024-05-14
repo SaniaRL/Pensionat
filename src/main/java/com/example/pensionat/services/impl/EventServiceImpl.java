@@ -33,12 +33,12 @@ public class EventServiceImpl implements EventService {
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalItems", eventList.getTotalElements());
         model.addAttribute("totalPages", eventList.getTotalPages());
+        model.addAttribute("roomNumber", id);
     }
     @Override
     public Page<String> getEventsByRoomId(String id, int pageNum) {
         Pageable pageable = PageRequest.of(pageNum - 1, 6);
-        Page<Event> page = (Page<Event>) eventRepo.findAll(pageable).filter(e -> e.getRoomNo().equals(id));
-
-        return page.map(EventConverter::eventToString);
+        Page<Event> events = eventRepo.findByRoomNo(id, pageable);
+        return events.map(EventConverter::eventToString);
     }
 }

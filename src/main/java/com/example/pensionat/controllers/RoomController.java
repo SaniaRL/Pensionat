@@ -34,12 +34,12 @@ public class RoomController {
     public String getEventList(@PathVariable Long id, Model model) {
         int currentPage = 1;
         eventService.addToModel(id.toString(), currentPage, model);
-        return "allRooms";
+        return "eventListRoom";
     }
 
     @GetMapping("/eventlist/{id}/{pageNumber}")
     public String roomsByPage(@PathVariable Long id, Model model, @PathVariable("pageNumber") int currentPage){
         eventService.addToModel(id.toString(), currentPage, model);
-        return "allRooms";
+        return "eventListRoom";
     }
 }

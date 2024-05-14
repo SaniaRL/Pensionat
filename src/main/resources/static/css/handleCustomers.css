@@ -30,6 +30,9 @@ tr {
     grid-template-columns: 120px 150px 100px 40px;
 }
 
+.event-row {
+    display: block;
+}
 
 td {
     background-color: white;
