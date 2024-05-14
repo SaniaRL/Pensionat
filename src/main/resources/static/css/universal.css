@@ -56,7 +56,7 @@ body {
     inset: 0 auto 0 0;
     background-color: #4f4b6a;
     padding: 20px 40px;
-    width: 300px;
+    width: 200px;
 }
 
 .menu-container {
@@ -70,3 +70,4 @@ body {
         font-weight: 800;
     }
 }
+
