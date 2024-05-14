@@ -4,10 +4,8 @@ import com.example.pensionat.models.Booking;
 import com.example.pensionat.models.Customer;
 import com.example.pensionat.models.OrderLine;
 import com.example.pensionat.models.Room;
-import com.example.pensionat.repositories.BookingRepo;
-import com.example.pensionat.repositories.CustomerRepo;
-import com.example.pensionat.repositories.OrderLineRepo;
-import com.example.pensionat.repositories.RoomRepo;
+import com.example.pensionat.models.events.*;
+import com.example.pensionat.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -15,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -33,8 +32,50 @@ public class PensionatApplication {
             SpringApplication application = new SpringApplication(FetchShippers.class);
             application.setWebApplicationType(WebApplicationType.NONE);
             application.run(args);
+        } else if (Objects.equals(args[0], "fetchevents")) {
+            SpringApplication application = new SpringApplication(FetchEvents.class);
+            application.setWebApplicationType(WebApplicationType.NONE);
+            application.run(args);
         }
+
     }
+
+    //Mock data for events
+    /*
+    @Bean
+    public CommandLineRunner demo2(EventRepo eventRepo) {
+
+        return args -> {
+            RoomOpened roomOpened = new RoomOpened();
+            roomOpened.setId(1L);
+            roomOpened.setTimeStamp(LocalDateTime.now());
+            roomOpened.setRoomNo("101");
+            eventRepo.save(roomOpened);
+
+            RoomClosed roomClosed = new RoomClosed();
+            roomClosed.setId(2L);
+            roomClosed.setTimeStamp(LocalDateTime.now());
+            roomClosed.setRoomNo("102");
+            eventRepo.save(roomClosed);
+
+
+            RoomCleaningStarted roomCleaningStarted = new RoomCleaningStarted();
+            roomCleaningStarted.setId(3L);
+            roomCleaningStarted.setTimeStamp(LocalDateTime.now());
+            roomCleaningStarted.setRoomNo("103");
+           // roomCleaningStarted.setCleaningByUser("Kekko");
+            eventRepo.save(roomCleaningStarted);
+
+            RoomCleaningFinished roomCleaningFinished = new RoomCleaningFinished();
+            roomCleaningFinished.setId(4L);
+            roomCleaningFinished.setTimeStamp(LocalDateTime.now());
+            roomCleaningFinished.setRoomNo("104");
+          //  roomCleaningFinished.setCleaningByUser("Sören");
+            eventRepo.save(roomCleaningFinished);
+
+        };
+    } */
+
 
     //TODO Kommentera bort innan ni får 8726782672627628 extra
     /*
