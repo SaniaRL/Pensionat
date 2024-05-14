@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Pensionat</title>
+  <link href="/images/house.png" rel="icon" type="image/x-icon"/>
+  <link href="/css/style.css" rel="stylesheet" type="text/css">
+  <link href="/css/handleCustomers.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+</head>
+<body>
+<div class="header index-header">
+  <div>
+    <a th:href="@{/}">
+      <img class="header-text" src="/images/BedBasse.png" alt="Bed and Basse Pensionat">
+    </a>
+  </div>
+  <br>
+  <div>
+    <a th:href="@{/}">
+      <img class="header-img" src="/images/house.png" alt="Pensionat-ikon i blått">
+    </a>
+  </div>
+</div>
+
+<div class="content index-content">
+
+  <div class="allCustomers customers-background">
+
+    <table class="customers-table">
+      <tr class="table-header room-row">
+        <th> Room ID</th>
+        <th> Room Type</th>
+        <th> Price</th>
+      </tr>
+      <tbody>
+      <tr class="customer-row room-row" th:each="r : ${allRooms}">
+        <td th:text="${r.id}"></td>
+        <td th:text="${r.roomType}"></td>
+        <td th:text="${r.price}"></td>
+        <td class="td-icons edit"><a th:href="@{/room/eventlist/{id}(id=${r.id})}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+            <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+            <path d="M192 0c-41.8 0-77.4 26.7-90.5 64H64C28.7 64 0 92.7 0 128V448c0
+            35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64H282.5C269.4
+            26.7 233.8 0 192 0zm0 64a32 32 0 1 1 0 64 32 32 0 1 1 0-64zM72 272a24 24 0 1 1 48
+            0 24 24 0 1 1 -48 0zm104-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H176c-8.8
+            0-16-7.2-16-16s7.2-16 16-16zM72 368a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zm88
+            0c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H176c-8.8 0-16-7.2-16-16z"/></svg>
+        </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="table-pages" th:if="${totalPages > 1}">
+      Total Items: [[${totalItems}]]
+      &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
+
+      <a th:href="@{'/room/all/1'}" th:if="${currentPage > 1}">First</a>
+      <span th:unless="${currentPage > 1}">First</span>
+      &nbsp;&nbsp;
+
+      <a th:href="@{'/room/all/' + ${currentPage - 1}}" th:if="${currentPage > 1}">Previous</a>
+      <span th:unless="${currentPage > 1}">Previous</span>
+
+      &nbsp;&nbsp;
+
+      <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+			<a th:href="@{'/room/all/' + ${i}}" th:if="${currentPage != i}">[[${i}]]</a>
+			<span th:unless="${currentPage != i}">[[${i}]]</span>
+			&nbsp;
+		</span>
+
+      <a th:href="@{'/room/all/' + ${currentPage + 1}}" th:if="${currentPage < totalPages}">Next</a>
+      <span th:unless="${currentPage < totalPages}">Next</span>
+      &nbsp;&nbsp;
+
+      <a th:href="@{'/room/all/' + ${totalPages}}" th:if="${currentPage < totalPages}">Last</a>
+      <span th:unless="${currentPage < totalPages}">Last</span>
+    </div>
+
+  </div>
+</div>
+
+<div class=" footer">
+  <p>&#9824; Eddie Boschek &#9829; Sania Runnfors Larsson &#9827; Sebastian Karlsson &#9830; Simon
+    Nordlund</p>
+</div>
+</body>
+</html>

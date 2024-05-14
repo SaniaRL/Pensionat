@@ -25,6 +25,12 @@ tr {
     grid-template-columns: 40px 150px 250px 40px 40px;
 }
 
+.room-row {
+    display: grid;
+    grid-template-columns: 120px 150px 100px 40px;
+}
+
+
 td {
     background-color: white;
     border-right: 1px solid black;
