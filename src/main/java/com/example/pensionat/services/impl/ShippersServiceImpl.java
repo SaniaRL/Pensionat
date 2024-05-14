@@ -6,16 +6,27 @@ import com.example.pensionat.models.Shippers;
 import com.example.pensionat.repositories.ShippersRepo;
 import com.example.pensionat.services.convert.ShippersConverter;
 import com.example.pensionat.services.interfaces.ShippersService;
+import com.example.pensionat.services.providers.ShippersStreamProvider;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 @Service
 public class ShippersServiceImpl implements ShippersService {
 
     private final ShippersRepo shippersRepo;
+    private final ShippersStreamProvider shippersStreamProvider;
 
-    ShippersServiceImpl(ShippersRepo shippersRepo) {
+    ShippersServiceImpl(ShippersRepo shippersRepo, ShippersStreamProvider shippersStreamProvider) {
         this.shippersRepo = shippersRepo;
+        this.shippersStreamProvider  = shippersStreamProvider;
     }
 
     @Override
@@ -32,5 +43,15 @@ public class ShippersServiceImpl implements ShippersService {
             shippersRepo.save(convertedShipper);
         }
         return "Alla fraktföretag sparades ner";
+    }
+
+    @Override
+    public DetailedShippersDTO[] getShippersToArray() throws IOException {
+        ObjectMapper objMapper = new ObjectMapper();
+        objMapper.registerModule(new JavaTimeModule());
+        InputStream stream = shippersStreamProvider.getDataStream();
+
+        DetailedShippersDTO[] shippersArray = objMapper.readValue(stream, DetailedShippersDTO[].class);
+        return shippersArray;
     }
 }
