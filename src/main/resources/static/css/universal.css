@@ -50,3 +50,24 @@ body {
     align-items: end;
     justify-items: stretch;
 }
+
+.menu {
+    position: fixed;
+    inset: 0 auto 0 0;
+    background-color: #4f4b6a;
+    padding: 20px 40px;
+    width: 200px;
+}
+
+.menu-container {
+    color: #FFFFFF;
+}
+
+.link {
+    cursor: pointer;
+    font-size: 12px;
+    &:hover {
+        font-weight: 800;
+    }
+}
+
