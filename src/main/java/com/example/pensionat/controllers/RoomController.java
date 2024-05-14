@@ -1,5 +1,7 @@
 package com.example.pensionat.controllers;
 
+import com.example.pensionat.repositories.EventRepo;
+import com.example.pensionat.services.interfaces.EventService;
 import com.example.pensionat.services.interfaces.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RoomController {
 
     private final RoomService roomService;
+    private final EventService eventService;
 
     @GetMapping ("/all")
     public String getAllRooms(Model model) {
@@ -30,6 +33,7 @@ public class RoomController {
 
     @GetMapping ("/eventlist/{id}")
     public String getEventList(@PathVariable Long id, Model model) {
+        eventService.getEventsByRoomId(id.toString());
         return "allRooms";
     }
 }
