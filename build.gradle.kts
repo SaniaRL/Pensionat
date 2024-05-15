@@ -27,6 +27,7 @@ dependencies {
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.mysql:mysql-connector-j")
+	runtimeOnly("com.h2database:h2")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -40,20 +41,20 @@ dependencies {
 	implementation("com.fasterxml.jackson.core:jackson-annotations:2.17.1")
 }
 
+tasks.withType<Test> {
+	useJUnitPlatform()
+}
+
 val integrationTestTask = tasks.register<Test>("integrationTest") {
 	group = "verification"
 	filter {
-		includeTestsMatching("*IT")
+		includeTestsMatching("*IT") //Justera denna ev beroende på namning av testclasser.
 	}
 }
 
 tasks.test{
 	filter{
-		includeTestsMatching("*Tests")
+		includeTestsMatching("*Test") //Justera denna ev beroende på namning av testclasser.
 
 	}
-}
-
-tasks.withType<Test> {
-	useJUnitPlatform()
 }

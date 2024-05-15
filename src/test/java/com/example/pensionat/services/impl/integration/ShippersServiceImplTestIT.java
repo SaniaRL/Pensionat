@@ -1,6 +1,8 @@
-package com.example.pensionat.services.impl;
+package com.example.pensionat.services.impl.integration;
 
+import com.example.pensionat.dtos.DetailedShippersDTO;
 import com.example.pensionat.repositories.ShippersRepo;
+import com.example.pensionat.services.impl.ShippersServiceImpl;
 import com.example.pensionat.services.interfaces.ShippersService;
 import com.example.pensionat.services.providers.ShippersStreamProvider;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,18 +13,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.IOException;
 import java.util.Scanner;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class ShippersServiceImplTestIT {
+    ShippersService sut;
     @Autowired
     private ShippersStreamProvider shippersStreamProvider = mock(ShippersStreamProvider.class); //Kan förenklas. Temp.
+    @Autowired
     private ShippersRepo shippersRepo = mock(ShippersRepo.class);
-    ShippersService sut;
 
     @BeforeEach()
-    void setup(){
+    void setup() {
         sut = new ShippersServiceImpl(shippersRepo, shippersStreamProvider);
     }
 
@@ -42,5 +47,18 @@ class ShippersServiceImplTestIT {
         assertTrue(result.contains("country"));
         assertTrue(result.contains("phone"));
         assertTrue(result.contains("fax"));
+    }
+
+    @Test
+    void fetchAndSaveShippersShouldSaveToDatabase() throws IOException {
+        ShippersStreamProvider shippersStreamProvider = mock(ShippersStreamProvider.class);
+        when(shippersStreamProvider.getDataStream()).thenReturn(getClass().getClassLoader().getResourceAsStream("shippers.json"));
+
+        shippersRepo.deleteAll();
+
+        DetailedShippersDTO[] tempArray = sut.getShippersToArray();
+        sut.saveDownAllShippersToDB(tempArray);
+
+        assertEquals(8, shippersRepo.count());
     }
 }

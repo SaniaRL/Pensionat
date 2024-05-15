@@ -24,7 +24,7 @@ public class ShippersServiceImpl implements ShippersService {
     private final ShippersRepo shippersRepo;
     private final ShippersStreamProvider shippersStreamProvider;
 
-    ShippersServiceImpl(ShippersRepo shippersRepo, ShippersStreamProvider shippersStreamProvider) {
+    public ShippersServiceImpl(ShippersRepo shippersRepo, ShippersStreamProvider shippersStreamProvider) {
         this.shippersRepo = shippersRepo;
         this.shippersStreamProvider  = shippersStreamProvider;
     }
