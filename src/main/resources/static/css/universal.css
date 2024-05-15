@@ -88,6 +88,10 @@ body {
     margin: 0;
 }
 
+.menu li {
+    margin-bottom: 6px;
+}
+
 .menu a {
     font-size: 14px;
 }
