@@ -55,8 +55,19 @@ class ShippersServiceImplTest {
 
 
     @Test
-    void fetchAndSaveShippersShouldUpdateNewRecords() {
-        
+    void fetchAndSaveShippersShouldUpdateNewRecords() throws IOException {
+        Shippers existing = new Shippers();
+        existing.setCompanyName("Svensson-Karlsson");
+
+        when(shippersStreamProvider.getDataStream()).thenReturn(getClass().getClassLoader().getResourceAsStream("shippers.json"));
+        when(shippersRepo.findByCompanyName(Mockito.anyString())).thenReturn(Optional.empty());
+        when(shippersRepo.findByCompanyName("Svensson-Karlsson")).thenReturn(Optional.of(existing));
+
+        DetailedShippersDTO[] tempArray = sut.getShippersToArray();
+        sut.saveDownAllShippersToDB(tempArray);
+
+        verify(shippersRepo, times(8)).save(any(Shippers.class));
+        verify(shippersRepo, times(1)).save(argThat(shipper -> shipper.getCompanyName().equals("Svensson-Karlsson")));
     }
 
 }
