@@ -60,7 +60,7 @@ body {
 }
 
 .menu-container {
-    color: #FFFFFF;
+    color: #d1d3d4;
 }
 
 .link {
@@ -71,3 +71,18 @@ body {
     }
 }
 
+.menu h2 {
+    font-size: 18px;
+    font-weight: 400;
+    border-top: solid 2px #7e799d;
+}
+
+.menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu a {
+    font-size: 14px;
+}

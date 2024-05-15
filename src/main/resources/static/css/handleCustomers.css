@@ -231,3 +231,9 @@ input {
 .hidden {
     display: none;
 }
+
+.btn-container {
+    display: flex;
+    flex-direction: row-reverse;
+    padding-bottom: 30px;
+}
