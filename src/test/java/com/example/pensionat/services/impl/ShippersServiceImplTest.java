@@ -56,7 +56,7 @@ class ShippersServiceImplTest {
 
     @Test
     void fetchAndSaveShippersShouldUpdateNewRecords() {
-        //Kmr fixa strax när vi fått info om hur man mockar db/h2
+        
     }
 
 }
