@@ -2,6 +2,7 @@ package com.example.pensionat.services.impl;
 
 import com.example.pensionat.dtos.ContractCustomerDTO;
 import com.example.pensionat.dtos.DetailedContractCustomerDTO;
+import com.example.pensionat.models.allcustomers;
 import com.example.pensionat.models.customers;
 import com.example.pensionat.repositories.ContractCustomersRepo;
 import com.example.pensionat.services.convert.ContractCustomerConverter;
@@ -12,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+
+import java.util.List;
 
 
 @Service
@@ -97,5 +100,10 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalItems", p.getTotalElements());
         model.addAttribute("totalPages", p.getTotalPages());
+    }
+
+    @Override
+    public void saveAll(List<customers> customers){
+        contractCustomersRepo.saveAll(customers);
     }
 }

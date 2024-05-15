@@ -1,7 +1,7 @@
 package com.example.pensionat;
 
 import com.example.pensionat.models.allcustomers;
-import com.example.pensionat.repositories.ContractCustomersRepo;
+import com.example.pensionat.services.interfaces.ContractCustomerService;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import java.net.URL;
 public class FetchContractCustomers implements CommandLineRunner {
 
     @Autowired
-    ContractCustomersRepo contractCustomersRepo;
+    ContractCustomerService contractCustomersService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -23,6 +23,7 @@ public class FetchContractCustomers implements CommandLineRunner {
         XmlMapper xmlMapper = new XmlMapper(module);
         allcustomers theCustomers = xmlMapper.readValue(new URL("https://javaintegration.systementor.se/customers"), allcustomers.class);
 
-        contractCustomersRepo.saveAll(theCustomers.customers);
+        //TODO contractCustomerService
+        contractCustomersService.saveAll(theCustomers.customers);
     }
 }

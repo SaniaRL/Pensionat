@@ -2,9 +2,12 @@ package com.example.pensionat.services.interfaces;
 
 import com.example.pensionat.dtos.ContractCustomerDTO;
 import com.example.pensionat.dtos.DetailedContractCustomerDTO;
+import com.example.pensionat.models.allcustomers;
 import com.example.pensionat.models.customers;
 import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
+
+import java.util.List;
 
 public interface ContractCustomerService {
     Page<ContractCustomerDTO> getAllCustomersPage(int pageNum);
@@ -18,4 +21,5 @@ public interface ContractCustomerService {
     void addToModelSorted(int currentPage, String sortBy, String order, Model model);
 
     void addToModelSearch(int currentPage, String search, String sort, String order, Model model);
+    void saveAll(List<customers> customers);
 }
