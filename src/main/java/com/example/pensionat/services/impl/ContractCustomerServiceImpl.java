@@ -103,7 +103,8 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
     }
 
     @Override
-    public void saveAll(List<customers> customers){
-        contractCustomersRepo.saveAll(customers);
+    public void saveAll(List<DetailedContractCustomerDTO> customers){
+        contractCustomersRepo.saveAll(customers.stream()
+                .map(ContractCustomerConverter::detailedContractCustomerToCustomers).toList());
     }
 }

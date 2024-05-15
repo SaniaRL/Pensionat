@@ -21,5 +21,5 @@ public interface ContractCustomerService {
     void addToModelSorted(int currentPage, String sortBy, String order, Model model);
 
     void addToModelSearch(int currentPage, String search, String sort, String order, Model model);
-    void saveAll(List<customers> customers);
+    void saveAll(List<DetailedContractCustomerDTO> customers);
 }

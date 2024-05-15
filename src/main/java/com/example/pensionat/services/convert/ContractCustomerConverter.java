@@ -18,9 +18,23 @@ public class ContractCustomerConverter {
                 .build();
     }
 
-
     public static DetailedContractCustomerDTO contractCustomerToDetailedContractCustomer(customers cCustomer) {
         return DetailedContractCustomerDTO.builder()
+                .id(cCustomer.getId())
+                .companyName(cCustomer.getCompanyName())
+                .contactName(cCustomer.getContactName())
+                .contactTitle(cCustomer.getContactTitle())
+                .streetAddress(cCustomer.getStreetAddress())
+                .city(cCustomer.getCity())
+                .postalCode(cCustomer.getPostalCode())
+                .country(cCustomer.getCountry())
+                .phone(cCustomer.getPhone())
+                .fax(cCustomer.getFax())
+                .build();
+    }
+
+    public static customers detailedContractCustomerToCustomers(DetailedContractCustomerDTO cCustomer) {
+        return customers.builder()
                 .id(cCustomer.getId())
                 .companyName(cCustomer.getCompanyName())
                 .contactName(cCustomer.getContactName())
