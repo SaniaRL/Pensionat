@@ -1,8 +1,9 @@
-package com.example.pensionat.services.impl;
+package com.example.pensionat.services.impl.unit;
 
 import com.example.pensionat.dtos.DetailedShippersDTO;
 import com.example.pensionat.models.Shippers;
 import com.example.pensionat.repositories.ShippersRepo;
+import com.example.pensionat.services.impl.ShippersServiceImpl;
 import com.example.pensionat.services.interfaces.ShippersService;
 import com.example.pensionat.services.providers.ShippersStreamProvider;
 import org.junit.jupiter.api.Test;
@@ -18,12 +19,12 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class ShippersServiceImplTest {
-    private ShippersStreamProvider shippersStreamProvider = mock(ShippersStreamProvider.class); //Kan förenklas. Temp.
-    private ShippersRepo shippersRepo = mock(ShippersRepo.class);
     ShippersService sut;
+    private final ShippersStreamProvider shippersStreamProvider = mock(ShippersStreamProvider.class); //Kan förenklas. Temp.
+    private final ShippersRepo shippersRepo = mock(ShippersRepo.class);
 
     @BeforeEach()
-    void setup(){
+    void setup() {
         sut = new ShippersServiceImpl(shippersRepo, shippersStreamProvider);
     }
 
@@ -34,7 +35,7 @@ class ShippersServiceImplTest {
         DetailedShippersDTO[] shippersArrayMock = sut.getShippersToArray();
 
         assertEquals(8, shippersArrayMock.length);
-        assertEquals("Gävhult", shippersArrayMock[0].getCity() );
+        assertEquals("Gävhult", shippersArrayMock[0].getCity());
         assertEquals("8238-27759", shippersArrayMock[1].getFax());
         assertEquals("55768", shippersArrayMock[3].getPostalCode());
         assertEquals("Göran Östlund", shippersArrayMock[5].getContactName());
