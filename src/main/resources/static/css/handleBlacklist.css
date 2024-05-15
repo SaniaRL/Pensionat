@@ -22,7 +22,7 @@ th {
 
 tr {
     display: grid;
-    grid-template-columns: 150px 250px 70px 40px;
+    grid-template-columns: 250px 300px 70px 40px;
 }
 
 td {
@@ -47,7 +47,7 @@ td {
 }
 
 .update {
-    grid-template-columns: 200px 300px !important;
+    grid-template-columns: 300px 300px !important;
 }
 
 .customer-row {
