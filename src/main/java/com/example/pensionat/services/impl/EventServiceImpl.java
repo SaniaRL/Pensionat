@@ -27,7 +27,7 @@ public class EventServiceImpl implements EventService {
 
     private final EventRepo eventRepo;
 
-    private static final String QUEUE_NAME = "a15b4de3-5b2d-4355-b21a-469593d26c86";
+    private static final String QUEUE_NAME = "a15b4de3-5b2d-4355-b21a-469593d26c86"; //Bed & Basse
     private static final String HOST = "128.140.81.47";
     private static final String USERNAME = "djk47589hjkew789489hjf894";
     private static final String PASSWORD = "sfdjkl54278frhj7";
@@ -63,12 +63,10 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void startListeningForEvents() throws Exception {
+    public Channel createChannel() throws Exception {
         ConnectionFactory factory = createConnectionFactory();
-        try (Connection connection = factory.newConnection();
-             Channel channel = connection.createChannel()) {
-            setupConsumer(channel);
-        }
+        Connection connection = factory.newConnection();
+        return connection.createChannel();
     }
 
     @Override
