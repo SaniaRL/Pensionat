@@ -18,6 +18,7 @@ import static org.mockito.Mockito.mock;
 class ShippersServiceImplTestIT {
     @Autowired
     private ShippersStreamProvider shippersStreamProvider = mock(ShippersStreamProvider.class); //Kan förenklas. Temp.
+    @Autowired
     private ShippersRepo shippersRepo = mock(ShippersRepo.class);
     ShippersService sut;
 
