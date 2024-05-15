@@ -220,7 +220,7 @@ public class BookingServiceImpl implements BookingService {
         System.out.println("Sum * numberOfNights: " + sum * numberOfNights);
 
         //Ev ändra baserat på hur vi tolkar saker
-        sum = sum * numberOfNights;
+//        sum = sum * numberOfNights;
 
         double discount = 0;
         int nightsNeededForDiscount = 2;
@@ -236,14 +236,28 @@ public class BookingServiceImpl implements BookingService {
 
         System.out.println(discount);
 
+
         //- natten söndag till måndag ger alltid 2% rabatt
         int now = LocalDate.now().getDayOfWeek().getValue();
 
-        startDate.datesUntil(endDate).map(LocalDate::getDayOfWeek).filter(d -> d.equals(DayOfWeek.MONDAY));
+        List<LocalDate> days = startDate.datesUntil(endDate.plusDays(1)).toList();
+        double newSum = days.stream().mapToDouble(day -> {
+            if (days.indexOf(day) == 0) {
+                return 0;
+            }
+            else if(day.getDayOfWeek() == DayOfWeek.MONDAY && days.indexOf(day) - 1 > -1) {
+                System.out.println(day.getDayOfWeek().minus(1) + " -> " + day.getDayOfWeek() + " : " + sum * 0.98);
+                return sum * 0.98;
+            }
+            else {
+                System.out.println(day.getDayOfWeek().minus(1) + " -> " + day.getDayOfWeek() + " : " + sum);
+                return sum;
+            }
+        }).sum();
 
         System.out.println(1-discount);
 
-        return sum * (1 - discount);
+        return newSum * (1 - discount);
     }
 
     private boolean tenOrMoreNights(String email) {
@@ -253,20 +267,21 @@ public class BookingServiceImpl implements BookingService {
         LocalDate now = LocalDate.now();
         LocalDate yearAgo = now.minusYears(1);
 
-        String bookingQuery = "SELECT SUM(DATEDIFF('day', b.endDate, b.startDate))" +
-                "FROM Booking b WHERE b.customer.id = :customerId" +
-                " AND b.endDate > :yearAgo AND startDate < :now";
+        //Get all bookings that fall within the 1-year timeframe -- where end date is after the 1-year mark.
+        List<DetailedBookingDTO> bookings = bookingRepo.findByCustomerIdAndEndDateIsGreaterThanAndEndDateIsLessThan(customerId, yearAgo, now).stream().map(BookingConverter::bookingToDetailedBookingDTO).toList();
 
-        //TODO TA HÄNSYN TILL ÖVERLAPPNING
+        //Get all the dates from the intervals excluding the check-in date as we only want to count overnight stays
+        List<List<LocalDate>> dates = bookings.stream().map(b ->
+                b.getStartDate().plusDays(1)
+                        .datesUntil(b.getEndDate().plusDays(1)).toList())
+                .toList();
 
-        long dateDiff = Math.abs(entityManager.createQuery(bookingQuery, Long.class)
-                .setParameter("customerId", customerId)
-                .setParameter("yearAgo", yearAgo)
-                .setParameter("now", now)
-                .getSingleResult());
+        //Get the amount of those dates that fall within the 1-year frame from today.
+        int staysWithinOneYear = dates.stream().mapToInt(dList -> dList.stream()
+                .filter(d -> d.isAfter(yearAgo))
+                .toList().size())
+                .sum();
 
-        System.out.println(dateDiff);
-
-        return dateDiff >= 10;
+        return staysWithinOneYear >= 10;
     }
 }
