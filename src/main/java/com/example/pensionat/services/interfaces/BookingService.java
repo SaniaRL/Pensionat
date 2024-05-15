@@ -17,4 +17,7 @@ public interface BookingService {
     List<Integer> submitBookingCustomer(BookingData bookingData);
     int getNumberOfRoomsFromBooking(Long id);
     int getNumberOfBedsFromBooking(Long id);
+
+    double generatePrice(BookingData bookingData);
+
     }

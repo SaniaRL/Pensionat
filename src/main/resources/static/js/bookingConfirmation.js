@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
     const name = localStorage.getItem("name");
     const email = localStorage.getItem("email");
@@ -44,3 +43,5 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.clear();
     });
 });
+
+
