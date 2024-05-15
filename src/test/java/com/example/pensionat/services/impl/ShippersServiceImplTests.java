@@ -6,17 +6,15 @@ import com.example.pensionat.services.interfaces.ShippersService;
 import com.example.pensionat.services.providers.ShippersStreamProvider;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 @SpringBootTest
-class ShippersServiceImplTest {
+class ShippersServiceImplTests {
     private ShippersStreamProvider shippersStreamProvider = mock(ShippersStreamProvider.class); //Kan förenklas. Temp.
     private ShippersRepo shippersRepo = mock(ShippersRepo.class);
     ShippersService sut;

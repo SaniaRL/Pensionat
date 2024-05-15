@@ -43,13 +43,13 @@ dependencies {
 val integrationTestTask = tasks.register<Test>("integrationTest") {
 	group = "verification"
 	filter {
-		includeTestsMatching("*IT")
+		includeTestsMatching("*IT") //Justera denna ev beroende på namning av testclasser.
 	}
 }
 
 tasks.test{
 	filter{
-		includeTestsMatching("*Tests")
+		includeTestsMatching("*Tests") //Justera denna ev beroende på namning av testclasser.
 
 	}
 }
