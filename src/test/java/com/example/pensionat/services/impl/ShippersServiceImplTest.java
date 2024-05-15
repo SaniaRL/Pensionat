@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 @SpringBootTest
-class ShippersServiceImplTests {
+class ShippersServiceImplTest {
     private ShippersStreamProvider shippersStreamProvider = mock(ShippersStreamProvider.class); //Kan förenklas. Temp.
     private ShippersRepo shippersRepo = mock(ShippersRepo.class);
     ShippersService sut;

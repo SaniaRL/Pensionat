@@ -49,7 +49,7 @@ val integrationTestTask = tasks.register<Test>("integrationTest") {
 
 tasks.test{
 	filter{
-		includeTestsMatching("*Tests") //Justera denna ev beroende på namning av testclasser.
+		includeTestsMatching("*Test") //Justera denna ev beroende på namning av testclasser.
 
 	}
 }
