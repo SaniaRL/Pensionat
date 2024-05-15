@@ -40,6 +40,10 @@ dependencies {
 	implementation("com.fasterxml.jackson.core:jackson-annotations:2.17.1")
 }
 
+tasks.withType<Test> {
+	useJUnitPlatform()
+}
+
 val integrationTestTask = tasks.register<Test>("integrationTest") {
 	group = "verification"
 	filter {
