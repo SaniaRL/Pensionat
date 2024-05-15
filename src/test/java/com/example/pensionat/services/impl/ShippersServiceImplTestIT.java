@@ -1,5 +1,6 @@
 package com.example.pensionat.services.impl;
 
+import com.example.pensionat.dtos.DetailedShippersDTO;
 import com.example.pensionat.repositories.ShippersRepo;
 import com.example.pensionat.services.interfaces.ShippersService;
 import com.example.pensionat.services.providers.ShippersStreamProvider;
@@ -11,8 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.IOException;
 import java.util.Scanner;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class ShippersServiceImplTestIT {
@@ -43,5 +46,19 @@ class ShippersServiceImplTestIT {
         assertTrue(result.contains("country"));
         assertTrue(result.contains("phone"));
         assertTrue(result.contains("fax"));
+    }
+
+    @Test
+    void fetchAndSaveShippersShouldSaveToDatabase() throws  IOException {
+        ShippersStreamProvider shippersStreamProvider = mock(ShippersStreamProvider.class);
+        when(shippersStreamProvider.getDataStream()).thenReturn(getClass().getClassLoader().getResourceAsStream("shippers.json"));
+
+        shippersRepo.deleteAll();
+
+        DetailedShippersDTO[] tempArray =sut.getShippersToArray();
+        sut.saveDownAllShippersToDB(tempArray);
+
+        assertEquals(8,shippersRepo.count());
+
     }
 }
