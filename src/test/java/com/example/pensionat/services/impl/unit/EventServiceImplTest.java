@@ -4,6 +4,7 @@ import com.example.pensionat.models.events.*;
 import com.example.pensionat.repositories.EventRepo;
 import com.example.pensionat.services.impl.EventServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rabbitmq.client.ConnectionFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class EventServiceImplTest {
@@ -59,7 +61,12 @@ class EventServiceImplTest {
 
     @Test
     void createConnectionFactory() {
+        ConnectionFactory factory = sut.createConnectionFactory();
 
+        assertNotNull(factory);
+        assertEquals(EventServiceImpl.HOST, factory.getHost());
+        assertEquals(EventServiceImpl.USERNAME, factory.getUsername());
+        assertEquals(EventServiceImpl.PASSWORD, factory.getPassword());
     }
 
     @Test
@@ -68,7 +75,7 @@ class EventServiceImplTest {
     }
 
     @Test
-    void whenMapToEventShouldMapCorrectlyRoomOpened() {
+    void mapToEventShouldMapCorrectlyRoomOpened() {
         Event actual = sut.mapToEvent(roomOpened);
 
         assertEquals("402", actual.getRoomNo());
@@ -77,7 +84,7 @@ class EventServiceImplTest {
     }
 
     @Test
-    void whenMapToEventShouldMapCorrectlyRoomClosed() {
+    void mapToEventShouldMapCorrectlyRoomClosed() {
         Event actual = sut.mapToEvent(roomClosed);
 
         assertEquals("204", actual.getRoomNo());
@@ -86,7 +93,7 @@ class EventServiceImplTest {
     }
 
     @Test
-    void whenMapToEventShouldMapCorrectlyRoomCleaningStarted() {
+    void mapToEventShouldMapCorrectlyRoomCleaningStarted() {
         Event actual = sut.mapToEvent(roomCleaningStarted);
 
         assertEquals("403", actual.getRoomNo());
@@ -96,12 +103,21 @@ class EventServiceImplTest {
     }
 
     @Test
-    void whenMapToEventShouldMapCorrectlyRoomCleaningFinished() {
+    void mapToEventShouldMapCorrectlyRoomCleaningFinished() {
         Event actual = sut.mapToEvent(roomCleaningFinished);
 
         assertEquals("301", actual.getRoomNo());
         assertEquals(LocalDateTime.parse("2024-05-15T19:23:13.371668625"), actual.getTimeStamp());
         assertTrue(actual instanceof RoomCleaningFinished);
         assertEquals("Santiago Kertzmann", ((RoomCleaningFinished) actual).getCleaningByUser());
+    }
+
+    @Test
+    void SaveEventToDatabaseShouldCallSave() {
+        Event event = new Event();
+
+        sut.saveEventToDatabase(event);
+
+        verify(eventRepo, times(1)).save(event);
     }
 }

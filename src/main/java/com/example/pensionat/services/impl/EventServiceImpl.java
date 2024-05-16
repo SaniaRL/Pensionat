@@ -24,10 +24,10 @@ public class EventServiceImpl implements EventService {
 
     private final EventRepo eventRepo;
 
-    private static final String QUEUE_NAME = "a15b4de3-5b2d-4355-b21a-469593d26c86"; //Bed & Basse
-    private static final String HOST = "128.140.81.47";
-    private static final String USERNAME = "djk47589hjkew789489hjf894";
-    private static final String PASSWORD = "sfdjkl54278frhj7";
+    public static final String QUEUE_NAME = "a15b4de3-5b2d-4355-b21a-469593d26c86"; //Bed & Basse
+    public static final String HOST = "128.140.81.47";
+    public static final String USERNAME = "djk47589hjkew789489hjf894";
+    public static final String PASSWORD = "sfdjkl54278frhj7";
 
     private ObjectMapper mapper;
 
@@ -89,8 +89,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public Event mapToEvent(String message) {
         try {
-            Event event = mapper.readValue(message, Event.class);
-            return event;
+            return mapper.readValue(message, Event.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,10 +98,6 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void saveEventToDatabase(Event event) {
-        if (event != null) {
-            eventRepo.save(event);
-        } else {
-            System.out.println("Gick ej att spara ner event till databas.");
-        }
+        eventRepo.save(event);
     }
 }
