@@ -25,16 +25,16 @@ public class EventServiceImpl implements EventService {
 
     private final EventRepo eventRepo;
 
-    @Value("${rabbitmq.queue.name}")
+    @Value("${event.queue.name}")
     private String queueName;
 
-    @Value("${rabbitmq.host}")
+    @Value("${event.host}")
     private String host;
 
-    @Value("${rabbitmq.username}")
+    @Value("${event.username}")
     private String username;
 
-    @Value("${rabbitmq.password}")
+    @Value("${event.password}")
     private String password;
 
     public EventServiceImpl(EventRepo eventRepo) {
