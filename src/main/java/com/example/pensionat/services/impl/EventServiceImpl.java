@@ -12,6 +12,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,10 +25,17 @@ public class EventServiceImpl implements EventService {
 
     private final EventRepo eventRepo;
 
-    public static final String QUEUE_NAME = "a15b4de3-5b2d-4355-b21a-469593d26c86"; //Bed & Basse
-    public static final String HOST = "128.140.81.47";
-    public static final String USERNAME = "djk47589hjkew789489hjf894";
-    public static final String PASSWORD = "sfdjkl54278frhj7";
+    @Value("${rabbitmq.queue.name}")
+    private String queueName;
+
+    @Value("${rabbitmq.host}")
+    private String host;
+
+    @Value("${rabbitmq.username}")
+    private String username;
+
+    @Value("${rabbitmq.password}")
+    private String password;
 
     public EventServiceImpl(EventRepo eventRepo) {
         this.eventRepo = eventRepo;
@@ -67,9 +75,9 @@ public class EventServiceImpl implements EventService {
     @Override
     public ConnectionFactory createConnectionFactory() {
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost(HOST);
-        factory.setUsername(USERNAME);
-        factory.setPassword(PASSWORD);
+        factory.setHost(host);
+        factory.setUsername(username);
+        factory.setPassword(password);
         return factory;
     }
 
@@ -81,7 +89,7 @@ public class EventServiceImpl implements EventService {
             System.out.println(" [x] Received '" + message + "'");
             saveEventToDatabase(mapToEvent(message));
         };
-        channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> {});
+        channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {});
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.example.pensionat.services.interfaces.ContractCustomerService;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -20,9 +21,11 @@ public class FetchContractCustomers implements CommandLineRunner {
     @Autowired
     ContractCustomerService contractCustomersService;
 
+    @Value("${contractCustomers.url}")
+    private String contractCustomersUrl;
+
     @Override
     public void run(String... args) throws Exception {
-        String url = "https://javaintegration.systementor.se/customers";
-        contractCustomersService.saveAll(contractCustomersService.fetchContractCustomers(url).getContractCustomerList());
+        contractCustomersService.saveAll(contractCustomersService.fetchContractCustomers(contractCustomersUrl).getContractCustomerList());
     }
 }
