@@ -1,5 +1,6 @@
 package com.example.pensionat.dtos;
 
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,17 +1,26 @@
 package com.example.pensionat.services.impl;
 
+import com.example.pensionat.dtos.AllCustomersDTO;
 import com.example.pensionat.dtos.ContractCustomerDTO;
 import com.example.pensionat.dtos.DetailedContractCustomerDTO;
+import com.example.pensionat.models.allcustomers;
 import com.example.pensionat.models.customers;
 import com.example.pensionat.repositories.ContractCustomersRepo;
 import com.example.pensionat.services.convert.ContractCustomerConverter;
 import com.example.pensionat.services.interfaces.ContractCustomerService;
+import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
 
 
 @Service
@@ -97,5 +106,27 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalItems", p.getTotalElements());
         model.addAttribute("totalPages", p.getTotalPages());
+    }
+
+    @Override
+    public void saveAll(List<DetailedContractCustomerDTO> customers){
+        contractCustomersRepo.saveAll(customers.stream()
+                .map(ContractCustomerConverter::detailedContractCustomerToCustomers).toList());
+    }
+
+
+    private XmlMapper getMapper(){
+        JacksonXmlModule module = new JacksonXmlModule();
+        module.setDefaultUseWrapper(false);
+
+        return new XmlMapper(module);
+    }
+
+    @Override
+    public AllCustomersDTO fetchContractCustomers(String url) throws IOException {
+
+        allcustomers allCustomers = getMapper().readValue(new URL(url), allcustomers.class);
+
+        return ContractCustomerConverter.allCustomerToAllCustomerDTO(allCustomers);
     }
 }

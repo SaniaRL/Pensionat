@@ -9,13 +9,10 @@ import com.example.pensionat.services.interfaces.ShippersService;
 import com.example.pensionat.services.providers.ShippersStreamProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 
 @Service
