@@ -5,7 +5,6 @@ import com.example.pensionat.repositories.EventRepo;
 import com.example.pensionat.services.impl.EventServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.ConnectionFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -24,9 +22,6 @@ class EventServiceImplTest {
 
     @Mock
     private EventRepo eventRepo;
-
-    @Mock
-    private ObjectMapper mapper;
 
     EventServiceImpl sut;
 
@@ -46,6 +41,7 @@ class EventServiceImplTest {
 
     @Test
     void addToModel() {
+
     }
 
     @Test
@@ -68,14 +64,6 @@ class EventServiceImplTest {
         assertNotNull(channel);
     }
 
-    /*
-    public Channel createChannel() throws Exception {
-        ConnectionFactory factory = createConnectionFactory();
-        Connection connection = factory.newConnection();
-        return connection.createChannel();
-    }
-     */
-
     @Test
     void createConnectionFactory() {
         ConnectionFactory factory = sut.createConnectionFactory();
@@ -87,7 +75,7 @@ class EventServiceImplTest {
     }
 
     @Test
-    void setupConsumer() {
+    void setupConsumer() throws Exception {
 
     }
 
