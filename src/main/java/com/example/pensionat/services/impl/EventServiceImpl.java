@@ -19,9 +19,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 public class EventServiceImpl implements EventService {
 
@@ -84,18 +81,28 @@ public class EventServiceImpl implements EventService {
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
             String message = new String(delivery.getBody(), "UTF-8");
             System.out.println(" [x] Received '" + message + "'");
-            processMessage(message);
+            saveEventToDatabase(mapToEvent(message));
         };
         channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> {});
     }
 
     @Override
-    public void processMessage(String message) {
+    public Event mapToEvent(String message) {
         try {
             Event event = mapper.readValue(message, Event.class);
-            eventRepo.save(event);
+            return event;
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void saveEventToDatabase(Event event) {
+        if (event != null) {
+            eventRepo.save(event);
+        } else {
+            System.out.println("Gick ej att spara ner event till databas.");
         }
     }
 }
