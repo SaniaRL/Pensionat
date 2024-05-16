@@ -22,8 +22,14 @@
         <div class="container-3">
         <div class="container-4">
             <p class="bold">Bokning:</p>
-            <p id="checkin-p" th:text="'Incheckning: '+${startDate}" />
-            <p id="checkout-p" th:text="'Utcheckning: '+${endDate}" />
+            <div>
+                <p id="checkin-p" th:text="'Incheckning: '+${startDate}" />
+                <p id="checkout-p" th:text="'Utcheckning: '+${endDate}" />
+            </div>
+            <div>
+                <p class="skinny">PRIS: </p>
+                <p id="price-p" class="fat" th:text="${#numbers.formatCurrency(price)}" />
+            </div>
         </div>
 
         <div class="container-5">
@@ -37,9 +43,9 @@
                     </tr>
 
                     <tr th:each="orderLine : ${orderLines}" class="room-row-confirmation-page">
-                        <td th:text="${orderLine.room.id}"></td>
-                        <td th:text="${orderLine.room.roomType}"></td>
-                        <td th:text="${orderLine.extraBeds} + ${orderLine.room.roomType.defaultNumberOfBeds}"></td>
+                        <td th:text="${orderLine.id}"></td>
+                        <td th:text="${orderLine.roomType}"></td>
+                        <td th:text="${orderLine.extraBeds} + ${orderLine.roomType.defaultNumberOfBeds}"></td>
                     </tr>
                 </tbody>
             </table>

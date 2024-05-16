@@ -1,38 +1,43 @@
 package com.example.pensionat.services.impl;
 
+import com.example.pensionat.models.Customer;
 import com.example.pensionat.models.OrderLine;
 import com.example.pensionat.repositories.OrderLineRepo;
 import com.example.pensionat.services.convert.OrderLineConverter;
 import com.example.pensionat.services.interfaces.BookingService;
 import com.example.pensionat.services.interfaces.CustomerService;
 import com.example.pensionat.models.Booking;
-import com.example.pensionat.models.Customer;
 import com.example.pensionat.repositories.BookingRepo;
 import com.example.pensionat.repositories.CustomerRepo;
 import com.example.pensionat.dtos.*;
 import com.example.pensionat.services.convert.BookingConverter;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
-public
-class BookingServiceImpl implements BookingService {
-
+public class BookingServiceImpl implements BookingService {
     private final BookingRepo bookingRepo;
-    private final CustomerRepo customerRepo;
     private final CustomerService customerService;
     private final RoomServicelmpl roomService;
     private final OrderLineServicelmpl orderLineService;
     private final OrderLineRepo orderLineRepo;
 
-    public BookingServiceImpl(BookingRepo bookingRepo, CustomerRepo customerRepo,
+    @PersistenceContext
+    EntityManager entityManager;
+
+
+    public BookingServiceImpl(BookingRepo bookingRepo,
                               CustomerService customerService, RoomServicelmpl roomServicelmpl,
                               OrderLineServicelmpl orderLineService, OrderLineRepo orderLineRepo) {
         this.bookingRepo = bookingRepo;
-        this.customerRepo = customerRepo;
         this.customerService = customerService;
         this.roomService = roomServicelmpl;
         this.orderLineService = orderLineService;
@@ -172,7 +177,7 @@ class BookingServiceImpl implements BookingService {
                 .sum();
     }
 
-    public List<OrderLineDTO> getBookedRooms(LocalDate startDate, LocalDate endDate, List<OrderLineDTO> rooms, Long id) {
+    private List<OrderLineDTO> getBookedRooms(LocalDate startDate, LocalDate endDate, List<OrderLineDTO> rooms, Long id) {
         List<Booking> bookings = bookingRepo.findByStartDateLessThanAndEndDateGreaterThanAndIdNot(endDate, startDate, id);
         List<OrderLine> orderLines = new ArrayList<>();
         bookings.forEach(b -> orderLines.addAll(orderLineRepo.findAllByBookingId(b.getId())));
@@ -188,5 +193,95 @@ class BookingServiceImpl implements BookingService {
         });
 
         return booked;
+    }
+
+    @Override
+    public double generatePrice(BookingData bookingData){
+
+        LocalDate startDate = LocalDate.parse(bookingData.getStartDate());
+        LocalDate endDate = LocalDate.parse(bookingData.getEndDate());
+        long numberOfNights = Math.abs(ChronoUnit.DAYS.between(startDate, endDate));
+
+        //10 bokningar senaste året eller va?
+        String customerEmail = bookingData.getEmail();
+        boolean tenNightOrMore = tenOrMoreNights(customerEmail);
+
+
+        //Kolla summan av alla rum för en standardnatt
+        double sum = bookingData.getChosenRooms().stream()
+                .mapToDouble(r -> roomService.getRoomByID((long) r.getId()).getPrice())
+                .sum();
+
+
+        System.out.println("sum for 1 night: " + sum);
+        System.out.println("Start Date: " + bookingData.getStartDate());
+        System.out.println("End Date: " + bookingData.getEndDate());
+        System.out.println("number of numberOfNights: " + numberOfNights);
+        System.out.println("Sum * numberOfNights: " + sum * numberOfNights);
+
+        //Ev ändra baserat på hur vi tolkar saker
+//        sum = sum * numberOfNights;
+
+        double discount = 0;
+        int nightsNeededForDiscount = 2;
+
+        //- om man bokar två nätter eller fler får man automatiskt 0.5% rabatt
+        if(numberOfNights >= nightsNeededForDiscount){
+            discount += 0.005;
+        }
+        //Kolla om kunden har hyrt fler än 10 nätter det senaste året
+        if(tenNightOrMore) {
+            discount += 0.02;
+        }
+
+        System.out.println(discount);
+
+
+        //- natten söndag till måndag ger alltid 2% rabatt
+        int now = LocalDate.now().getDayOfWeek().getValue();
+
+        List<LocalDate> days = startDate.datesUntil(endDate.plusDays(1)).toList();
+        double newSum = days.stream().mapToDouble(day -> {
+            if (days.indexOf(day) == 0) {
+                return 0;
+            }
+            else if(day.getDayOfWeek() == DayOfWeek.MONDAY && days.indexOf(day) - 1 > -1) {
+                System.out.println(day.getDayOfWeek().minus(1) + " -> " + day.getDayOfWeek() + " : " + sum * 0.98);
+                return sum * 0.98;
+            }
+            else {
+                System.out.println(day.getDayOfWeek().minus(1) + " -> " + day.getDayOfWeek() + " : " + sum);
+                return sum;
+            }
+        }).sum();
+
+        System.out.println(1-discount);
+
+        return newSum * (1 - discount);
+    }
+
+    private boolean tenOrMoreNights(String email) {
+
+        long customerId = customerService.getCustomerByEmail(email).getId();
+
+        LocalDate now = LocalDate.now();
+        LocalDate yearAgo = now.minusYears(1);
+
+        //Get all bookings that fall within the 1-year timeframe -- where end date is after the 1-year mark.
+        List<DetailedBookingDTO> bookings = bookingRepo.findByCustomerIdAndEndDateIsGreaterThanAndEndDateIsLessThan(customerId, yearAgo, now).stream().map(BookingConverter::bookingToDetailedBookingDTO).toList();
+
+        //Get all the dates from the intervals excluding the check-in date as we only want to count overnight stays
+        List<List<LocalDate>> dates = bookings.stream().map(b ->
+                b.getStartDate().plusDays(1)
+                        .datesUntil(b.getEndDate().plusDays(1)).toList())
+                .toList();
+
+        //Get the amount of those dates that fall within the 1-year frame from today.
+        int staysWithinOneYear = dates.stream().mapToInt(dList -> dList.stream()
+                .filter(d -> d.isAfter(yearAgo))
+                .toList().size())
+                .sum();
+
+        return staysWithinOneYear >= 10;
     }
 }

@@ -22,3 +22,5 @@ public interface RoomService {
     String enoughRooms(BookingFormQueryDTO query, List<RoomDTO> rooms);
 
 }
+
+

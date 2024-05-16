@@ -46,7 +46,11 @@ public class RoomServicelmpl implements RoomService {
     @Override
     public RoomDTO getRoomByID(Long Id) {
         Room room = roomRepo.findById(Id).orElse(new Room());
-        return RoomDTO.builder().id(room.getId()).roomType(RoomTypeConverter.convertFromInt(room.getTypeOfRoom())).build();
+        return RoomDTO.builder()
+                .id(room.getId())
+                .roomType(RoomTypeConverter.convertFromInt(room.getTypeOfRoom()))
+                .price(room.getPrice())
+                .build();
     }
 
     @Override
@@ -132,4 +136,5 @@ public class RoomServicelmpl implements RoomService {
 
         return "";
     }
+
 }
