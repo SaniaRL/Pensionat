@@ -29,11 +29,8 @@ public class EventServiceImpl implements EventService {
     public static final String USERNAME = "djk47589hjkew789489hjf894";
     public static final String PASSWORD = "sfdjkl54278frhj7";
 
-    private ObjectMapper mapper;
-
     public EventServiceImpl(EventRepo eventRepo) {
         this.eventRepo = eventRepo;
-        initializeObjectMapper();
     }
 
     @Override
@@ -53,14 +50,15 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void initializeObjectMapper() {
-        mapper = new ObjectMapper();
+    public ObjectMapper initializeObjectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        return mapper;
     }
 
     @Override
-    public Channel createChannel() throws Exception {
+    public Channel createChannelFromConnection() throws Exception {
         ConnectionFactory factory = createConnectionFactory();
         Connection connection = factory.newConnection();
         return connection.createChannel();
@@ -88,6 +86,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event mapToEvent(String message) {
+        ObjectMapper mapper = initializeObjectMapper();
         try {
             return mapper.readValue(message, Event.class);
         } catch (Exception e) {

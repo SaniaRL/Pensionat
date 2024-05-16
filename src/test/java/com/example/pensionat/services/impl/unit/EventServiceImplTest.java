@@ -4,6 +4,9 @@ import com.example.pensionat.models.events.*;
 import com.example.pensionat.repositories.EventRepo;
 import com.example.pensionat.services.impl.EventServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.ConnectionFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,13 +54,27 @@ class EventServiceImplTest {
 
     @Test
     void initializeObjectMapper() {
+        ObjectMapper mapper = sut.initializeObjectMapper();
 
+        assertNotNull(mapper);
+        assertTrue(mapper.getRegisteredModuleIds().contains("jackson-datatype-jsr310"));
+        assertFalse(mapper.isEnabled(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS));
     }
 
     @Test
-    void createChannel() {
+    void createChannel() throws Exception {
+        Channel channel = sut.createChannelFromConnection();
 
+        assertNotNull(channel);
     }
+
+    /*
+    public Channel createChannel() throws Exception {
+        ConnectionFactory factory = createConnectionFactory();
+        Connection connection = factory.newConnection();
+        return connection.createChannel();
+    }
+     */
 
     @Test
     void createConnectionFactory() {
