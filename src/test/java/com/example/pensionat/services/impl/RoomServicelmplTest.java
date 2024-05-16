@@ -63,8 +63,8 @@ class RoomServicelmplTest {
         BookingFormQueryDTO query1 = new BookingFormQueryDTO(dateNowPlusSeven, dateNow, 1, 1);
 
         List<RoomDTO> queryRooms = new ArrayList<>();
-        queryRooms.add(new RoomDTO(1, RoomType.DOUBLE));
-        queryRooms.add(new RoomDTO(2, RoomType.SINGLE));
+        queryRooms.add(new RoomDTO(1L, RoomType.DOUBLE));
+        queryRooms.add(new RoomDTO(2L, RoomType.SINGLE));
 
         String expected = "Startdatum måste vara före slutdatum.";
         String actual = service.enoughRooms(query1, queryRooms);

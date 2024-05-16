@@ -1,0 +1,55 @@
+[
+  {
+    "type":"RoomClosed",
+    "TimeStamp":"2024-05-15T19:01:13.259445571",
+    "RoomNo":"204"
+  },
+  {
+    "type":"RoomClosed",
+    "TimeStamp":"2024-05-15T17:43:13.271051834",
+    "RoomNo":"403"
+  },
+  {
+    "type":"RoomClosed",
+    "TimeStamp":"2024-05-16T00:15:13.285568067",
+    "RoomNo":"204"
+  },
+  {
+    "type":"RoomCleaningStarted",
+    "TimeStamp":"2024-05-15T17:21:13.299694326",
+    "RoomNo":"403",
+    "CleaningByUser":"Mrs. Aja Predovic"
+  },
+  {
+    "type":"RoomCleaningFinished",
+    "TimeStamp":"2024-05-15T16:33:13.023420806",
+    "RoomNo":"204",
+    "CleaningByUser":"Rigoberto Hermiston"
+  },
+  {
+    "type":"RoomOpened",
+    "TimeStamp":"2024-05-15T23:25:13.340263291",
+    "RoomNo":"403"
+  },
+  {
+    "type":"RoomOpened",
+    "TimeStamp":"2024-05-15T23:05:13.356807666",
+    "RoomNo":"304"
+  },
+  {
+    "type":"RoomCleaningFinished",
+    "TimeStamp":"2024-05-15T19:23:13.371668625",
+    "RoomNo":"301",
+    "CleaningByUser":"Santiago Kertzmann"
+  },
+  {
+    "type":"RoomClosed",
+    "TimeStamp":"2024-05-15T11:52:13.383619945",
+    "RoomNo":"302"
+  },
+  {
+   "type":"RoomOpened",
+    "TimeStamp":"2024-05-15T09:34:13.396377561",
+    "RoomNo":"402"
+  }
+]

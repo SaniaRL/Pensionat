@@ -25,7 +25,7 @@ class OrderLineConverterTest {
     Booking booking = new Booking(customer, startDate, endDate);
     OrderLine orderLine = new OrderLine(booking, room, 2);
     SimpleOrderLineDTO simpleOrderLineDTO = new SimpleOrderLineDTO(booking.getId(), roomDTO, 1);
-    RoomDTO testRoomDTO = new RoomDTO(5, RoomType.SINGLE);
+    RoomDTO testRoomDTO = new RoomDTO(5L, RoomType.SINGLE);
     int expectedExtraBeds = RoomType.SINGLE.defaultNumberOfBeds;
 
 
