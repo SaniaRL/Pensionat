@@ -18,6 +18,11 @@ public class RoomDTO {
     private RoomType roomType;
     private double price;
 
+    public RoomDTO(Long id, RoomType roomType) {
+        this.id = id;
+        this.roomType = roomType;
+        this.price = generatePrice(roomType);
+    }
 
     public RoomDTO(RoomType roomType) {
         this.roomType = roomType;
