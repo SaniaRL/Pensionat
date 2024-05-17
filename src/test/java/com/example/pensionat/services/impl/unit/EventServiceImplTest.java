@@ -10,6 +10,7 @@ import com.rabbitmq.client.ConnectionFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
@@ -24,6 +25,18 @@ class EventServiceImplTest {
     private EventRepo eventRepo;
 
     EventServiceImpl sut;
+
+    @Value("${event.queue.name}")
+    private String queueName;
+
+    @Value("${event.host}")
+    private String host;
+
+    @Value("${event.username}")
+    private String username;
+
+    @Value("${event.password}")
+    private String password;
 
     String roomOpened = "{\"type\":\"RoomOpened\",\"TimeStamp\":\"2024-05-15T09:34:13.396377561\"," +
             "\"RoomNo\":\"402\"}";
@@ -69,9 +82,9 @@ class EventServiceImplTest {
         ConnectionFactory factory = sut.createConnectionFactory();
 
         assertNotNull(factory);
-        assertEquals(EventServiceImpl.HOST, factory.getHost());
-        assertEquals(EventServiceImpl.USERNAME, factory.getUsername());
-        assertEquals(EventServiceImpl.PASSWORD, factory.getPassword());
+        assertEquals(host, factory.getHost());
+        assertEquals(username, factory.getUsername());
+        assertEquals(password, factory.getPassword());
     }
 
     @Test
