@@ -10,8 +10,8 @@ import java.net.URL;
 @Service
 public class ShippersStreamProvider {
 
-    @Value("${shippers.url}")
-    private String shippersUrl;
+
+    private String shippersUrl = "https://javaintegration.systementor.se/shippers";
 
     public InputStream getDataStream() throws IOException {
         URL url = new URL(shippersUrl);

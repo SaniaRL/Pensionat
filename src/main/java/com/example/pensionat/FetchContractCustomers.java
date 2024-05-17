@@ -21,8 +21,8 @@ public class FetchContractCustomers implements CommandLineRunner {
     @Autowired
     ContractCustomerService contractCustomersService;
 
-    @Value("${contractCustomers.url}")
-    private String contractCustomersUrl;
+
+    private String contractCustomersUrl = "https://javaintegration.systementor.se/customers";
 
     @Override
     public void run(String... args) throws Exception {
