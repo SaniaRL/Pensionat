@@ -8,10 +8,7 @@ import com.example.pensionat.services.interfaces.EventService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.DeliverCallback;
+import com.rabbitmq.client.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+
+import java.io.UnsupportedEncodingException;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -84,12 +83,27 @@ public class EventServiceImpl implements EventService {
     @Override
     public void setupConsumer(Channel channel) throws Exception {
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
-        DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-            String message = new String(delivery.getBody(), "UTF-8");
+        DeliverCallback deliverCallback = createDeliverCallback();
+        channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {});
+    }
+
+    @Override
+    public DeliverCallback createDeliverCallback() {
+        return (consumerTag, delivery) -> {
+            String message = extractMessage(delivery);
             System.out.println(" [x] Received '" + message + "'");
             saveEventToDatabase(mapToEvent(message));
         };
-        channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {});
+    }
+
+    @Override
+    public String extractMessage(Delivery delivery) {
+        try {
+            return new String(delivery.getBody(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
     @Override
