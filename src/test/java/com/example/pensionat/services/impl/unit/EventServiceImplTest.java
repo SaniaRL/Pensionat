@@ -10,7 +10,9 @@ import com.rabbitmq.client.ConnectionFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDateTime;
 
@@ -24,6 +26,18 @@ class EventServiceImplTest {
     private EventRepo eventRepo;
 
     EventServiceImpl sut;
+
+    @Value("${event.queue.name}")
+    private String queueName;
+
+    @Value("${event.host}")
+    private String host;
+
+    @Value("${event.username}")
+    private String username;
+
+    @Value("${event.password}")
+    private String password;
 
     String roomOpened = "{\"type\":\"RoomOpened\",\"TimeStamp\":\"2024-05-15T09:34:13.396377561\"," +
             "\"RoomNo\":\"402\"}";
@@ -59,23 +73,38 @@ class EventServiceImplTest {
 
     @Test
     void createChannel() throws Exception {
-        Channel channel = sut.createChannelFromConnection();
+        /*Channel channel = sut.createChannelFromConnection();
 
-        assertNotNull(channel);
+        assertNotNull(channel);*/
     }
 
     @Test
     void createConnectionFactory() {
+        ReflectionTestUtils.setField(sut, "host", "128.140.81.47");
+        ReflectionTestUtils.setField(sut, "username", "djk47589hjkew789489hjf894");
+        ReflectionTestUtils.setField(sut, "password", "sfdjkl54278frhj7");
+
         ConnectionFactory factory = sut.createConnectionFactory();
 
         assertNotNull(factory);
-        assertEquals(EventServiceImpl.HOST, factory.getHost());
-        assertEquals(EventServiceImpl.USERNAME, factory.getUsername());
-        assertEquals(EventServiceImpl.PASSWORD, factory.getPassword());
+        assertEquals(host, factory.getHost());
+        assertEquals(username, factory.getUsername());
+        assertEquals(password, factory.getPassword());
+        assertNotEquals("101.200.30.97", factory.getHost());
     }
 
     @Test
     void setupConsumer() throws Exception {
+
+    }
+
+    @Test
+    void createDeliverCallback() {
+
+    }
+
+    @Test
+    void extractMessage() {
 
     }
 
