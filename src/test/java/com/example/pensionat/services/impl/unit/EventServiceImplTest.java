@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDateTime;
 
@@ -26,13 +27,17 @@ class EventServiceImplTest {
 
     EventServiceImpl sut;
 
-    private String queueName = "a15b4de3-5b2d-4355-b21a-469593d26c86";
+    @Value("${event.queue.name}")
+    private String queueName;
 
-    private String host = "128.140.81.47";
+    @Value("${event.host}")
+    private String host;
 
-    private String username = "djk47589hjkew789489hjf894";
+    @Value("${event.username}")
+    private String username;
 
-    private String password = "sfdjkl54278frhj7";
+    @Value("${event.password}")
+    private String password;
 
     String roomOpened = "{\"type\":\"RoomOpened\",\"TimeStamp\":\"2024-05-15T09:34:13.396377561\"," +
             "\"RoomNo\":\"402\"}";
@@ -75,12 +80,17 @@ class EventServiceImplTest {
 
     @Test
     void createConnectionFactory() {
+        ReflectionTestUtils.setField(sut, "host", "128.140.81.47");
+        ReflectionTestUtils.setField(sut, "username", "djk47589hjkew789489hjf894");
+        ReflectionTestUtils.setField(sut, "password", "sfdjkl54278frhj7");
+
         ConnectionFactory factory = sut.createConnectionFactory();
 
         assertNotNull(factory);
         assertEquals(host, factory.getHost());
         assertEquals(username, factory.getUsername());
         assertEquals(password, factory.getPassword());
+        assertNotEquals("101.200.30.97", factory.getHost());
     }
 
     @Test

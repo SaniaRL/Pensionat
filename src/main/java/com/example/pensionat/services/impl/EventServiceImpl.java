@@ -25,13 +25,17 @@ public class EventServiceImpl implements EventService {
 
     private final EventRepo eventRepo;
 
-    private String queueName = "a15b4de3-5b2d-4355-b21a-469593d26c86";
+    @Value("${event.queue.name}")
+    private String queueName;
 
-    private String host = "128.140.81.47";
+    @Value("${event.host}")
+    private String host;
 
-    private String username = "djk47589hjkew789489hjf894";
+    @Value("${event.username}")
+    private String username;
 
-    private String password = "sfdjkl54278frhj7";
+    @Value("${event.password}")
+    private String password;
 
     public EventServiceImpl(EventRepo eventRepo) {
         this.eventRepo = eventRepo;
