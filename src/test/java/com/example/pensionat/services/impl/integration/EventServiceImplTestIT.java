@@ -1,9 +1,11 @@
 package com.example.pensionat.services.impl.integration;
 
 import com.example.pensionat.repositories.EventRepo;
+import com.example.pensionat.services.impl.ShippersServiceImpl;
 import com.example.pensionat.services.interfaces.EventService;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DeliverCallback;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.Test;
@@ -12,12 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 
 @SpringBootTest
 public class EventServiceImplTestIT {
 
     @Autowired
     EventService sutEvent;
+    @Autowired
+    EventRepo eventRepo;
     List<String> tempStoredMessages = new ArrayList<>();
 
     public DeliverCallback createDeliverCallbackTest() {
@@ -29,7 +35,7 @@ public class EventServiceImplTestIT {
     }
 
     @Test
-    void channelWillBeCreatedAndMessagesWillBeFetched() throws Exception {
+    void channelWillBeCreatedAndEventMessagesWillBeFetched() throws Exception {
         Channel channel = sutEvent.createChannelFromConnection();
 
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
@@ -39,16 +45,26 @@ public class EventServiceImplTestIT {
 
         Thread.sleep(10000); //Utan denna buggar testerna ibland? Assert görs innan allt klart.
 
-        //Ta bort if-sats så det failar om man ej har en kö?
-      //  if (!tempStoredMessages.isEmpty()){
         assertTrue(tempStoredMessages.stream().anyMatch(msg -> msg.contains("type") && msg.contains("TimeStamp") && msg.contains("RoomNo")));
         assertTrue(tempStoredMessages.get(0).contains("type"));
         assertTrue(tempStoredMessages.get(0).contains("RoomNo"));
-     //   }
+
         for (int i = 0; i < tempStoredMessages.size(); i++) {
             if (tempStoredMessages.get(i).contains("RoomCleaningStarted") || tempStoredMessages.get(0).contains("RoomCleaningFinished")) {
                 assertTrue(tempStoredMessages.get(i).contains("CleaningByUser"));
             }
         }
+    }
+
+    @Test
+    void eventMessagesShouldBeStoredInDatabase() throws Exception {
+        EventService sut = mock(EventService.class);
+        Channel channel = sut.createChannelFromConnection();
+
+        eventRepo.deleteAll();
+
+        sut.setupConsumer(channel);
+
+        assertEquals(tempStoredMessages.size(), eventRepo.count());
     }
 }
