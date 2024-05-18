@@ -46,7 +46,7 @@ public class EventServiceImplTestIT {
         assertTrue(tempStoredMessages.get(0).contains("RoomNo"));
      //   }
         for (int i = 0; i < tempStoredMessages.size(); i++) {
-            if (tempStoredMessages.get(i).contains("RoomCleaningFinished") || tempStoredMessages.get(0).contains("RoomOpened")) {
+            if (tempStoredMessages.get(i).contains("RoomCleaningStarted") || tempStoredMessages.get(0).contains("RoomCleaningFinished")) {
                 assertTrue(tempStoredMessages.get(i).contains("CleaningByUser"));
             }
         }
