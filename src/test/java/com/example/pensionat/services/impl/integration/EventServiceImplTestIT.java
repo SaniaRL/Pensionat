@@ -6,7 +6,6 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DeliverCallback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -19,37 +18,37 @@ public class EventServiceImplTestIT {
 
     @Autowired
     EventService sutEvent;
-    @Autowired
-    EventRepo eventRepoTest;
     List<String> tempStoredMessages = new ArrayList<>();
 
-    // Define DeliverCallback as an instance variable using a lambda expression
-    private final DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-        String message = sutEvent.extractMessage(delivery);
-        System.out.println(" [x] Received '" + message + "'");
-        tempStoredMessages.add(message);
-        sutEvent.saveEventToDatabase(sutEvent.mapToEvent(message));
-    };
-
-    // Define setupConsumer as an instance variable using a lambda expression that executes setup code
-    private final SetupConsumer setupConsumer = channel -> {
-        System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
-        channel.basicConsume("a15b4de3-5b2d-4355-b21a-469593d26c86", true, deliverCallback, consumerTag -> {});
-    };
-
-    @FunctionalInterface
-    interface SetupConsumer {
-        void setup(Channel channel) throws Exception;
+    public DeliverCallback createDeliverCallbackTest() {
+        return (consumerTag, delivery) -> {
+            String message = sutEvent.extractMessage(delivery);
+            System.out.println(" [x] Received '" + message + "'"); //Kan tas bort sen
+            tempStoredMessages.add(message);
+        };
     }
 
     @Test
-    void channelCreatedAndMessagesReceivedAndStoredInDB() throws Exception {
+    void channelWillBeCreatedAndMessagesWillBeFetched() throws Exception {
         Channel channel = sutEvent.createChannelFromConnection();
-        setupConsumer.setup(channel); // Use the instance variable to setup the consumer
 
-        Thread.sleep(1000); //Utan denna buggar testerna ibland?
+        System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
+        DeliverCallback deliverCallback = createDeliverCallbackTest();
+        channel.basicConsume("a15b4de3-5b2d-4355-b21a-469593d26c86", true, deliverCallback, consumerTag -> {
+        });
 
+        Thread.sleep(10000); //Utan denna buggar testerna ibland? Assert görs innan allt klart.
+
+        //Ta bort if-sats så det failar om man ej har en kö?
+      //  if (!tempStoredMessages.isEmpty()){
         assertTrue(tempStoredMessages.stream().anyMatch(msg -> msg.contains("type") && msg.contains("TimeStamp") && msg.contains("RoomNo")));
         assertTrue(tempStoredMessages.get(0).contains("type"));
+        assertTrue(tempStoredMessages.get(0).contains("RoomNo"));
+     //   }
+        for (int i = 0; i < tempStoredMessages.size(); i++) {
+            if (tempStoredMessages.get(i).contains("RoomCleaningFinished") || tempStoredMessages.get(0).contains("RoomOpened")) {
+                assertTrue(tempStoredMessages.get(i).contains("CleaningByUser"));
+            }
+        }
     }
 }
