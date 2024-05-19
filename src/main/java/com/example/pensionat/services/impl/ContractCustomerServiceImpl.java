@@ -39,11 +39,6 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
         return page.map(ContractCustomerConverter::customersToContractCustomerDto);
     }
 
-    //TODO test att pageable har pageNumber = pageNum - 1
-    //TODO test pageSize = 10
-    //TODO getTotalElements
-    //TODO getTotalPages
-
     @Override
     public Page<ContractCustomerDTO> getAllCustomersSortedPage(int pageNum, String sortBy, String order, int pageSize) {
         Pageable pageable;

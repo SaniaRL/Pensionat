@@ -1,6 +1,7 @@
 package com.example.pensionat.services.impl.unit;
 
 import com.example.pensionat.dtos.ContractCustomerDTO;
+import com.example.pensionat.dtos.DetailedContractCustomerDTO;
 import com.example.pensionat.models.customers;
 import com.example.pensionat.repositories.ContractCustomersRepo;
 import com.example.pensionat.services.convert.ContractCustomerConverter;
@@ -8,16 +9,18 @@ import com.example.pensionat.services.impl.ContractCustomerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
+import org.springframework.ui.ConcurrentModel;
+import org.springframework.ui.Model;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
@@ -32,7 +35,6 @@ public class ContractCustomerServiceImplTest {
     int pageNum;
     int pageSize;
     List<customers> customerList;
-    Page<customers> customersPage;
     Pageable pageable;
     Page<customers> page;
 
@@ -51,13 +53,13 @@ public class ContractCustomerServiceImplTest {
                 new customers(3L, "EFG", "E F", "title",
                         "address", "city", 123, "C-Land", "phone", "fax"));
 
-
-        pageable = PageRequest.of(pageNum - 1, pageSize);
-        page = new PageImpl<>(customerList, pageable, customerList.size());
     }
 
     @Test
     void getAllCustomersPage(){
+        pageable = PageRequest.of(pageNum - 1, pageSize);
+        page = new PageImpl<>(customerList, pageable, customerList.size());
+
         when(contractCustomersRepo.findAll(pageable)).thenReturn(page);
 
         Page<ContractCustomerDTO> result = sut.getAllCustomersPage(pageNum, pageSize);
@@ -69,40 +71,106 @@ public class ContractCustomerServiceImplTest {
     }
 
     @Test
-    void getAllCustomersPageShouldHaveCorrectPageSize(){
-        //TODO test att pageable har pageNumber = pageNum - 1
- //       long pageLength = (sut.getAllCustomersPage(pageNum, pageSize)).;
+    void getAllCustomersSortedPage() {
+        String sortBy = "companyName";
+        String order = "asc";
 
-        //TODO test pageSize = 10
-        //TODO getTotalElements
-        //TODO getTotalPages
+        pageable = PageRequest.of(pageNum - 1, pageSize, Sort.by(sortBy).ascending());
+        page = new PageImpl<>(customerList, pageable, customerList.size());
 
+        when(contractCustomersRepo.findAll(pageable)).thenReturn(page);
+
+        Page<ContractCustomerDTO> result = sut.getAllCustomersSortedPage(pageNum, sortBy, order, pageSize);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(customerList.size(), result.getTotalElements());
+        assertEquals(customerList.size(), result.getTotalPages());
+        assertTrue(pageable.getSort().isSorted());
+        assertEquals(Sort.Direction.ASC, Objects.requireNonNull(pageable.getSort().getOrderFor(sortBy)).getDirection());
+        verify(contractCustomersRepo, times(1)).findAll(pageable);
+        verify(contractCustomersRepo, times(1)).findAll(argThat((Pageable pageable) -> pageable.getSort().toString().contains(sortBy)));
     }
 
-    @Test
-    void getAllCustomersPageHasCorrectAmountOfCustomers(){
-//        long pageLength = (sut.getAllCustomersPage(pageNum, pageSize)).getTotalElements();
-
-
-        //TODO test pageSize = 10
-        //TODO getTotalElements
-        //TODO getTotalPages
-
-    }
-
-    @Test
-    void getAllCustomersSortedPage(){
-
-    }
 
     @Test
     void getCustomerById(){
+        long customerId = 1L;
+        customers expectedCustomer = new customers(customerId, "ABC", "A B", "title", "address", "city", 123, "A-Land", "phone", "fax");
+        when(contractCustomersRepo.findById(customerId)).thenReturn(Optional.of(expectedCustomer));
+
+        customers result = sut.getCustomerById(customerId);
+
+        assertNotNull(result);
+        assertEquals(expectedCustomer, result);
+        verify(contractCustomersRepo, times(1)).findById(customerId);
+    }
+
+    //Fundera på om vi verkligen ska ha denna - är det värt att testa? Idk. Inget känns på riktigt.
+    @Test
+    void getCustomerByIdWhenCustomerIsNull() {
+        long customerId = 1000L;
+        when(contractCustomersRepo.findById(customerId)).thenReturn(Optional.empty());
+
+        customers result = sut.getCustomerById(customerId);
+
+        //Vi gör optional till null i metoden
+        assertNull(result);
+        verify(contractCustomersRepo, times(1)).findById(customerId);
+    }
+
+    // getDetailedContractCustomerById() är samma + converter
+
+    @Test
+    void getCustomersBySearch(){
+
+    }
+
+//    addToModelUtil() är private
+    /*
+
+        private void addToModelUtil(Page<ContractCustomerDTO> p, Model model, int currentPage){
+        model.addAttribute("allCustomers", p.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", p.getTotalElements());
+        model.addAttribute("totalPages", p.getTotalPages());
+    }
+
+        @Override
+    public void addToModel(int currentPage, Model model){
+        Page<ContractCustomerDTO> c = getAllCustomersPage(currentPage);
+        addToModelUtil(c, model, currentPage);
+    }
+     */
+
+    @Test
+    void addToModel() {
+        try{
+            List<ContractCustomerDTO> customerDTOList = customerList.stream()
+                    .map(ContractCustomerConverter::customersToContractCustomerDto)
+                    .toList();
+            Page<ContractCustomerDTO> page = new PageImpl<>(customerDTOList);
+            Model model = new ConcurrentModel();
+
+            Method method = ContractCustomerServiceImpl.class.getDeclaredMethod("addToModelUtil", Page.class, Model.class, int.class);
+            method.setAccessible(true);
+            method.invoke(sut, page, model, pageNum);
+
+            //TODO det funkar men det gnäller
+            assertEquals(customerDTOList.size(), ((List<ContractCustomerDTO>) Objects.requireNonNull(model.getAttribute("allCustomers"))).size());
+            assertEquals(pageNum, model.getAttribute("currentPage"));
+            assertEquals((long)customerDTOList.size(), model.getAttribute("totalItems"));
+            assertEquals(1, model.getAttribute("totalPages"));
+        } catch (Exception e) {
+            //TODO Flera olika exceptions ??? Inga exceptions ???
+
+        }
 
     }
 
     @Test
-    void getDetailedContractCustomerById(){
-        
+    void addToModelSorted(){
+
     }
 
     @Test
@@ -111,39 +179,6 @@ public class ContractCustomerServiceImplTest {
     }
 
     /*
-    @Override
-    public Page<ContractCustomerDTO> getAllCustomersPage(int pageNum) {
-        Pageable pageable = PageRequest.of(pageNum - 1, 10);
-        Page<customers> page = contractCustomersRepo.findAll(pageable);
-        return page.map(ContractCustomerConverter::customersToContractCustomerDto);
-    }
-
-    @Override
-    public Page<ContractCustomerDTO> getAllCustomersSortedPage(int pageNum, String sortBy, String order) {
-        Pageable pageable;
-        if(order.equals("asc")) {
-            pageable = PageRequest.of(pageNum - 1, 10, Sort.by(sortBy).ascending());
-        } else {
-            pageable = PageRequest.of(pageNum - 1, 10, Sort.by(sortBy).descending());
-        }
-
-        Page<customers> page = contractCustomersRepo.findAll(pageable);
-        return page.map(ContractCustomerConverter::customersToContractCustomerDto);
-    }
-
-    @Override
-    public customers getCustomerById(Long id) {
-        return contractCustomersRepo.findById(id).orElse(null);
-    }
-
-    @Override
-    public DetailedContractCustomerDTO getDetailedContractCustomerById(Long id) {
-        customers cCustomer = contractCustomersRepo.findById(id).orElse(null);
-        if(cCustomer!= null){
-            return ContractCustomerConverter.contractCustomerToDetailedContractCustomer(cCustomer);
-        }
-        return null;
-    }
 
     @Override
     public Page<ContractCustomerDTO> getCustomersBySearch(int pageNum, String search, String sort, String order){
@@ -155,12 +190,6 @@ public class ContractCustomerServiceImplTest {
         }
         Page<customers> page = contractCustomersRepo.findByCompanyNameContainsOrContactNameContains(search, search, pageable);
         return page.map(ContractCustomerConverter::customersToContractCustomerDto);
-    }
-
-    @Override
-    public void addToModel(int currentPage, Model model){
-        Page<ContractCustomerDTO> c = getAllCustomersPage(currentPage);
-        addToModelUtil(c, model, currentPage);
     }
 
     @Override
@@ -180,12 +209,7 @@ public class ContractCustomerServiceImplTest {
         model.addAttribute("search", search);
     }
 
-    private void addToModelUtil(Page<ContractCustomerDTO> p, Model model, int currentPage){
-        model.addAttribute("allCustomers", p.getContent());
-        model.addAttribute("currentPage", currentPage);
-        model.addAttribute("totalItems", p.getTotalElements());
-        model.addAttribute("totalPages", p.getTotalPages());
-    }
+
 
     @Override
     public void saveAll(List<DetailedContractCustomerDTO> customers){
