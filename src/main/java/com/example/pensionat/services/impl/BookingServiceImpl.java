@@ -212,16 +212,6 @@ public class BookingServiceImpl implements BookingService {
                 .mapToDouble(r -> roomService.getRoomByID((long) r.getId()).getPrice())
                 .sum();
 
-
-        System.out.println("sum for 1 night: " + sum);
-        System.out.println("Start Date: " + bookingData.getStartDate());
-        System.out.println("End Date: " + bookingData.getEndDate());
-        System.out.println("number of numberOfNights: " + numberOfNights);
-        System.out.println("Sum * numberOfNights: " + sum * numberOfNights);
-
-        //Ev ändra baserat på hur vi tolkar saker
-//        sum = sum * numberOfNights;
-
         double discount = 0;
         int nightsNeededForDiscount = 2;
 
@@ -233,9 +223,6 @@ public class BookingServiceImpl implements BookingService {
         if(tenNightOrMore) {
             discount += 0.02;
         }
-
-        System.out.println(discount);
-
 
         //- natten söndag till måndag ger alltid 2% rabatt
         int now = LocalDate.now().getDayOfWeek().getValue();
@@ -254,8 +241,6 @@ public class BookingServiceImpl implements BookingService {
                 return sum;
             }
         }).sum();
-
-        System.out.println(1-discount);
 
         return newSum * (1 - discount);
     }
