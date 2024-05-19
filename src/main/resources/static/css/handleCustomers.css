@@ -6,6 +6,7 @@
     -webkit-box-shadow: -2px 3px 4px 0 rgba(0,0,0, 0.8);
     -moz-box-shadow: -2px 3px 4px 0 rgba(0,0,0, 0.8);
     box-shadow: -2px 3px 4px 0 rgba(0,0,0, 0.8);
+    flex-direction: column;
 }
 
 .table-pages {
@@ -17,7 +18,7 @@ table, th, td {
 }
 
 th {
-    padding: 5px;
+    padding: 5px !important;
 }
 
 tr {
@@ -40,7 +41,7 @@ td {
     border-right: 1px solid black;
     border-bottom: 1px solid black;
     border-collapse: collapse;
-    padding: 5px;
+    padding: 5px !important;
     display: flex;
 }
 
@@ -83,7 +84,7 @@ td {
 }
 
 .td-icons {
-    padding: 0;
+    padding: 0 !important;
     display: flex;
     align-items: center;
     justify-content: center;

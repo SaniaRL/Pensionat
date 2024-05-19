@@ -1,0 +1,51 @@
+<div th:fragment="navBar(activePage, activeSub)" class="menu">
+    <div class="menu-container">
+        <div class="menu-account">
+            <p>Account Image</p>
+            <p>Account Name</p>
+        </div>
+        <div class="menu-titles">
+            <div class="menu-booking" th:classappend="${activePage == 'booking'} ? 'active' : 'submenu-hidden'">
+                <h2 class="menu-title" onclick=expand(this)>BOKNING</h2>
+                <ul class="submenu">
+                    <li>
+                        <a class="link" onclick="window.location.href='/booking'" th:classappend="${activeSub == 'newBooking'} ? 'activeSub' : ''">Ny bokning</a>
+                    </li>
+                    <li>
+                        <a class="link" th:classappend="${activeSub == 'bookingSearch'} ? 'activeSub' : ''" onclick="window.location.href='/booking/search'">Redigera bokning</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="menu-customer" th:classappend="${activePage == 'customer'} ? 'active' : 'submenu-hidden'">
+                <h2 class="menu-title" onclick="expand(this)">KUNDHANTERING</h2>
+                <ul class="submenu">
+                    <li>
+                        <a class="link" th:classappend="${activeSub == 'customers'} ? 'activeSub' : ''" onclick="window.location.href='/customer/handle'">Hantera privatkund</a>
+                    </li>
+                    <li>
+                        <a class="link" th:classappend="${activeSub == 'contractCustomers'} ? 'activeSub' : ''" onclick="window.location.href='/contractCustomer/handle/1'">Företagskunder</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="menu-room" th:classappend="${activePage == 'room'} ? 'active' : 'submenu-hidden'">
+                <h2 class="menu-title" onclick=expand(this)>RUM</h2>
+                <ul class="submenu">
+                    <li>
+                        <a class="link" th:classappend="${activeSub == 'rooms'} ? 'activeSub' : ''" onclick="window.location.href='/room/all'">Visa alla rum</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="menu-blacklist" th:classappend="${activePage == 'blacklist'} ? 'active' : 'submenu-hidden'">
+                <h2 class="menu-title" onclick=expand(this)>BLACKLIST</h2>
+                <ul class="submenu">
+                    <li>
+                        <a class="link" th:classappend="${activeSub == 'blacklisted'} ? 'activeSub' : ''" onclick="window.location.href='/customer/blacklist/handle'">Svartlistade kunder</a>
+                    </li>
+                    <li>
+                        <a class="link" th:classappend="${activeSub == 'newBlacklist'} ? 'activeSub' : ''" onclick="window.location.href='/customer/blacklist/form'">Svartlista ny kund</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
