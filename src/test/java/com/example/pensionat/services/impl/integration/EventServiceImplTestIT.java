@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -39,12 +40,12 @@ public class EventServiceImplTestIT {
                 assertTrue(tempStoredMes.get(i).contains("CleaningByUser"));
             }
         }
-
         assertTrue(eventRepo.count() > 0);
         for (Event event : events) {
             assertNotNull(event.getTimeStamp());
             assertNotNull(event.getRoomNo());
             assertNotNull(event.getId());
         }
+        assertEquals(eventRepo.count(), tempStoredMes.size());
     }
 }

@@ -93,12 +93,10 @@ public class EventServiceImpl implements EventService {
 
             String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
             System.out.println(" [x] Received '" + message + "'");
-            tempStoredMessages.add(message);  // Store message for testing or further processing
-            saveEventToDatabase(mapToEvent(message));  // Convert and save the event to the database
+            tempStoredMessages.add(message);
+            saveEventToDatabase(mapToEvent(message));
 
         };
-
-        // Consume messages from the queue
         channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {
         });
 
