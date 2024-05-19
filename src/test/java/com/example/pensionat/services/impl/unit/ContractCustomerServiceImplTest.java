@@ -1,21 +1,26 @@
 package com.example.pensionat.services.impl.unit;
 
+import com.example.pensionat.dtos.ContractCustomerDTO;
 import com.example.pensionat.models.customers;
 import com.example.pensionat.repositories.ContractCustomersRepo;
+import com.example.pensionat.services.convert.ContractCustomerConverter;
 import com.example.pensionat.services.impl.ContractCustomerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.*;
 
 public class ContractCustomerServiceImplTest {
 
@@ -28,12 +33,14 @@ public class ContractCustomerServiceImplTest {
     int pageSize;
     List<customers> customerList;
     Page<customers> customersPage;
+    Pageable pageable;
+    Page<customers> page;
 
 
     @BeforeEach()
     void setup() {
         //Arrange here ?
-        ContractCustomersRepo repository = mock(ContractCustomersRepo.class);
+        contractCustomersRepo = mock(ContractCustomersRepo.class);
         sut = new ContractCustomerServiceImpl(contractCustomersRepo);
         pageNum = 1;
         pageSize = 1;
@@ -43,27 +50,39 @@ public class ContractCustomerServiceImplTest {
                         "address", "city", 123, "B-Land", "phone", "fax"),
                 new customers(3L, "EFG", "E F", "title",
                         "address", "city", 123, "C-Land", "phone", "fax"));
-        customersPage = new PageImpl<>(customerList);
+
+
+        pageable = PageRequest.of(pageNum - 1, pageSize);
+        page = new PageImpl<>(customerList, pageable, customerList.size());
     }
 
+    @Test
+    void getAllCustomersPage(){
+        when(contractCustomersRepo.findAll(pageable)).thenReturn(page);
 
-    /*    @Override
-public Page<ContractCustomerDTO> getAllCustomersPage(int pageNum) {
-    //TODO plocka ut 10 ?
-    Pageable pageable = PageRequest.of(pageNum - 1, 10);
-    Page<customers> page = contractCustomersRepo.findAll(pageable);
-    return page.map(ContractCustomerConverter::customersToContractCustomerDto);
-}
+        Page<ContractCustomerDTO> result = sut.getAllCustomersPage(pageNum, pageSize);
 
-//TODO test att pageable har pageNumber = pageNum - 1
-//TODO test pageSize = 10
-//TODO getTotalElements
-//TODO getTotalPages
- */
+        assertNotNull(result);
+        assertEquals(customerList.size(), result.getTotalElements());
+        assertEquals(customerList.size()/ pageSize, result.getTotalPages());
+        verify(contractCustomersRepo, times(1)).findAll(pageable);
+    }
 
     @Test
-    void getAllCustomersPageTest(){
+    void getAllCustomersPageShouldHaveCorrectPageSize(){
         //TODO test att pageable har pageNumber = pageNum - 1
+ //       long pageLength = (sut.getAllCustomersPage(pageNum, pageSize)).;
+
+        //TODO test pageSize = 10
+        //TODO getTotalElements
+        //TODO getTotalPages
+
+    }
+
+    @Test
+    void getAllCustomersPageHasCorrectAmountOfCustomers(){
+//        long pageLength = (sut.getAllCustomersPage(pageNum, pageSize)).getTotalElements();
+
 
         //TODO test pageSize = 10
         //TODO getTotalElements
