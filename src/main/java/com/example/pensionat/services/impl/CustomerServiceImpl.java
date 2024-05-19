@@ -151,14 +151,18 @@ public class CustomerServiceImpl implements CustomerService {
 
         List<SimpleBlacklistCustomerDTO> blacklist = getBlacklist();
 
+        String lowercaseSearch = search.toLowerCase();
+
         List<SimpleBlacklistCustomerDTO> filteredBlacklist = blacklist.stream()
-                .filter(customer -> customer.getEmail().contains(search) || customer.getName().contains(search))
+                .filter(customer -> (customer.getEmail() != null && customer.getEmail().toLowerCase().contains(lowercaseSearch)) ||
+                        (customer.getName() != null && customer.getName().toLowerCase().contains(lowercaseSearch)))
                 .skip(skip)
                 .limit(pageSize)
                 .toList();
 
         long total = blacklist.stream()
-                .filter(customer -> customer.getEmail().contains(search) || customer.getName().contains(search))
+                .filter(customer -> (customer.getEmail() != null && customer.getEmail().toLowerCase().contains(lowercaseSearch)) ||
+                        (customer.getName() != null && customer.getName().toLowerCase().contains(lowercaseSearch)))
                 .count();
 
         return new PageImpl<>(filteredBlacklist, PageRequest.of(pageNum - 1, pageSize), total);
