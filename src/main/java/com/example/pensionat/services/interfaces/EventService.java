@@ -19,11 +19,7 @@ public interface EventService {
     ObjectMapper initializeObjectMapper();
     Channel setupChannel() throws Exception;
     ConnectionFactory createConnectionFactory();
-    //void setupConsumer(Channel channel) throws Exception;
-    void setupConsumer(Channel channel) throws Exception;
-    DeliverCallback createDeliverCallback();
-    String extractMessage(Delivery delivery);
+    List<String> setupConsumer(Channel channel) throws Exception;
     Event mapToEvent(String message);
     void saveEventToDatabase(Event event);
-    List<String> getTempStoredMessages();
 }
