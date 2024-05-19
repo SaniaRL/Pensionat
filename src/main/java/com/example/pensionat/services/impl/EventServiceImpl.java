@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -35,9 +37,15 @@ public class EventServiceImpl implements EventService {
 
     @Value("${event.password}")
     private String password;
+    private List<String> tempStoredMessages = new ArrayList<>();
 
     public EventServiceImpl(EventRepo eventRepo) {
         this.eventRepo = eventRepo;
+    }
+
+    @Override
+    public List<String> getTempStoredMessages(){
+        return this.tempStoredMessages;
     }
 
     @Override
@@ -65,7 +73,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Channel createChannelFromConnection() throws Exception {
+    public Channel setupChannel() throws Exception {
         ConnectionFactory factory = createConnectionFactory();
         Connection connection = factory.newConnection();
         return connection.createChannel();
@@ -92,6 +100,7 @@ public class EventServiceImpl implements EventService {
         return (consumerTag, delivery) -> {
             String message = extractMessage(delivery);
             System.out.println(" [x] Received '" + message + "'");
+            tempStoredMessages.add(message);
             saveEventToDatabase(mapToEvent(message));
         };
     }

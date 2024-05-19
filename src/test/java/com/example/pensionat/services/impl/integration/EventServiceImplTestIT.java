@@ -2,17 +2,12 @@ package com.example.pensionat.services.impl.integration;
 
 import com.example.pensionat.models.events.Event;
 import com.example.pensionat.repositories.EventRepo;
-import com.example.pensionat.services.impl.EventServiceImpl;
-import com.example.pensionat.services.impl.ShippersServiceImpl;
 import com.example.pensionat.services.interfaces.EventService;
 import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.DeliverCallback;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -23,14 +18,42 @@ import static org.mockito.Mockito.mock;
 public class EventServiceImplTestIT {
 
     @Autowired
-    EventService sutEvent;
+    private EventService sutEvent;
     @Autowired
-    EventRepo eventRepo;
-    List<String> tempStoredMessages = new ArrayList<>();
+    private EventRepo eventRepo;
 
+    //BRYT UT SÅ ATT JAG TESTAR LISTAN I EN ANNAN METOD SEN DB I EN ANNAN!?
 
-    //Justera denna?
-    public DeliverCallback createDeliverCallbackTest() {
+    @Test
+    void setupChannelCorrectAndSetupConsumerFetchesAndStoresDataCorrectly() throws Exception {
+        eventRepo.deleteAll();
+        List<Event> events;
+        Channel channel3 = sutEvent.setupChannel();
+
+        sutEvent.setupConsumer(channel3);
+        events = eventRepo.findAll();
+        List <String> tempStoredMes = sutEvent.getTempStoredMessages();
+
+        Thread.sleep(10000);
+
+        assertTrue(tempStoredMes.get(0).contains("type"));
+        assertTrue(tempStoredMes.get(0).contains("RoomNo"));
+        assertTrue(tempStoredMes.stream().anyMatch(msg -> msg.contains("type") && msg.contains("TimeStamp") && msg.contains("RoomNo")));
+
+        for (int i = 0; i < tempStoredMes.size(); i++) {
+            if (tempStoredMes.get(i).contains("RoomCleaningStarted") || tempStoredMes.get(0).contains("RoomCleaningFinished")) {
+                assertTrue(tempStoredMes.get(i).contains("CleaningByUser"));
+            }
+        }
+        assertTrue(eventRepo.count() > 0);
+        for (Event event : events) {
+            assertTrue(event.getTimeStamp() != null);
+            assertTrue(event.getRoomNo() != null);
+            assertTrue(event.getId() != null);
+        }
+    }
+
+ /*   public DeliverCallback createDeliverCallbackTest() {
         return (consumerTag, delivery) -> {
             String message = sutEvent.extractMessage(delivery);
             System.out.println(" [x] Received '" + message + "'"); //Kan tas bort sen
@@ -60,7 +83,6 @@ public class EventServiceImplTestIT {
             }
         }
     }
-
     @Test
     void eventMessagesShouldBeStoredInDatabase() throws Exception {
         eventRepo.deleteAll();
@@ -79,4 +101,5 @@ public class EventServiceImplTestIT {
         }
         assertTrue(eventRepo.count() > 0);
     }
+    */
 }

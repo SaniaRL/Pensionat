@@ -10,12 +10,14 @@ import com.rabbitmq.client.Delivery;
 import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
 
+import java.util.List;
+
 public interface EventService {
 
     void addToModel(String id, int currentPage, Model model);
     Page<EventDTO> getEventsByRoomId(String id, int pageNum);
     ObjectMapper initializeObjectMapper();
-    Channel createChannelFromConnection() throws Exception;
+    Channel setupChannel() throws Exception;
     ConnectionFactory createConnectionFactory();
     //void setupConsumer(Channel channel) throws Exception;
     void setupConsumer(Channel channel) throws Exception;
@@ -23,4 +25,5 @@ public interface EventService {
     String extractMessage(Delivery delivery);
     Event mapToEvent(String message);
     void saveEventToDatabase(Event event);
+    List<String> getTempStoredMessages();
 }
