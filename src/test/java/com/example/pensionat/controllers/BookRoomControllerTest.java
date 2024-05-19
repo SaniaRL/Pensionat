@@ -104,8 +104,8 @@ class BookRoomControllerTest {
         mvc.perform(post("/submitBookingCustomer")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonBookingData))
-                        .andExpect(status().isFound())
-                        .andExpect(redirectedUrl("/bookingConfirmation"));
+                        .andExpect(status().isOk())
+                        .andExpect(view().name("bookingConfirmation"));
     }
 
     @Test
