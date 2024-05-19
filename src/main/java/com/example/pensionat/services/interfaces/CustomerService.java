@@ -22,6 +22,8 @@ public interface CustomerService {
     void addToModelEmail(String email, int currentPage, Model model);
     boolean checkIfEmailBlacklisted(String email);
     void addToModelBlacklist(int currentPage, Model model) throws IOException;
+    void addToModelBlacklistSearch(String search, int currentPage, Model model) throws IOException;
+    Page<SimpleBlacklistCustomerDTO> getBlacklistBySearch(String search, int pageNum) throws IOException;
     String addToBlacklist(SimpleBlacklistCustomerDTO c);
     String updateBlacklistCustomer(SimpleBlacklistCustomerDTO c);
     Page<SimpleBlacklistCustomerDTO> getBlacklistPage(int pageNum) throws IOException;

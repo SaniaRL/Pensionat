@@ -136,6 +136,35 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public void addToModelBlacklistSearch(String search, int currentPage, Model model) throws IOException {
+        Page<SimpleBlacklistCustomerDTO> c = getBlacklistBySearch(search, currentPage);
+        model.addAttribute("allCustomers", c.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", c.getTotalElements());
+        model.addAttribute("totalPages", c.getTotalPages());
+    }
+
+    @Override
+    public Page<SimpleBlacklistCustomerDTO> getBlacklistBySearch(String search, int pageNum) throws IOException {
+        int pageSize = 5;
+        int skip = (pageNum - 1) * pageSize;
+
+        List<SimpleBlacklistCustomerDTO> blacklist = getBlacklist();
+
+        List<SimpleBlacklistCustomerDTO> filteredBlacklist = blacklist.stream()
+                .filter(customer -> customer.getEmail().contains(search) || customer.getName().contains(search))
+                .skip(skip)
+                .limit(pageSize)
+                .toList();
+
+        long total = blacklist.stream()
+                .filter(customer -> customer.getEmail().contains(search) || customer.getName().contains(search))
+                .count();
+
+        return new PageImpl<>(filteredBlacklist, PageRequest.of(pageNum - 1, pageSize), total);
+    }
+
+    @Override
     public String addToBlacklist(SimpleBlacklistCustomerDTO c) {
         try {
             String url = "https://javabl.systementor.se/api/bed&basse/blacklist";
