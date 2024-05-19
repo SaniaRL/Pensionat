@@ -36,9 +36,9 @@ public class RoomDTO {
 
     private double generatePrice(RoomType rt) {
         return switch (rt) {
-            case SINGLE -> 750.00;
-            case DOUBLE -> 1000.00;
-            case PREMIUM -> 500.00;
+            case SINGLE -> 500.00;
+            case DOUBLE -> 750.00;
+            case PREMIUM -> 1000.00;
         };
     }
 
