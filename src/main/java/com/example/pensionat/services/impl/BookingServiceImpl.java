@@ -267,15 +267,18 @@ public class BookingServiceImpl implements BookingService {
         LocalDate now = LocalDate.now();
         LocalDate yearAgo = now.minusYears(1);
 
+        //TODO Bryt ut till separat metod för test ?
         //Get all bookings that fall within the 1-year timeframe -- where end date is after the 1-year mark.
         List<DetailedBookingDTO> bookings = bookingRepo.findByCustomerIdAndEndDateIsGreaterThanAndEndDateIsLessThan(customerId, yearAgo, now).stream().map(BookingConverter::bookingToDetailedBookingDTO).toList();
 
+        //TODO Bryt ut till separat metod för test ?
         //Get all the dates from the intervals excluding the check-in date as we only want to count overnight stays
         List<List<LocalDate>> dates = bookings.stream().map(b ->
                 b.getStartDate().plusDays(1)
                         .datesUntil(b.getEndDate().plusDays(1)).toList())
                 .toList();
 
+        //TODO Bryt ut till separat metod för test ?
         //Get the amount of those dates that fall within the 1-year frame from today.
         int staysWithinOneYear = dates.stream().mapToInt(dList -> dList.stream()
                 .filter(d -> d.isAfter(yearAgo))

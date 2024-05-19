@@ -23,8 +23,10 @@ public class ContractCustomerController {
             @PathVariable("pageNumber") int currentPage,
             @RequestParam(defaultValue = "id") String sort,
             @RequestParam(defaultValue = "asc") String order){
+        //pageSize kan vara parameter
+        int pageSize = 10;
         //TODO Kolla om det ens är rätt shit
-        contractCustomerService.addToModelSorted(currentPage, sort, order, model);
+        contractCustomerService.addToModelSorted(currentPage, sort, order, model, pageSize);
         return "contractCustomers";
     }
 
@@ -41,7 +43,9 @@ public class ContractCustomerController {
                                  @RequestParam String search,
                                  @RequestParam(defaultValue = "id") String sort,
                                  @RequestParam(defaultValue = "asc") String order){
-        contractCustomerService.addToModelSearch(currentPage, search, sort, order, model);
+        //Kan bli parameter
+        int pageSize = 10;
+        contractCustomerService.addToModelSearch(currentPage, search, sort, order, model, pageSize);
         return "contractCustomers";
     }
 
@@ -51,7 +55,8 @@ public class ContractCustomerController {
                                  @RequestParam String search,
                                  @RequestParam(defaultValue = "id") String sort,
                                  @RequestParam(defaultValue = "asc") String order){
-        contractCustomerService.addToModelSearch(currentPage, search, sort, order, model);
+        int pageSize = 10;
+        contractCustomerService.addToModelSearch(currentPage, search, sort, order, model, pageSize);
         return "contractCustomers";
     }
 

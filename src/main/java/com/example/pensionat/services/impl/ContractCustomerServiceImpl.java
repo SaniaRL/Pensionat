@@ -10,6 +10,7 @@ import com.example.pensionat.services.convert.ContractCustomerConverter;
 import com.example.pensionat.services.interfaces.ContractCustomerService;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,39 +24,51 @@ import java.net.URL;
 import java.util.List;
 
 
+@AllArgsConstructor
 @Service
 public class ContractCustomerServiceImpl implements ContractCustomerService {
 
     ContractCustomersRepo contractCustomersRepo;
 
-    public ContractCustomerServiceImpl(ContractCustomersRepo contractCustomersRepo) {
-        this.contractCustomersRepo = contractCustomersRepo;
-    }
-
+    //Används denna ens ?
     @Override
-    public Page<ContractCustomerDTO> getAllCustomersPage(int pageNum) {
-        Pageable pageable = PageRequest.of(pageNum - 1, 10);
+    public Page<ContractCustomerDTO> getAllCustomersPage(int pageNum, int pageSize) {
+        //TODO plocka ut 10 ?
+        Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
         Page<customers> page = contractCustomersRepo.findAll(pageable);
         return page.map(ContractCustomerConverter::customersToContractCustomerDto);
     }
 
+    //TODO test att pageable har pageNumber = pageNum - 1
+    //TODO test pageSize = 10
+    //TODO getTotalElements
+    //TODO getTotalPages
+
     @Override
-    public Page<ContractCustomerDTO> getAllCustomersSortedPage(int pageNum, String sortBy, String order) {
+    public Page<ContractCustomerDTO> getAllCustomersSortedPage(int pageNum, String sortBy, String order, int pageSize) {
         Pageable pageable;
+        //TODO Plocka ut pageSize?
         if(order.equals("asc")) {
-            pageable = PageRequest.of(pageNum - 1, 10, Sort.by(sortBy).ascending());
+            pageable = PageRequest.of(pageNum - 1, pageSize, Sort.by(sortBy).ascending());
         } else {
-            pageable = PageRequest.of(pageNum - 1, 10, Sort.by(sortBy).descending());
+            pageable = PageRequest.of(pageNum - 1, pageSize, Sort.by(sortBy).descending());
         }
 
         Page<customers> page = contractCustomersRepo.findAll(pageable);
+
         return page.map(ContractCustomerConverter::customersToContractCustomerDto);
     }
+
+    //TODO test att pageNumber = pageNum - 1
+    //TODO getSort
+    //TODO asc desc
 
     @Override
     public customers getCustomerById(Long id) {
         return contractCustomersRepo.findById(id).orElse(null);
     }
+
+    //TODO be den att hämta null idk inte viktigt idk
 
     @Override
     public DetailedContractCustomerDTO getDetailedContractCustomerById(Long id) {
@@ -66,35 +79,43 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
         return null;
     }
 
+    //TODO be den att hämta null idk inte viktigt idk
+
     @Override
-    public Page<ContractCustomerDTO> getCustomersBySearch(int pageNum, String search, String sort, String order){
+    public Page<ContractCustomerDTO> getCustomersBySearch(int pageNum, String search, String sort, String order, int pageSize){
         Pageable pageable;
+
+        //TODO pageSize parameter
+
         if(order.equals("asc")) {
-            pageable = PageRequest.of(pageNum - 1, 10, Sort.by(sort).ascending());
+            pageable = PageRequest.of(pageNum - 1, pageSize, Sort.by(sort).ascending());
         } else {
-            pageable = PageRequest.of(pageNum - 1, 10, Sort.by(sort).descending());
+            pageable = PageRequest.of(pageNum - 1, pageSize, Sort.by(sort).descending());
         }
         Page<customers> page = contractCustomersRepo.findByCompanyNameContainsOrContactNameContains(search, search, pageable);
         return page.map(ContractCustomerConverter::customersToContractCustomerDto);
     }
 
+    //TODO test order idk asc desc
+
+    //Används denna ens ?
     @Override
-    public void addToModel(int currentPage, Model model){
-        Page<ContractCustomerDTO> c = getAllCustomersPage(currentPage);
+    public void addToModel(int currentPage, Model model, int pageSize){
+        Page<ContractCustomerDTO> c = getAllCustomersPage(currentPage, pageSize);
         addToModelUtil(c, model, currentPage);
     }
 
     @Override
-    public void addToModelSorted(int currentPage, String sortBy, String order, Model model){
-        Page<ContractCustomerDTO> c = getAllCustomersSortedPage(currentPage, sortBy, order);
+    public void addToModelSorted(int currentPage, String sortBy, String order, Model model, int pageSize){
+        Page<ContractCustomerDTO> c = getAllCustomersSortedPage(currentPage, sortBy, order, pageSize);
         addToModelUtil(c, model, currentPage);
         model.addAttribute("order", order);
         model.addAttribute("sort", sortBy);
     }
 
     @Override
-    public void addToModelSearch(int currentPage, String search, String sort, String order, Model model) {
-        Page<ContractCustomerDTO> p = getCustomersBySearch(currentPage, search, sort, order);
+    public void addToModelSearch(int currentPage, String search, String sort, String order, Model model, int pageSize) {
+        Page<ContractCustomerDTO> p = getCustomersBySearch(currentPage, search, sort, order, pageSize);
         addToModelUtil(p, model, currentPage);
         model.addAttribute("order", order);
         model.addAttribute("sort", sort);
