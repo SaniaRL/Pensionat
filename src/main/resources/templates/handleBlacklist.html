@@ -29,34 +29,11 @@
 </div>
 
 <div class="content index-content">
-
-
-    <div th:unless="${#strings.isEmpty(status)}">
-        <div class="overlay"></div>
-        <div class="error-pop-up customer-pop-up" id="errorPopup">
-            <p class="customer-pop-up-header">KUNDEN KAN EJ TAS BORT</p>
-            <p class="customer-pop-up-text" th:text="${status}"></p>
-            <button class="customer-btn-pop-up btn" id="closeButton" onclick="this.parentElement.parentElement.style.display='none';">STÄNG FÖNSTER</button>
-        </div>
-    </div>
-
-
-    <div class="hidden delete-warning">
-        <div>
-            <p class="delete-title">ÄR DU SÄKER PÅ ATT DU VILL RADERA BOKNING?</p>
-            <p class="delete-p">Denna åtgärd går ej att ångra</p>
-            <a th:href="@{/booking/remove}"><button class="btn">RADERA BOKNING</button></a>
-            <button class="btn grey-btn" onclick="closeDiv()">AVBRYT</button>
-        </div>
-    </div>
-
     <div class="allCustomers customers-background">
-
         <div class="placement-return-button">
-
             <div>
-                <form action="#" method="get" th:action="@{/customer/search}">
-                    <input class="customer-search" name="email" placeholder="Sök" type="text" value="">
+                <form action="#" method="get" th:action="@{/customer/blacklist/search}">
+                    <input class="customer-search" name="searchWord" placeholder="Sök" type="text" value="">
                     <input class="search-customer-button" type="submit" value="Submit">
                 </form>
             </div>
@@ -64,7 +41,6 @@
             <a class="return-link" th:href="@{/}">
                 <div class="return-button">Tillbaka</div>
             </a>
-
         </div>
 
         <table class="customers-table">

@@ -98,6 +98,19 @@ public class CustomerController {
         return "handleBlacklist";
     }
 
+    @GetMapping("/blacklist/search")
+    public String handleBlacklistSearch(@RequestParam String searchWord, Model model) throws IOException {
+        int currentPage = 1;
+        customerService.addToModelBlacklistSearch(searchWord, currentPage, model);
+        return "handleBlacklist";
+    }
+
+    @GetMapping("/blacklist/search/{pageNumber}")
+    public String handleBlacklistByPageSearch(@RequestParam String searchWord, Model model, @PathVariable("pageNumber") int currentPage) throws IOException {
+        customerService.addToModelBlacklistSearch(searchWord, currentPage, model);
+        return "handleBlacklist";
+    }
+
     @RequestMapping("/blacklist/{email}/update")
     public String updateBlacklistCustomer(@PathVariable String email, Model model) throws IOException {
         SimpleBlacklistCustomerDTO c = customerService.getCustomerFromBlacklistByEmail(email);
