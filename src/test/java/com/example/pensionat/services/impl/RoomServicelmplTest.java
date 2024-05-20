@@ -90,7 +90,7 @@ class RoomServicelmplTest {
 
         BookingFormQueryDTO query5 = new BookingFormQueryDTO(dateNow, dateNowPlusSeven, 6, 1);
 
-        expected = "Det önskade antalet sängar överstiger antalet lediga sängar";
+        expected = "Det önskade antalet sängar överstiger antalet lediga sängar.";
         actual = service.enoughRooms(query5, queryRooms);
         assertEquals(expected, actual);
 

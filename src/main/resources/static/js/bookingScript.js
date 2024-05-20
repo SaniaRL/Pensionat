@@ -23,6 +23,11 @@ const add = (e) => {
 
         console.log("Room-id: " + roomID);
 
+        const errorPopup2 = document.getElementById('errorPopup2');
+        if (errorPopup2) {
+            errorPopup2.style.display = 'none';
+        }
+
         addRoom(roomID, roomType, extraBeds, room, e);
     }
     else {
@@ -78,6 +83,7 @@ function removeRoom(roomID, roomType, room, e){
     localStorage.setItem("availableRooms", JSON.stringify(availableRooms));
 
     chosenRooms = chosenRooms.filter(room => room.id !== roomID);
+    console.log("ChosenRooms: " + chosenRooms);
     localStorage.setItem("chosenRooms", JSON.stringify(chosenRooms))
 
     let roomElement = room.lastElementChild;
@@ -114,14 +120,21 @@ function clearRooms() {
 }
 
 function submitBooking() {
-    //Fan måste ju skicka inställningarna också
-    let startDate = localStorage.getItem("startDate");
-    let endDate = localStorage.getItem("endDate");
+    const chosenRooms = localStorage.getItem("chosenRooms")
+    if (chosenRooms === null || chosenRooms.length < 3) {
+        const form = document.querySelector('form');
+        form.action = "/bookingSubmit?emptyBooking=true"; // Ändra till önskad endpoint
+        form.submit();
+    } else {
+        //Fan måste ju skicka inställningarna också
+        let startDate = localStorage.getItem("startDate");
+        let endDate = localStorage.getItem("endDate");
 
-    document.getElementById('start-date').value = startDate;
-    document.getElementById('end-date').value = endDate;
+        document.getElementById('start-date').value = startDate;
+        document.getElementById('end-date').value = endDate;
 
-    window.location.href = "/customer/customerOrNot";
+        window.location.href = "/customer/customerOrNot";
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -132,5 +145,16 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log("Button clicked")
         errorPopup.style.display = 'none';
         window.location.href="http://localhost:8080/booking";
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const closeButton2 = document.getElementById('closeButton2');
+    const errorPopup2 = document.getElementById('errorPopup2');
+
+    closeButton2.addEventListener('click', function() {
+        console.log("Button clicked")
+        errorPopup2.style.display = 'none';
+        document.querySelector('form').submit();
     });
 });

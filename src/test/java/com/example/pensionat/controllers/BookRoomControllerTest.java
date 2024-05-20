@@ -54,7 +54,7 @@ class BookRoomControllerTest {
         query.setRooms(2);
         query.setBeds(4);
 
-        this.mvc.perform(post("/bookingSubmit")
+        this.mvc.perform(post("/bookingSubmit?emptyBooking=false")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("startDate", query.getStartDate().toString())
                         .param("endDate", query.getEndDate().toString())
