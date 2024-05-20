@@ -23,6 +23,11 @@ const add = (e) => {
 
         console.log("Room-id: " + roomID);
 
+        const errorPopup2 = document.getElementById('errorPopup2');
+        if (errorPopup2) {
+            errorPopup2.style.display = 'none';
+        }
+
         addRoom(roomID, roomType, extraBeds, room, e);
     }
     else {
@@ -78,6 +83,7 @@ function removeRoom(roomID, roomType, room, e){
     localStorage.setItem("availableRooms", JSON.stringify(availableRooms));
 
     chosenRooms = chosenRooms.filter(room => room.id !== roomID);
+    console.log("ChosenRooms: " + chosenRooms);
     localStorage.setItem("chosenRooms", JSON.stringify(chosenRooms))
 
     let roomElement = room.lastElementChild;
@@ -115,8 +121,7 @@ function clearRooms() {
 
 function submitBooking() {
     const chosenRooms = localStorage.getItem("chosenRooms")
-    console.log("chosenRooms: " + chosenRooms);
-    if (chosenRooms === null) {
+    if (chosenRooms === null || chosenRooms.length < 3) {
         const form = document.querySelector('form');
         form.action = "/bookingSubmit?emptyBooking=true"; // Ändra till önskad endpoint
         form.submit();
