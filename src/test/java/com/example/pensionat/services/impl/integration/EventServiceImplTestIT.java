@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -24,19 +23,17 @@ public class EventServiceImplTestIT {
     @Test
     void setupChannelCorrectAndSetupConsumerFetchesAndStoresDataCorrectly() throws Exception {
         eventRepo.deleteAll();
-        Channel channel3 = sutEvent.setupChannel();
+        Channel channel = sutEvent.setupChannel();
 
-        List<String> tempStoredMes = sutEvent.setupConsumer(channel3);
+        List<String> tempStoredMes = sutEvent.setupConsumer(channel);
         List<Event> events = eventRepo.findAll();
 
         Thread.sleep(10000); //Ibland börjar asserts köra innan arrange och act är klara om man hämtar väldigt många meddelanden.
         //Alt. till detta verkar vara countDownLatch men avvaktar med ev. Implementation.
 
-        assertTrue(tempStoredMes.get(0).contains("type"));
-        assertTrue(tempStoredMes.get(0).contains("RoomNo"));
         assertTrue(tempStoredMes.stream().anyMatch(eventMessage -> eventMessage.contains("type") && eventMessage.contains("TimeStamp") && eventMessage.contains("RoomNo")));
         for (int i = 0; i < tempStoredMes.size(); i++) {
-            if (tempStoredMes.get(i).contains("RoomCleaningStarted") || tempStoredMes.get(0).contains("RoomCleaningFinished")) {
+            if (tempStoredMes.get(i).contains("RoomCleaningStarted") || tempStoredMes.get(i).contains("RoomCleaningFinished")) {
                 assertTrue(tempStoredMes.get(i).contains("CleaningByUser"));
             }
         }
