@@ -114,14 +114,20 @@ function clearRooms() {
 }
 
 function submitBooking() {
-    //Fan måste ju skicka inställningarna också
-    let startDate = localStorage.getItem("startDate");
-    let endDate = localStorage.getItem("endDate");
+    const chosenRooms = localStorage.getItem("chosenRooms")
+    console.log("chosenRooms: " + chosenRooms);
+    if (chosenRooms === null) {
 
-    document.getElementById('start-date').value = startDate;
-    document.getElementById('end-date').value = endDate;
+    } else {
+        //Fan måste ju skicka inställningarna också
+        let startDate = localStorage.getItem("startDate");
+        let endDate = localStorage.getItem("endDate");
 
-    window.location.href = "/customer/customerOrNot";
+        document.getElementById('start-date').value = startDate;
+        document.getElementById('end-date').value = endDate;
+
+        window.location.href = "/customer/customerOrNot";
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
