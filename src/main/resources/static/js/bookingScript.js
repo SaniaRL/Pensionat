@@ -117,7 +117,9 @@ function submitBooking() {
     const chosenRooms = localStorage.getItem("chosenRooms")
     console.log("chosenRooms: " + chosenRooms);
     if (chosenRooms === null) {
-
+        const form = document.querySelector('form');
+        form.action = "/bookingSubmit?emptyBooking=true"; // Ändra till önskad endpoint
+        form.submit();
     } else {
         //Fan måste ju skicka inställningarna också
         let startDate = localStorage.getItem("startDate");
@@ -138,5 +140,16 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log("Button clicked")
         errorPopup.style.display = 'none';
         window.location.href="http://localhost:8080/booking";
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const closeButton2 = document.getElementById('closeButton2');
+    const errorPopup2 = document.getElementById('errorPopup2');
+
+    closeButton2.addEventListener('click', function() {
+        console.log("Button clicked")
+        errorPopup2.style.display = 'none';
+        document.querySelector('form').submit();
     });
 });
