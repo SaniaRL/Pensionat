@@ -97,15 +97,14 @@ class BookRoomControllerTest {
         chosenRooms.add(orderLineDTO);
         bookingData.setChosenRooms(chosenRooms);
 
-
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonBookingData = objectMapper.writeValueAsString(bookingData);
 
         mvc.perform(post("/submitBookingCustomer")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonBookingData))
-                        .andExpect(status().isFound())
-                        .andExpect(redirectedUrl("/bookingConfirmation"));
+                        .andExpect(status().isOk())
+                        .andExpect(view().name("bookingConfirmation"));
     }
 
     @Test

@@ -141,6 +141,16 @@ class CustomerServiceImplTest {
     }
 
     @Test
+    void addToModelBlacklistSearch() {
+
+    }
+
+    @Test
+    void getBlacklistBySearch() {
+
+    }
+
+    @Test
     void getCustomerFromBlacklistByEmail() {
 
     }
