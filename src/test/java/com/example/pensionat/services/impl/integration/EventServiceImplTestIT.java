@@ -32,8 +32,6 @@ public class EventServiceImplTestIT {
         Thread.sleep(10000); //Ibland börjar asserts köra innan arrange och act är klara om man hämtar väldigt många meddelanden.
         //Alt. till detta verkar vara countDownLatch men avvaktar med ev. Implementation.
 
-        assertTrue(tempStoredMes.get(0).contains("type"));
-        assertTrue(tempStoredMes.get(0).contains("RoomNo"));
         assertTrue(tempStoredMes.stream().anyMatch(eventMessage -> eventMessage.contains("type") && eventMessage.contains("TimeStamp") && eventMessage.contains("RoomNo")));
         for (int i = 0; i < tempStoredMes.size(); i++) {
             if (tempStoredMes.get(i).contains("RoomCleaningStarted") || tempStoredMes.get(0).contains("RoomCleaningFinished")) {

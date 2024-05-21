@@ -34,7 +34,7 @@
 <div class="content">
     <div class="allCustomers">
         <div class="placement-return-button">
-            <a class="return-link" th:href="@{/customer/handle}">
+            <a class="return-link" th:href="@{/customer/}">
                 <div class="return-button">Tillbaka</div>
             </a>
             <div class="update-submit-button">
@@ -49,7 +49,7 @@
             </tr>
             <tbody>
             <tr class="customer-row update">
-                <form id="customer-form" action="#" method="post" th:action="@{/customer/handle/update}" th:object="${kund}">
+                <form id="customer-form" action="#" method="post" th:action="@{/customer/update}" th:object="${kund}">
                     <td>
                         <input id="name" th:field="*{name}" type="text">
                     </td>
