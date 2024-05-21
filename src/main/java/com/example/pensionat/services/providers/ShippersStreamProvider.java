@@ -11,7 +11,8 @@ import java.net.URL;
 public class ShippersStreamProvider {
 
 
-    private String shippersUrl = "https://javaintegration.systementor.se/shippers";
+    @Value("${shippers.url}")
+    private String shippersUrl;
 
     public InputStream getDataStream() throws IOException {
         URL url = new URL(shippersUrl);
