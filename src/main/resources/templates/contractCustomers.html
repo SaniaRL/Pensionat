@@ -36,7 +36,7 @@
         <div class="placement-return-button">
 
             <div>
-                <form action="#" method="get" th:action="@{/contractCustomer/handle/1}">
+                <form action="#" method="get" th:action="@{/contractCustomer/}">
                     <input class="customer-search" name="search" placeholder="Sök" type="text" value="">
                     <input class="search-customer-button" type="submit" value="Submit">
                 </form>
@@ -51,17 +51,17 @@
         <table class="customers-table">
             <tr class="table-header">
                 <th> Företag
-                    <a th:href="@{${currentPage} + '?' + ${search != null ? 'search=' + search + '&' : ''} + 'sort=companyName&order=' + ${order=='asc' && sort == 'companyName' ? 'desc' : 'asc'}}">
+                    <a th:href="@{'?' + ${search != null ? 'search=' + search + '&' : ''} + 'sort=companyName&order=' + ${order=='asc' && sort == 'companyName' ? 'desc' : 'asc'} + ${currentPage != null ? '&page=' + currentPage : ''}}">
                         <img src="/images/white_arrows.png" alt="Sort Customers By Name">
                     </a>
                 </th>
                 <th> Kontakt
-                    <a th:href="@{${currentPage} + '?' + ${search != null ? 'search=' + search + '&' : ''} + 'sort=contactName&order=' + ${order=='asc' && sort == 'contactName' ? 'desc' : 'asc'}}">
+                    <a th:href="@{'?' + ${search != null ? 'search=' + search + '&' : ''} + 'sort=contactName&order=' + ${order=='asc' && sort == 'contactName' ? 'desc' : 'asc'} + ${currentPage != null ? '&page=' + currentPage : ''}}">
                         <img src="/images/white_arrows.png" alt="Sort Customers By Name">
                     </a>
                 </th>
                 <th> Land
-                    <a th:href="@{${currentPage} + '?' + ${search != null ? 'search=' + search + '&' : ''} + 'sort=country&order=' + ${order=='asc' && sort == 'country' ? 'desc' : 'asc'}}">
+                    <a th:href="@{'?' + ${search != null ? 'search=' + search + '&' : ''} + 'sort=country&order=' + ${order=='asc' && sort == 'country' ? 'desc' : 'asc'} + ${currentPage != null ? '&page=' + currentPage : ''}}">
                         <img src="/images/white_arrows.png" alt="Sort Customers By Name">
                     </a>
             </tr>

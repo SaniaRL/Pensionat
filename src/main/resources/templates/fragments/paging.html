@@ -1,9 +1,9 @@
 <a th:fragment="paging(pageNum, label, tooltip)" class="page-link"
-    th:href="@{${pageNum}
-    + ${(search!=null || sort!='id') ? '?' : ''}
-    + ${search!=null ? 'search=' + search : ''}
-    + ${(search!=null && sort!=null && sort!='id') ? '&' : ''}
-    + ${sort!=null && sort!='id' ? 'sort=' + sort + '&order=' + order : ''}}"
+    th:href="@{
+    '?'
+    + ${search!=null ? 'search=' + search + '&' : ''}
+    + ${sort!=null && sort!='id' ? 'sort=' + sort + '&order=' + order + '&' : ''}
+    + 'page=' + ${pageNum}}"
     th:title="${tooltip}" rel="tooltip">
     [[${label}]]
 </a>

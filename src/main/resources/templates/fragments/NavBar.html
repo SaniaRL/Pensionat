@@ -20,10 +20,10 @@
                 <h2 class="menu-title" onclick="expand(this)">KUNDHANTERING</h2>
                 <ul class="submenu">
                     <li>
-                        <a class="link" th:classappend="${activeSub == 'customers'} ? 'activeSub' : ''" onclick="window.location.href='/customer/handle'">Hantera privatkund</a>
+                        <a class="link" th:classappend="${activeSub == 'customers'} ? 'activeSub' : ''" onclick="window.location.href='/customer/'">Hantera privatkund</a>
                     </li>
                     <li>
-                        <a class="link" th:classappend="${activeSub == 'contractCustomers'} ? 'activeSub' : ''" onclick="window.location.href='/contractCustomer/handle/1'">Företagskunder</a>
+                        <a class="link" th:classappend="${activeSub == 'contractCustomers'} ? 'activeSub' : ''" onclick="window.location.href='/contractCustomer/'">Företagskunder</a>
                     </li>
                 </ul>
             </div>
@@ -31,7 +31,7 @@
                 <h2 class="menu-title" onclick=expand(this)>RUM</h2>
                 <ul class="submenu">
                     <li>
-                        <a class="link" th:classappend="${activeSub == 'rooms'} ? 'activeSub' : ''" onclick="window.location.href='/room/all'">Visa alla rum</a>
+                        <a class="link" th:classappend="${activeSub == 'rooms'} ? 'activeSub' : ''" onclick="window.location.href='/room/all/'">Visa alla rum</a>
                     </li>
                 </ul>
             </div>
@@ -39,7 +39,7 @@
                 <h2 class="menu-title" onclick=expand(this)>BLACKLIST</h2>
                 <ul class="submenu">
                     <li>
-                        <a class="link" th:classappend="${activeSub == 'blacklisted'} ? 'activeSub' : ''" onclick="window.location.href='/customer/blacklist/handle'">Svartlistade kunder</a>
+                        <a class="link" th:classappend="${activeSub == 'blacklisted'} ? 'activeSub' : ''" onclick="window.location.href='/customer/blacklist/'">Svartlistade kunder</a>
                     </li>
                     <li>
                         <a class="link" th:classappend="${activeSub == 'newBlacklist'} ? 'activeSub' : ''" onclick="window.location.href='/customer/blacklist/form'">Svartlista ny kund</a>

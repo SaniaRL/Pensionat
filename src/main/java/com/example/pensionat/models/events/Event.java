@@ -34,7 +34,4 @@ public class Event {
     private LocalDateTime TimeStamp;
     @JsonProperty("RoomNo")
     private String RoomNo;
-    //Bort kommenterat då vi redan får en type. //Justera ev. vid behov
-    // @JsonProperty("type")
-    // private String type;
 }
