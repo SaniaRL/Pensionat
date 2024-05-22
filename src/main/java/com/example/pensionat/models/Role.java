@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Entity
-// @Table(name = "Role") Behövs denna?
+@Table(name = "Role")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

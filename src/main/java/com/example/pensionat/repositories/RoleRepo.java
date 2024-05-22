@@ -1,8 +1,10 @@
 package com.example.pensionat.repositories;
 
-import org.apache.catalina.Role;
-import org.hibernate.validator.constraints.UUID;
+
+import com.example.pensionat.models.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.UUID;
 
 public interface RoleRepo extends JpaRepository<Role, UUID> {
 

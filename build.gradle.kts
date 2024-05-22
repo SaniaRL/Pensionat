@@ -39,6 +39,8 @@ dependencies {
 	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.17.1")
 	implementation("com.rabbitmq:amqp-client:5.21.0")
 	implementation("com.fasterxml.jackson.core:jackson-annotations:2.17.1")
+	implementation("org.springframework.boot:spring-boot-starter-security")
+
 }
 
 tasks.withType<Test> {
