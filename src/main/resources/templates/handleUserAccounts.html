@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Pensionat</title>
+    <link href="/images/house.png" rel="icon" type="image/x-icon"/>
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/css/handleCustomers.css" rel="stylesheet" type="text/css">
+    <link href="/css/paging.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="/css/universal.css">
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet">
+</head>
+<body>
+<div th:replace="~{fragments/NavBar :: navBar('customer', 'customers')}"></div>
+<div class="header index-header">
+    <div>
+        <a th:href="@{/}">
+            <img class="header-text" src="/images/BedBasse.png" alt="Bed and Basse Pensionat">
+        </a>
+    </div>
+    <br>
+    <div>
+        <a th:href="@{/}">
+            <img class="header-img" src="/images/house.png" alt="Pensionat-ikon i blått">
+        </a>
+    </div>
+</div>
+
+<div class="content index-content">
+
+    <div th:unless="${#strings.isEmpty(status)}">
+        <div class="overlay"></div>
+        <div class="error-pop-up customer-pop-up" id="errorPopup">
+            <p class="customer-pop-up-header">KUNDEN KAN EJ TAS BORT</p>
+            <p class="customer-pop-up-text" th:text="${status}"></p>
+            <button class="customer-btn-pop-up btn" id="closeButton" onclick="this.parentElement.parentElement.style.display='none';">STÄNG FÖNSTER</button>
+        </div>
+    </div>
+
+    <div class="allCustomers customers-background">
+
+        <div class="placement-return-button">
+
+            <div>
+                <form action="#" method="get" th:action="@{/customer/}">
+                    <input class="customer-search" name="search" placeholder="Sök" type="text" value="">
+                    <input class="search-customer-button" type="submit" value="Submit">
+                </form>
+            </div>
+
+            <a class="return-link" th:href="@{/}">
+                <div class="return-button">Tillbaka</div>
+            </a>
+
+        </div>
+
+        <table class="customers-table">
+            <tr class="table-header">
+                <th> namn</th>
+                <th> roles</th>
+                <th> enabled</th>
+            </tr>
+            <tbody>
+            <tr class="customer-row" th:each="u : ${allUsers}">
+                <td th:text="${u.name}"></td>
+                <td th:text="${u.roles}"></td>
+                <td th:text="${u.enabled}"></td>
+                <td class="td-icons edit"><a th:href="@{/customer/{email}/update(email=${c.email})}">
+                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                        <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                        <path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/>
+                    </svg>
+                </a>
+                </td>
+                <td class="td-icons remove"><a th:href="@{/customer/{id}/removeHandler(id=${c.id})}">
+                    <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
+                        <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                        <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
+                    </svg>
+                </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <nav aria-label="Pagination" th:if="${totalPages > 0}">
+            <ul class="pagination">
+                <li class="page-item font-weight-bold" th:classappend="${currentPage == 1} ? 'disabled'">
+                    <a th:replace="~{fragments/paging :: paging(1, 'First', 'First Page')}"></a>
+                </li>
+                <li class="page-item font-weight-bold" th:classappend="${currentPage == 1} ? 'disabled'">
+                    <a th:replace="~{fragments/paging :: paging(${currentPage - 1}, 'Prev', 'Previous Page')}"></a>
+                </li>
+                <li class="page-item dots font-weight-bold" th:if="${currentPage - 2 > 1}">
+                    <a th:replace="~{fragments/paging :: paging(${currentPage - 3}, '...', 'Back 3')}">...</a>
+                </li>
+                <li class="page-item" th:classappend="${page == currentPage} ? 'active'"
+                    th:each="page : ${#numbers.sequence((currentPage > 2 ? currentPage - 2 : 1), (currentPage + 2 < totalPages ? currentPage + 2 : totalPages))}">
+                    <a th:replace="~{fragments/paging :: paging(${page}, ${page}, 'Page ' + ${page})}"></a>
+                </li>
+                <li class="page-item dots font-weight-bold" th:if="${currentPage + 2 < totalPages}">
+                    <a th:replace="~{fragments/paging :: paging(${currentPage + 3}, '...', 'Forward 3')}">...</a>
+                </li>
+                <li class="page-item font-weight-bold" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                    <a th:replace="~{fragments/paging :: paging(${currentPage + 1}, 'Next', 'Next Page')}"></a>
+                </li>
+                <li class="page-item font-weight-bold" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                    <a th:replace="~{fragments/paging :: paging(${totalPages}, 'Last', 'Last Page')}"></a>
+                </li>
+            </ul>
+        </nav>
+        <div th:if="${totalPages > 1}">
+            Total Items : [[${totalItems}]]
+            &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
+            Pages : [[${totalPages}]]
+        </div>
+    </div>
+</div>
+
+<div class=" footer">
+    <p>&#9824; Eddie Boschek &#9829; Sania Runnfors Larsson &#9827; Sebastian Karlsson &#9830; Simon
+        Nordlund</p>
+</div>
+<script th:src="@{/js/menuExpand.js}"></script>
+</body>
+</html>
