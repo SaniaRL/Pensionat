@@ -6,5 +6,5 @@ import org.springframework.ui.Model;
 
 public interface UserService {
     void addToModel(int currentPage, Model model);
-    Page<SimpleUserDTO> getAllCustomersPage(int pageNum);
+    Page<SimpleUserDTO> getAllUsersPage(int pageNum);
 }

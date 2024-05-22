@@ -1,6 +1,6 @@
 package com.example.pensionat.controllers;
 
-import com.example.pensionat.repositories.UserRepo;
+import com.example.pensionat.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,18 +13,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping(path = "/user")
 public class UserController {
 
-    private final UserRepo userRepo;
+    private final UserService userService;
 
     @GetMapping("/")
     public String handleCustomers(Model model){
         int currentPage = 1;
-        customerService.addToModel(currentPage, model);
-        return "handleCustomers";
+        userService.addToModel(currentPage, model);
+        return "handleUserAccounts";
     }
 
     @GetMapping(value = "/", params = "page")
     public String handleByPage(Model model, @RequestParam int page){
-        customerService.addToModel(page, model);
-        return "handleCustomers";
+        userService.addToModel(page, model);
+        return "handleUserAccounts";
     }
 }
