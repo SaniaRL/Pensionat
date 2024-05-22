@@ -1,6 +1,6 @@
-package com.example.pensionat.models;
+package com.example.pensionat.dtos;
 
-import jakarta.persistence.*;
+import com.example.pensionat.models.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,20 +9,14 @@ import lombok.NoArgsConstructor;
 import java.util.Collection;
 import java.util.UUID;
 
-@Entity
-@Table(name = "User")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+public class SimpleUserDTO {
+
     private UUID id;
     private String username;
-    private String password;
     private Boolean enabled;
-
-    @OneToMany(fetch =  FetchType.EAGER)
     private Collection<Role> roles;
 }

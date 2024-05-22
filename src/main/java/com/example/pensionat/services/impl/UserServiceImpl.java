@@ -1,8 +1,10 @@
 package com.example.pensionat.services.impl;
 
+import com.example.pensionat.dtos.SimpleUserDTO;
 import com.example.pensionat.models.User;
 import com.example.pensionat.repositories.UserRepo;
 import com.example.pensionat.services.convert.CustomerConverter;
+import com.example.pensionat.services.convert.UserConverter;
 import com.example.pensionat.services.interfaces.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,5 +35,10 @@ public class UserServiceImpl implements UserService {
         Pageable pageable = PageRequest.of(pageNum - 1, 5);
         Page<User> page = userRepo.findAll(pageable);
         return page.map(UserConverter::userToSimpleUserDTO);
+    }
+
+    @Override
+    public User findUserByUsername(String username) {
+        return userRepo.getUserByUsername(username);
     }
 }
