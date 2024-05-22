@@ -23,11 +23,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addToModel(int currentPage, Model model){
-        Page<SimpleUserDTO> c = getAllUsersPage(currentPage);
-        model.addAttribute("allCustomers", c.getContent());
+        Page<SimpleUserDTO> u = getAllUsersPage(currentPage);
+        model.addAttribute("allUsers", u.getContent());
         model.addAttribute("currentPage", currentPage);
-        model.addAttribute("totalItems", c.getTotalElements());
-        model.addAttribute("totalPages", c.getTotalPages());
+        model.addAttribute("totalItems", u.getTotalElements());
+        model.addAttribute("totalPages", u.getTotalPages());
     }
 
     @Override
