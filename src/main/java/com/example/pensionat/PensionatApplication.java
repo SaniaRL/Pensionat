@@ -6,6 +6,8 @@ import com.example.pensionat.models.OrderLine;
 import com.example.pensionat.models.Room;
 import com.example.pensionat.models.events.*;
 import com.example.pensionat.repositories.*;
+import com.example.pensionat.services.providers.RoleAndUserDataSeeder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -20,6 +22,9 @@ import java.util.Objects;
 
 @SpringBootApplication
 public class PensionatApplication {
+
+    @Autowired
+    private RoleAndUserDataSeeder roleAndUserDataSeeder;
 
     public static void main(String[] args) {
         if (args.length == 0) {
@@ -37,7 +42,13 @@ public class PensionatApplication {
             application.setWebApplicationType(WebApplicationType.NONE);
             application.run(args);
         }
+    }
 
+    @Bean
+    CommandLineRunner commandLineRunner() {
+        return args -> {
+            roleAndUserDataSeeder.Seed();
+        };
     }
 
     //Mock data for events
