@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -23,6 +24,11 @@ public class User {
     private String password;
     private boolean enabled;
 
-    @OneToMany(fetch =  FetchType.EAGER)
-    private Collection<Role> roles;
+    @ManyToMany
+    @JoinTable(
+            name = "User_Role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Collection<Role> roles = new ArrayList<>();
 }
