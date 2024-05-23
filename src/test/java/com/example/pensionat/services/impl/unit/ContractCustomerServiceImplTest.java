@@ -1,19 +1,22 @@
 package com.example.pensionat.services.impl.unit;
 
+import com.example.pensionat.dtos.AllCustomersDTO;
 import com.example.pensionat.dtos.ContractCustomerDTO;
 import com.example.pensionat.dtos.DetailedContractCustomerDTO;
 import com.example.pensionat.models.customers;
 import com.example.pensionat.repositories.ContractCustomersRepo;
 import com.example.pensionat.services.convert.ContractCustomerConverter;
 import com.example.pensionat.services.impl.ContractCustomerServiceImpl;
+import com.example.pensionat.services.providers.XmlStreamProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.*;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
 
-import java.lang.reflect.InvocationTargetException;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
@@ -21,14 +24,17 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 public class ContractCustomerServiceImplTest {
 
     @Mock
     private ContractCustomersRepo contractCustomersRepo;
+
+    @Mock
+    private XmlStreamProvider xmlStreamProvider;
 
     ContractCustomerServiceImpl sut;
 
@@ -42,8 +48,7 @@ public class ContractCustomerServiceImplTest {
     @BeforeEach()
     void setup() {
         //Arrange here ?
-        contractCustomersRepo = mock(ContractCustomersRepo.class);
-        sut = new ContractCustomerServiceImpl(contractCustomersRepo);
+        sut = new ContractCustomerServiceImpl(contractCustomersRepo, xmlStreamProvider);
         pageNum = 1;
         pageSize = 1;
         customerList = Arrays.asList(new customers(1L, "ABC", "A B", "title",
@@ -118,30 +123,7 @@ public class ContractCustomerServiceImplTest {
         assertNull(result);
         verify(contractCustomersRepo, times(1)).findById(customerId);
     }
-
     // getDetailedContractCustomerById() är samma + converter
-
-    @Test
-    void getCustomersBySearch(){
-
-    }
-
-//    addToModelUtil() är private
-    /*
-
-        private void addToModelUtil(Page<ContractCustomerDTO> p, Model model, int currentPage){
-        model.addAttribute("allCustomers", p.getContent());
-        model.addAttribute("currentPage", currentPage);
-        model.addAttribute("totalItems", p.getTotalElements());
-        model.addAttribute("totalPages", p.getTotalPages());
-    }
-
-        @Override
-    public void addToModel(int currentPage, Model model){
-        Page<ContractCustomerDTO> c = getAllCustomersPage(currentPage);
-        addToModelUtil(c, model, currentPage);
-    }
-     */
 
     @Test
     void addToModel() {
@@ -169,70 +151,39 @@ public class ContractCustomerServiceImplTest {
     }
 
     @Test
-    void addToModelSorted(){
+    void whenFetchContractCustomersShouldMapCorrectly() throws IOException {
+        // Arrange
+        when(xmlStreamProvider.getDataStream()).thenReturn(getClass().getClassLoader().getResourceAsStream("contract.xml"));
 
+        // Act men också arrange blir galen ju
+        AllCustomersDTO result = sut.fetchContractCustomers();
+        List<DetailedContractCustomerDTO> resultList = result.getContractCustomerList();
+
+        //Assert
+        assertEquals(3, resultList.size());
+        assertEquals(1, resultList.get(0).getId());
+        assertEquals("Persson Kommanditbolag", resultList.get(0).getCompanyName());
+        assertEquals("Maria Åslund", resultList.get(0).getContactName());
+        assertEquals("gardener", resultList.get(0).getContactTitle());
+        assertEquals("Anderssons Gata 259", resultList.get(0).getStreetAddress());
+        assertEquals("Kramland", resultList.get(0).getCity());
+        assertEquals(60843, resultList.get(0).getPostalCode());
+        assertEquals("Sverige", resultList.get(0).getCountry());
+        assertEquals("076-340-7143", resultList.get(0).getPhone());
+        assertEquals("1500-16026", resultList.get(0).getFax());
     }
 
     @Test
-    void saveAll(){
+    void saveAllContractCustomersShouldSave() throws IOException {
+        contractCustomersRepo.deleteAll();
+        when(xmlStreamProvider.getDataStream()).thenReturn(getClass().getClassLoader().getResourceAsStream("contract.xml"));
 
+        AllCustomersDTO result = sut.fetchContractCustomers();
+        List<DetailedContractCustomerDTO> resultList = result.getContractCustomerList();
+
+        sut.saveAll(resultList);
+
+        verify(contractCustomersRepo, times(1)).saveAll(any());
     }
 
-    /*
-
-    @Override
-    public Page<ContractCustomerDTO> getCustomersBySearch(int pageNum, String search, String sort, String order){
-        Pageable pageable;
-        if(order.equals("asc")) {
-            pageable = PageRequest.of(pageNum - 1, 10, Sort.by(sort).ascending());
-        } else {
-            pageable = PageRequest.of(pageNum - 1, 10, Sort.by(sort).descending());
-        }
-        Page<customers> page = contractCustomersRepo.findByCompanyNameContainsOrContactNameContains(search, search, pageable);
-        return page.map(ContractCustomerConverter::customersToContractCustomerDto);
-    }
-
-    @Override
-    public void addToModelSorted(int currentPage, String sortBy, String order, Model model){
-        Page<ContractCustomerDTO> c = getAllCustomersSortedPage(currentPage, sortBy, order);
-        addToModelUtil(c, model, currentPage);
-        model.addAttribute("order", order);
-        model.addAttribute("sort", sortBy);
-    }
-
-    @Override
-    public void addToModelSearch(int currentPage, String search, String sort, String order, Model model) {
-        Page<ContractCustomerDTO> p = getCustomersBySearch(currentPage, search, sort, order);
-        addToModelUtil(p, model, currentPage);
-        model.addAttribute("order", order);
-        model.addAttribute("sort", sort);
-        model.addAttribute("search", search);
-    }
-
-
-
-    @Override
-    public void saveAll(List<DetailedContractCustomerDTO> customers){
-        contractCustomersRepo.saveAll(customers.stream()
-                .map(ContractCustomerConverter::detailedContractCustomerToCustomers).toList());
-    }
-
-
-    private XmlMapper getMapper(){
-        JacksonXmlModule module = new JacksonXmlModule();
-        module.setDefaultUseWrapper(false);
-
-        return new XmlMapper(module);
-    }
-
-
-    @Override
-    public AllCustomersDTO fetchContractCustomers(String url) throws IOException {
-
-        allcustomers allCustomers = getMapper().readValue(new URL(url), allcustomers.class);
-
-        return ContractCustomerConverter.allCustomerToAllCustomerDTO(allCustomers);
-    }
-
-     */
 }

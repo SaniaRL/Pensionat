@@ -26,7 +26,5 @@ public interface ContractCustomerService {
 
     void addToModelSearch(int currentPage, String search, String sort, String order, Model model, int pageSize);
     void saveAll(List<DetailedContractCustomerDTO> customers);
-    AllCustomersDTO fetchContractCustomers(String url) throws IOException;
-
-
+    AllCustomersDTO fetchContractCustomers() throws IOException;
 }

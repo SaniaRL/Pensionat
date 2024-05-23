@@ -8,6 +8,7 @@ import com.example.pensionat.models.customers;
 import com.example.pensionat.repositories.ContractCustomersRepo;
 import com.example.pensionat.services.convert.ContractCustomerConverter;
 import com.example.pensionat.services.interfaces.ContractCustomerService;
+import com.example.pensionat.services.providers.XmlStreamProvider;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import lombok.AllArgsConstructor;
@@ -17,9 +18,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-
 import java.io.IOException;
-import java.net.MalformedURLException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 
@@ -29,11 +29,11 @@ import java.util.List;
 public class ContractCustomerServiceImpl implements ContractCustomerService {
 
     ContractCustomersRepo contractCustomersRepo;
+    final XmlStreamProvider xmlStreamProvider;
 
     //Används denna ens ?
     @Override
     public Page<ContractCustomerDTO> getAllCustomersPage(int pageNum, int pageSize) {
-        //TODO plocka ut 10 ?
         Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
         Page<customers> page = contractCustomersRepo.findAll(pageable);
         return page.map(ContractCustomerConverter::customersToContractCustomerDto);
@@ -42,7 +42,6 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
     @Override
     public Page<ContractCustomerDTO> getAllCustomersSortedPage(int pageNum, String sortBy, String order, int pageSize) {
         Pageable pageable;
-        //TODO Plocka ut pageSize?
         if(order.equals("asc")) {
             pageable = PageRequest.of(pageNum - 1, pageSize, Sort.by(sortBy).ascending());
         } else {
@@ -54,16 +53,10 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
         return page.map(ContractCustomerConverter::customersToContractCustomerDto);
     }
 
-    //TODO test att pageNumber = pageNum - 1
-    //TODO getSort
-    //TODO asc desc
-
     @Override
     public customers getCustomerById(Long id) {
         return contractCustomersRepo.findById(id).orElse(null);
     }
-
-    //TODO be den att hämta null idk inte viktigt idk
 
     @Override
     public DetailedContractCustomerDTO getDetailedContractCustomerById(Long id) {
@@ -74,13 +67,9 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
         return null;
     }
 
-    //TODO be den att hämta null idk inte viktigt idk
-
     @Override
     public Page<ContractCustomerDTO> getCustomersBySearch(int pageNum, String search, String sort, String order, int pageSize){
         Pageable pageable;
-
-        //TODO pageSize parameter
 
         if(order.equals("asc")) {
             pageable = PageRequest.of(pageNum - 1, pageSize, Sort.by(sort).ascending());
@@ -91,9 +80,6 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
         return page.map(ContractCustomerConverter::customersToContractCustomerDto);
     }
 
-    //TODO test order idk asc desc
-
-    //Används denna ens ?
     @Override
     public void addToModel(int currentPage, Model model, int pageSize){
         Page<ContractCustomerDTO> c = getAllCustomersPage(currentPage, pageSize);
@@ -130,7 +116,7 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
                 .map(ContractCustomerConverter::detailedContractCustomerToCustomers).toList());
     }
 
-
+/*
     private XmlMapper getMapper(){
         JacksonXmlModule module = new JacksonXmlModule();
         module.setDefaultUseWrapper(false);
@@ -138,10 +124,16 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
         return new XmlMapper(module);
     }
 
-    @Override
-    public AllCustomersDTO fetchContractCustomers(String url) throws IOException {
+ */
 
-        allcustomers allCustomers = getMapper().readValue(new URL(url), allcustomers.class);
+    @Override
+    public AllCustomersDTO fetchContractCustomers() throws IOException {
+        JacksonXmlModule module = new JacksonXmlModule();
+        module.setDefaultUseWrapper(false);
+        XmlMapper xmlMapper = new XmlMapper(module);
+        InputStream stream =  xmlStreamProvider.getDataStream();
+
+        allcustomers allCustomers = xmlMapper.readValue(stream, allcustomers.class);
 
         return ContractCustomerConverter.allCustomerToAllCustomerDTO(allCustomers);
     }
