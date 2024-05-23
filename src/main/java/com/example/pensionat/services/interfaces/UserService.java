@@ -8,6 +8,6 @@ import org.springframework.ui.Model;
 public interface UserService {
     void addToModel(int currentPage, Model model);
     Page<SimpleUserDTO> getAllUsersPage(int pageNum);
-    User findUserByUsername(String username);
+    SimpleUserDTO getSimpleUserDtoByUsername(String username);
     void deleteUserByUsername(String username);
 }

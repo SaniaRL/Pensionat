@@ -39,8 +39,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByUsername(String username) {
-        return userRepo.getUserByUsername(username);
+    public SimpleUserDTO getSimpleUserDtoByUsername(String username) {
+        System.out.println("Username: " + username);
+        User user = userRepo.getUserByUsername(username);
+        System.out.println("User: " + user.getUsername());
+        return UserConverter.userToSimpleUserDTO(user);
     }
 
     @Override

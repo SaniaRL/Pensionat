@@ -1,5 +1,6 @@
 package com.example.pensionat.controllers;
 
+import com.example.pensionat.dtos.SimpleUserDTO;
 import com.example.pensionat.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -33,5 +34,12 @@ public class UserController {
     public String deleteUserByUsername(@PathVariable String username, Model model) {
         userService.deleteUserByUsername(username);
         return handleUsers(model);
+    }
+
+    @RequestMapping("/{username}/update")
+    public String editUser(@PathVariable String username, Model model){
+        SimpleUserDTO u = userService.getSimpleUserDtoByUsername(username);
+        model.addAttribute("user", u);
+        return "updateUserAccount";
     }
 }
