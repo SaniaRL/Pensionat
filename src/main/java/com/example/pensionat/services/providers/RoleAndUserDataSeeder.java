@@ -30,7 +30,7 @@ public class RoleAndUserDataSeeder {
         }
         if(userRepo.getUserByUsername("repan@mail.com") == null){
             addUser("repan@mail.com","Receptionist");
-        }/*
+        }
         if(userRepo.getUserByUsername("eddie@mail.com") == null){
             addUser("eddie@mail.com","Admin");
         }
@@ -42,16 +42,20 @@ public class RoleAndUserDataSeeder {
         }
         if(userRepo.getUserByUsername("basse@mail.com") == null){
             addUser("basse@mail.com","Admin");
-        }*/
+        }
     }
 
     private void addUser(String mail, String group) {
         ArrayList<Role> roles = new ArrayList<>();
-        roles.add(roleRepo.findByName(group));
+        Role role = roleRepo.findByName(group);
+        System.out.println("Role id: " + role.getId() + " Role name: " + role.getName());
+        roles.add(role);
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String hash = encoder.encode("Basse123");
         User user = User.builder().enabled(true).password(hash).username(mail).roles(roles).build();
+        System.out.println("innan repo");
         userRepo.save(user);
+        System.out.println("efter repo");
     }
 
     private void addRole(String name) {

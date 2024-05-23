@@ -1,9 +1,6 @@
 package com.example.pensionat;
 
-import com.example.pensionat.models.Booking;
-import com.example.pensionat.models.Customer;
-import com.example.pensionat.models.OrderLine;
-import com.example.pensionat.models.Room;
+import com.example.pensionat.models.*;
 import com.example.pensionat.models.events.*;
 import com.example.pensionat.repositories.*;
 import com.example.pensionat.services.providers.RoleAndUserDataSeeder;
@@ -45,7 +42,7 @@ public class PensionatApplication {
     }
 
     @Bean
-    CommandLineRunner commandLineRunner() {
+    public CommandLineRunner commandLineRunner() {
         return args -> {
             roleAndUserDataSeeder.Seed();
         };
