@@ -8,13 +8,14 @@ import java.io.InputStream;
 import java.net.URL;
 
 @Service
-public class ShippersStreamProvider {
+public class BlacklistStreamProvider {
 
-    @Value("${shippers.url}")
-    private String shippersUrl;
+    @Value("${blacklist.url}")
+    private String blacklistUrl;
 
     public InputStream getDataStream() throws IOException {
-        URL url = new URL(shippersUrl);
+        URL url = new URL(blacklistUrl);
         return url.openStream();
     }
 }
+
