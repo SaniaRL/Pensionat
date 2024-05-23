@@ -1,25 +1,31 @@
 package com.example.pensionat.services.impl;
 
+import com.example.pensionat.dtos.SimpleRoleDTO;
 import com.example.pensionat.dtos.SimpleUserDTO;
+import com.example.pensionat.models.Role;
 import com.example.pensionat.models.User;
+import com.example.pensionat.repositories.RoleRepo;
 import com.example.pensionat.repositories.UserRepo;
-import com.example.pensionat.services.convert.CustomerConverter;
 import com.example.pensionat.services.convert.UserConverter;
 import com.example.pensionat.services.interfaces.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepo userRepo;
+    private final RoleRepo roleRepo;
 
-    public UserServiceImpl(UserRepo userRepo) {
+    public UserServiceImpl(UserRepo userRepo, RoleRepo rolerepo) {
         this.userRepo = userRepo;
+        this.roleRepo = rolerepo;
     }
 
     @Override
@@ -40,14 +46,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public SimpleUserDTO getSimpleUserDtoByUsername(String username) {
-        System.out.println("Username: " + username);
         User user = userRepo.getUserByUsername(username);
-        System.out.println("User: " + user.getUsername());
         return UserConverter.userToSimpleUserDTO(user);
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        User user = userRepo.getUserByUsername(username);
+        return user;
     }
 
     @Override
     public void deleteUserByUsername(String username) {
         userRepo.deleteByUsername(username);
+    }
+
+    @Override
+    public void updateUser(SimpleUserDTO userDTO) {
+        User user = getUserByUsername(userDTO.getUsername());
+        List<Role> roles = new ArrayList<>();
+        for (SimpleRoleDTO roleDTO : userDTO.getRoles()) {
+            Role role = roleRepo.findByName(roleDTO.getName());
+            roles.add(role);
+        }
+        userRepo.save(UserConverter.simpleUserDtoToUser(userDTO, user, roles));
     }
 }

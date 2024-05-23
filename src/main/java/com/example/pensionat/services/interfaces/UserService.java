@@ -9,5 +9,7 @@ public interface UserService {
     void addToModel(int currentPage, Model model);
     Page<SimpleUserDTO> getAllUsersPage(int pageNum);
     SimpleUserDTO getSimpleUserDtoByUsername(String username);
+    User getUserByUsername(String username);
     void deleteUserByUsername(String username);
+    void updateUser(SimpleUserDTO userDTO);
 }

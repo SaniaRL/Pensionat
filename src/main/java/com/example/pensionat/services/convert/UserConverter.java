@@ -7,6 +7,7 @@ import com.example.pensionat.models.User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class UserConverter {
 
@@ -24,11 +25,7 @@ public class UserConverter {
                 .build();
     }
 
-    /*public static User simpleUserDTOtoUser(SimpleUserDTO userDTO, User user ) {
-        Collection<Role> roles = null;
-        for (SimpleRoleDTO role : userDTO.getRoles()) {
-            roles.add(RoleConverter.simpleRoleDtoToRole(role));
-        }
+    public static User simpleUserDtoToUser(SimpleUserDTO userDTO, User user, List<Role> roles) {
         return User.builder()
                 .id(userDTO.getId())
                 .username(userDTO.getUsername())
@@ -36,5 +33,5 @@ public class UserConverter {
                 .enabled(userDTO.getEnabled())
                 .roles(roles)
                 .build();
-    }*/
+    }
 }

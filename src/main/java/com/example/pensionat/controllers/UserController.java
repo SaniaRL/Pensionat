@@ -1,14 +1,15 @@
 package com.example.pensionat.controllers;
 
+import com.example.pensionat.dtos.SimpleRoleDTO;
 import com.example.pensionat.dtos.SimpleUserDTO;
+import com.example.pensionat.services.interfaces.RoleService;
 import com.example.pensionat.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,11 +38,20 @@ public class UserController {
         return handleUsers(model);
     }
 
-    @RequestMapping("/{username}/update")
+    @RequestMapping("/{username}/edit")
     public String editUser(@PathVariable String username, Model model){
-        SimpleUserDTO u = userService.getSimpleUserDtoByUsername(username);
-        List<Role> roles =
-        model.addAttribute("user", u);
+        SimpleUserDTO user = userService.getSimpleUserDtoByUsername(username);
+        List<SimpleRoleDTO> roles = roleService.getAllRoles();
+        model.addAttribute("user", user);
+        model.addAttribute("selectableRoles", roles);
         return "updateUserAccount";
+    }
+
+    @PostMapping("/update")
+    public String updateUser(@ModelAttribute("user") SimpleUserDTO userDTO, Model model) {
+        userService.updateUser(userDTO);
+        int currentPage = 1;
+        userService.addToModel(currentPage, model);
+        return "handleUserAccounts";
     }
 }

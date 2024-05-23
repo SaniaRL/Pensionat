@@ -14,10 +14,4 @@ public class RoleConverter {
                 .name(role.getName())
                 .build();
     }
-    /*
-    public static Role simpleRoleDtoToRole(SimpleRoleDTO roleDTO, Collection<User> users) {
-        return Role.builder()
-                .name(role.getName())
-                .build();
-    }*/
 }

@@ -38,7 +38,7 @@
         <div class="return-button">Tillbaka</div>
       </a>
       <div class="update-submit-button">
-        <input form="customer-form" type="submit" value="Uppdatera">
+        <input form="user-form" type="submit" value="Uppdatera">
       </div>
     </div>
 
@@ -50,14 +50,19 @@
       </tr>
       <tbody>
       <tr class="customer-row tr-user-update">
-        <form id="customer-form" action="#" method="post" th:action="@{/customer/blacklist/update}" th:object="${user}">
+        <form id="user-form" action="#" method="post" th:action="@{/customer/blacklist/update}" th:object="${user}">
+          <input th:field="*{id}" type="hidden">
           <td>
             <input id="username" th:field="*{username}" type="text">
           </td>
-          <td>
-            <input id="roles" th:field="*{roles} " type="checkbox" th:value="role.id">
-            <label th:text="${role.name}"></label>
-          </td>
+
+          <tr th:each="role : ${selectableRoles}">
+            <td>
+              <input id="roles" th:field="*{roles} " type="checkbox" th:value="role.name">
+              <label th:text="${role.name}"></label>
+            </td>
+          </tr>
+
           <td>
             <input id="enabled" th:field="*{enabled}" type="text">
           </td>
