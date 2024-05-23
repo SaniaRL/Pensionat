@@ -10,7 +10,6 @@ import java.net.URL;
 @Service
 public class ShippersStreamProvider {
 
-
     @Value("${shippers.url}")
     private String shippersUrl;
 
