@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
@@ -29,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@WithMockUser(username="admin", roles={"USER", "ADMIN"})
 class CustomerControllerTest {
 
     @Autowired
@@ -115,7 +117,7 @@ class CustomerControllerTest {
     @Test
     void handleCustomersUpdate() throws Exception {
         SimpleCustomerDTO customer = new SimpleCustomerDTO("Test Customer", "test@example.com");
-        this.mvc.perform(post("/customer/handle/update")
+        this.mvc.perform(post("/customer/update")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("email", customer.getEmail())
                         .param("name", customer.getName()))
@@ -123,6 +125,7 @@ class CustomerControllerTest {
                 .andExpect(view().name("handleCustomers"))
                 .andExpect(model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));
     }
+
 
     @Test
     void loadCustomerOrNot() throws Exception {
@@ -133,39 +136,45 @@ class CustomerControllerTest {
 
     @Test
     void handleCustomers() throws Exception {
-        this.mvc.perform(get("/customer/handle"))
+        this.mvc.perform(get("/customer/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("handleCustomers"))
                 .andExpect(model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));
     }
+
+
 
     @Test
     void handleByPage() throws Exception {
         int currentPage = 2;
-        this.mvc.perform(get("/customer/handle/{pageNumber}", currentPage))
+        this.mvc.perform(get("/customer/?page={pageNumber}", currentPage))
                 .andExpect(status().isOk())
                 .andExpect(view().name("handleCustomers"))
                 .andExpect(model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));
     }
 
+
     @Test
     void getCustomerByEmail() throws Exception {
-        this.mvc.perform(get("/customer/search")
+        this.mvc.perform(get("/customer/")
                         .param("email", email))
                 .andExpect(status().isOk())
                 .andExpect(view().name("handleCustomers"))
                 .andExpect(model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));
     }
+
 
     @Test
     void getCustomerByEmailByPage() throws Exception {
         int currentPage = 3;
-        this.mvc.perform(get("/customer/search/3", currentPage)
-                        .param("email", email))
+        this.mvc.perform(get("/customer/")
+                        .param("search", email)  // Corrected from "email" to "search"
+                        .param("page", String.valueOf(currentPage)))  // Correctly adding the "page" parameter
                 .andExpect(status().isOk())
                 .andExpect(view().name("handleCustomers"))
                 .andExpect(model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));
     }
+
 
     @Test
     void checkIfEmailBlacklisted() {
