@@ -24,7 +24,7 @@
 <div th:replace="~{fragments/NavBar :: navBar('', '')}"></div>
 
 <div class="log-in-div">
-    <div class="log-in-inner-div">
+    <div class="log-in-inner-div" th:unless="${newPassword}">
         <h2>Hello, Children!</h2>
         <p th:if="${loginError}" class="error">Fel användarnamn eller lösenord</p>
         <form class="log-in-form" th:action="@{/login}" method="post">
@@ -36,7 +36,24 @@
                 <input class="btn" type="submit" value="LOGGA IN" />
             </div>
         </form>
+        <form>
+            <input type="hidden" name="newPassword" value="x">
+            <div class="right" th:if="${loginError}">
+                <input class="btn" type="submit" value="Glömt lösenord?"/>
+            </div>
+        </form>
     </div>
+    <div class="log-in-div" th:if="${newPassword}">
+        <div class="log-in-inner-div">
+            <h2>Oh no, Children!</h2>
+            <form class="log-in-form" th:action="@{/login}" method="post">
+                <label for="mail">SKRIV DIN E-POST:</label>
+                <input class="log-in-input" type="text" id="mail" name="mail" autofocus="autofocus" /> <br />
+                <div class="right">
+                    <input class="btn" type="submit" value="MEJLA NYTT LÖSENORD" />
+                </div>
+            </form>
+        </div>
 </div>
 </body>
 </html>
