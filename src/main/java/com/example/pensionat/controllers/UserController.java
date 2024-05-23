@@ -1,5 +1,6 @@
 package com.example.pensionat.controllers;
 
+import com.example.pensionat.dtos.DetailedUserDTO;
 import com.example.pensionat.dtos.SimpleRoleDTO;
 import com.example.pensionat.dtos.SimpleUserDTO;
 import com.example.pensionat.services.interfaces.RoleService;
@@ -49,8 +50,20 @@ public class UserController {
 
     @PostMapping("/update")
     public String updateUser(@ModelAttribute("user") SimpleUserDTO userDTO, Model model) {
-        System.out.println("Vid UPDATE: " + userDTO.getRoles());
         userService.updateUser(userDTO);
+        return handleUsers(model);
+    }
+
+    @GetMapping("/create")
+    public String showCreateUserAccountForm(Model model) {
+        List<SimpleRoleDTO> roles = roleService.getAllRoles();
+        model.addAttribute("selectableRoles", roles);
+        return "createUserAccount";
+    }
+
+    @PostMapping("/add")
+    public String addUser(DetailedUserDTO userDTO, Model model) {
+        userService.addUser(userDTO);
         return handleUsers(model);
     }
 }

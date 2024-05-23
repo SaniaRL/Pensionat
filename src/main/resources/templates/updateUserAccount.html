@@ -58,7 +58,7 @@
 
           <tr th:each="role : ${selectableRoles}">
             <td>
-              <input id="roles" th:field="*{user.roles} " type="checkbox" th:value="${role.name}">
+              <input id="roles" th:field="*{user.roles}" type="checkbox" th:value="${role.name}">
               <label th:text="${role.name}"></label>
             </td>
           </tr>

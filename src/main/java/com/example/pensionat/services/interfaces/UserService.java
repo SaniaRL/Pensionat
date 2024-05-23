@@ -1,5 +1,6 @@
 package com.example.pensionat.services.interfaces;
 
+import com.example.pensionat.dtos.DetailedUserDTO;
 import com.example.pensionat.dtos.SimpleUserDTO;
 import com.example.pensionat.models.User;
 import org.springframework.data.domain.Page;
@@ -12,4 +13,5 @@ public interface UserService {
     User getUserByUsername(String username);
     void deleteUserByUsername(String username);
     void updateUser(SimpleUserDTO userDTO);
+    void addUser(DetailedUserDTO userDTO);
 }

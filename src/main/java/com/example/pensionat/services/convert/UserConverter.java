@@ -1,5 +1,6 @@
 package com.example.pensionat.services.convert;
 
+import com.example.pensionat.dtos.DetailedUserDTO;
 import com.example.pensionat.dtos.SimpleRoleDTO;
 import com.example.pensionat.dtos.SimpleUserDTO;
 import com.example.pensionat.models.Role;
@@ -31,6 +32,15 @@ public class UserConverter {
                 .id(userDTO.getId())
                 .username(userDTO.getUsername())
                 .password(user.getPassword())
+                .enabled(userDTO.getEnabled())
+                .roles(roles)
+                .build();
+    }
+
+    public static User detailedUserDtoToUser(DetailedUserDTO userDTO, List<Role> roles) {
+        return User.builder()
+                .username(userDTO.getUsername())
+                .password(userDTO.getPassword())
                 .enabled(userDTO.getEnabled())
                 .roles(roles)
                 .build();

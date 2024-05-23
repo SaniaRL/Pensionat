@@ -1,5 +1,6 @@
 package com.example.pensionat.services.impl;
 
+import com.example.pensionat.dtos.DetailedUserDTO;
 import com.example.pensionat.dtos.SimpleRoleDTO;
 import com.example.pensionat.dtos.SimpleUserDTO;
 import com.example.pensionat.models.Role;
@@ -70,5 +71,15 @@ public class UserServiceImpl implements UserService {
             roles.add(role);
         }
         userRepo.save(UserConverter.simpleUserDtoToUser(userDTO, user, roles));
+    }
+
+    @Override
+    public void addUser(DetailedUserDTO userDTO) {
+        List<Role> roles = new ArrayList<>();
+        for (SimpleRoleDTO roleDTO : userDTO.getRoles()) {
+            Role role = roleRepo.findByName(roleDTO.getName());
+            roles.add(role);
+        }
+        userRepo.save(UserConverter.detailedUserDtoToUser(userDTO, roles));
     }
 }

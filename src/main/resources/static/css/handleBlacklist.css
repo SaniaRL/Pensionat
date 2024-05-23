@@ -50,6 +50,10 @@ td {
     grid-template-columns: 300px 300px !important;
 }
 
+.create {
+    grid-template-columns: 300px 300px 300px !important;
+}
+
 .customer-row {
     :first-child > :not(input) {
         border-left: none;
