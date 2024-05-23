@@ -18,5 +18,5 @@ public class SimpleUserDTO {
     private UUID id;
     private String username;
     private Boolean enabled;
-    private Collection<Role> roles;
+    private Collection<SimpleRoleDTO> roles;
 }
