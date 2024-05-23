@@ -211,8 +211,8 @@ class BookingServiceImplTest {
 
     @Test
     void generatePrice_WithSundayToMondayDiscount() {
-        bookingData.setStartDate("2024-05-19");
-        bookingData.setEndDate("2024-05-20");
+        bookingData.setStartDate("2019-05-19");
+        bookingData.setEndDate("2019-05-20");
 
         double price = bookingServiceImpl.generatePrice(bookingData);
 

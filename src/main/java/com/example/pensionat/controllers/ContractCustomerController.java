@@ -22,9 +22,9 @@ public class ContractCustomerController {
             Model model,
             @RequestParam(defaultValue = "id") String sort,
             @RequestParam(defaultValue = "asc") String order){
+        int pageSize = 10;
         int currentPage = 1;
-        //TODO Kolla om det ens är rätt shit
-        contractCustomerService.addToModelSorted(currentPage, sort, order, model);
+        contractCustomerService.addToModelSorted(currentPage, sort, order, model, pageSize);
         return "contractCustomers";
     }
 
@@ -34,7 +34,6 @@ public class ContractCustomerController {
             @RequestParam(defaultValue = "id") String sort,
             @RequestParam(defaultValue = "asc") String order,
             @RequestParam int page){
-        //TODO Kolla om det ens är rätt shit
         contractCustomerService.addToModelSorted(page, sort, order, model);
         return "contractCustomers";
     }
@@ -50,7 +49,8 @@ public class ContractCustomerController {
                                  @RequestParam String search,
                                  @RequestParam(defaultValue = "id") String sort,
                                  @RequestParam(defaultValue = "asc") String order){
-        contractCustomerService.addToModelSearch(1, search, sort, order, model);
+        int pageSize = 10;
+        contractCustomerService.addToModelSearch(1, search, sort, order, model, pageSize);
         return "contractCustomers";
     }
 
@@ -61,7 +61,8 @@ public class ContractCustomerController {
                                  @RequestParam(defaultValue = "id") String sort,
                                  @RequestParam(defaultValue = "asc") String order,
                                  @RequestParam int page){
-        contractCustomerService.addToModelSearch(page, search, sort, order, model);
+        int pageSize = 10;
+        contractCustomerService.addToModelSearch(page, search, sort, order, model, pageSize);
         return "contractCustomers";
     }
 
