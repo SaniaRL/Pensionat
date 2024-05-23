@@ -55,7 +55,8 @@
             <input id="username" th:field="*{username}" type="text">
           </td>
           <td>
-            <input id="roles" th:field="*{username} " type="text">
+            <input id="roles" th:field="*{roles} " type="checkbox" th:value="role.id">
+            <label th:text="${role.name}"></label>
           </td>
           <td>
             <input id="enabled" th:field="*{enabled}" type="text">

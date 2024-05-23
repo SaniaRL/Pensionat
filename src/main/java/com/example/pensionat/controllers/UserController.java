@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserController {
 
     private final UserService userService;
+    private final RoleService roleService;
 
     @GetMapping("/")
     public String handleUsers(Model model){
@@ -39,6 +40,7 @@ public class UserController {
     @RequestMapping("/{username}/update")
     public String editUser(@PathVariable String username, Model model){
         SimpleUserDTO u = userService.getSimpleUserDtoByUsername(username);
+        List<Role> roles =
         model.addAttribute("user", u);
         return "updateUserAccount";
     }
