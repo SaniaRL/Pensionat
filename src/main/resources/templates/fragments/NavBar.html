@@ -9,7 +9,7 @@
         </div>
         <div class="menu-titles">
             <div sec:authorize="isAnonymous()" class="menu-login">
-                <h2 class="menu-title-sec" sec:authorize="isAnonymous()" onclick="window.location.href='/'">LOGGA IN</h2>
+                <h2 class="menu-title-sec" sec:authorize="isAnonymous()" onclick="window.location.href='/login'">LOGGA IN</h2>
             </div>
             <div class="menu-booking" th:classappend="${activePage == 'booking'} ? 'active' : 'submenu-hidden'">
                 <h2 class="menu-title" onclick=expand(this)>BOKNING</h2>
