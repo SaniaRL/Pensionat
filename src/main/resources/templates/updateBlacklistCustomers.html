@@ -50,7 +50,7 @@
       </tr>
       <tbody>
       <tr class="customer-row update-blacklist">
-        <form id="customer-form" action="#" method="post" th:action="@{/customer/blacklist/handle/update}" th:object="${kund}">
+        <form id="customer-form" action="#" method="post" th:action="@{/customer/blacklist/update}" th:object="${kund}">
           <td>
             <input id="name" th:field="*{name}" type="text">
           </td>
