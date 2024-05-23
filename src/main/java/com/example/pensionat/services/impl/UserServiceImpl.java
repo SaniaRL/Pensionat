@@ -6,6 +6,7 @@ import com.example.pensionat.repositories.UserRepo;
 import com.example.pensionat.services.convert.CustomerConverter;
 import com.example.pensionat.services.convert.UserConverter;
 import com.example.pensionat.services.interfaces.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -40,5 +41,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserByUsername(String username) {
         return userRepo.getUserByUsername(username);
+    }
+
+    @Override
+    public void deleteUserByUsername(String username) {
+        userRepo.deleteByUsername(username);
     }
 }
