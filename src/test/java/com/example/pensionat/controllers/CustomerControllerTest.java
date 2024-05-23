@@ -193,6 +193,16 @@ class CustomerControllerTest {
     }
 
     @Test
+    void handleBlacklistSearch() {
+
+    }
+
+    @Test
+    void handleBlacklistByPageSearch() {
+
+    }
+
+    @Test
     void showBlacklistForm() {
 
     }

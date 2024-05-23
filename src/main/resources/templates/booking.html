@@ -29,7 +29,7 @@
 
 <div class="content booking-content">
 
-    <form action="/bookingSubmit" method="post" onsubmit="clearRooms()">
+    <form action="/bookingSubmit?emptyBooking=false" method="post" onsubmit="clearRooms()">
       <div class="booking-options">
       <div class="left">
         <div>
@@ -54,6 +54,14 @@
       </div>
       </div>
     </form>
+
+  <div th:unless="${#strings.isEmpty(emptyBooking)}">
+    <div class="error-pop-up" id="errorPopup2">
+      <p class="pop-up-header">Bokningen kan ej genomföras</p>
+      <p th:text="${emptyBooking}"></p>
+      <button class="ok-btn-pop-up" id="closeButton2">STÄNG</button>
+    </div>
+  </div>
 
     <div id="booking-chosen-rooms" >
       <div class="scroll-shit">

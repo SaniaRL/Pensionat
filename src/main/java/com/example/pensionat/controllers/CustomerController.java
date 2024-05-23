@@ -37,7 +37,7 @@ public class CustomerController {
         return "updateCustomers";
     }
 
-    @PostMapping("/handle/update")
+    @PostMapping("/update")
     public String handleCustomersUpdate(Model model, SimpleCustomerDTO customer){
         customerService.updateCustomer(customer);
         int currentPage = 1;
@@ -50,29 +50,29 @@ public class CustomerController {
         return "customerOrNot";
     }
 
-    @GetMapping("/handle")
+    @GetMapping("/")
     public String handleCustomers(Model model){
         int currentPage = 1;
         customerService.addToModel(currentPage, model);
         return "handleCustomers";
     }
 
-    @GetMapping("/handle/{pageNumber}")
-    public String handleByPage(Model model, @PathVariable("pageNumber") int currentPage){
-        customerService.addToModel(currentPage, model);
+    @GetMapping(value = "/", params = "page")
+    public String handleByPage(Model model, @RequestParam int page){
+        customerService.addToModel(page, model);
         return "handleCustomers";
     }
 
-    @GetMapping("/search")
-    public String getCustomerByEmail(@RequestParam String email, Model model) {
+    @GetMapping(value = "/", params = "search")
+    public String getCustomerByEmail(@RequestParam String search, Model model) {
         int currentPage = 1;
-        customerService.addToModelEmail(email, currentPage, model);
+        customerService.addToModelEmail(search, currentPage, model);
         return "handleCustomers";
     }
 
-    @GetMapping("/search/{pageNumber}")
-    public String getCustomerByEmailByPage(@RequestParam String email, Model model, @PathVariable("pageNumber") int currentPage) {
-        customerService.addToModelEmail(email, currentPage, model);
+    @GetMapping(value = "/", params = {"search", "page"})
+    public String getCustomerByEmailByPage(@RequestParam String search, Model model, @RequestParam int page) {
+        customerService.addToModelEmail(search, page, model);
         return "handleCustomers";
     }
 
@@ -85,16 +85,30 @@ public class CustomerController {
         return "bookingConfirmation";
     }
 
-    @GetMapping("/blacklist/handle")
+    @GetMapping("/blacklist/")
     public String handleBlacklist(Model model) throws IOException {
         int currentPage = 1;
         customerService.addToModelBlacklist(currentPage, model);
         return "handleBlacklist";
     }
 
-    @GetMapping("/blacklist/handle/{pageNumber}")
-    public String handleBlacklistByPage(Model model, @PathVariable("pageNumber") int currentPage) throws IOException {
-        customerService.addToModelBlacklist(currentPage, model);
+    @GetMapping(value = "/blacklist/", params = "page")
+    public String handleBlacklistByPage(Model model,
+                                        @RequestParam int page) throws IOException {
+        customerService.addToModelBlacklist(page, model);
+        return "handleBlacklist";
+    }
+
+    @GetMapping(value = "/blacklist/", params = "search")
+    public String handleBlacklistSearch(@RequestParam String search, Model model) throws IOException {
+        int currentPage = 1;
+        customerService.addToModelBlacklistSearch(search, currentPage, model);
+        return "handleBlacklist";
+    }
+
+    @GetMapping(value = "/blacklist/", params = {"search", "page"})
+    public String handleBlacklistByPageSearch(@RequestParam String search, Model model, @RequestParam int page) throws IOException {
+        customerService.addToModelBlacklistSearch(search, page, model);
         return "handleBlacklist";
     }
 
@@ -105,7 +119,7 @@ public class CustomerController {
         return "updateBlacklistCustomers";
     }
 
-    @PostMapping("/blacklist/handle/update")
+    @PostMapping("/blacklist/update")
     public String handleBlacklistCustomerUpdate(Model model, SimpleBlacklistCustomerDTO c) throws IOException {
         customerService.updateBlacklistCustomer(c);
         int currentPage = 1;

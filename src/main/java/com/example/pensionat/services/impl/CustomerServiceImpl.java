@@ -133,6 +133,41 @@ public class CustomerServiceImpl implements CustomerService {
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalItems", c.getTotalElements());
         model.addAttribute("totalPages", c.getTotalPages());
+        model.addAttribute("sort", "id");
+    }
+
+    @Override
+    public void addToModelBlacklistSearch(String search, int currentPage, Model model) throws IOException {
+        Page<SimpleBlacklistCustomerDTO> c = getBlacklistBySearch(search, currentPage);
+        model.addAttribute("allCustomers", c.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", c.getTotalElements());
+        model.addAttribute("totalPages", c.getTotalPages());
+        model.addAttribute("search", search);
+    }
+
+    @Override
+    public Page<SimpleBlacklistCustomerDTO> getBlacklistBySearch(String search, int pageNum) throws IOException {
+        int pageSize = 5;
+        int skip = (pageNum - 1) * pageSize;
+
+        List<SimpleBlacklistCustomerDTO> blacklist = getBlacklist();
+
+        String lowercaseSearch = search.toLowerCase();
+
+        List<SimpleBlacklistCustomerDTO> filteredBlacklist = blacklist.stream()
+                .filter(customer -> (customer.getEmail() != null && customer.getEmail().toLowerCase().contains(lowercaseSearch)) ||
+                        (customer.getName() != null && customer.getName().toLowerCase().contains(lowercaseSearch)))
+                .skip(skip)
+                .limit(pageSize)
+                .toList();
+
+        long total = blacklist.stream()
+                .filter(customer -> (customer.getEmail() != null && customer.getEmail().toLowerCase().contains(lowercaseSearch)) ||
+                        (customer.getName() != null && customer.getName().toLowerCase().contains(lowercaseSearch)))
+                .count();
+
+        return new PageImpl<>(filteredBlacklist, PageRequest.of(pageNum - 1, pageSize), total);
     }
 
     @Override

@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -41,7 +44,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void addToModel(String id, int currentPage, Model model){
+    public void addToModel(String id, int currentPage, Model model) {
         Page<EventDTO> eventList = getEventsByRoomId(id, currentPage);
         model.addAttribute("allRoomEvents", eventList.getContent());
         model.addAttribute("currentPage", currentPage);
@@ -49,6 +52,7 @@ public class EventServiceImpl implements EventService {
         model.addAttribute("totalPages", eventList.getTotalPages());
         model.addAttribute("roomNumber", id);
     }
+
     @Override
     public Page<EventDTO> getEventsByRoomId(String id, int pageNum) {
         Pageable pageable = PageRequest.of(pageNum - 1, 6, Sort.by("TimeStamp").descending());
@@ -65,7 +69,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Channel createChannelFromConnection() throws Exception {
+    public Channel setupChannel() throws Exception {
         ConnectionFactory factory = createConnectionFactory();
         Connection connection = factory.newConnection();
         return connection.createChannel();
@@ -81,29 +85,22 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void setupConsumer(Channel channel) throws Exception {
+    public List<String> setupConsumer(Channel channel) throws Exception {
+        List<String> tempStoredMessages = new ArrayList<>();
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
-        DeliverCallback deliverCallback = createDeliverCallback();
-        channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {});
-    }
 
-    @Override
-    public DeliverCallback createDeliverCallback() {
-        return (consumerTag, delivery) -> {
-            String message = extractMessage(delivery);
+        DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+
+            String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
             System.out.println(" [x] Received '" + message + "'");
+            tempStoredMessages.add(message);
             saveEventToDatabase(mapToEvent(message));
-        };
-    }
 
-    @Override
-    public String extractMessage(Delivery delivery) {
-        try {
-            return new String(delivery.getBody(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return "";
-        }
+        };
+        channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {
+        });
+
+        return tempStoredMessages;
     }
 
     @Override

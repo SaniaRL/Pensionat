@@ -131,7 +131,7 @@ public class RoomServicelmpl implements RoomService {
         }
 
         if(wantedBeds > maxNumberOfBeds) {
-            return "Det önskade antalet sängar överstiger antalet lediga sängar";
+            return "Det önskade antalet sängar överstiger antalet lediga sängar.";
         }
 
         return "";

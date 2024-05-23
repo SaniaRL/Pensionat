@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -17,16 +18,16 @@ public class RoomController {
     private final RoomService roomService;
     private final EventService eventService;
 
-    @GetMapping ("/all")
+    @GetMapping ("/all/")
     public String getAllRooms(Model model) {
         int currentPage = 1;
         roomService.addToModel(currentPage, model);
         return "allRooms";
     }
 
-    @GetMapping("/all/{pageNumber}")
-    public String roomsByPage(Model model, @PathVariable("pageNumber") int currentPage){
-        roomService.addToModel(currentPage, model);
+    @GetMapping(value = "/all/", params = "page")
+    public String roomsByPage(Model model, @RequestParam int page){
+        roomService.addToModel(page, model);
         return "allRooms";
     }
 
@@ -37,9 +38,9 @@ public class RoomController {
         return "eventListRoom";
     }
 
-    @GetMapping("/eventlist/{id}/{pageNumber}")
-    public String eventListByPage(@PathVariable Long id, Model model, @PathVariable("pageNumber") int currentPage){
-        eventService.addToModel(id.toString(), currentPage, model);
+    @GetMapping(value = "/eventlist/{id}", params = "page")
+    public String eventListByPage(@PathVariable Long id, Model model, @RequestParam int page){
+        eventService.addToModel(id.toString(), page, model);
         return "eventListRoom";
     }
 }

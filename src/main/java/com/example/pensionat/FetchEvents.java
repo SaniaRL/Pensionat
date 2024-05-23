@@ -14,7 +14,7 @@ public class FetchEvents implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Channel channel = eventService.createChannelFromConnection();
+        Channel channel = eventService.setupChannel();
         eventService.setupConsumer(channel);
     }
 }

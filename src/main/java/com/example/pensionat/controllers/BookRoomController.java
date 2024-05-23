@@ -24,10 +24,14 @@ public class BookRoomController {
     OrderLineServicelmpl orderLineService;
 
     @PostMapping("/bookingSubmit")
-    public String processBookingForm(@ModelAttribute BookingFormQueryDTO query, Model model) {
+    public String processBookingForm(@RequestParam boolean emptyBooking, @ModelAttribute BookingFormQueryDTO query, Model model) {
         List<RoomDTO> availableRooms = new ArrayList<>();
         List<RoomDTO> chosenRooms = new ArrayList<>();
         String status = "Error: Query is null";
+
+        if (emptyBooking) {
+            model.addAttribute("emptyBooking", "Du har ej valt några rum.");
+        }
 
         if (query != null) {
             availableRooms = roomService.findAvailableRooms(query);

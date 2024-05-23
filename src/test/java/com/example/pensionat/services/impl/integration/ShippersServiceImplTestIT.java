@@ -22,9 +22,9 @@ import static org.mockito.Mockito.when;
 class ShippersServiceImplTestIT {
     ShippersService sut;
     @Autowired
-    private ShippersStreamProvider shippersStreamProvider = mock(ShippersStreamProvider.class); //Kan förenklas. Temp.
+    private ShippersStreamProvider shippersStreamProvider;
     @Autowired
-    private ShippersRepo shippersRepo = mock(ShippersRepo.class);
+    private ShippersRepo shippersRepo;
 
     @BeforeEach()
     void setup() {
