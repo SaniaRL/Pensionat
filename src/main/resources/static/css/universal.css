@@ -131,14 +131,14 @@ body {
 }
 
 .menu-titles .submenu-hidden  {
-    ul {
+    & ul {
         max-height: 0;
         overflow: hidden;
     }
 }
 
 .menu-titles .active {
-    h2 {
+    & h2 {
         color: #70ADB3;
     }
 }
@@ -177,3 +177,9 @@ body {
     font-size: 20px;
     height: 35px;
 }
+
+.bl-feedback {
+    font-size: 20px;
+    align-self: center;
+}
+
