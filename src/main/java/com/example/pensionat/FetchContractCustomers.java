@@ -14,6 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Properties;
 
 @ComponentScan
 public class FetchContractCustomers implements CommandLineRunner {
@@ -21,11 +22,9 @@ public class FetchContractCustomers implements CommandLineRunner {
     @Autowired
     ContractCustomerService contractCustomersService;
 
-
-    private String contractCustomersUrl = "https://javaintegration.systementor.se/customers";
-
     @Override
     public void run(String... args) throws Exception {
-        contractCustomersService.saveAll(contractCustomersService.fetchContractCustomers(contractCustomersUrl).getContractCustomerList());
+        //Testa saveAll (Mocka)
+        contractCustomersService.saveAll(contractCustomersService.fetchContractCustomers().getContractCustomerList());
     }
 }

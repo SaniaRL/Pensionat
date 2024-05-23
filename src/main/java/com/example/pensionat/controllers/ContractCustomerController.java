@@ -22,9 +22,9 @@ public class ContractCustomerController {
             Model model,
             @RequestParam(defaultValue = "id") String sort,
             @RequestParam(defaultValue = "asc") String order){
+        int pageSize = 10;
         int currentPage = 1;
-        //TODO Kolla om det ens är rätt shit
-        contractCustomerService.addToModelSorted(currentPage, sort, order, model);
+        contractCustomerService.addToModelSorted(currentPage, sort, order, model, pageSize);
         return "contractCustomers";
     }
 
@@ -34,23 +34,18 @@ public class ContractCustomerController {
             @RequestParam(defaultValue = "id") String sort,
             @RequestParam(defaultValue = "asc") String order,
             @RequestParam int page){
-        //TODO Kolla om det ens är rätt shit
-        contractCustomerService.addToModelSorted(page, sort, order, model);
+        int pageSize = 10;
+        contractCustomerService.addToModelSorted(page, sort, order, model, pageSize);
         return "contractCustomers";
     }
-//    @GetMapping("/contractHandle")
-//    public String contractHandleCustomers(Model model){
-//        int currentPage = 1;
-//        contractCustomerService.addToModel(currentPage, model);
-//        return "contractCustomers";
-//    }
 
     @GetMapping(value = "/", params = "search")
     public String contractSearch(Model model,
                                  @RequestParam String search,
                                  @RequestParam(defaultValue = "id") String sort,
                                  @RequestParam(defaultValue = "asc") String order){
-        contractCustomerService.addToModelSearch(1, search, sort, order, model);
+        int pageSize = 10;
+        contractCustomerService.addToModelSearch(1, search, sort, order, model, pageSize);
         return "contractCustomers";
     }
 
@@ -61,7 +56,8 @@ public class ContractCustomerController {
                                  @RequestParam(defaultValue = "id") String sort,
                                  @RequestParam(defaultValue = "asc") String order,
                                  @RequestParam int page){
-        contractCustomerService.addToModelSearch(page, search, sort, order, model);
+        int pageSize = 10;
+        contractCustomerService.addToModelSearch(page, search, sort, order, model, pageSize);
         return "contractCustomers";
     }
 
@@ -71,7 +67,8 @@ public class ContractCustomerController {
                                  @RequestParam(defaultValue = "id") String sort,
                                  @RequestParam(defaultValue = "asc") String order,
                                        @RequestParam int page){
-        contractCustomerService.addToModelSearch(page, search, sort, order, model);
+        int pageSize = 10;
+        contractCustomerService.addToModelSearch(page, search, sort, order, model, pageSize);
         return "contractCustomers";
     }
 
@@ -82,17 +79,4 @@ public class ContractCustomerController {
         return "contractCustomer";
     }
 
-//    @GetMapping("/contractCustomer/{id}")
-//    public String getContractCustomerTwo(Model model, @PathVariable long id) {
-//        DetailedContractCustomerDTO cc = contractCustomerService.getDetailedContractCustomerById(id);
-//        model.addAttribute("kund", cc);
-//        return "contractCustomer";
-//    }
-
-//    @GetMapping("/sort/contractCustomer/{id}")
-//    public String getContractCustomerWhileSorted(Model model, @PathVariable long id) {
-//        DetailedContractCustomerDTO cc = contractCustomerService.getDetailedContractCustomerById(id);
-//        model.addAttribute("kund", cc);
-//        return "contractCustomer";
-//    }
 }
