@@ -106,7 +106,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public boolean checkIfEmailBlacklisted(String email) {
-        String blacklistApiUrl= blacklistUrlProvider.getBlacklistUrl();
+        String blacklistApiUrl= "https://javabl.systementor.se/api/bed&basse/blacklistcheck/";
         boolean notBlacklisted = false;
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -175,7 +175,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public String addToBlacklist(SimpleBlacklistCustomerDTO c) {
         try {
-            String url = blacklistUrlProvider.getBlacklistUrl();
+            String url = "https://javabl.systementor.se/api/bed&basse/blacklist";
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -196,7 +196,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public String updateBlacklistCustomer(SimpleBlacklistCustomerDTO c) {
         try {
-            String url = blacklistUrlProvider.getBlacklistUrl() + c.getEmail();
+            String url = "https://javabl.systementor.se/api/bed&basse/blacklist/" + c.getEmail();
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -218,7 +218,7 @@ public class CustomerServiceImpl implements CustomerService {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
 
-        DetailedBlacklistCustomerDTO[] respone = objectMapper.readValue(new URL(blacklistUrlProvider.getBlacklistUrl())
+        DetailedBlacklistCustomerDTO[] respone = objectMapper.readValue(new URL("https://javabl.systementor.se/api/bed&basse/blacklist")
                 , DetailedBlacklistCustomerDTO[].class);
 
         return Arrays.stream(respone)
