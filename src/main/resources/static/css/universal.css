@@ -142,3 +142,38 @@ body {
         color: #70ADB3;
     }
 }
+
+.log-in-div {
+    margin-top: 200px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.log-in-inner-div {
+    display: flex;
+    background-color: #d1d3d4;
+    border: 2px #4f4b6a solid;
+    border-radius: 12px;
+    padding: 30px 20px;
+    flex-direction: column;
+}
+
+.right {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.log-in-form {
+    display: grid;
+}
+
+.log-in-input {
+    width: 300px;
+    border-radius: 8px;
+    font-size: 20px;
+    height: 35px;
+}

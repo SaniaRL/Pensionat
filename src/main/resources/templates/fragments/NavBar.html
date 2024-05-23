@@ -1,10 +1,16 @@
-<div th:fragment="navBar(activePage, activeSub)" class="menu">
+<div th:fragment="navBar(activePage, activeSub)"
+     class="menu"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
     <div class="menu-container">
         <div class="menu-account">
             <p>Account Image</p>
             <p>Account Name</p>
         </div>
         <div class="menu-titles">
+            <div sec:authorize="isAnonymous()" class="menu-login">
+                <h2 class="menu-title-sec" sec:authorize="isAnonymous()" onclick="window.location.href='/'">LOGGA IN</h2>
+            </div>
             <div class="menu-booking" th:classappend="${activePage == 'booking'} ? 'active' : 'submenu-hidden'">
                 <h2 class="menu-title" onclick=expand(this)>BOKNING</h2>
                 <ul class="submenu">
@@ -45,6 +51,9 @@
                         <a class="link" th:classappend="${activeSub == 'newBlacklist'} ? 'activeSub' : ''" onclick="window.location.href='/customer/blacklist/form'">Svartlista ny kund</a>
                     </li>
                 </ul>
+            </div>
+            <div sec:authorize="isAuthenticated()" class="menu-logout">
+                <h2 class="menu-title-sec" onclick="window.location.href='/'">LOGGA UT</h2>
             </div>
         </div>
     </div>
