@@ -49,9 +49,8 @@ public class UserController {
 
     @PostMapping("/update")
     public String updateUser(@ModelAttribute("user") SimpleUserDTO userDTO, Model model) {
+        System.out.println("Vid UPDATE: " + userDTO.getRoles());
         userService.updateUser(userDTO);
-        int currentPage = 1;
-        userService.addToModel(currentPage, model);
-        return "handleUserAccounts";
+        return handleUsers(model);
     }
 }

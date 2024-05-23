@@ -59,7 +59,6 @@ public class RoleAndUserDataSeeder {
     }
 
     private void addRole(String name) {
-        Role role = new Role();
         roleRepo.save(Role.builder().name(name).build());
     }
 }

@@ -50,7 +50,7 @@
       </tr>
       <tbody>
       <tr class="customer-row tr-user-update">
-        <form id="user-form" action="#" method="post" th:action="@{/customer/blacklist/update}" th:object="${user}">
+        <form id="user-form" action="#" method="post" th:action="@{/user/update}" th:object="${user}">
           <input th:field="*{id}" type="hidden">
           <td>
             <input id="username" th:field="*{username}" type="text">
@@ -58,13 +58,14 @@
 
           <tr th:each="role : ${selectableRoles}">
             <td>
-              <input id="roles" th:field="*{roles} " type="checkbox" th:value="role.name">
+              <input id="roles" th:field="*{user.roles} " type="checkbox" th:value="${role.name}">
               <label th:text="${role.name}"></label>
             </td>
           </tr>
 
           <td>
-            <input id="enabled" th:field="*{enabled}" type="text">
+            <input id="enabled" th:field="*{user.enabled}" type="checkbox" th:value="${user.enabled}">
+            <label th:text="Enabled"></label>
           </td>
         </form>
       </tr>

@@ -12,6 +12,7 @@ import java.util.List;
 public class UserConverter {
 
     public static SimpleUserDTO userToSimpleUserDTO(User user) {
+        System.out.println("User " + user.getUsername());
         Collection<SimpleRoleDTO> roles = new ArrayList<>();
         for (Role role : user.getRoles()) {
             System.out.println("ROLE: " + role.getName());
