@@ -7,6 +7,7 @@ import com.example.pensionat.services.interfaces.CustomerService;
 import com.example.pensionat.models.Customer;
 import com.example.pensionat.repositories.CustomerRepo;
 import com.example.pensionat.services.convert.CustomerConverter;
+import com.example.pensionat.services.providers.BlacklistUrlProvider;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -24,7 +25,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -33,9 +33,11 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepo customerRepo;
+    private final BlacklistUrlProvider blacklistUrlProvider;
 
-    public CustomerServiceImpl(CustomerRepo customerRepo) {
+    public CustomerServiceImpl(CustomerRepo customerRepo, BlacklistUrlProvider blacklistUrlProvider) {
         this.customerRepo = customerRepo;
+        this.blacklistUrlProvider = blacklistUrlProvider;
     }
 
     @Override
@@ -104,7 +106,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public boolean checkIfEmailBlacklisted(String email) {
-        String blacklistApiUrl= "https://javabl.systementor.se/api/bed&basse/blacklistcheck/";
+        String blacklistApiUrl= blacklistUrlProvider.getBlacklistUrl();
         boolean notBlacklisted = false;
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -173,7 +175,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public String addToBlacklist(SimpleBlacklistCustomerDTO c) {
         try {
-            String url = "https://javabl.systementor.se/api/bed&basse/blacklist";
+            String url = blacklistUrlProvider.getBlacklistUrl();
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -194,7 +196,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public String updateBlacklistCustomer(SimpleBlacklistCustomerDTO c) {
         try {
-            String url = "https://javabl.systementor.se/api/bed&basse/blacklist/" + c.getEmail();
+            String url = blacklistUrlProvider.getBlacklistUrl() + c.getEmail();
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -216,7 +218,7 @@ public class CustomerServiceImpl implements CustomerService {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
 
-        DetailedBlacklistCustomerDTO[] respone = objectMapper.readValue(new URL("https://javabl.systementor.se/api/bed&basse/blacklist")
+        DetailedBlacklistCustomerDTO[] respone = objectMapper.readValue(new URL(blacklistUrlProvider.getBlacklistUrl())
                 , DetailedBlacklistCustomerDTO[].class);
 
         return Arrays.stream(respone)
