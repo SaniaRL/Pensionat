@@ -24,11 +24,11 @@ public class User {
     private String password;
     private boolean enabled;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "User_Role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Collection<Role> roles = new ArrayList<>();
+    private Collection<Role> roles;
 }
