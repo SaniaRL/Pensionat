@@ -42,6 +42,20 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	testImplementation("org.springframework.security:spring-security-test:6.3.0")
 
+	implementation("org.yaml:snakeyaml")
+	implementation("com.github.javafaker:javafaker:1.0.2") { exclude ("org.yaml") }
+	implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
+	implementation("org.modelmapper:modelmapper:3.2.0")
+
+	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
+//	implementation("org.springframework.boot:spring-boot-starter-validation")
+//	implementation("com.fasterxml.jackson.core:jackson-databind")
+//	implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+//	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
+//	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-csv")
+//	implementation("com.rabbitmq:amqp-client")
+//      https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+
 }
 
 tasks.withType<Test> {

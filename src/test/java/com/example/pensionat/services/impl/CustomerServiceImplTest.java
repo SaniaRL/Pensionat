@@ -4,6 +4,7 @@ import com.example.pensionat.dtos.CustomerDTO;
 import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.models.Customer;
 import com.example.pensionat.repositories.CustomerRepo;
+import com.example.pensionat.services.providers.BlacklistUrlProvider;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +26,8 @@ class CustomerServiceImplTest {
 
     @Mock
     private CustomerRepo customerRepo;
+    @Mock
+    private BlacklistUrlProvider blacklistUrlProvider;
 
     Long id = 1L;
     String name = "Maria";
@@ -41,7 +44,7 @@ class CustomerServiceImplTest {
     @Test
     void getAllCustomers() {
         when(customerRepo.findAll()).thenReturn(Arrays.asList(customer));
-        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
+        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo, blacklistUrlProvider);
         List<SimpleCustomerDTO> actual = service.getAllCustomers();
         assertEquals(1, actual.size());
         assertEquals(actual.get(0).getId(), customer.getId());
@@ -52,7 +55,7 @@ class CustomerServiceImplTest {
     @Test
     void addCustomer() {
         when(customerRepo.save(any(Customer.class))).thenReturn(customer);
-        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
+        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo, blacklistUrlProvider);
         SimpleCustomerDTO actual = service.addCustomer(simpleCustomerDTO);
         assertEquals(actual.getId(), simpleCustomerDTO.getId());
         assertEquals(actual.getName(), simpleCustomerDTO.getName());
@@ -61,14 +64,14 @@ class CustomerServiceImplTest {
 
     @Test
     void removeCustomerById() {
-        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
+        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo, blacklistUrlProvider);
         String feedback = service.removeCustomerById(id);
         assertTrue(feedback.equalsIgnoreCase("Customer removed successfully"));
     }
 
     @Test
     void updateCustomer() {
-        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
+        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo, blacklistUrlProvider);
         String feedback = service.updateCustomer(simpleCustomerDTO);
         assertTrue(feedback.equalsIgnoreCase("Customer updated successfully"));
     }
@@ -76,7 +79,7 @@ class CustomerServiceImplTest {
     @Test
     void getCustomersByEmail() {
         when(customerRepo.findByEmailContains(email, pageable)).thenReturn(mockedPage);
-        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
+        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo, blacklistUrlProvider);
         Page<SimpleCustomerDTO> actual = service.getCustomersByEmail(customer.getEmail(), pageNum);
         assertEquals(1, actual.getTotalElements());
         assertEquals(customer.getId(), actual.getContent().get(0).getId());
@@ -87,7 +90,7 @@ class CustomerServiceImplTest {
     @Test
     void getAllCustomersPage() {
         when(customerRepo.findAll(pageable)).thenReturn(mockedPage);
-        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
+        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo, blacklistUrlProvider);
         Page<SimpleCustomerDTO> actual = service.getAllCustomersPage(pageNum);
         assertEquals(1, actual.getTotalElements());
         assertEquals(customer.getId(), actual.getContent().get(0).getId());
@@ -98,7 +101,7 @@ class CustomerServiceImplTest {
     @Test
     void getCustomerByEmail() {
         when(customerRepo.findByEmail(email)).thenReturn(customer);
-        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo);
+        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo, blacklistUrlProvider);
         SimpleCustomerDTO actual = service.getCustomerByEmail(email);
         assertEquals(actual.getId(), simpleCustomerDTO.getId());
         assertEquals(actual.getName(), simpleCustomerDTO.getName());

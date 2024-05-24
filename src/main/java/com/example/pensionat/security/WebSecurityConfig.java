@@ -44,10 +44,11 @@ public class WebSecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-//                        .loginPage("/login")
-                                .permitAll()
+                        .loginPage("/login")
+//                                .permitAll()
                 )
                 .logout((logout) -> {
+                    logout.logoutUrl("/logout");
                     logout.permitAll();
                     logout.logoutSuccessUrl("/");
                 })

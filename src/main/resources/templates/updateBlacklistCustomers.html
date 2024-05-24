@@ -34,7 +34,7 @@
 <div class="content">
   <div class="update-blacklist-customers">
     <div class="placement-return-button">
-      <a class="return-link" th:href="@{/customer/blacklist/handle}">
+      <a class="return-link" th:href="@{/customer/blacklist/}">
         <div class="return-button">Tillbaka</div>
       </a>
       <div class="update-submit-button">
@@ -50,7 +50,7 @@
       </tr>
       <tbody>
       <tr class="customer-row update-blacklist">
-        <form id="customer-form" action="#" method="post" th:action="@{/customer/blacklist/handle/update}" th:object="${kund}">
+        <form id="customer-form" action="#" method="post" th:action="@{/customer/blacklist/update}" th:object="${kund}">
           <td>
             <input id="name" th:field="*{name}" type="text">
           </td>
