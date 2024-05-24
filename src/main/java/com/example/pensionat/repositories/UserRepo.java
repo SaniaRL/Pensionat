@@ -19,4 +19,6 @@ public interface UserRepo extends JpaRepository<User, UUID> {
     void deleteByUsername(@Param("username") String username);
 
     Page<User> findByUsernameContainsOrRolesNameContains(String searchParam1, String searchParam2, Pageable pageable);
+
+    User findById(java.util.UUID id);
 }

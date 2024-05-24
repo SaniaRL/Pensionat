@@ -225,3 +225,24 @@ input {
 .hidden {
     display: none;
 }
+
+.roles-list {
+    display: flex;
+    flex-direction: column;
+    text-align: left !important;
+}
+
+.roles-list div {
+    margin-bottom: 5px;
+}
+
+.role-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start !important;
+    margin-bottom: 5px;
+}
+
+.role-item input {
+    margin-right: 5px;
+}

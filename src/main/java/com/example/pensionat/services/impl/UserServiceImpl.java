@@ -62,12 +62,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByUsername(String username) {
-        User user = userRepo.findByUsername(username);
-        return user;
-    }
-
-    @Override
     public Page<SimpleUserDTO> getUsersBySearch(String search, int pageNum) {
         Pageable pageable = PageRequest.of(pageNum - 1, 5);
         Page<User> page = userRepo.findByUsernameContainsOrRolesNameContains(search, search, pageable);
@@ -83,7 +77,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(SimpleUserDTO userDTO) {
-        User user = getUserByUsername(userDTO.getUsername());
+        User user = userRepo.findById(userDTO.getId());
         List<Role> roles = new ArrayList<>();
         for (SimpleRoleDTO roleDTO : userDTO.getRoles()) {
             Role role = roleRepo.findByName(roleDTO.getName());

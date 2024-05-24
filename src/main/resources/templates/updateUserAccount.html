@@ -43,32 +43,33 @@
     </div>
 
     <table class="customers-table">
+      <thead>
       <tr class="table-header tr-user-update">
-        <th> namn</th>
-        <th> roles</th>
-        <th> enabled</th>
+        <th>namn</th>
+        <th>roles</th>
+        <th>enabled</th>
       </tr>
+      </thead>
       <tbody>
-      <tr class="customer-row tr-user-update">
-        <form id="user-form" action="#" method="post" th:action="@{/user/update}" th:object="${user}">
+      <form id="user-form" action="#" method="post" th:action="@{/user/update}" th:object="${user}">
+        <tr class="customer-row tr-user-update">
           <input th:field="*{id}" type="hidden">
           <td>
             <input id="username" th:field="*{username}" type="text">
           </td>
-
-          <tr th:each="role : ${selectableRoles}">
-            <td>
-              <input id="roles" th:field="*{user.roles}" type="checkbox" th:value="${role.name}">
-              <label th:text="${role.name}"></label>
-            </td>
-          </tr>
-
           <td>
-            <input id="enabled" th:field="*{user.enabled}" type="checkbox" th:value="${user.enabled}">
-            <label th:text="Enabled"></label>
+            <div class="roles-list">
+              <div th:each="role : ${selectableRoles}" class="role-item">
+                <input id="roles" th:field="*{roles}" type="checkbox" th:value="${role.name}">
+                <label th:text="${role.name}"></label>
+              </div>
+            </div>
           </td>
-        </form>
-      </tr>
+          <td>
+            <input id="enabled" th:field="*{enabled}" type="checkbox" th:value="${enabled}">
+          </td>
+        </tr>
+      </form>
       </tbody>
     </table>
   </div>

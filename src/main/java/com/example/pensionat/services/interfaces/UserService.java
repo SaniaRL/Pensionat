@@ -11,7 +11,6 @@ public interface UserService {
     void addToModelUserSearch(String search, int currentPage, Model model);
     Page<SimpleUserDTO> getAllUsersPage(int pageNum);
     SimpleUserDTO getSimpleUserDtoByUsername(String username);
-    User getUserByUsername(String username);
     Page<SimpleUserDTO> getUsersBySearch(String search, int pageNum);
     void deleteUserByUsername(String username);
     void updateUser(SimpleUserDTO userDTO);
