@@ -2,6 +2,7 @@ package com.example.pensionat.services.impl.unit;
 
 import com.example.pensionat.dtos.CustomerDTO;
 import com.example.pensionat.dtos.DetailedShippersDTO;
+import com.example.pensionat.dtos.SimpleBlacklistCustomerDTO;
 import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.models.Customer;
 import com.example.pensionat.repositories.CustomerRepo;
@@ -21,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -35,13 +37,14 @@ class CustomerServiceImplTest {
     private BlacklistStreamAndUrlProvider provider;
 
     Long id = 1L;
-    String name = "Maria";
-    String email = "maria@mail.com";
+    String name = "Allan Berg";
+    String email = "allan@mail.com";
 
 
     Customer customer = new Customer(id, name, email);
     CustomerDTO customerDTO = new CustomerDTO(name, email);
     SimpleCustomerDTO simpleCustomerDTO = new SimpleCustomerDTO(id, name, email);
+    SimpleBlacklistCustomerDTO blacklistCustomer = new SimpleBlacklistCustomerDTO(name, email, false);
     int pageNum = 1;
     Pageable pageable = PageRequest.of(pageNum - 1, 5);
     Page<Customer> mockedPage = new PageImpl<>(List.of(customer));
@@ -114,21 +117,8 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void checkIfEmailBlacklisted() throws IOException { // prio
-        when(provider.getDataStream()).thenReturn(getClass().getClassLoader().getResourceAsStream("shippers.json"));
-        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo, provider);
-    }
-    @Test
-    void fetchAndSaveShippersShouldSaveToDatabase() throws IOException {
-        ShippersStreamProvider shippersStreamProvider = mock(ShippersStreamProvider.class);
-        when(shippersStreamProvider.getDataStream()).thenReturn(getClass().getClassLoader().getResourceAsStream("shippers.json"));
+    void checkIfEmailBlacklisted() { // prio
 
-        shippersRepo.deleteAll();
-
-        DetailedShippersDTO[] tempArray = sut.getShippersToArray();
-        sut.saveDownAllShippersToDB(tempArray);
-
-        assertEquals(8, shippersRepo.count());
     }
 
     @Test
@@ -147,8 +137,16 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void getBlacklist() { // prio
+    void whenGetBlacklistShouldMapCorrectly() throws IOException { // prio
+        when(provider.getDataStream()).thenReturn(getClass().getClassLoader().getResourceAsStream("blacklist.json"));
+        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo, provider);
 
+        List<SimpleBlacklistCustomerDTO> list = service.getBlacklist();
+
+        assertEquals(list.get(2).getName(), blacklistCustomer.getName());
+        assertEquals(list.get(2).getEmail(), blacklistCustomer.getEmail());
+        assertEquals(list.get(2).getOk(), blacklistCustomer.getOk());
+        assertEquals(list.size(), 5);
     }
 
     @Test
