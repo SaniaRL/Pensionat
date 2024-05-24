@@ -1,6 +1,6 @@
 package com.example.pensionat.services.impl;
 
-import com.example.pensionat.dtos.BlacklistRespone;
+import com.example.pensionat.dtos.BlacklistResponse;
 import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.dtos.DetailedBlacklistCustomerDTO;
 import com.example.pensionat.dtos.SimpleBlacklistCustomerDTO;
@@ -9,25 +9,20 @@ import com.example.pensionat.models.Customer;
 import com.example.pensionat.repositories.CustomerRepo;
 import com.example.pensionat.services.convert.CustomerConverter;
 import com.example.pensionat.services.providers.BlacklistStreamAndUrlProvider;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 
-import java.net.URI;
 import java.net.URL;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Arrays;
 import java.util.List;
@@ -108,16 +103,19 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public boolean checkIfEmailBlacklisted(String email) throws IOException, InterruptedException {
-        ObjectMapper objectMapper = new ObjectMapper();
-
         HttpResponse<String> response = blacklistStreamAndUrlProvider.getHttpResponse(email);
 
-        BlacklistRespone blacklistResponse = objectMapper.readValue(response.body(), BlacklistRespone.class);
+        BlacklistResponse blacklistResponse = mapToBlacklistResponse(response);
 
         System.out.println(response.statusCode()); // 200
         System.out.println(response.body());
 
         return blacklistResponse.getOk();
+    }
+
+    public BlacklistResponse mapToBlacklistResponse(HttpResponse<String> response) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(response.body(), BlacklistResponse.class);
     }
 
     @Override

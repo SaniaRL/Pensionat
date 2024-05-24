@@ -1,14 +1,14 @@
 package com.example.pensionat.services.impl.unit;
 
+import com.example.pensionat.dtos.BlacklistResponse;
 import com.example.pensionat.dtos.CustomerDTO;
-import com.example.pensionat.dtos.DetailedShippersDTO;
 import com.example.pensionat.dtos.SimpleBlacklistCustomerDTO;
 import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.models.Customer;
 import com.example.pensionat.repositories.CustomerRepo;
 import com.example.pensionat.services.impl.CustomerServiceImpl;
 import com.example.pensionat.services.providers.BlacklistStreamAndUrlProvider;
-import com.example.pensionat.services.providers.ShippersStreamProvider;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
+import java.net.http.HttpResponse;
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,6 +49,8 @@ class CustomerServiceImplTest {
     int pageNum = 1;
     Pageable pageable = PageRequest.of(pageNum - 1, 5);
     Page<Customer> mockedPage = new PageImpl<>(List.of(customer));
+
+    String blacklistResponse = "{\"statusText\":\"Blacklisted\",\"ok\":false}";
 
     @Test
     void getAllCustomers() {
@@ -117,8 +120,28 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void checkIfEmailBlacklisted() { // prio
+    void whenCheckIfEmailBlacklistedShouldMapCorrectly() throws IOException, InterruptedException { // prio
 
+
+
+        //when(provider.getHttpResponse(email)).thenReturn(getClass().getClassLoader().getResourceAsStream("blacklist.json"));
+
+        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo, provider);
+        service.checkIfEmailBlacklisted(email);
+
+    }
+
+    @Test
+    void whenMapToBlacklistResponseShouldMapCorrectly() throws JsonProcessingException {
+        HttpResponse<String> mockResponse = mock(HttpResponse.class);
+
+        when(mockResponse.body()).thenReturn(blacklistResponse);
+
+        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo, provider);
+        BlacklistResponse actual = service.mapToBlacklistResponse(mockResponse);
+
+        assertEquals(actual.getStatusText(), "Blacklisted");
+        assertEquals(actual.getOk(), false);
     }
     /*
     public boolean checkIfEmailBlacklisted(String email) throws IOException, InterruptedException {
@@ -161,12 +184,12 @@ class CustomerServiceImplTest {
         when(provider.getDataStream()).thenReturn(getClass().getClassLoader().getResourceAsStream("blacklist.json"));
         CustomerServiceImpl service = new CustomerServiceImpl(customerRepo, provider);
 
-        List<SimpleBlacklistCustomerDTO> list = service.getBlacklist();
+        List<SimpleBlacklistCustomerDTO> actual = service.getBlacklist();
 
-        assertEquals(list.get(2).getName(), blacklistCustomer.getName());
-        assertEquals(list.get(2).getEmail(), blacklistCustomer.getEmail());
-        assertEquals(list.get(2).getOk(), blacklistCustomer.getOk());
-        assertEquals(list.size(), 5);
+        assertEquals(actual.get(2).getName(), blacklistCustomer.getName());
+        assertEquals(actual.get(2).getEmail(), blacklistCustomer.getEmail());
+        assertEquals(actual.get(2).getOk(), blacklistCustomer.getOk());
+        assertEquals(actual.size(), 5);
     }
 
     @Test

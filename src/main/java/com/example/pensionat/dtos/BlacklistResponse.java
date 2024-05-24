@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BlacklistRespone {
+public class BlacklistResponse {
 
     String statusText;
     Boolean ok;
