@@ -7,7 +7,7 @@ import com.example.pensionat.services.interfaces.CustomerService;
 import com.example.pensionat.models.Customer;
 import com.example.pensionat.repositories.CustomerRepo;
 import com.example.pensionat.services.convert.CustomerConverter;
-import com.example.pensionat.services.providers.BlacklistUrlProvider;
+import com.example.pensionat.services.providers.BlacklistStreamAndUrlProvider;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -19,10 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.client.RestTemplate;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 
 import java.net.URL;
@@ -33,11 +31,11 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepo customerRepo;
-    private final BlacklistUrlProvider blacklistUrlProvider;
+    private final BlacklistStreamAndUrlProvider blacklistStreamAndUrlProvider;
 
-    public CustomerServiceImpl(CustomerRepo customerRepo, BlacklistUrlProvider blacklistUrlProvider) {
+    public CustomerServiceImpl(CustomerRepo customerRepo, BlacklistStreamAndUrlProvider blacklistStreamAndUrlProvider) {
         this.customerRepo = customerRepo;
-        this.blacklistUrlProvider = blacklistUrlProvider;
+        this.blacklistStreamAndUrlProvider = blacklistStreamAndUrlProvider;
     }
 
     @Override
@@ -106,7 +104,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public boolean checkIfEmailBlacklisted(String email) {
-        String blacklistApiUrl= blacklistUrlProvider.getBlacklistCheckUrl();
+        String blacklistApiUrl= blacklistStreamAndUrlProvider.getBlacklistCheckUrl();
         boolean notBlacklisted = false;
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -175,7 +173,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public String addToBlacklist(SimpleBlacklistCustomerDTO c) {
         try {
-            String url = blacklistUrlProvider.getBlacklistUrl();
+            String url = blacklistStreamAndUrlProvider.getBlacklistUrl();
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -196,7 +194,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public String updateBlacklistCustomer(SimpleBlacklistCustomerDTO c) {
         try {
-            String url = blacklistUrlProvider.getBlacklistUrl() + "/" + c.getEmail();
+            String url = blacklistStreamAndUrlProvider.getBlacklistUrl() + "/" + c.getEmail();
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -218,8 +216,9 @@ public class CustomerServiceImpl implements CustomerService {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
 
-        DetailedBlacklistCustomerDTO[] respone = objectMapper.readValue(new URL(blacklistUrlProvider.getBlacklistUrl())
-                , DetailedBlacklistCustomerDTO[].class);
+        InputStream stream = blacklistStreamAndUrlProvider.getDataStream();
+
+        DetailedBlacklistCustomerDTO[] respone = objectMapper.readValue(stream, DetailedBlacklistCustomerDTO[].class);
 
         return Arrays.stream(respone)
                 .map(CustomerConverter::detailedBlacklistCustomerDTOToSimpleBlacklistCustomerDTO)
@@ -242,12 +241,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public SimpleBlacklistCustomerDTO getCustomerFromBlacklistByEmail(String email) throws IOException {
         List<SimpleBlacklistCustomerDTO> blacklist = getBlacklist();
-        blacklist.forEach(objekt -> {
-        });
-        return blacklist.stream().filter(c -> c.getEmail() != null).filter(c -> c.getEmail()
-                                 .equalsIgnoreCase(email))
-                                 .toList()
-                                 .get(0);
+        return blacklist.stream()
+                        .filter(c -> c.getEmail() != null)
+                        .filter(c -> c.getEmail().equalsIgnoreCase(email))
+                        .findFirst()
+                        .orElse(null);
     }
 
     @Override
