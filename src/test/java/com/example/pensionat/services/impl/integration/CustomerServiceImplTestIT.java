@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
+import java.net.http.HttpResponse;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,6 +23,7 @@ public class CustomerServiceImplTestIT {
     private CustomerRepo customerRepo;
     @Autowired
     private BlacklistStreamAndUrlProvider provider;
+    String email = "mail@mail.com";
 
     @BeforeEach()
     void setup() {
@@ -42,32 +44,10 @@ public class CustomerServiceImplTestIT {
     }
 
     @Test
-    void checkIfEmailBlacklistedWillFetch() { // prio
+    void checkIfEmailBlacklistedWillFetch() throws IOException, InterruptedException {
+        HttpResponse<String> response = provider.getHttpResponse(email);
 
-        String result = s.hasNext() ? s.next() : "";
-
-        assertTrue(result.contains("statusText"));
-        assertTrue(result.contains("ok"));
+        assertTrue(response.body().contains("statusText"));
+        assertTrue(response.body().contains("ok"));
     }
-
-    /*
-    public boolean checkIfEmailBlacklisted(String email) throws IOException, InterruptedException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String blacklistApiUrl= blacklistStreamAndUrlProvider.getBlacklistCheckUrl();
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(blacklistApiUrl + email))
-                .GET()
-                .build();
-
-        HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
-
-        BlacklistRespone blacklistResponse = objectMapper.readValue(response.body(), BlacklistRespone.class);
-
-        System.out.println(response.statusCode()); // 200
-        System.out.println(response.body());
-
-        return blacklistResponse.getOk();
-    }
-     */
 }

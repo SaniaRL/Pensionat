@@ -120,6 +120,26 @@ class CustomerServiceImplTest {
     void checkIfEmailBlacklisted() { // prio
 
     }
+    /*
+    public boolean checkIfEmailBlacklisted(String email) throws IOException, InterruptedException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String blacklistApiUrl= blacklistStreamAndUrlProvider.getBlacklistCheckUrl();
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(blacklistApiUrl + email))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
+
+        BlacklistRespone blacklistResponse = objectMapper.readValue(response.body(), BlacklistRespone.class);
+
+        System.out.println(response.statusCode()); // 200
+        System.out.println(response.body());
+
+        return blacklistResponse.getOk();
+    }
+     */
 
     @Test
     void addToBlacklist() {

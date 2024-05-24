@@ -109,14 +109,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     public boolean checkIfEmailBlacklisted(String email) throws IOException, InterruptedException {
         ObjectMapper objectMapper = new ObjectMapper();
-        String blacklistApiUrl= blacklistStreamAndUrlProvider.getBlacklistCheckUrl();
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(blacklistApiUrl + email))
-                .GET()
-                .build();
 
-        HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = blacklistStreamAndUrlProvider.getHttpResponse(email);
 
         BlacklistRespone blacklistResponse = objectMapper.readValue(response.body(), BlacklistRespone.class);
 
