@@ -18,29 +18,29 @@ public class RoleAndUserDataSeeder {
     @Autowired
     RoleRepo roleRepo;
 
-    public void Seed(){
+    public void Seed() {
         if (roleRepo.findByName("Admin") == null) {
             addRole("Admin");
         }
         if (roleRepo.findByName("Receptionist") == null) {
             addRole("Receptionist");
         }
-        if(userRepo.findByUsername("admin@mail.com") == null){
+        if (userRepo.findByUsername("admin@mail.com") == null){
             addUser("admin@mail.com","Admin");
         }
-        if(userRepo.findByUsername("repan@mail.com") == null){
+        if (userRepo.findByUsername("repan@mail.com") == null){
             addUser("repan@mail.com","Receptionist");
         }
-        if(userRepo.findByUsername("eddie@mail.com") == null){
+        if (userRepo.findByUsername("eddie@mail.com") == null){
             addUser("eddie@mail.com","Admin");
         }
-        if(userRepo.findByUsername("sania@mail.com") == null){
+        if (userRepo.findByUsername("sania@mail.com") == null){
             addUser("sania@mail.com","Admin");
         }
-        if(userRepo.findByUsername("simon@mail.com") == null){
+        if (userRepo.findByUsername("simon@mail.com") == null){
             addUser("simon@mail.com","Admin");
         }
-        if(userRepo.findByUsername("basse@mail.com") == null){
+        if (userRepo.findByUsername("basse@mail.com") == null){
             addUser("basse@mail.com","Admin");
         }
     }

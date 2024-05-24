@@ -128,12 +128,13 @@ public class CustomerController {
     }
 
     @PostMapping("/blacklist/form/add")
-    public String addToBlacklist(@RequestParam("name") String name, @RequestParam("email") String email) {
+    public String addToBlacklist(@RequestParam("name") String name, @RequestParam("email") String email, Model model) {
         SimpleBlacklistCustomerDTO c = new SimpleBlacklistCustomerDTO();
         c.setName(name);
         c.setEmail(email);
         customerService.addToBlacklist(c);
-        return "redirect:/customer/blacklist/handle";
+        model.addAttribute("name", name);
+        return "blacklistForm";
     }
 
     @GetMapping("/blacklist/form")
