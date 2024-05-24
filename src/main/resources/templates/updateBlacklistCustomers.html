@@ -59,7 +59,7 @@
             <span th:text="*{email}">E-postadress här</span>
           </td>
           <td>
-            <input id="is-ok" th:field="*{ok}" type="text">
+            <input id="is-ok" th:field="*{ok}" type="checkbox" th:value="${ok}">
           </td>
         </form>
       </tr>
