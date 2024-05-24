@@ -27,6 +27,7 @@
     <div class="log-in-inner-div" th:unless="${newPassword}">
         <h2>LOGGA IN</h2>
         <p th:if="${loginError}" class="error">Fel användarnamn eller lösenord</p>
+        <p th:if="${mailSent}" class="error">Email skickat</p>
         <form class="log-in-form" th:action="@{/login}" method="post">
             <label for="username">ANVÄNDARNAMN</label>
             <input class="log-in-input" type="text" id="username" name="username" autofocus="autofocus" /> <br />

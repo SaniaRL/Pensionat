@@ -2,7 +2,8 @@ package com.example.pensionat.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class AuthController {
 
-//    @Autowired
-  //  private JavaMailSender emailSender;
+    @Autowired
+    private JavaMailSender emailSender;
 
     @RequestMapping("/login")
     public String loginPage(Model model,
@@ -35,10 +36,21 @@ public class AuthController {
     }
 
     @PostMapping("/forgot-password")
-    public String forgotPassword(@RequestParam("email") String email, HttpServletRequest request) {
+    public String forgotPassword(Model model) {
+        model.addAttribute("mailSent", true);
+        //TODO Hämta mall och shit men asså
+        String subject = "Hello";
+        String message = "Poop";
 
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom("dominique.wiegand@ethereal.email");
+//        mailMessage.setTo(email);
+        mailMessage.setTo("mireya.gorczany49@ethereal.email");
+        mailMessage.setSubject(subject);
+        mailMessage.setText(message);
 
-        return "redirect:/login?resetPassword";
+        emailSender.send(mailMessage);
+        return "login";
     }
 
 }
