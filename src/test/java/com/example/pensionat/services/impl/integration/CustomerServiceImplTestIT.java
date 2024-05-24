@@ -40,4 +40,34 @@ public class CustomerServiceImplTestIT {
         assertTrue(result.contains("created"));
         assertTrue(result.contains("ok"));
     }
+
+    @Test
+    void checkIfEmailBlacklistedWillFetch() { // prio
+
+        String result = s.hasNext() ? s.next() : "";
+
+        assertTrue(result.contains("statusText"));
+        assertTrue(result.contains("ok"));
+    }
+
+    /*
+    public boolean checkIfEmailBlacklisted(String email) throws IOException, InterruptedException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String blacklistApiUrl= blacklistStreamAndUrlProvider.getBlacklistCheckUrl();
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(blacklistApiUrl + email))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
+
+        BlacklistRespone blacklistResponse = objectMapper.readValue(response.body(), BlacklistRespone.class);
+
+        System.out.println(response.statusCode()); // 200
+        System.out.println(response.body());
+
+        return blacklistResponse.getOk();
+    }
+     */
 }
