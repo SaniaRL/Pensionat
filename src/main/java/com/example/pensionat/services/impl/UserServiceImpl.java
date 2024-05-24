@@ -39,6 +39,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void addToModelUserSearch(String search, int currentPage, Model model) {
+        Page<SimpleUserDTO> u = getUsersBySearch(search, currentPage);
+        model.addAttribute("allUsers", u.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", u.getTotalElements());
+        model.addAttribute("totalPages", u.getTotalPages());
+        model.addAttribute("search", search);
+    }
+
+    @Override
     public Page<SimpleUserDTO> getAllUsersPage(int pageNum) {
         Pageable pageable = PageRequest.of(pageNum - 1, 5);
         Page<User> page = userRepo.findAll(pageable);
@@ -47,14 +57,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public SimpleUserDTO getSimpleUserDtoByUsername(String username) {
-        User user = userRepo.getUserByUsername(username);
+        User user = userRepo.findByUsername(username);
         return UserConverter.userToSimpleUserDTO(user);
     }
 
     @Override
     public User getUserByUsername(String username) {
-        User user = userRepo.getUserByUsername(username);
+        User user = userRepo.findByUsername(username);
         return user;
+    }
+
+    @Override
+    public Page<SimpleUserDTO> getUsersBySearch(String search, int pageNum) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 5);
+        Page<User> page = userRepo.findByUsernameContainsOrRolesNameContains(search, search, pageable);
+        System.out.println("SÖKORD2: " + search);
+        System.out.println("PAGE: " + page.getTotalElements());
+        return page.map(UserConverter::userToSimpleUserDTO);
     }
 
     @Override

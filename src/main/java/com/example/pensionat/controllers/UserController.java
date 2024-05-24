@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -36,7 +37,7 @@ public class UserController {
     @RequestMapping("/{username}/remove")
     public String deleteUserByUsername(@PathVariable String username, Model model) {
         userService.deleteUserByUsername(username);
-        return handleUsers(model);
+        return "redirect:/user/";
     }
 
     @RequestMapping("/{username}/edit")
@@ -51,7 +52,7 @@ public class UserController {
     @PostMapping("/update")
     public String updateUser(@ModelAttribute("user") SimpleUserDTO userDTO, Model model) {
         userService.updateUser(userDTO);
-        return handleUsers(model);
+        return "redirect:/user/";
     }
 
     @GetMapping("/create")
@@ -64,6 +65,20 @@ public class UserController {
     @PostMapping("/add")
     public String addUser(DetailedUserDTO userDTO, Model model) {
         userService.addUser(userDTO);
-        return handleUsers(model);
+        return "redirect:/user/";
+    }
+
+    @GetMapping(value = "/", params = "search")
+    public String userSearch(@RequestParam String search, Model model) throws IOException {
+        System.out.println("SÖKORD: " + search);
+        int currentPage = 1;
+        userService.addToModelUserSearch(search, currentPage, model);
+        return "handleUserAccounts";
+    }
+
+    @GetMapping(value = "/", params = {"search", "page"})
+    public String userSearchByPage(@RequestParam String search, Model model, @RequestParam int page) throws IOException {
+        userService.addToModelUserSearch(search, page, model);
+        return "handleUserAccounts";
     }
 }
