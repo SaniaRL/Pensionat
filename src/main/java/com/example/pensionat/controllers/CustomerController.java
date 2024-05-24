@@ -85,7 +85,7 @@ public class CustomerController {
         return "bookingConfirmation";
     }
 
-    @GetMapping("/blacklist/")
+    @GetMapping("/blacklist")
     public String handleBlacklist(Model model) throws IOException {
         int currentPage = 1;
         customerService.addToModelBlacklist(currentPage, model);

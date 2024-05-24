@@ -34,35 +34,42 @@
 <div class="content">
   <div class="update-blacklist-customers">
     <div class="placement-return-button">
-      <a class="return-link" th:href="@{/customer/blacklist}">
+      <a class="return-link" th:href="@{/user/}">
         <div class="return-button">Tillbaka</div>
       </a>
       <div class="update-submit-button">
-        <input form="customer-form" type="submit" value="Uppdatera">
+        <input form="user-form" type="submit" value="Uppdatera">
       </div>
     </div>
 
     <table class="customers-table">
-      <tr class="table-header update-blacklist">
-        <th> namn</th>
-        <th> email</th>
-        <th> is ok</th>
+      <thead>
+      <tr class="table-header tr-user-update">
+        <th>namn</th>
+        <th>roles</th>
+        <th>enabled</th>
       </tr>
+      </thead>
       <tbody>
-      <tr class="customer-row update-blacklist">
-        <form id="customer-form" action="#" method="post" th:action="@{/customer/blacklist/update}" th:object="${kund}">
+      <form id="user-form" action="#" method="post" th:action="@{/user/update}" th:object="${user}">
+        <tr class="customer-row tr-user-update">
+          <input th:field="*{id}" type="hidden">
           <td>
-            <input id="name" th:field="*{name}" type="text">
+            <input id="username" th:field="*{username}" type="text">
           </td>
           <td>
-            <input id="email" th:field="*{email}" type="hidden">
-            <span th:text="*{email}">E-postadress här</span>
+            <div class="roles-list">
+              <div th:each="role : ${selectableRoles}" class="role-item">
+                <input id="roles" th:field="*{roles}" type="checkbox" th:value="${role.name}">
+                <label th:text="${role.name}"></label>
+              </div>
+            </div>
           </td>
           <td>
-            <input id="is-ok" th:field="*{ok}" type="text">
+            <input id="enabled" th:field="*{enabled}" type="checkbox" th:value="${enabled}">
           </td>
-        </form>
-      </tr>
+        </tr>
+      </form>
       </tbody>
     </table>
   </div>
@@ -73,4 +80,5 @@
 </div>
 <script th:src="@{/js/menuExpand.js}"></script>
 </body>
+</html>
 </html>
