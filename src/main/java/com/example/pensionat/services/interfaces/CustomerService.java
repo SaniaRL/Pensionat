@@ -20,7 +20,7 @@ public interface CustomerService {
     SimpleCustomerDTO getCustomerByEmail(String email);
     void addToModel(int currentPage, Model model);
     void addToModelEmail(String email, int currentPage, Model model);
-    boolean checkIfEmailBlacklisted(String email);
+    boolean checkIfEmailBlacklisted(String email) throws IOException, InterruptedException;
     void addToModelBlacklist(int currentPage, Model model) throws IOException;
     void addToModelBlacklistSearch(String search, int currentPage, Model model) throws IOException;
     Page<SimpleBlacklistCustomerDTO> getBlacklistBySearch(String search, int pageNum) throws IOException;

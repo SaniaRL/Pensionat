@@ -1,5 +1,6 @@
 package com.example.pensionat.services.impl;
 
+import com.example.pensionat.dtos.BlacklistRespone;
 import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.dtos.DetailedBlacklistCustomerDTO;
 import com.example.pensionat.dtos.SimpleBlacklistCustomerDTO;
@@ -23,7 +24,11 @@ import org.springframework.web.client.RestTemplate;
 import java.io.*;
 import java.net.HttpURLConnection;
 
+import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.Arrays;
 import java.util.List;
 
@@ -102,28 +107,23 @@ public class CustomerServiceImpl implements CustomerService {
         return null;
     }
 
-    @Override
-    public boolean checkIfEmailBlacklisted(String email) {
-        String blacklistApiUrl= blacklistStreamAndUrlProvider.getBlacklistCheckUrl();
-        boolean notBlacklisted = false;
+    public boolean checkIfEmailBlacklisted(String email) throws IOException, InterruptedException {
         ObjectMapper objectMapper = new ObjectMapper();
+        String blacklistApiUrl= blacklistStreamAndUrlProvider.getBlacklistCheckUrl();
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(blacklistApiUrl + email))
+                .GET()
+                .build();
 
-        RestTemplate restTemplate = new RestTemplate();
+        HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
 
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(
-                blacklistApiUrl + "/" + email,
-                String.class
-        );
+        BlacklistRespone blacklistResponse = objectMapper.readValue(response.body(), BlacklistRespone.class);
 
-        try {
-            JsonNode node = objectMapper.readValue(responseEntity.getBody(), JsonNode.class);
+        System.out.println(response.statusCode()); // 200
+        System.out.println(response.body());
 
-            notBlacklisted = node.get("ok").asBoolean();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return notBlacklisted;
+        return blacklistResponse.getOk();
     }
 
     @Override
@@ -261,7 +261,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
-        StringBuffer response = new StringBuffer();
+        StringBuilder response = new StringBuilder();
         while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
         }

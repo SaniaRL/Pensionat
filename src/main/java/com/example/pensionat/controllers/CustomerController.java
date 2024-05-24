@@ -77,7 +77,7 @@ public class CustomerController {
     }
 
     @GetMapping("/blacklistcheck/{email}")
-    public String checkIfEmailBlacklisted(@PathVariable("email") String email, Model model) {
+    public String checkIfEmailBlacklisted(@PathVariable("email") String email, Model model) throws IOException, InterruptedException {
         if (!customerService.checkIfEmailBlacklisted(email)) {
             model.addAttribute("status", "Kunden med email " + email + " är SVARTLISTAD!");
             return "customerOrNot";
