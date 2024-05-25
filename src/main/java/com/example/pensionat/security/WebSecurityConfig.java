@@ -43,6 +43,11 @@ public class WebSecurityConfig {
                         .requestMatchers("/",  "/js/**", ("/forgotPassword"), ("/forgotPassword-24"), ("/resetPassword"),("/updatePassword"),"/css/**", "/images/**", "/login/**", "/logout").permitAll()
                         .anyRequest().authenticated()
                 )
+                .exceptionHandling((exceptions) -> exceptions
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.sendRedirect("/");
+                        })
+                )
                 .formLogin((form) -> form
                         .loginPage("/login")
 //                                .permitAll()

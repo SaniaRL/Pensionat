@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,7 +39,7 @@ public class AuthController {
     @RequestMapping("/login")
     public String loginPage(Model model,
                             @RequestParam(value = "error", required = false) String error,
-                            @RequestParam(value = "newPassword", required = false) String newPassword){
+                            @RequestParam(value = "newPassword", required = false) String newPassword) {
         if (error != null) {
             model.addAttribute("loginError", true);
         }
@@ -55,6 +58,7 @@ public class AuthController {
     /*
     @PostMapping("/forgotPassword")
     public String forgotPassword(@RequestParam(value="mail", required = false) String mail, Model model) {
+
 
         //Kolla om user ens finns
         //Göra param obligatorisk men jag är lat nu och vill kunna klicka loss

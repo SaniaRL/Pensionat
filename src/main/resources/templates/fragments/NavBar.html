@@ -51,7 +51,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="menu-user" th:classappend="${activePage == 'user'} ? 'active' : 'submenu-hidden'">
+            <div sec:authorize="hasAuthority('Admin')" class="menu-user" th:classappend="${activePage == 'user'} ? 'active' : 'submenu-hidden'">
                 <h2 class="menu-title" onclick=expand(this)>ANVÄNDARKONTON</h2>
                 <ul class="submenu">
                     <li>
