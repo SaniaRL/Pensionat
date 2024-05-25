@@ -12,7 +12,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.*;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
 
@@ -35,6 +37,9 @@ public class ContractCustomerServiceImplTest {
 
     @Mock
     private XmlStreamProvider xmlStreamProvider;
+
+    @MockBean
+    private JavaMailSender emailSender;
 
     ContractCustomerServiceImpl sut;
 

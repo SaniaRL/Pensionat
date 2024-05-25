@@ -8,10 +8,12 @@ import com.example.pensionat.services.providers.BlacklistUrlProvider;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.javamail.JavaMailSender;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,6 +30,8 @@ class CustomerServiceImplTest {
     private CustomerRepo customerRepo;
     @Mock
     private BlacklistUrlProvider blacklistUrlProvider;
+    @MockBean
+    private JavaMailSender emailSender;
 
     Long id = 1L;
     String name = "Maria";

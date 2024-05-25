@@ -13,6 +13,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mail.javamail.JavaMailSender;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -29,6 +31,9 @@ import static org.mockito.Mockito.when;
 class RoomServicelmplTest {
     @Mock
     private RoomRepo roomRepo;
+
+    @MockBean
+    private JavaMailSender emailSender;
 
     Long roomId = 301L;
     Room room = new Room(roomId, 2);
