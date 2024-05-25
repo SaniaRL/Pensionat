@@ -20,7 +20,7 @@ public class RoomController {
     private final RoomService roomService;
     private final EventService eventService;
 
-    @GetMapping ("/all/")
+    @GetMapping("/all/")
     public String getAllRooms(Model model) {
         int currentPage = 1;
         roomService.addToModel(currentPage, model);
@@ -28,12 +28,12 @@ public class RoomController {
     }
 
     @GetMapping(value = "/all/", params = "page")
-    public String roomsByPage(Model model, @RequestParam int page){
+    public String roomsByPage(Model model, @RequestParam int page) {
         roomService.addToModel(page, model);
         return "allRooms";
     }
 
-    @GetMapping ("/eventlist/{id}")
+    @GetMapping("/eventlist/{id}")
     public String getEventList(@PathVariable Long id, Model model) {
         int currentPage = 1;
         eventService.addToModel(id.toString(), currentPage, model);
@@ -41,7 +41,7 @@ public class RoomController {
     }
 
     @GetMapping(value = "/eventlist/{id}", params = "page")
-    public String eventListByPage(@PathVariable Long id, Model model, @RequestParam int page){
+    public String eventListByPage(@PathVariable Long id, Model model, @RequestParam int page) {
         eventService.addToModel(id.toString(), page, model);
         return "eventListRoom";
     }

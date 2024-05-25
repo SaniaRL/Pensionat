@@ -1,5 +1,6 @@
 package com.example.pensionat.services.impl;
 
+import com.example.pensionat.controllers.AuthController;
 import com.example.pensionat.dtos.*;
 import com.example.pensionat.models.Customer;
 import com.example.pensionat.repositories.CustomerRepo;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
@@ -39,9 +41,9 @@ class CustomerServiceImplTest {
     @Mock
     private CustomerRepo customerRepo;
     @Mock
-
     private BlacklistStreamAndUrlProvider provider;
-
+    @MockBean
+    private JavaMailSender emailSender;
 
     Long id = 1L;
     String name = "Allan Berg";

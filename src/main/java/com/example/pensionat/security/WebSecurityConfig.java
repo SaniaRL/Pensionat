@@ -40,7 +40,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/",  "/js/**", ("/forgotPassword"),"/css/**", "/images/**", "/login/**", "/logout").permitAll()
+                        .requestMatchers("/",  "/js/**", ("/forgotPassword"), ("/forgotPassword-24"), ("/resetPassword"),("/updatePassword"),"/css/**", "/images/**", "/login/**", "/logout").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling((exceptions) -> exceptions

@@ -43,6 +43,9 @@ public class RoleAndUserDataSeeder {
         if (userRepo.findByUsername("basse@mail.com") == null){
             addUser("basse@mail.com","Admin");
         }
+        if (userRepo.findByUsername("dominique.wiegand@ethereal.email") == null){
+            addUser("dominique.wiegand@ethereal.email","Admin");
+        }
     }
 
     private void addUser(String mail, String group) {
