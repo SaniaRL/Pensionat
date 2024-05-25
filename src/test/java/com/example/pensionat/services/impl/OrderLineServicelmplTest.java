@@ -1,4 +1,4 @@
-package com.example.pensionat.services.impl.unit;
+package com.example.pensionat.services.impl;
 
 import com.example.pensionat.dtos.*;
 import com.example.pensionat.enums.RoomType;
