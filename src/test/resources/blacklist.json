@@ -1,0 +1,42 @@
+[
+  {
+    "id": 15,
+    "email": "stefan116@aaa.com",
+    "name": "Stefan Holm De Luxe",
+    "group": "bed&basse",
+    "created": "2024-05-08T13:10:00.307475",
+    "ok": true
+  },
+  {
+    "id": 16,
+    "email": "hb@aaa.com",
+    "name": "Hans Berglund",
+    "group": "bed&basse",
+    "created": "2024-05-08T13:11:17.792849",
+    "ok": true
+  },
+  {
+    "id": 17,
+    "email": "allan@mail.com",
+    "name": "Allan Berg",
+    "group": "bed&basse",
+    "created": "2024-05-08T13:11:50.490321",
+    "ok": false
+  },
+  {
+    "id": 19,
+    "email": "katrin@mail.com",
+    "name": "Katrin Andersson",
+    "group": "bed&basse",
+    "created": "2024-05-08T13:12:21.249503",
+    "ok": true
+  },
+  {
+    "id": 20,
+    "email": "s.berg@mail.com",
+    "name": "Siv Berg",
+    "group": "bed&basse",
+    "created": "2024-05-08T13:16:16.860445",
+    "ok": false
+  }
+]

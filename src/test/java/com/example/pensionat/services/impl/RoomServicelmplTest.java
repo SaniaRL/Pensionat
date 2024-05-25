@@ -6,6 +6,7 @@ import com.example.pensionat.dtos.RoomDTO;
 import com.example.pensionat.enums.RoomType;
 import com.example.pensionat.models.Room;
 import com.example.pensionat.repositories.RoomRepo;
+import com.example.pensionat.services.impl.RoomServicelmpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
