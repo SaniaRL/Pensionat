@@ -11,10 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.javamail.JavaMailSender;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +39,9 @@ class CustomerServiceImplTest {
     @Mock
     private CustomerRepo customerRepo;
     @Mock
+
     private BlacklistStreamAndUrlProvider provider;
+
 
     Long id = 1L;
     String name = "Allan Berg";

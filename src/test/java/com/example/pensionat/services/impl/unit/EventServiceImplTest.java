@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDateTime;
@@ -24,6 +26,9 @@ class EventServiceImplTest {
 
     @Mock
     private EventRepo eventRepo;
+
+    @MockBean
+    private JavaMailSender emailSender;
 
     EventServiceImpl sut;
 

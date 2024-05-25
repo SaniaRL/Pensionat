@@ -144,7 +144,10 @@ body {
 }
 
 .log-in-div {
-    margin-top: 200px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -160,6 +163,10 @@ body {
     border-radius: 12px;
     padding: 30px 40px;
     flex-direction: column;
+}
+
+.log-in-inner-div h2 {
+    text-align: center;
 }
 
 .right {
