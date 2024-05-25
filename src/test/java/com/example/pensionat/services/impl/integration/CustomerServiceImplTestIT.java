@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.util.Scanner;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
@@ -49,5 +50,6 @@ public class CustomerServiceImplTestIT {
 
         assertTrue(response.body().contains("statusText"));
         assertTrue(response.body().contains("ok"));
+        assertEquals(200, response.statusCode());
     }
 }

@@ -102,17 +102,14 @@ public class CustomerServiceImpl implements CustomerService {
         return null;
     }
 
+    @Override
     public boolean checkIfEmailBlacklisted(String email) throws IOException, InterruptedException {
         HttpResponse<String> response = blacklistStreamAndUrlProvider.getHttpResponse(email);
-
         BlacklistResponse blacklistResponse = mapToBlacklistResponse(response);
-
-        System.out.println(response.statusCode()); // 200
-        System.out.println(response.body());
-
         return blacklistResponse.getOk();
     }
 
+    @Override
     public BlacklistResponse mapToBlacklistResponse(HttpResponse<String> response) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(response.body(), BlacklistResponse.class);
@@ -204,19 +201,24 @@ public class CustomerServiceImpl implements CustomerService {
         return "Blacklist updated successfully";
     }
 
+    @Override
     public List<SimpleBlacklistCustomerDTO> getBlacklist() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-
         InputStream stream = blacklistStreamAndUrlProvider.getDataStream();
-
-        DetailedBlacklistCustomerDTO[] respone = objectMapper.readValue(stream, DetailedBlacklistCustomerDTO[].class);
+        DetailedBlacklistCustomerDTO[] respone = mapToDetailedBlacklistCustomerDTOArray(stream);
 
         return Arrays.stream(respone)
                 .map(CustomerConverter::detailedBlacklistCustomerDTOToSimpleBlacklistCustomerDTO)
                 .toList();
     }
 
+    @Override
+    public DetailedBlacklistCustomerDTO[] mapToDetailedBlacklistCustomerDTOArray(InputStream stream) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper.readValue(stream, DetailedBlacklistCustomerDTO[].class);
+    }
+
+    @Override
     public Page<SimpleBlacklistCustomerDTO> getBlacklistPage(int pageNum) throws IOException {
 
         Pageable pageable = PageRequest.of(pageNum - 1, 5);

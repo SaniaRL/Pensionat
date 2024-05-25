@@ -1,16 +1,15 @@
 package com.example.pensionat.services.impl.unit;
 
-import com.example.pensionat.dtos.BlacklistResponse;
-import com.example.pensionat.dtos.CustomerDTO;
-import com.example.pensionat.dtos.SimpleBlacklistCustomerDTO;
-import com.example.pensionat.dtos.SimpleCustomerDTO;
+import com.example.pensionat.dtos.*;
 import com.example.pensionat.models.Customer;
 import com.example.pensionat.repositories.CustomerRepo;
 import com.example.pensionat.services.impl.CustomerServiceImpl;
 import com.example.pensionat.services.providers.BlacklistStreamAndUrlProvider;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,15 +17,19 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.http.HttpResponse;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 @SpringBootTest
@@ -50,7 +53,21 @@ class CustomerServiceImplTest {
     Pageable pageable = PageRequest.of(pageNum - 1, 5);
     Page<Customer> mockedPage = new PageImpl<>(List.of(customer));
 
-    String blacklistResponse = "{\"statusText\":\"Blacklisted\",\"ok\":false}";
+    String blacklistResponseJson = "{\"statusText\":\"Blacklisted\",\"ok\":false}";
+    BlacklistResponse blacklistResponse = new BlacklistResponse("Blacklisted", false);
+    String dateString = "2024-05-08T13:11:50.490321";
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+    DetailedBlacklistCustomerDTO detailedBlacklistCustomer = new DetailedBlacklistCustomerDTO
+                                        (17, email, name, "bed&basse", simpleDateFormat.parse(dateString), false);
+    DetailedBlacklistCustomerDTO[] array = new DetailedBlacklistCustomerDTO[1];
+
+    CustomerServiceImplTest() throws ParseException {
+    }
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     void getAllCustomers() {
@@ -120,22 +137,26 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void whenCheckIfEmailBlacklistedShouldMapCorrectly() throws IOException, InterruptedException { // prio
-
-
-
-        //when(provider.getHttpResponse(email)).thenReturn(getClass().getClassLoader().getResourceAsStream("blacklist.json"));
-
+    void whenCheckIfEmailBlacklistedShouldReturnCorrectBoolean() throws IOException, InterruptedException {
         CustomerServiceImpl service = new CustomerServiceImpl(customerRepo, provider);
-        service.checkIfEmailBlacklisted(email);
+        HttpResponse<String> mockResponse = mock(HttpResponse.class);
+        CustomerServiceImpl spyService = spy(service);
 
+        when(provider.getHttpResponse(email)).thenReturn(mockResponse);
+        doReturn(blacklistResponse).when(spyService).mapToBlacklistResponse(any(HttpResponse.class));
+
+        Boolean actual = spyService.checkIfEmailBlacklisted(email);
+
+        assertEquals(actual, blacklistResponse.getOk());
+        verify(spyService, times(1)).mapToBlacklistResponse(mockResponse);
+        verify(provider, times(1)).getHttpResponse(email);
     }
 
     @Test
     void whenMapToBlacklistResponseShouldMapCorrectly() throws JsonProcessingException {
         HttpResponse<String> mockResponse = mock(HttpResponse.class);
 
-        when(mockResponse.body()).thenReturn(blacklistResponse);
+        when(mockResponse.body()).thenReturn(blacklistResponseJson);
 
         CustomerServiceImpl service = new CustomerServiceImpl(customerRepo, provider);
         BlacklistResponse actual = service.mapToBlacklistResponse(mockResponse);
@@ -143,34 +164,14 @@ class CustomerServiceImplTest {
         assertEquals(actual.getStatusText(), "Blacklisted");
         assertEquals(actual.getOk(), false);
     }
-    /*
-    public boolean checkIfEmailBlacklisted(String email) throws IOException, InterruptedException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String blacklistApiUrl= blacklistStreamAndUrlProvider.getBlacklistCheckUrl();
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(blacklistApiUrl + email))
-                .GET()
-                .build();
-
-        HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
-
-        BlacklistRespone blacklistResponse = objectMapper.readValue(response.body(), BlacklistRespone.class);
-
-        System.out.println(response.statusCode()); // 200
-        System.out.println(response.body());
-
-        return blacklistResponse.getOk();
-    }
-     */
 
     @Test
-    void addToBlacklist() {
+    void addToBlacklist() {     // prio
 
     }
 
     @Test
-    void updateBlacklist() {
+    void updateBlacklist() {    // prio
 
     }
 
@@ -180,20 +181,41 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void whenGetBlacklistShouldMapCorrectly() throws IOException { // prio
-        when(provider.getDataStream()).thenReturn(getClass().getClassLoader().getResourceAsStream("blacklist.json"));
+    void whenGetBlacklistShouldReturnCorrectObjekt() throws IOException {
+        array[0] = detailedBlacklistCustomer;
         CustomerServiceImpl service = new CustomerServiceImpl(customerRepo, provider);
+        CustomerServiceImpl spyService = spy(service);
 
-        List<SimpleBlacklistCustomerDTO> actual = service.getBlacklist();
+        when(provider.getDataStream()).thenReturn(getClass().getClassLoader().getResourceAsStream("blacklist.json"));
+        doReturn(array).when(spyService).mapToDetailedBlacklistCustomerDTOArray(any(InputStream.class));
 
-        assertEquals(actual.get(2).getName(), blacklistCustomer.getName());
-        assertEquals(actual.get(2).getEmail(), blacklistCustomer.getEmail());
-        assertEquals(actual.get(2).getOk(), blacklistCustomer.getOk());
-        assertEquals(actual.size(), 5);
+        List<SimpleBlacklistCustomerDTO> actual = spyService.getBlacklist();
+
+        assertEquals(actual.get(0).getName(), detailedBlacklistCustomer.getName());
+        assertEquals(actual.get(0).getEmail(), detailedBlacklistCustomer.getEmail());
+        assertEquals(actual.get(0).getOk(), detailedBlacklistCustomer.getOk());
+        assertEquals(actual.size(), 1);
     }
 
     @Test
-    void httpRequest() {
+    void whenMapToDetailedBlacklistCustomerDTOArrayShouldMapCorrectly() throws IOException {
+        DetailedBlacklistCustomerDTO[] actual;
+
+        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo, provider);
+        actual = service.mapToDetailedBlacklistCustomerDTOArray(getClass().getClassLoader().getResourceAsStream("blacklist.json"));
+
+        assertEquals(actual[2].getId(), detailedBlacklistCustomer.getId());
+        assertEquals(actual[2].getEmail(), detailedBlacklistCustomer.getEmail());
+        assertEquals(actual[2].getName(), detailedBlacklistCustomer.getName());
+        assertEquals(actual[2].getGroup(), detailedBlacklistCustomer.getGroup());
+        //assertEquals(actual[2].getCreated(), detailedBlacklistCustomer.getCreated());
+        assertInstanceOf(Date.class, actual[2].getCreated());
+        assertInstanceOf(Date.class, detailedBlacklistCustomer.getCreated());
+        assertEquals(actual[2].getOk(), detailedBlacklistCustomer.getOk());
+    }
+
+    @Test
+    void httpRequest() {    // prio
 
     }
 
