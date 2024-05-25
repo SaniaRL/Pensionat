@@ -57,7 +57,7 @@ public class AuthController {
     public String forgotPassword(@RequestParam(value="mail", required = false) String mail, Model model) {
 
         //Kolla om user ens finns
-        //TODO Göra param obligatorisk men jag är lat nu och vill kunna klicka loss
+        //Göra param obligatorisk men jag är lat nu och vill kunna klicka loss
         if(mail == null) {
             mail = "sania@mail.com";
         }
@@ -69,14 +69,14 @@ public class AuthController {
         }
 
         //Sätt lösen som nytt lösen ? Det känns inte optimalt. Borde finnas gammalt lösen också ju?
-        //TODO kolla om lösen verkligen ska ersättas på detta vis
+        //kolla om lösen verkligen ska ersättas på detta vis
         int passWordLength = 4;
         String newPassword = generateOTP(passWordLength);
 
-        //TODO ändra lösen idk:
+        //ändra lösen idk:
         userService.updatePassword(mail, newPassword);
 
-        //TODO Hämta mall och shit men asså
+        //Hämta mall och shit men asså
         String subject = "New Password";
         String message = "New password: " + newPassword;
 
