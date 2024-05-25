@@ -162,19 +162,25 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public String updateOrAddToBlacklist(SimpleBlacklistCustomerDTO c, String option) {
         try {
-            URL obj = new URL(blacklistStreamAndUrlProvider.getBlacklistUrl());
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-            con.setRequestMethod("POST");
-            con.setRequestProperty("Content-Type", "application/json");
-
-            String postData = "";
+            URL obj = null;
 
             if (option.equals("add")) {
+                obj = new URL(blacklistStreamAndUrlProvider.getBlacklistUrl());
+            } else if (option.equals("update")) {
+                obj = new URL(blacklistStreamAndUrlProvider.getBlacklistUrl() + "/" + c.getEmail());
+            }
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+            String postData = "";
+            if (option.equals("add")) {
+                con.setRequestMethod("POST");
                 postData = "{\"email\":\"" + c.getEmail() + "\",\"name\":\"" + c.getName() + "\",\"ok\":false}";
             } else if (option.equals("update")) {
+                System.out.println("UPDATE");
+                con.setRequestMethod("PUT");
                 postData = "{\"name\":\"" + c.getName() + "\",\"ok\":\"" + c.getOk() + "\"}";
             }
+            con.setRequestProperty("Content-Type", "application/json");
 
             String response = makeHttpRequest(con, postData);
 
