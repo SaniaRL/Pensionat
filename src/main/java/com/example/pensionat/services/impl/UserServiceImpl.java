@@ -12,6 +12,7 @@ import com.example.pensionat.services.interfaces.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -94,5 +95,16 @@ public class UserServiceImpl implements UserService {
             roles.add(role);
         }
         userRepo.save(UserConverter.detailedUserDtoToUser(userDTO, roles));
+    }
+
+    @Override
+    public void updatePassword(String username, String newPassword) {
+        User user = userRepo.findByUsername(username);
+        if(user != null) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            String hash = encoder.encode(newPassword);
+            user.setPassword(hash);
+            userRepo.save(user);
+        }
     }
 }
