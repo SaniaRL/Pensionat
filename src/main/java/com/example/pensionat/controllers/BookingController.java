@@ -9,6 +9,7 @@ import com.example.pensionat.services.interfaces.CustomerService;
 import com.example.pensionat.services.interfaces.OrderLineService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @SessionAttributes({"chosenRooms", "booking", "result"})
 @RequestMapping(path = "/booking")
+@PreAuthorize("isAuthenticated()")
 public class BookingController {
 
     private final BookingService bookingService;

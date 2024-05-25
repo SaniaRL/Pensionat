@@ -6,6 +6,7 @@ import com.example.pensionat.dtos.SimpleUserDTO;
 import com.example.pensionat.services.interfaces.RoleService;
 import com.example.pensionat.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping(path = "/user")
+@PreAuthorize("hasAuthority('Admin')")
 public class UserController {
 
     private final UserService userService;
