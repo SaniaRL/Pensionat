@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 @Controller
 public class AuthController {
 
@@ -17,7 +18,7 @@ public class AuthController {
     @RequestMapping("/login")
     public String loginPage(Model model,
                             @RequestParam(value = "error", required = false) String error,
-                            @RequestParam(value = "newPassword", required = false) String newPassword){
+                            @RequestParam(value = "newPassword", required = false) String newPassword) {
         if (error != null) {
             model.addAttribute("loginError", true);
         }
@@ -34,7 +35,7 @@ public class AuthController {
     }
 
     @PostMapping("/forgotPassword")
-    public String forgotPassword(@RequestParam(value="mail", required = false) String mail, Model model) {
+    public String forgotPassword(@RequestParam(value = "mail", required = false) String mail, Model model) {
         model.addAttribute("mailSent", true);
         System.out.println(mail);
         //TODO Hämta mall och shit men asså
