@@ -4,6 +4,7 @@ import com.example.pensionat.dtos.SimpleUserDTO;
 import com.example.pensionat.models.User;
 import com.example.pensionat.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,9 @@ public class AuthController {
 
     private final JavaMailSender emailSender;
     private final UserService userService;
+
+    @Value("${spring.mail.username}")
+    private String fromEmail;
 
     @RequestMapping("/login")
     public String loginPage(Model model,
@@ -54,8 +58,6 @@ public class AuthController {
             return "login";
         }
 
-        //Generera lösen
-
         //Sätt lösen som nytt lösen ? Det känns inte optimalt. Borde finnas gammalt lösen också ju?
         //TODO kolla om lösen verkligen ska ersättas på detta vis
         int passWordLength = 4;
@@ -65,20 +67,18 @@ public class AuthController {
         userService.updatePassword(mail, newPassword);
 
         //TODO Hämta mall och shit men asså
-        String subject = "Hej";
+        String subject = "New Password";
         String message = "New password: " + newPassword;
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-
-        //TODO använd mail som är param men inte än
-        mailMessage.setFrom("dominique.wiegand@ethereal.email");
-        mailMessage.setTo("dominique.wiegand@ethereal.email");
+        mailMessage.setFrom(fromEmail);
+        mailMessage.setTo(mail);
         mailMessage.setSubject(subject);
         mailMessage.setText(message);
 
         emailSender.send(mailMessage);
 
-        //Uppdatera GUI (Kanske skulle förvara texten här bak idk)
+        //Uppdatera GUI (Kanske skulle förvara texten här bak och kunna ha flera text idk)
         model.addAttribute("mailSent", true);
 
         return "login";
