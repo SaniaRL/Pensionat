@@ -160,41 +160,27 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public String addToBlacklist(SimpleBlacklistCustomerDTO c) {
+    public String updateOrAddToBlacklist(SimpleBlacklistCustomerDTO c, String option) {
         try {
-            String url = blacklistStreamAndUrlProvider.getBlacklistUrl();
-            URL obj = new URL(url);
+            URL obj = new URL(blacklistStreamAndUrlProvider.getBlacklistUrl());
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
             con.setRequestMethod("POST");
-
             con.setRequestProperty("Content-Type", "application/json");
 
-            String postData = "{\"email\":\"" + c.getEmail() + "\",\"name\":\"" + c.getName() + "\",\"ok\":false}";
+            String postData = "";
 
-            httpRequest(con, postData);
+            if (option.equals("add")) {
+                postData = "{\"email\":\"" + c.getEmail() + "\",\"name\":\"" + c.getName() + "\",\"ok\":false}";
+            } else if (option.equals("update")) {
+                postData = "{\"name\":\"" + c.getName() + "\",\"ok\":\"" + c.getOk() + "\"}";
+            }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "Blacklist updated successfully";
-    }
+            String response = makeHttpRequest(con, postData);
 
-    @Override
-    public String updateBlacklistCustomer(SimpleBlacklistCustomerDTO c) {
-        try {
-            String url = blacklistStreamAndUrlProvider.getBlacklistUrl() + "/" + c.getEmail();
-            URL obj = new URL(url);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-            con.setRequestMethod("PUT");
-
-            con.setRequestProperty("Content-Type", "application/json");
-
-            String postData = "{\"name\":\"" + c.getName() + "\",\"ok\":\"" + c.getOk() + "\"}";
-
-            httpRequest(con, postData);
-
+            if (response.equals("Error")) {
+                return "Blacklist did not update";
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -243,7 +229,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void httpRequest(HttpURLConnection con, String postData) throws IOException {
+    public String makeHttpRequest(HttpURLConnection con, String postData) throws IOException {
         con.setDoOutput(true);
         DataOutputStream wr = new DataOutputStream(con.getOutputStream());
         wr.writeBytes(postData);
@@ -261,6 +247,11 @@ public class CustomerServiceImpl implements CustomerService {
         }
         in.close();
 
-        System.out.println("Response : " + response.toString());
+        System.out.println("Response : " + response);
+
+        if (responseCode > 300) {
+            return "Error";
+        }
+        return response.toString();
     }
 }

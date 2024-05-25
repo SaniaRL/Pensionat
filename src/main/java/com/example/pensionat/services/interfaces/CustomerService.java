@@ -30,11 +30,10 @@ public interface CustomerService {
     void addToModelBlacklist(int currentPage, Model model) throws IOException;
     void addToModelBlacklistSearch(String search, int currentPage, Model model) throws IOException;
     Page<SimpleBlacklistCustomerDTO> getBlacklistBySearch(String search, int pageNum) throws IOException;
-    String addToBlacklist(SimpleBlacklistCustomerDTO c);
-    String updateBlacklistCustomer(SimpleBlacklistCustomerDTO c);
+    String updateOrAddToBlacklist(SimpleBlacklistCustomerDTO c, String option);
     List<SimpleBlacklistCustomerDTO> getBlacklist() throws IOException;
     DetailedBlacklistCustomerDTO[] mapToDetailedBlacklistCustomerDTOArray(InputStream stream) throws IOException;
     Page<SimpleBlacklistCustomerDTO> getBlacklistPage(int pageNum) throws IOException;
     SimpleBlacklistCustomerDTO getCustomerFromBlacklistByEmail(String email) throws IOException;
-    void httpRequest(HttpURLConnection con, String postData) throws IOException;
+    String makeHttpRequest(HttpURLConnection con, String postData) throws IOException;
     }

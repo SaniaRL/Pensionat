@@ -21,7 +21,6 @@ import java.io.InputStream;
 import java.net.http.HttpResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -166,12 +165,7 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void addToBlacklist() {     // prio
-
-    }
-
-    @Test
-    void updateBlacklist() {    // prio
+    void updateOrAddToBlacklist() {     // Kolla att response("Error" eller inte) genererar rätt retur
 
     }
 
@@ -181,7 +175,7 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void whenGetBlacklistShouldReturnCorrectObjekt() throws IOException {
+    void whenGetBlacklistShouldReturnCorrectObject() throws IOException {
         array[0] = detailedBlacklistCustomer;
         CustomerServiceImpl service = new CustomerServiceImpl(customerRepo, provider);
         CustomerServiceImpl spyService = spy(service);
@@ -215,7 +209,7 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void httpRequest() {    // prio
+    void makeHttpRequest() {    // Kolla att "Error" returneras när responseCode är över 300 och vise versa.
 
     }
 
