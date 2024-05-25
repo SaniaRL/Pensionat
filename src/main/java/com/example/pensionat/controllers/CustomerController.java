@@ -5,6 +5,7 @@ import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.services.interfaces.BookingService;
 import com.example.pensionat.services.interfaces.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import java.io.IOException;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping(path = "/customer")
+@PreAuthorize("isAuthenticated()")
 public class CustomerController {
 
     private final CustomerService customerService;

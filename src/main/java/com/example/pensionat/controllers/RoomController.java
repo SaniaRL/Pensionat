@@ -3,6 +3,7 @@ package com.example.pensionat.controllers;
 import com.example.pensionat.services.interfaces.EventService;
 import com.example.pensionat.services.interfaces.RoomService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping(path = "/room")
+@PreAuthorize("isAuthenticated()")
 public class RoomController {
 
     private final RoomService roomService;
