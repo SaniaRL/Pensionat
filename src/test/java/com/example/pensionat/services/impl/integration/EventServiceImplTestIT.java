@@ -7,6 +7,8 @@ import com.rabbitmq.client.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mail.javamail.JavaMailSender;
 
 import java.util.List;
 
@@ -19,6 +21,8 @@ public class EventServiceImplTestIT {
     private EventService sutEvent;
     @Autowired
     private EventRepo eventRepo;
+    @MockBean
+    private JavaMailSender emailSender;
 
     @Test
     void setupChannelCorrectAndSetupConsumerFetchesAndStoresDataCorrectly() throws Exception {

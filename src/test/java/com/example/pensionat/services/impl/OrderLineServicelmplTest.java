@@ -15,6 +15,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mail.javamail.JavaMailSender;
 
 
 import java.time.LocalDate;
@@ -34,6 +36,9 @@ class OrderLineServicelmplTest {
     private OrderLineRepo orderLineRepo;
     @Mock
     private BookingRepo bookingRepo;
+
+    @MockBean
+    private JavaMailSender emailSender;
 
     Long id = 1L;
     String name = "Maria";

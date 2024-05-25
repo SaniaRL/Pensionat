@@ -1,19 +1,13 @@
 package com.example.pensionat.controllers;
 
-import jakarta.mail.Message;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.mail.javamail.JavaMailSender;
 @Controller
 public class AuthController {
 
@@ -39,25 +33,22 @@ public class AuthController {
         return "login";
     }
 
-    @PostMapping("/simon")
-    public String forgotSimon(@RequestParam(value="mail", required = false) String mail, Model model) {
+    @PostMapping("/forgotPassword")
+    public String forgotPassword(@RequestParam(value="mail", required = false) String mail, Model model) {
         model.addAttribute("mailSent", true);
         System.out.println(mail);
         //TODO Hämta mall och shit men asså
-
-
-        String subject = "Hello";
-        String message = "Poop";
+        String subject = "Hej";
+        String message = "Tjabba, tjena, hallå";
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
+
         mailMessage.setFrom("dominique.wiegand@ethereal.email");
-//        mailMessage.setTo(email);
         mailMessage.setTo("dominique.wiegand@ethereal.email");
         mailMessage.setSubject(subject);
         mailMessage.setText(message);
 
         emailSender.send(mailMessage);
-
 
         return "login";
     }
