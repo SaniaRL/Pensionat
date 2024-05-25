@@ -17,13 +17,13 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping(path = "/user")
+@PreAuthorize("hasAuthority('Admin')")
 public class UserController {
 
     private final UserService userService;
     private final RoleService roleService;
 
     @GetMapping("/")
-    @PreAuthorize("hasAuthority('Admin')")
     public String handleUsers(Model model){
         int currentPage = 1;
         userService.addToModel(currentPage, model);
@@ -31,21 +31,18 @@ public class UserController {
     }
 
     @GetMapping(value = "/", params = "page")
-    @PreAuthorize("hasAuthority('Admin')")
     public String handleByPage(Model model, @RequestParam int page){
         userService.addToModel(page, model);
         return "handleUserAccounts";
     }
 
     @RequestMapping("/{username}/remove")
-    @PreAuthorize("hasAuthority('Admin')")
     public String deleteUserByUsername(@PathVariable String username, Model model) {
         userService.deleteUserByUsername(username);
         return "redirect:/user/";
     }
 
     @RequestMapping("/{username}/edit")
-    @PreAuthorize("hasAuthority('Admin')")
     public String editUser(@PathVariable String username, Model model){
         SimpleUserDTO user = userService.getSimpleUserDtoByUsername(username);
         List<SimpleRoleDTO> roles = roleService.getAllRoles();
@@ -55,14 +52,12 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority('Admin')")
     public String updateUser(@ModelAttribute("user") SimpleUserDTO userDTO, Model model) {
         userService.updateUser(userDTO);
         return "redirect:/user/";
     }
 
     @GetMapping("/create")
-    @PreAuthorize("hasAuthority('Admin')")
     public String showCreateUserAccountForm(Model model) {
         List<SimpleRoleDTO> roles = roleService.getAllRoles();
         model.addAttribute("selectableRoles", roles);
@@ -70,14 +65,12 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAuthority('Admin')")
     public String addUser(DetailedUserDTO userDTO, Model model) {
         userService.addUser(userDTO);
         return "redirect:/user/";
     }
 
     @GetMapping(value = "/", params = "search")
-    @PreAuthorize("hasAuthority('Admin')")
     public String userSearch(@RequestParam String search, Model model) throws IOException {
         System.out.println("SÖKORD: " + search);
         int currentPage = 1;
@@ -86,7 +79,6 @@ public class UserController {
     }
 
     @GetMapping(value = "/", params = {"search", "page"})
-    @PreAuthorize("hasAuthority('Admin')")
     public String userSearchByPage(@RequestParam String search, Model model, @RequestParam int page) throws IOException {
         userService.addToModelUserSearch(search, page, model);
         return "handleUserAccounts";
