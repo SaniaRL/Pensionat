@@ -34,13 +34,13 @@
             <input class="log-in-input" type="text" id="username" name="username" autofocus="autofocus" /> <br />
             <label for="password">LÖSENORD</label>
             <input class="log-in-input" type="password" id="password" name="password" /> <br />
-            <div class="right">
+            <div class="right-btn">
                 <input class="btn" type="submit" value="LOGGA IN" />
             </div>
         </form>
         <form>
             <input type="hidden" name="newPassword" value="x">
-            <div class="right" th:if="${loginError}">
+            <div class="right-btn" th:if="${loginError}">
                 <input class="btn" type="submit" value="Glömt lösenord?"/>
             </div>
         </form>
@@ -53,7 +53,7 @@
             <form class="log-in-form" th:action="@{/forgotPassword-24}" method="post">
                 <label for="mail">SKRIV DIN E-POST:</label>
                 <input class="log-in-input" type="text" id="mail" name="mail" autofocus="autofocus" /> <br />
-                <div class="right">
+                <div class="right-btn">
                     <input class="btn" type="submit" value="MEJLA NYTT LÖSENORD" />
                 </div>
             </form>

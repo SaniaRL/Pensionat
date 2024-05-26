@@ -34,7 +34,7 @@
 <div class="content">
   <div class="update-blacklist-customers">
     <div class="placement-return-button">
-      <a class="return-link" th:href="@{/}">
+      <a class="return-link" th:href="@{/customer/blacklist}">
         <div class="return-button">Tillbaka</div>
       </a>
       <div class="update-submit-button">
@@ -54,13 +54,13 @@
             <input id="name" name="name" type="text">
           </td>
           <td>
-            <input id="email" name="email" type="text">
+            <input id="email" name="email" type="text" required>
           </td>
         </form>
       </tr>
       </tbody>
     </table>
-    <p class="bl-feedback" th:if="${name != null}" th:text="${name + ' är svartlistad'}"></p>
+    <p class="bl-feedback" th:if="${status != null}" th:text="${status}"></p>
   </div>
 </div>
 

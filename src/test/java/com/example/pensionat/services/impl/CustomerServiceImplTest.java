@@ -171,7 +171,7 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void updateOrAddToBlacklist() {     // Kolla att response("Error" eller inte) genererar rätt retur
+    void updateOrAddToBlacklist() {     // Kolla att response code genererar rätt retur
 
     }
 
@@ -215,7 +215,7 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void makeHttpRequest() {    // Kolla att "Error" returneras när responseCode är över 300 och vise versa.
+    void makeHttpRequest() {
 
     }
 

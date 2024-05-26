@@ -1,14 +1,10 @@
 package com.example.pensionat.controllers;
 
 import com.example.pensionat.dtos.PasswordFormDTO;
-import com.example.pensionat.dtos.SimpleUserDTO;
-import com.example.pensionat.models.User;
 import com.example.pensionat.services.interfaces.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
@@ -54,52 +50,6 @@ public class AuthController {
         model.addAttribute("loginError", true);
         return "login";
     }
-
-    /*
-    @PostMapping("/forgotPassword")
-    public String forgotPassword(@RequestParam(value="mail", required = false) String mail, Model model) {
-
-
-        //Kolla om user ens finns
-        //Göra param obligatorisk men jag är lat nu och vill kunna klicka loss
-        if(mail == null) {
-            mail = "sania@mail.com";
-        }
-
-        SimpleUserDTO user = userService.getSimpleUserDtoByUsername(mail);
-        if(user == null){
-            model.addAttribute("userNotFound", true);
-            return "login";
-        }
-
-        //Sätt lösen som nytt lösen ? Det känns inte optimalt. Borde finnas gammalt lösen också ju?
-        //kolla om lösen verkligen ska ersättas på detta vis
-        int passWordLength = 4;
-        String newPassword = generateOTP(passWordLength);
-
-        //ändra lösen idk:
-        userService.updatePassword(mail, newPassword);
-
-        //Hämta mall och shit men asså
-        String subject = "New Password";
-        String message = "New password: " + newPassword;
-
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setFrom(fromEmail);
-        mailMessage.setTo(mail);
-        mailMessage.setSubject(subject);
-        mailMessage.setText(message);
-
-        emailSender.send(mailMessage);
-
-        //Uppdatera GUI (Kanske skulle förvara texten här bak och kunna ha flera text idk)
-        model.addAttribute("mailSent", true);
-
-        return "login";
-    }
-
-     */
-
 
     @PostMapping("/forgotPassword-24")
     public String forgotPassword24(@RequestParam(value="mail", required = false) String mail, Model model) {

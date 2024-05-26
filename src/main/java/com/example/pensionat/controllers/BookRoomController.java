@@ -7,7 +7,11 @@ import com.example.pensionat.services.impl.CustomerServiceImpl;
 import com.example.pensionat.services.impl.OrderLineServicelmpl;
 import com.example.pensionat.services.impl.RoomServicelmpl;
 import com.example.pensionat.services.impl.BookingServiceImpl;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,10 +24,13 @@ import java.util.List;
 @SessionAttributes({"chosenOrderLines", "result"})
 @PreAuthorize("isAuthenticated()")
 public class BookRoomController {
+
     RoomServicelmpl roomService;
     BookingServiceImpl bookingService;
     CustomerServiceImpl customerService;
     OrderLineServicelmpl orderLineService;
+
+    private final JavaMailSender emailSender;
 
     @PostMapping("/bookingSubmit")
     public String processBookingForm(@RequestParam boolean emptyBooking, @ModelAttribute BookingFormQueryDTO query, Model model) {
@@ -81,20 +88,26 @@ public class BookRoomController {
             model.addAttribute("booked", res);
             return "redirect:/booking/update?id=" + bookingData.getId();
         }
-
         System.out.println("bookingData: " + bookingData);
         double price = bookingService.generatePrice(bookingData);
         System.out.println("price after: " + price);
-        /*
-        model.addAttribute("startDate", bookingData.getStartDate());
-        model.addAttribute("endDate", bookingData.getEndDate());
-        model.addAttribute("orderLines", bookingData.getChosenRooms());
-        model.addAttribute("name", bookingData.getName());
-        model.addAttribute("email", bookingData.getEmail());
-
-         */
         model.addAttribute("price", price);
-//        model.addAttribute("result")
+
+        //TODO mall och så
+        String subject = "Bokningsbekräftelse";
+        String text = "Du bokade, yo. Från: " + bookingData.getStartDate() + " till: " + bookingData.getEndDate();
+        try {
+            MimeMessage message = emailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
+            helper.setText(text, true);
+            helper.setTo("dominique.wiegand@ethereal.email");
+            helper.setSubject(subject);
+            helper.setFrom("dominique.wiegand@ethereal.email");
+            emailSender.send(message);
+        }catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
         return "bookingConfirmation";
     }
 
