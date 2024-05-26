@@ -643,11 +643,22 @@ input[type=number]::-webkit-inner-spin-button {
     width: 6px;
 }
 
-.edit-list-list::-webkit-scrollbar-thumb {
+
+#mailText::-webkit-scrollbar {
+    width: 8px;
+}
+
+
+.edit-list-list::-webkit-scrollbar-thumb, #mailText::-webkit-scrollbar-thumb {
     background-color: #4f4b6a;
     border-radius: 4px;
 }
 
-.edit-list-list::-webkit-scrollbar-track {
+.edit-list-list::-webkit-scrollbar-track, #mailText::-webkit-scrollbar-track {
     background-color: #fff;
 }
+
+#mailText {
+    resize: none;
+}
+
