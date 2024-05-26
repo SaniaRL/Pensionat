@@ -501,14 +501,17 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .customers-background {
-    position: fixed;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     background-color: #d1d3d4;
     border: 3px solid #4f4b6a;
     border-radius: 12px;
     padding: 20px 50px;
+}
+
+.background-fixed-center {
+    position: fixed;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .table-header {

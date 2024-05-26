@@ -129,7 +129,7 @@ public class CustomerController {
         customerService.updateOrAddToBlacklist(c);
         int currentPage = 1;
         customerService.addToModelBlacklist(currentPage, model);
-        return "handleBlacklist";
+        return "redirect:/customer/blacklist?page=1";
     }
 
     @PostMapping("/blacklist/form/add")
