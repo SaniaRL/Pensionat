@@ -241,5 +241,5 @@ input {
 .btn-container {
     display: flex;
     flex-direction: row-reverse;
-    padding-bottom: 30px;
+    padding-bottom: 20px;
 }

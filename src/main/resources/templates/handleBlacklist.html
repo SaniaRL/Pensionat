@@ -14,7 +14,7 @@
           rel="stylesheet">
 </head>
 <body>
-<div th:replace="~{fragments/NavBar :: navBar(blacklist, blacklisted)}"></div>
+<div th:replace="~{fragments/NavBar :: navBar('blacklist', 'blacklisted')}"></div>
 <div class="header index-header">
     <div>
         <a th:href="@{/}">
@@ -91,6 +91,7 @@
                 </li>
             </ul>
         </nav>
+
         <div th:if="${totalPages > 1}">
             Total Items : [[${totalItems}]]
             &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;

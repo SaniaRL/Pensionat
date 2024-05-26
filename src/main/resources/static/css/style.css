@@ -4,7 +4,7 @@ body {
     color: #4f4b6a;
 }
 
-.index-body {
+.index-body, .room-list-body {
     overflow: hidden;
 }
 
@@ -501,10 +501,14 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .customers-background {
+    position: fixed;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-color: #d1d3d4;
     border: 3px solid #4f4b6a;
     border-radius: 12px;
-    padding: 40px;
+    padding: 20px 50px;
 }
 
 .table-header {
