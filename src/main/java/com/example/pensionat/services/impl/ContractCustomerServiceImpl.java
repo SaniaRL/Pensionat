@@ -116,16 +116,6 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
                 .map(ContractCustomerConverter::detailedContractCustomerToCustomers).toList());
     }
 
-/*
-    private XmlMapper getMapper(){
-        JacksonXmlModule module = new JacksonXmlModule();
-        module.setDefaultUseWrapper(false);
-
-        return new XmlMapper(module);
-    }
-
- */
-
     @Override
     public AllCustomersDTO fetchContractCustomers() throws IOException {
         JacksonXmlModule module = new JacksonXmlModule();
