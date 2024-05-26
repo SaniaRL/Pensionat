@@ -27,3 +27,9 @@ const sendText = () => {
         }
     }
 }
+
+function insertVariable(variableElement) {
+    const variable = variableElement.textContent;
+    const textarea = document.getElementById("mailText");
+    textarea.value += '!!!!' + variable + '!!!!';
+}

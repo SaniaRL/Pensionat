@@ -36,7 +36,7 @@
                     </tr>
                     <tbody class="edit-list-list">
                     <tr class="edit-list-items" th:each="t : ${variables}">
-                        <td th:text="${t}"></td>
+                        <td onclick="insertVariable(this)" th:text="${t}"></td>
                     </tr>
                     </tbody>
                 </table>
