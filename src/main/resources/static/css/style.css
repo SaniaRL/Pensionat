@@ -619,10 +619,11 @@ input[type=number]::-webkit-inner-spin-button {
 
 .edit-btn-msg-div {
     display: flex;
-/*    align-content: stretch; */
+    align-content: space-between;
     flex-direction: row;
+    justify-content: space-around;
     align-items: center;
-    justify-content: center;
+    width: 460px;
 }
 
 .do-not-look-like-link {
