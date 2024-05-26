@@ -10,4 +10,6 @@ public interface MailTemplateService {
 
     List<MailTemplateDTO> getAllTemplates();
 
+    MailTemplateDTO save(MailTemplateDTO mailTemplateDTO);
+
     }

@@ -60,7 +60,7 @@ public class MailTemplateController {
         model.addAttribute("name", "Ämne");
 
         //TODO fix idk -1 yes
-        model.addAttribute("id", -1);
+        model.addAttribute("id", null);
         return "mail/edit/edit";
     }
 
@@ -76,9 +76,11 @@ public class MailTemplateController {
         List<MailTemplateDTO> templateList = mailTemplateService.getAllTemplates();
         model.addAttribute("templateList", templateList);
 
-        model.addAttribute("id", mailTemplateDTO.getId());
-        model.addAttribute("name", mailTemplateDTO.getName());
-        model.addAttribute("text", mailTemplateDTO.getBody());
+        MailTemplateDTO savedMailTemplate = mailTemplateService.save(mailTemplateDTO);
+
+        model.addAttribute("id", savedMailTemplate.getId());
+        model.addAttribute("name", savedMailTemplate.getName());
+        model.addAttribute("text", savedMailTemplate.getBody());
 
         model.addAttribute("templateSaved", true);
 
