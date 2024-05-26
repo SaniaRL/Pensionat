@@ -47,6 +47,7 @@ public class AuthController {
         return "login";
     }
 
+    //Ändring
     @PostMapping("/forgotPassword-24")
     public String forgotPassword24(@RequestParam(value="mail", required = false) String mail, Model model) {
         String resetToken = UUID.randomUUID().toString();
@@ -73,6 +74,7 @@ public class AuthController {
         return "login";
     }
 
+    //Ändring
     @GetMapping("/resetPassword")
     public String resetPassword(@RequestParam(value = "token") String token, Model model) {
         User user = userService.getUserByResetToken(token);
@@ -85,6 +87,7 @@ public class AuthController {
         return "resetPassword";
     }
 
+    //Ändring
     @PostMapping("/updatePassword")
     public String updatePassword(@ModelAttribute PasswordFormDTO passwordFormDTO, Model model) {
         User user = userService.getUserByResetToken(passwordFormDTO.getToken());

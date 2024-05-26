@@ -129,11 +129,12 @@ public class UserServiceImpl implements UserService {
         userRepo.save(user);
     }
 
+    //Ändring
     @Override
     public User getUserByResetToken(String token) {
         return userRepo.findByResetToken(token);
     }
-
+    //Ändring
     @Override
     public void invalidateResetToken(User user) {
         user.setResetToken(null);

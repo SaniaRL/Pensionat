@@ -33,7 +33,7 @@ public class User {
     )
     private Collection<Role> roles;
 
-    // Password reset token and its expiration
+    //Ändring
     private String resetToken;
     private LocalDateTime resetTokenExpiry;
 }

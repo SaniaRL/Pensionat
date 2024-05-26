@@ -17,6 +17,7 @@ public interface UserService {
     String addUser(DetailedUserDTO userDTO);
     void updatePassword(String username, String newPassword);
 
+    //Ändring
     void createPasswordResetTokenForUser(String email, String token);
     User getUserByResetToken(String token);
     void invalidateResetToken(User user);
