@@ -123,19 +123,16 @@ public class CustomerController {
 
     @PostMapping("/blacklist/update")
     public String handleBlacklistCustomerUpdate(Model model, SimpleBlacklistCustomerDTO c) throws IOException {
-        customerService.updateOrAddToBlacklist(c, "update");
+        customerService.updateOrAddToBlacklist(c);
         int currentPage = 1;
         customerService.addToModelBlacklist(currentPage, model);
         return "handleBlacklist";
     }
 
     @PostMapping("/blacklist/form/add")
-    public String addToBlacklist(@RequestParam("name") String name, @RequestParam("email") String email, Model model) {
-        SimpleBlacklistCustomerDTO c = new SimpleBlacklistCustomerDTO();
-        c.setName(name);
-        c.setEmail(email);
-        customerService.updateOrAddToBlacklist(c, "add");
-        model.addAttribute("name", name);
+    public String addToBlacklist(Model model, SimpleBlacklistCustomerDTO c) {
+        String status = customerService.updateOrAddToBlacklist(c);
+        model.addAttribute("status", status);
         return "blacklistForm";
     }
 

@@ -160,37 +160,27 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public String updateOrAddToBlacklist(SimpleBlacklistCustomerDTO c, String option) {
+    public String updateOrAddToBlacklist(SimpleBlacklistCustomerDTO c) {
         try {
-            URL obj = null;
+            String blacklistUrl = blacklistStreamAndUrlProvider.getBlacklistUrl();
+            String postData = "{\"email\":\"" + c.getEmail() + "\",\"name\":\"" + c.getName() + "\",\"ok\":false}";
 
-            if (option.equals("add")) {
-                obj = new URL(blacklistStreamAndUrlProvider.getBlacklistUrl());
-            } else if (option.equals("update")) {
-                obj = new URL(blacklistStreamAndUrlProvider.getBlacklistUrl() + "/" + c.getEmail());
-            }
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            int response = sendHttpRequest("POST", blacklistUrl, postData);
 
-            String postData = "";
-            if (option.equals("add")) {
-                con.setRequestMethod("POST");
-                postData = "{\"email\":\"" + c.getEmail() + "\",\"name\":\"" + c.getName() + "\",\"ok\":false}";
-            } else if (option.equals("update")) {
-                System.out.println("UPDATE");
-                con.setRequestMethod("PUT");
-                postData = "{\"name\":\"" + c.getName() + "\",\"ok\":\"" + c.getOk() + "\"}";
-            }
-            con.setRequestProperty("Content-Type", "application/json");
-
-            String response = makeHttpRequest(con, postData);
-
-            if (response.equals("Error")) {
-                return "Blacklist did not update";
+            if (response == 200) {
+                return c.getEmail() + " är nu svartlistad!";
+            } else if (response == 400) {
+                String updateUrl = blacklistUrl + "/" + c.getEmail();
+                postData = "{\"name\":\"" + c.getName() + "\",\"ok\":" + c.getOk() + "}";
+                response = sendHttpRequest("PUT", updateUrl, postData);
+                if (response == 204) {
+                    return c.getEmail() + " är redan svartlistad. Uppgifter uppdaterade.";
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "Blacklist updated successfully";
+        return "Blacklist blev ej uppdaterad. kontakta support.";
     }
 
     @Override
@@ -235,29 +225,19 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public String makeHttpRequest(HttpURLConnection con, String postData) throws IOException {
+    public int sendHttpRequest(String requestMethod, String urlString, String postData) throws IOException {
+        URL url = new URL(urlString);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod(requestMethod);
+        con.setRequestProperty("Content-Type", "application/json");
         con.setDoOutput(true);
-        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-        wr.writeBytes(postData);
-        wr.flush();
-        wr.close();
 
-        int responseCode = con.getResponseCode();
-        System.out.println("Response Code : " + responseCode);
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuilder response = new StringBuilder();
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
+        try (OutputStream os = con.getOutputStream()) {
+            byte[] input = postData.getBytes("utf-8");
+            os.write(input, 0, input.length);
         }
-        in.close();
+        System.out.println("Response Code : " + con.getResponseCode());
 
-        System.out.println("Response : " + response);
-
-        if (responseCode > 300) {
-            return "Error";
-        }
-        return response.toString();
+        return con.getResponseCode();
     }
 }
