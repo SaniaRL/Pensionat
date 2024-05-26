@@ -12,10 +12,7 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.HTML;
 import java.time.LocalDate;
@@ -60,9 +57,33 @@ public class MailTemplateController {
         //Lägg till nån text ändå kanske
         String text = "Skriv ny mall här eller välj befintlig mall att uppdatera";
         model.addAttribute("text", text);
+        model.addAttribute("name", "Ämne");
+
+        //TODO fix idk -1 yes
+        model.addAttribute("id", -1);
         return "mail/edit/edit";
     }
 
+    @PostMapping("/postTemplate")
+    public String postTemplate(Model model, @ModelAttribute MailTemplateDTO mailTemplateDTO) {
+        System.out.println("Post template");
+        System.out.println("id = " + mailTemplateDTO.getId());
+        System.out.println("Mail head = " + mailTemplateDTO.getName());
+        System.out.println("Mail body = " + mailTemplateDTO.getBody());
+
+        List<String> variables = MailTemplateVariables.getBookingConfirmationVariables();
+        model.addAttribute("variables", variables);
+        List<MailTemplateDTO> templateList = mailTemplateService.getAllTemplates();
+        model.addAttribute("templateList", templateList);
+
+        model.addAttribute("id", mailTemplateDTO.getId());
+        model.addAttribute("name", mailTemplateDTO.getName());
+        model.addAttribute("text", mailTemplateDTO.getBody());
+
+        model.addAttribute("templateSaved", true);
+
+        return "mail/edit/edit";
+    }
 
 /*
     @RequestMapping("/")

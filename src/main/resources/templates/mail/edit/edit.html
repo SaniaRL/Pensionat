@@ -28,52 +28,55 @@
 </div>
 <div class="content index-content">
     <div class="edit-content">
-        <div class="mail-variable-container">
-            <table class="">
-                <tr class="">
-                    <th class="edit-list-head">BEFINTLIGA MALLAR</th>
-                </tr>
-                <tbody>
-                <tr class="edit-list-items" th:each="t : ${variables}">
-                    <td th:text="${t}"></td>
-                </tr>
-                </tbody>
-            </table>
+        <div class="rounded-border-3-12 mail-variable-container-container">
+            <div class="mail-variable-container">
+                <table class="">
+                    <tr class="">
+                        <th class="edit-list-head">VARIABLER</th>
+                    </tr>
+                    <tbody>
+                    <tr class="edit-list-items" th:each="t : ${variables}">
+                        <td th:text="${t}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mail-variable-container">
+                <table class="">
+                    <tr class="">
+                        <th class="edit-list-head">BEFINTLIGA MALLAR</th>
+                    </tr>
+                    <tbody>
+                    <tr class="edit-list-items" th:each="t : ${templateList}">
+                        <td th:text="${t.name}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="edit-templates-container">
-            <div class="template-item">
-                <div class="template-item-container">
-                    <div class="mail-container-2">
-                        <label for="mailText">Uppdatera Mall</label>
-                        <!--                    <form action="#" method="POST" th:action="@{/mailTemplate/updateTemplate}" id="mailForm">-->
-                        <textarea class="mail-textarea-2" name="mailText" id="mailText" th:text="${text}" required="required" wrap="hard"></textarea>
-
-                        <div class="right">
-                            <input class="btn right-btn" type="submit" value="UPPDATERA" onclick=sendText()>
+        <form th:action="@{/mailTemplate/postTemplate}" method="post">
+            <div class="edit-templates-container rounded-border-3-12">
+                <div class="template-item">
+                    <div class="template-item-container">
+                        <div class="mail-container-2">
+                            <input name="id" type="hidden" th:value="${id}">
+                            <label for="edit-head"></label>
+                            <input id="edit-head" type="text" name="name" th:value="${name}">
+                            <label for="mailText"></label>
+                            <textarea class="mail-textarea-2" name="body" id="mailText" th:text="${text}" required="required" wrap="hard"></textarea>
+                            <div class="edit-btn-msg-div">
+                                <div>
+                                    <p th:if="${templateSaved}">Mallen sparades!</p>
+                                </div>
+                                <div class="edit-btn">
+                                    <input class="btn right-btn" type="submit" value="UPPDATERA">
+                                </div>
+                            </div>
                         </div>
-                        <!--                    </form>-->
                     </div>
                 </div>
             </div>
-            <div class="template-item">
-                <div class="template-item-container">
-                    <div th:replace="~{mail/templates/mailTemplateConfirm}"></div>
-                </div>
-            </div>
-        </div>
-        <div class="mail-variable-container">
-            <table class="">
-                <tr class="">
-                    <th class="edit-list-head">BEFINTLIGA MALLAR</th>
-                </tr>
-                <tbody>
-                <tr class="edit-list-items" th:each="t : ${templateList}">
-                    <td th:text="${t.name}"></td>
-                </tr>
-                </tbody>
-            </table>
-
-        </div>
+        </form>
     </div>
 </div>
 <div class="footer">
