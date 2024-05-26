@@ -27,21 +27,40 @@
     </div>
 </div>
 <div class="content index-content">
-    <div class="templates-list">
-        <div class="template-item">
-            <div class="template-item-container">
-                <div class="mail-container">
-<!--                    <form action="#" method="POST" th:action="@{/mailTemplate/updateTemplate}" id="mailForm">-->
+    <div class="edit-content">
+        <div class="mail-variable-container">
+            <p>VARIABLER</p>
+
+        </div>
+        <div class="edit-templates-container">
+            <div class="template-item">
+                <div class="template-item-container">
+                    <div class="mail-container">
+                        <!--                    <form action="#" method="POST" th:action="@{/mailTemplate/updateTemplate}" id="mailForm">-->
                         <textarea class="mail-textarea" name="mailText" th:text="${text}" required="required" wrap="hard"></textarea>
                         <input class="search-customer-button"  value="Submit" onclick=sendText()>
-<!--                    </form>-->
+                        <!--                    </form>-->
+                    </div>
+                </div>
+            </div>
+            <div class="template-item">
+                <div class="template-item-container">
+                    <div th:replace="~{mail/templates/mailTemplateConfirm}"></div>
                 </div>
             </div>
         </div>
-        <div class="template-item">
-            <div class="template-item-container">
-                <div th:replace="~{mail/templates/mailTemplateConfirm}"></div>
-            </div>
+        <div class="mail-variable-container">
+            <table class="">
+                <tr class="">
+                    <th class="edit-head">BEFINTLIGA MALLAR</th>
+                </tr>
+                <tbody>
+                <tr class="" th:each="t : ${templateList}">
+                    <td th:text="${t.name}"></td>
+                </tr>
+                </tbody>
+            </table>
+
         </div>
     </div>
 </div>

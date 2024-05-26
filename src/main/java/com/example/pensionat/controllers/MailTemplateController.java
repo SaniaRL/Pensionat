@@ -1,5 +1,6 @@
 package com.example.pensionat.controllers;
 
+import com.example.pensionat.dtos.MailTemplateDTO;
 import com.example.pensionat.dtos.MailText;
 import com.example.pensionat.models.MailTemplate;
 import com.example.pensionat.repositories.MailTemplateRepo;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.swing.text.html.HTML;
+import java.util.List;
 
 @Controller
 @AllArgsConstructor
@@ -41,4 +43,21 @@ public class MailTemplateController {
         return "mail/edit/confirmation";
     }
 
+    @RequestMapping("/edit")
+    public String editTemplate(Model model) {
+        //TODO Hämta alla variabler som kan användas
+        //TODO Hämta alla mallar till en liten lista och lägg in i model
+        List<MailTemplateDTO> templateList = mailTemplateService.getAllTemplates();
+        model.addAttribute("templateList", templateList);
+        return "mail/edit/edit";
+    }
+
+
+/*
+    @RequestMapping("/")
+    public String getMailTemplate() {
+        return
+    }
+
+ */
 }

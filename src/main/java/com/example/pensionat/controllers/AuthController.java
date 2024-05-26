@@ -57,6 +57,8 @@ public class AuthController {
         String resetToken = generateResetPasswordToken(mail);
         String resetLink = "localhost:8080/resetPassword?token=" + resetToken;
 
+        //TODO lagra token
+
         //TODO Hämta mall och shit men asså
         String subject = "Återställ lösenord";
         String message = "<div>Följ denna <a href=" + resetLink + ">länk</a> !</div>";
@@ -93,7 +95,8 @@ public class AuthController {
             return "login";
         }
 
-        //TODO Måste kolla av allt annat också - eller tid iaf
+        //TODO kolla att token är legit
+
         LocalDateTime timeLimit = getDateTimeLimit24h(token);
 
         if(timeLimit.isBefore(LocalDateTime.now())) {
