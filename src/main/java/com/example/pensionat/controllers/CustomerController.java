@@ -90,14 +90,17 @@ public class CustomerController {
     @GetMapping("/blacklist")
     public String handleBlacklist(Model model) throws IOException {
         int currentPage = 1;
+        System.out.println("Använder den denna??");
         customerService.addToModelBlacklist(currentPage, model);
         return "handleBlacklist";
     }
 
-    @GetMapping(value = "/blacklist/", params = "page")
+    @GetMapping(value = "/blacklist", params = "page")
     public String handleBlacklistByPage(Model model,
                                         @RequestParam int page) throws IOException {
+        System.out.println("handleBlacklistByPage");
         customerService.addToModelBlacklist(page, model);
+        System.out.println("Before return handleBlacklist");
         return "handleBlacklist";
     }
 
@@ -126,7 +129,7 @@ public class CustomerController {
         customerService.updateOrAddToBlacklist(c);
         int currentPage = 1;
         customerService.addToModelBlacklist(currentPage, model);
-        return "handleBlacklist";
+        return "redirect:/customer/blacklist?page=1";
     }
 
     @PostMapping("/blacklist/form/add")
