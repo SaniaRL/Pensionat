@@ -2,28 +2,39 @@ package com.example.pensionat.controllers;
 
 import com.example.pensionat.models.MailTemplate;
 import com.example.pensionat.repositories.MailTemplateRepo;
+import com.example.pensionat.services.interfaces.MailTemplateService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.swing.text.html.HTML;
 
-@RestController
+@Controller
+@AllArgsConstructor
 @RequestMapping("/mailTemplate")
 public class MailTemplateController {
-    private final MailTemplateRepo mailTemplateRepo;
 
-    public MailTemplateController(MailTemplateRepo mailTemplateRepo) {
-        this.mailTemplateRepo = mailTemplateRepo;
+    private final MailTemplateService mailTemplateService;
+
+    @GetMapping("/confirmation")
+    public String confirmation(Model model) {
+        model.addAttribute("text", "testing");
+        return "mail/edit/confirmation";
     }
 
-    @PostMapping("add")
-    public void add(@RequestBody String mailTemplate) {
-        System.out.println(mailTemplate);
-        MailTemplate mailTemplateModel = new MailTemplate();
-        mailTemplateModel.setName("Template");
-        mailTemplateModel.setBody(mailTemplate);
-        mailTemplateRepo.save(mailTemplateModel);
+    @GetMapping("/forgotPassword")
+    public String forgotPassword() {
+        return "mail/edit/forgotPassword";
     }
+
+    @PostMapping("/updateTemplate")
+    public String updateTemplate(Model model, @RequestBody String mailText) {
+        model.addAttribute("text", mailText);
+        return "mail/edit/confirmation";
+    }
+
 }

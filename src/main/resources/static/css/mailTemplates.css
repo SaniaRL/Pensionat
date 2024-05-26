@@ -1,0 +1,18 @@
+.template-item {
+    margin: 0;
+    background-color: #4f4b6a;
+    border-radius: 6px;
+    padding: 12px;
+    display: flex;
+}
+
+.template-item-container {
+    margin: 0;
+    background-color: white;
+}
+.mail-container {
+    padding: 12px;
+}
+.mail-textarea {
+    padding: 12px;
+}

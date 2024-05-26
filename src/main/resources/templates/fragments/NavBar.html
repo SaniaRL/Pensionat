@@ -52,6 +52,17 @@
                     </li>
                 </ul>
             </div>
+            <div class="menu-mail" th:classappend="${activePage == 'mailTemplates'} ? 'active' : 'submenu-hidden'">
+                <h2 class="menu-title" onclick=expand(this)>Mail Templates</h2>
+                <ul class="submenu">
+                    <li>
+                        <a class="link" th:classappend="${activeSub == 'confirmation'} ? 'activeSub' : ''" onclick="window.location.href='/mailTemplate/confirmation'">Confirmation</a>
+                    </li>
+                    <li>
+                        <a class="link" th:classappend="${activeSub == 'forgotPassword'} ? 'activeSub' : ''" onclick="window.location.href='/mailTemplate/forgotPassword'">Forgot Password</a>
+                    </li>
+                </ul>
+            </div>
             <div sec:authorize="isAuthenticated()" class="menu-logout">
                 <h2 class="menu-title-sec" onclick="window.location.href='/logout'">LOGGA UT</h2>
             </div>
