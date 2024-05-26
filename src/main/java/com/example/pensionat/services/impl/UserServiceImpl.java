@@ -78,6 +78,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(SimpleUserDTO userDTO) {
+        userDTO.setUsername(userDTO.getUsername().trim());
         User user = userRepo.findById(userDTO.getId());
         List<Role> roles = new ArrayList<>();
         for (SimpleRoleDTO roleDTO : userDTO.getRoles()) {
@@ -88,20 +89,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String addUser(DetailedUserDTO userDTO) {
+    public String addUser(DetailedUserDTO userDTO, Model model) {
+        model.addAttribute("username", userDTO.getUsername());
+        model.addAttribute("password", userDTO.getPassword());
+
+        userDTO.setUsername(userDTO.getUsername().trim());
+        if (userDTO.getUsername().isEmpty()) {
+            return "Användarnamnet får inte vara enbart mellanslag.";
+        }
+        if (userDTO.getPassword().contains(" ")) {
+            return "Lösenordet får inte innehålla mellanslag.";
+        }
         if (userRepo.findByUsername(userDTO.getUsername()) != null) {
             return "Användarnamnet " + userDTO.getUsername() + " är upptaget.";
+        }
+        if (userDTO.getRoles() == null) {
+            return "Välj minst en av rollerna.";
         }
         List<Role> roles = new ArrayList<>();
         for (SimpleRoleDTO roleDTO : userDTO.getRoles()) {
             Role role = roleRepo.findByName(roleDTO.getName());
             roles.add(role);
         }
-
         String hashPassword = getHashPassword(userDTO.getPassword());
         userDTO.setPassword(hashPassword);
 
         userRepo.save(UserConverter.detailedUserDtoToUser(userDTO, roles));
+        model.addAttribute("username", null);
+        model.addAttribute("password", null);
+
         return "Konto med användarnamn " + userDTO.getUsername() + " skapades!";
     }
 

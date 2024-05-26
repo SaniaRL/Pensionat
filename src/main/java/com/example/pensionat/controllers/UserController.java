@@ -66,7 +66,7 @@ public class UserController {
 
     @PostMapping("/add")
     public String addUser(DetailedUserDTO userDTO, Model model) {
-        String status = userService.addUser(userDTO);
+        String status = userService.addUser(userDTO, model);
         model.addAttribute("status", status);
         return showCreateUserAccountForm(model);
     }
