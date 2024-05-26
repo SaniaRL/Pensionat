@@ -14,6 +14,8 @@ import java.util.ArrayList;
 public class RoleAndUserDataSeeder {
 
     @Autowired
+    EmailConfigProvider emailConfigProvider;
+    @Autowired
     UserRepo userRepo;
     @Autowired
     RoleRepo roleRepo;
@@ -43,8 +45,8 @@ public class RoleAndUserDataSeeder {
         if (userRepo.findByUsername("basse@mail.com") == null){
             addUser("basse@mail.com","Admin");
         }
-        if (userRepo.findByUsername("dominique.wiegand@ethereal.email") == null){
-            addUser("dominique.wiegand@ethereal.email","Admin");
+        if (userRepo.findByUsername(emailConfigProvider.getMailUsername()) == null){
+            addUser(emailConfigProvider.getMailUsername(),"Admin");
         }
     }
 
