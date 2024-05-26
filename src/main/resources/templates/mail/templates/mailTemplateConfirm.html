@@ -7,10 +7,7 @@
 </head>
 <body>
     <div class="mail-container">
-        <form action="#" method="POST" th:action="@{/mailTemplate/updateTemplate}" id="mailForm">
-            <textarea class="mail-textarea" name="mailText" form="mailForm" th:text="${text}" required="required"></textarea>
-            <input class="search-customer-button" type="submit" value="Submit">
-        </form>
+        <div th:text="${content}" style="white-space: pre-wrap"></div>
     </div>
 </body>
 </html>

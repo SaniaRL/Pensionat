@@ -1,9 +1,11 @@
 package com.example.pensionat.controllers;
 
+import com.example.pensionat.dtos.MailText;
 import com.example.pensionat.models.MailTemplate;
 import com.example.pensionat.repositories.MailTemplateRepo;
 import com.example.pensionat.services.interfaces.MailTemplateService;
 import lombok.AllArgsConstructor;
+import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +35,9 @@ public class MailTemplateController {
 
     @PostMapping("/updateTemplate")
     public String updateTemplate(Model model, @RequestBody String mailText) {
-        model.addAttribute("text", mailText);
+        System.out.println((mailText));
+        model.addAttribute("text", (mailText));
+        model.addAttribute("content", (mailText));
         return "mail/edit/confirmation";
     }
 
