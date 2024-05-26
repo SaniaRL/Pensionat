@@ -52,10 +52,10 @@
         <div class="mail-variable-container">
             <table class="">
                 <tr class="">
-                    <th class="edit-head">BEFINTLIGA MALLAR</th>
+                    <th class="edit-list-head">BEFINTLIGA MALLAR</th>
                 </tr>
                 <tbody>
-                <tr class="" th:each="t : ${templateList}">
+                <tr class="edit-list-items" th:each="t : ${templateList}">
                     <td th:text="${t.name}"></td>
                 </tr>
                 </tbody>
