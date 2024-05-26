@@ -56,7 +56,7 @@ public class MailTemplateController {
         model.addAttribute("templateList", templateList);
         //Lägg till nån text ändå kanske
         String text = "Skriv ny mall här eller välj befintlig mall att uppdatera";
-        model.addAttribute("text", text);
+        model.addAttribute("body", text);
         model.addAttribute("name", "Ämne");
 
         //TODO fix idk -1 yes
@@ -80,9 +80,26 @@ public class MailTemplateController {
 
         model.addAttribute("id", savedMailTemplate.getId());
         model.addAttribute("name", savedMailTemplate.getName());
-        model.addAttribute("text", savedMailTemplate.getBody());
+        model.addAttribute("body", savedMailTemplate.getBody());
 
         model.addAttribute("templateSaved", true);
+
+        return "mail/edit/edit";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editTemplateById(Model model, @PathVariable Long id) {
+        MailTemplateDTO selectedTemplate = mailTemplateService.getMailTemplateById(id);
+
+        List<String> variables = MailTemplateVariables.getBookingConfirmationVariables();
+        model.addAttribute("variables", variables);
+
+        List<MailTemplateDTO> templateList = mailTemplateService.getAllTemplates();
+        model.addAttribute("templateList", templateList);
+
+        model.addAttribute("id", selectedTemplate.getId());
+        model.addAttribute("name", selectedTemplate.getName());
+        model.addAttribute("body", selectedTemplate.getBody());
 
         return "mail/edit/edit";
     }

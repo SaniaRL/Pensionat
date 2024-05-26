@@ -12,4 +12,6 @@ public interface MailTemplateService {
 
     MailTemplateDTO save(MailTemplateDTO mailTemplateDTO);
 
+    MailTemplateDTO getMailTemplateById(long id);
+
     }

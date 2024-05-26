@@ -606,7 +606,7 @@ input[type=number]::-webkit-inner-spin-button {
 
 .mail-textarea-2 {
     width: 460px;
-    height: 160px;
+    height: 200px;
     padding: 12px;
     margin: 10px;
 }
@@ -622,4 +622,9 @@ input[type=number]::-webkit-inner-spin-button {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+}
+
+.do-not-look-like-link {
+    text-decoration: none;
+    color: inherit;
 }

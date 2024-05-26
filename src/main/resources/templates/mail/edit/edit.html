@@ -48,7 +48,7 @@
                     </tr>
                     <tbody>
                     <tr class="edit-list-items" th:each="t : ${templateList}">
-                        <td th:text="${t.name}"></td>
+                        <td><a class="do-not-look-like-link" th:href="@{/mailTemplate/edit/{id}(id=${t.id})}" th:text="${t.name}"></a></td>
                     </tr>
                     </tbody>
                 </table>
@@ -63,7 +63,7 @@
                             <label for="edit-head"></label>
                             <input id="edit-head" type="text" name="name" th:value="${name}">
                             <label for="mailText"></label>
-                            <textarea class="mail-textarea-2" name="body" id="mailText" th:text="${text}" required="required" wrap="hard"></textarea>
+                            <textarea class="mail-textarea-2" name="body" id="mailText" th:text="${body}" required="required" wrap="hard"></textarea>
                             <div class="edit-btn-msg-div">
                                 <div>
                                     <p th:if="${templateSaved}">Mallen sparades!</p>

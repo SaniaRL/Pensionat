@@ -33,4 +33,13 @@ public class MailTemplateServiceImpl implements MailTemplateService {
     public MailTemplateDTO save(MailTemplateDTO mailTemplateDTO) {
         return MailTemplateConverter.mailTemplateToMailTemplateDTO(mailTemplateRepo.save(MailTemplateConverter.mailTemplateDTOtoMailTemplate(mailTemplateDTO)));
     }
+
+    @Override
+    public MailTemplateDTO getMailTemplateById(long id) {
+        MailTemplate m = mailTemplateRepo.findById(id).orElse(null);
+        if(m == null) {
+            return null;
+        }
+        return MailTemplateConverter.mailTemplateToMailTemplateDTO(m);
+    }
 }
