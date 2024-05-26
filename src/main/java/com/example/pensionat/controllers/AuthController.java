@@ -2,6 +2,7 @@ package com.example.pensionat.controllers;
 
 import com.example.pensionat.dtos.PasswordFormDTO;
 import com.example.pensionat.services.interfaces.UserService;
+import com.example.pensionat.services.providers.EmailConfigProvider;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +25,7 @@ public class AuthController {
 
     private final JavaMailSender emailSender;
     private final UserService userService;
-
-    //TODO hämta från properties
-    /*
-    @Value("${spring.mail.username}")
-    */
-    private final String fromEmail = "dominique.wiegand@ethereal.email";
-
+    private final EmailConfigProvider emailConfigProvider;
 
     @RequestMapping("/login")
     public String loginPage(Model model,
@@ -67,7 +62,7 @@ public class AuthController {
             helper.setText(message, true);
             helper.setTo(mail);
             helper.setSubject(subject);
-            helper.setFrom(fromEmail);
+            helper.setFrom(emailConfigProvider.getMailUsername());
             emailSender.send(mimeMessage);
         } catch (MessagingException e) {
             model.addAttribute("mailError", true);
