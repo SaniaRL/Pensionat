@@ -7,7 +7,7 @@ public class MailTemplateVariables {
 
     //TODO idk detta funkar ju inte va
     public static List<String> getBookingConfirmationVariables(){
-        return Arrays.asList("Name", "E-mail", "Start-Date", "End-Date", "Total Price");
+        return Arrays.asList("Namn", "E-post", "Startdatum", "Slutdatum", "Totalsumma");
     }
 
 }

@@ -34,7 +34,7 @@
                     <tr class="">
                         <th class="edit-list-head">VARIABLER</th>
                     </tr>
-                    <tbody>
+                    <tbody class="edit-list-list">
                     <tr class="edit-list-items" th:each="t : ${variables}">
                         <td th:text="${t}"></td>
                     </tr>
@@ -46,7 +46,7 @@
                     <tr class="">
                         <th class="edit-list-head">BEFINTLIGA MALLAR</th>
                     </tr>
-                    <tbody>
+                    <tbody class="edit-list-list">
                     <tr class="edit-list-items" th:each="t : ${templateList}">
                         <td><a class="do-not-look-like-link" th:href="@{/mailTemplate/edit/{id}(id=${t.id})}" th:text="${t.name}"></a></td>
                     </tr>
