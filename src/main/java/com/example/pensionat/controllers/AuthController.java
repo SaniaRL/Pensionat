@@ -50,7 +50,7 @@ public class AuthController {
     public String forgotPassword24(@RequestParam(value="mail", required = false) String mail, Model model) {
 
         String resetToken = generateResetPasswordToken(mail);
-        String resetLink = "localhost:8080/resetPassword?token=" + resetToken;
+        String resetLink = emailConfigProvider.getMailResetlink() + resetToken;
 
         //TODO Hämta mall och shit men asså
         String subject = "Återställ lösenord";

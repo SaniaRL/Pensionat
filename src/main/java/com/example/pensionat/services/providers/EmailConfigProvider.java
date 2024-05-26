@@ -14,4 +14,7 @@ public class EmailConfigProvider {
     @Value("${spring.mail.password}")
     private String mailPassword;
 
+    @Value("${spring.mail.resetlink}")
+    private String mailResetlink;
+
 }
