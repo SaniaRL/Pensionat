@@ -88,13 +88,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUser(DetailedUserDTO userDTO) {
+    public String addUser(DetailedUserDTO userDTO) {
+        if (userRepo.findByUsername(userDTO.getUsername()) != null) {
+            return "Användarnamnet " + userDTO.getUsername() + " är upptaget.";
+        }
         List<Role> roles = new ArrayList<>();
         for (SimpleRoleDTO roleDTO : userDTO.getRoles()) {
             Role role = roleRepo.findByName(roleDTO.getName());
             roles.add(role);
         }
         userRepo.save(UserConverter.detailedUserDtoToUser(userDTO, roles));
+        return "Konto med användarnamn " + userDTO.getUsername() + " skapades!";
     }
 
     @Override

@@ -66,8 +66,9 @@ public class UserController {
 
     @PostMapping("/add")
     public String addUser(DetailedUserDTO userDTO, Model model) {
-        userService.addUser(userDTO);
-        return "redirect:/user/";
+        String status = userService.addUser(userDTO);
+        model.addAttribute("status", status);
+        return showCreateUserAccountForm(model);
     }
 
     @GetMapping(value = "/", params = "search")
