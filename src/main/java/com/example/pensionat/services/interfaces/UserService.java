@@ -14,6 +14,6 @@ public interface UserService {
     Page<SimpleUserDTO> getUsersBySearch(String search, int pageNum);
     void deleteUserByUsername(String username);
     void updateUser(SimpleUserDTO userDTO);
-    void addUser(DetailedUserDTO userDTO);
+    String addUser(DetailedUserDTO userDTO);
     void updatePassword(String username, String newPassword);
     }
