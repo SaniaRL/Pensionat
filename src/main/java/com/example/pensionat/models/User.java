@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
@@ -31,4 +32,8 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Collection<Role> roles;
+
+    // Password reset token and its expiration
+    private String resetToken;
+    private LocalDateTime resetTokenExpiry;
 }

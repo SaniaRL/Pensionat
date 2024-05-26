@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,4 +120,25 @@ public class UserServiceImpl implements UserService {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder.encode(password);
     }
+
+    @Override
+    public void createPasswordResetTokenForUser(String email, String token) {
+        User user = userRepo.findByUsername(email); // Ensure you have a method to find a user by email
+        user.setResetToken(token);
+        user.setResetTokenExpiry(LocalDateTime.now().plusHours(24)); // Token valid for 24 hours
+        userRepo.save(user);
+    }
+
+    @Override
+    public User getUserByResetToken(String token) {
+        return userRepo.findByResetToken(token);
+    }
+
+    @Override
+    public void invalidateResetToken(User user) {
+        user.setResetToken(null);
+        user.setResetTokenExpiry(null);
+        userRepo.save(user);
+    }
+
 }

@@ -21,4 +21,6 @@ public interface UserRepo extends JpaRepository<User, UUID> {
     Page<User> findByUsernameContainsOrRolesNameContains(String searchParam1, String searchParam2, Pageable pageable);
 
     User findById(java.util.UUID id);
+    User findByResetToken(String token);
+
 }
