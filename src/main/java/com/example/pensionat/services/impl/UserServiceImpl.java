@@ -97,6 +97,10 @@ public class UserServiceImpl implements UserService {
             Role role = roleRepo.findByName(roleDTO.getName());
             roles.add(role);
         }
+
+        String hashPassword = getHashPassword(userDTO.getPassword());
+        userDTO.setPassword(hashPassword);
+
         userRepo.save(UserConverter.detailedUserDtoToUser(userDTO, roles));
         return "Konto med användarnamn " + userDTO.getUsername() + " skapades!";
     }
@@ -105,10 +109,14 @@ public class UserServiceImpl implements UserService {
     public void updatePassword(String username, String newPassword) {
         User user = userRepo.findByUsername(username);
         if(user != null) {
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            String hash = encoder.encode(newPassword);
+            String hash = getHashPassword(newPassword);
             user.setPassword(hash);
             userRepo.save(user);
         }
+    }
+
+    private String getHashPassword(String password){
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.encode(password);
     }
 }
