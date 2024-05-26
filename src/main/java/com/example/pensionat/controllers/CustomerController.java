@@ -5,6 +5,7 @@ import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.services.interfaces.BookingService;
 import com.example.pensionat.services.interfaces.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import java.io.IOException;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping(path = "/customer")
+@PreAuthorize("isAuthenticated()")
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -77,7 +79,7 @@ public class CustomerController {
     }
 
     @GetMapping("/blacklistcheck/{email}")
-    public String checkIfEmailBlacklisted(@PathVariable("email") String email, Model model) {
+    public String checkIfEmailBlacklisted(@PathVariable("email") String email, Model model) throws IOException, InterruptedException {
         if (!customerService.checkIfEmailBlacklisted(email)) {
             model.addAttribute("status", "Kunden med email " + email + " är SVARTLISTAD!");
             return "customerOrNot";
@@ -85,7 +87,7 @@ public class CustomerController {
         return "bookingConfirmation";
     }
 
-    @GetMapping("/blacklist/")
+    @GetMapping("/blacklist")
     public String handleBlacklist(Model model) throws IOException {
         int currentPage = 1;
         customerService.addToModelBlacklist(currentPage, model);
@@ -121,19 +123,16 @@ public class CustomerController {
 
     @PostMapping("/blacklist/update")
     public String handleBlacklistCustomerUpdate(Model model, SimpleBlacklistCustomerDTO c) throws IOException {
-        customerService.updateBlacklistCustomer(c);
+        customerService.updateOrAddToBlacklist(c);
         int currentPage = 1;
         customerService.addToModelBlacklist(currentPage, model);
         return "handleBlacklist";
     }
 
     @PostMapping("/blacklist/form/add")
-    public String addToBlacklist(@RequestParam("name") String name, @RequestParam("email") String email, Model model) {
-        SimpleBlacklistCustomerDTO c = new SimpleBlacklistCustomerDTO();
-        c.setName(name);
-        c.setEmail(email);
-        customerService.addToBlacklist(c);
-        model.addAttribute("name", name);
+    public String addToBlacklist(Model model, SimpleBlacklistCustomerDTO c) {
+        String status = customerService.updateOrAddToBlacklist(c);
+        model.addAttribute("status", status);
         return "blacklistForm";
     }
 

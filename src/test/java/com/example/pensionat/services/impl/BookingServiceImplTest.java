@@ -8,6 +8,9 @@ import com.example.pensionat.models.OrderLine;
 import com.example.pensionat.repositories.BookingRepo;
 import com.example.pensionat.repositories.CustomerRepo;
 import com.example.pensionat.repositories.OrderLineRepo;
+import com.example.pensionat.services.impl.BookingServiceImpl;
+import com.example.pensionat.services.impl.OrderLineServicelmpl;
+import com.example.pensionat.services.impl.RoomServicelmpl;
 import com.example.pensionat.services.interfaces.CustomerService;
 import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +24,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mail.javamail.JavaMailSender;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -51,6 +56,9 @@ class BookingServiceImplTest {
     private OrderLineRepo orderLineRepo;
 //    @InjectMocks
     BookingServiceImpl bookingServiceImpl;
+    @MockBean
+    private JavaMailSender emailSender;
+
 
     Long id = 1L;
     String name = "Maria";

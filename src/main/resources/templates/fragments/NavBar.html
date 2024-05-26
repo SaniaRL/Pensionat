@@ -1,15 +1,14 @@
 <div th:fragment="navBar(activePage, activeSub)"
      class="menu"
-     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
     <div class="menu-container">
-        <div class="menu-account">
-            <p>Account Image</p>
-            <p>Account Name</p>
+        <div sec:authorize="isAuthenticated()" class="menu-account">
+            <p><span sec:authentication="principal.username"></span></p>
         </div>
         <div class="menu-titles">
             <div sec:authorize="isAnonymous()" class="menu-login">
-                <h2 class="menu-title-sec" sec:authorize="isAnonymous()" onclick="window.location.href='/login'">LOGGA IN</h2>
+                <h2 class="menu-title-sec" onclick="window.location.href='/login'">LOGGA IN</h2>
             </div>
             <div class="menu-booking" th:classappend="${activePage == 'booking'} ? 'active' : 'submenu-hidden'">
                 <h2 class="menu-title" onclick=expand(this)>BOKNING</h2>
@@ -45,21 +44,10 @@
                 <h2 class="menu-title" onclick=expand(this)>BLACKLIST</h2>
                 <ul class="submenu">
                     <li>
-                        <a class="link" th:classappend="${activeSub == 'blacklisted'} ? 'activeSub' : ''" onclick="window.location.href='/customer/blacklist/'">Svartlistade kunder</a>
+                        <a class="link" th:classappend="${activeSub == 'blacklisted'} ? 'activeSub' : ''" onclick="window.location.href='/customer/blacklist'">Svartlistade kunder</a>
                     </li>
                     <li>
                         <a class="link" th:classappend="${activeSub == 'newBlacklist'} ? 'activeSub' : ''" onclick="window.location.href='/customer/blacklist/form'">Svartlista ny kund</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="menu-mail" th:classappend="${activePage == 'mailTemplates'} ? 'active' : 'submenu-hidden'">
-                <h2 class="menu-title" onclick=expand(this)>Mail Templates</h2>
-                <ul class="submenu">
-                    <li>
-                        <a class="link" th:classappend="${activeSub == 'confirmation'} ? 'activeSub' : ''" onclick="window.location.href='/mailTemplate/confirmation'">Confirmation</a>
-                    </li>
-                    <li>
-                        <a class="link" th:classappend="${activeSub == 'forgotPassword'} ? 'activeSub' : ''" onclick="window.location.href='/mailTemplate/forgotPassword'">Forgot Password</a>
                     </li>
                 </ul>
             </div>

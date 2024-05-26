@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
@@ -47,6 +48,9 @@ class CustomerControllerTest {
 
     @MockBean
     private BookRoomController testController;
+
+    @MockBean
+    private JavaMailSender emailSender;
 
     String email = "gudrun@disco.com";
     SimpleCustomerDTO customer = new SimpleCustomerDTO("evert.persson@outbook.com", "Evert Persson");

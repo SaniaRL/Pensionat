@@ -13,7 +13,7 @@
         rel="stylesheet">
 </head>
 <body>
-<div th:replace="~{fragments/NavBar :: navBar('blacklist', 'newBlacklist')}"></div>
+<div th:replace="~{fragments/NavBar :: navBar('blacklist', 'blacklisted')}"></div>
 <div class="header">
   <div>
     <div>
@@ -34,33 +34,44 @@
 <div class="content">
   <div class="update-blacklist-customers">
     <div class="placement-return-button">
-      <a class="return-link" th:href="@{/customer/blacklist}">
+      <a class="return-link" th:href="@{/user/}">
         <div class="return-button">Tillbaka</div>
       </a>
       <div class="update-submit-button">
-        <input form="customer-form" type="submit" value="Svartlista">
+        <input form="user-form" type="submit" value="Uppdatera">
       </div>
     </div>
 
     <table class="customers-table">
-      <tr class="table-header update">
-        <th> namn</th>
-        <th> email</th>
+      <thead>
+      <tr class="table-header tr-user-update">
+        <th>namn</th>
+        <th>roles</th>
+        <th>enabled</th>
       </tr>
+      </thead>
       <tbody>
-      <tr class="customer-row update">
-        <form id="customer-form" action="#" method="post" th:action="@{/customer/blacklist/form/add}">
+      <form id="user-form" action="#" method="post" th:action="@{/user/update}" th:object="${user}">
+        <tr class="customer-row tr-user-update">
+          <input th:field="*{id}" type="hidden">
           <td>
-            <input id="name" name="name" type="text">
+            <input id="username" th:field="*{username}" type="text">
           </td>
           <td>
-            <input id="email" name="email" type="text" required>
+            <div class="roles-list">
+              <div th:each="role : ${selectableRoles}" class="role-item">
+                <input id="roles" th:field="*{roles}" type="checkbox" th:value="${role.name}">
+                <label th:text="${role.name}"></label>
+              </div>
+            </div>
           </td>
-        </form>
-      </tr>
+          <td>
+            <input id="enabled" th:field="*{enabled}" type="checkbox" th:value="${enabled}">
+          </td>
+        </tr>
+      </form>
       </tbody>
     </table>
-    <p class="bl-feedback" th:if="${status != null}" th:text="${status}"></p>
   </div>
 </div>
 
@@ -69,4 +80,5 @@
 </div>
 <script th:src="@{/js/menuExpand.js}"></script>
 </body>
+</html>
 </html>

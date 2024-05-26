@@ -6,6 +6,7 @@ import com.example.pensionat.dtos.RoomDTO;
 import com.example.pensionat.enums.RoomType;
 import com.example.pensionat.models.Room;
 import com.example.pensionat.repositories.RoomRepo;
+import com.example.pensionat.services.impl.RoomServicelmpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -13,6 +14,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mail.javamail.JavaMailSender;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -29,6 +32,9 @@ import static org.mockito.Mockito.when;
 class RoomServicelmplTest {
     @Mock
     private RoomRepo roomRepo;
+
+    @MockBean
+    private JavaMailSender emailSender;
 
     Long roomId = 301L;
     Room room = new Room(roomId, 2);

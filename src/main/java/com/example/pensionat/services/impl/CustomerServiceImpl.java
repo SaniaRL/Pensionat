@@ -1,5 +1,6 @@
 package com.example.pensionat.services.impl;
 
+import com.example.pensionat.dtos.BlacklistResponse;
 import com.example.pensionat.dtos.SimpleCustomerDTO;
 import com.example.pensionat.dtos.DetailedBlacklistCustomerDTO;
 import com.example.pensionat.dtos.SimpleBlacklistCustomerDTO;
@@ -7,25 +8,22 @@ import com.example.pensionat.services.interfaces.CustomerService;
 import com.example.pensionat.models.Customer;
 import com.example.pensionat.repositories.CustomerRepo;
 import com.example.pensionat.services.convert.CustomerConverter;
-import com.example.pensionat.services.providers.BlacklistUrlProvider;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.example.pensionat.services.providers.BlacklistStreamAndUrlProvider;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.client.RestTemplate;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 
 import java.net.URL;
+import java.net.http.HttpResponse;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,11 +31,11 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepo customerRepo;
-    private final BlacklistUrlProvider blacklistUrlProvider;
+    private final BlacklistStreamAndUrlProvider blacklistStreamAndUrlProvider;
 
-    public CustomerServiceImpl(CustomerRepo customerRepo, BlacklistUrlProvider blacklistUrlProvider) {
+    public CustomerServiceImpl(CustomerRepo customerRepo, BlacklistStreamAndUrlProvider blacklistStreamAndUrlProvider) {
         this.customerRepo = customerRepo;
-        this.blacklistUrlProvider = blacklistUrlProvider;
+        this.blacklistStreamAndUrlProvider = blacklistStreamAndUrlProvider;
     }
 
     @Override
@@ -105,27 +103,16 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public boolean checkIfEmailBlacklisted(String email) {
-        String blacklistApiUrl= blacklistUrlProvider.getBlacklistCheckUrl();
-        boolean notBlacklisted = false;
+    public boolean checkIfEmailBlacklisted(String email) throws IOException, InterruptedException {
+        HttpResponse<String> response = blacklistStreamAndUrlProvider.getHttpResponse(email);
+        BlacklistResponse blacklistResponse = mapToBlacklistResponse(response);
+        return blacklistResponse.getOk();
+    }
+
+    @Override
+    public BlacklistResponse mapToBlacklistResponse(HttpResponse<String> response) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-
-        RestTemplate restTemplate = new RestTemplate();
-
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(
-                blacklistApiUrl + "/" + email,
-                String.class
-        );
-
-        try {
-            JsonNode node = objectMapper.readValue(responseEntity.getBody(), JsonNode.class);
-
-            notBlacklisted = node.get("ok").asBoolean();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return notBlacklisted;
+        return objectMapper.readValue(response.body(), BlacklistResponse.class);
     }
 
     @Override
@@ -173,59 +160,47 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public String addToBlacklist(SimpleBlacklistCustomerDTO c) {
+    public String updateOrAddToBlacklist(SimpleBlacklistCustomerDTO c) {
         try {
-            String url = blacklistUrlProvider.getBlacklistUrl();
-            URL obj = new URL(url);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-            con.setRequestMethod("POST");
-
-            con.setRequestProperty("Content-Type", "application/json");
-
+            String blacklistUrl = blacklistStreamAndUrlProvider.getBlacklistUrl();
             String postData = "{\"email\":\"" + c.getEmail() + "\",\"name\":\"" + c.getName() + "\",\"ok\":false}";
 
-            httpRequest(con, postData);
+            int response = sendHttpRequest("POST", blacklistUrl, postData);
 
+            if (response == 200) {
+                return c.getEmail() + " är nu svartlistad!";
+            } else if (response == 400) {
+                String updateUrl = blacklistUrl + "/" + c.getEmail();
+                postData = "{\"name\":\"" + c.getName() + "\",\"ok\":" + c.getOk() + "}";
+                response = sendHttpRequest("PUT", updateUrl, postData);
+                if (response == 204) {
+                    return c.getEmail() + " är redan svartlistad. Uppgifter uppdaterade.";
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "Blacklist updated successfully";
+        return "Blacklist blev ej uppdaterad. kontakta support.";
     }
 
     @Override
-    public String updateBlacklistCustomer(SimpleBlacklistCustomerDTO c) {
-        try {
-            String url = blacklistUrlProvider.getBlacklistUrl() + "/" + c.getEmail();
-            URL obj = new URL(url);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-            con.setRequestMethod("PUT");
-
-            con.setRequestProperty("Content-Type", "application/json");
-
-            String postData = "{\"name\":\"" + c.getName() + "\",\"ok\":\"" + c.getOk() + "\"}";
-
-            httpRequest(con, postData);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "Blacklist updated successfully";
-    }
-
     public List<SimpleBlacklistCustomerDTO> getBlacklist() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-
-        DetailedBlacklistCustomerDTO[] respone = objectMapper.readValue(new URL(blacklistUrlProvider.getBlacklistUrl())
-                , DetailedBlacklistCustomerDTO[].class);
+        InputStream stream = blacklistStreamAndUrlProvider.getDataStream();
+        DetailedBlacklistCustomerDTO[] respone = mapToDetailedBlacklistCustomerDTOArray(stream);
 
         return Arrays.stream(respone)
                 .map(CustomerConverter::detailedBlacklistCustomerDTOToSimpleBlacklistCustomerDTO)
                 .toList();
     }
 
+    @Override
+    public DetailedBlacklistCustomerDTO[] mapToDetailedBlacklistCustomerDTOArray(InputStream stream) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper.readValue(stream, DetailedBlacklistCustomerDTO[].class);
+    }
+
+    @Override
     public Page<SimpleBlacklistCustomerDTO> getBlacklistPage(int pageNum) throws IOException {
 
         Pageable pageable = PageRequest.of(pageNum - 1, 5);
@@ -242,33 +217,27 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public SimpleBlacklistCustomerDTO getCustomerFromBlacklistByEmail(String email) throws IOException {
         List<SimpleBlacklistCustomerDTO> blacklist = getBlacklist();
-        blacklist.forEach(objekt -> {
-        });
-        return blacklist.stream().filter(c -> c.getEmail() != null).filter(c -> c.getEmail()
-                                 .equalsIgnoreCase(email))
-                                 .toList()
-                                 .get(0);
+        return blacklist.stream()
+                        .filter(c -> c.getEmail() != null)
+                        .filter(c -> c.getEmail().equalsIgnoreCase(email))
+                        .findFirst()
+                        .orElse(null);
     }
 
     @Override
-    public void httpRequest(HttpURLConnection con, String postData) throws IOException {
+    public int sendHttpRequest(String requestMethod, String urlString, String postData) throws IOException {
+        URL url = new URL(urlString);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod(requestMethod);
+        con.setRequestProperty("Content-Type", "application/json");
         con.setDoOutput(true);
-        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-        wr.writeBytes(postData);
-        wr.flush();
-        wr.close();
 
-        int responseCode = con.getResponseCode();
-        System.out.println("Response Code : " + responseCode);
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
+        try (OutputStream os = con.getOutputStream()) {
+            byte[] input = postData.getBytes("utf-8");
+            os.write(input, 0, input.length);
         }
-        in.close();
+        System.out.println("Response Code : " + con.getResponseCode());
 
-        System.out.println("Response : " + response.toString());
+        return con.getResponseCode();
     }
 }

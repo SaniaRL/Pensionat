@@ -40,8 +40,13 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/",  "/js/**", "/css/**", "/images/**", "/login/**", "/logout", "/mailTemplate/**").permitAll()
+                        .requestMatchers("/",  "/js/**", ("/forgotPassword"), ("/forgotPassword-24"), ("/resetPassword"),("/updatePassword"),"/css/**", "/images/**", "/login/**", "/logout").permitAll()
                         .anyRequest().authenticated()
+                )
+                .exceptionHandling((exceptions) -> exceptions
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.sendRedirect("/");
+                        })
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")

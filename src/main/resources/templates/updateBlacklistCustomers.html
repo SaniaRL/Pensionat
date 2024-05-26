@@ -34,7 +34,7 @@
 <div class="content">
   <div class="update-blacklist-customers">
     <div class="placement-return-button">
-      <a class="return-link" th:href="@{/customer/blacklist/}">
+      <a class="return-link" th:href="@{/customer/blacklist}">
         <div class="return-button">Tillbaka</div>
       </a>
       <div class="update-submit-button">
@@ -59,7 +59,7 @@
             <span th:text="*{email}">E-postadress här</span>
           </td>
           <td>
-            <input id="is-ok" th:field="*{ok}" type="text">
+            <input id="is-ok" th:field="*{ok}" type="checkbox" th:value="${ok}">
           </td>
         </form>
       </tr>

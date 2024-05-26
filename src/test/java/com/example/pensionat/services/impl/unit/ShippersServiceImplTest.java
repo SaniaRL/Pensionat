@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mail.javamail.JavaMailSender;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -22,6 +24,9 @@ class ShippersServiceImplTest {
     ShippersService sut;
     private final ShippersStreamProvider shippersStreamProvider = mock(ShippersStreamProvider.class); //Kan förenklas. Temp.
     private final ShippersRepo shippersRepo = mock(ShippersRepo.class);
+
+    @MockBean
+    private JavaMailSender emailSender;
 
     @BeforeEach()
     void setup() {

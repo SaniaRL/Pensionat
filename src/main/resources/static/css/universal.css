@@ -144,7 +144,10 @@ body {
 }
 
 .log-in-div {
-    margin-top: 200px;
+    position: fixed;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -162,7 +165,11 @@ body {
     flex-direction: column;
 }
 
-.right {
+.log-in-inner-div h2 {
+    text-align: center;
+}
+
+.right-btn {
     display: flex;
     flex-direction: column-reverse;
 }

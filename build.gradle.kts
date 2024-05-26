@@ -48,6 +48,10 @@ dependencies {
 	implementation("org.modelmapper:modelmapper:3.2.0")
 
 	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
+	implementation("org.springframework.boot:spring-boot-starter-mail")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
 //	implementation("org.springframework.boot:spring-boot-starter-validation")
 //	implementation("com.fasterxml.jackson.core:jackson-databind")
 //	implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
@@ -56,7 +60,7 @@ dependencies {
 //	implementation("com.rabbitmq:amqp-client")
 //      https://mvnrepository.com/artifact/org.modelmapper/modelmapper
 
-}
+
 
 tasks.withType<Test> {
 	useJUnitPlatform()
