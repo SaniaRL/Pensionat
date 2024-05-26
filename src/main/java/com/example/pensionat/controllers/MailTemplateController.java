@@ -1,10 +1,13 @@
 package com.example.pensionat.controllers;
 
+import com.example.pensionat.dtos.BookingData;
 import com.example.pensionat.dtos.MailTemplateDTO;
 import com.example.pensionat.dtos.MailText;
+import com.example.pensionat.dtos.OrderLineDTO;
 import com.example.pensionat.models.MailTemplate;
 import com.example.pensionat.repositories.MailTemplateRepo;
 import com.example.pensionat.services.interfaces.MailTemplateService;
+import com.example.pensionat.utils.MailTemplateVariables;
 import lombok.AllArgsConstructor;
 import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.stereotype.Controller;
@@ -15,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.swing.text.html.HTML;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -45,10 +51,15 @@ public class MailTemplateController {
 
     @RequestMapping("/edit")
     public String editTemplate(Model model) {
-        //TODO Hämta alla variabler som kan användas
+        //TODO Hämta alla variabler som kan användas idk what I am doing yeah freestyle
+        List<String> variables = MailTemplateVariables.getBookingConfirmationVariables();
+        model.addAttribute("variables", variables);
         //TODO Hämta alla mallar till en liten lista och lägg in i model
         List<MailTemplateDTO> templateList = mailTemplateService.getAllTemplates();
         model.addAttribute("templateList", templateList);
+        //Lägg till nån text ändå kanske
+        String text = "Skriv ny mall här eller välj befintlig mall att uppdatera";
+        model.addAttribute("text", text);
         return "mail/edit/edit";
     }
 

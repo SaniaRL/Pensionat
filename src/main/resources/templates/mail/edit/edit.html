@@ -29,16 +29,28 @@
 <div class="content index-content">
     <div class="edit-content">
         <div class="mail-variable-container">
-            <p>VARIABLER</p>
-
+            <table class="">
+                <tr class="">
+                    <th class="edit-list-head">BEFINTLIGA MALLAR</th>
+                </tr>
+                <tbody>
+                <tr class="edit-list-items" th:each="t : ${variables}">
+                    <td th:text="${t}"></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
         <div class="edit-templates-container">
             <div class="template-item">
                 <div class="template-item-container">
-                    <div class="mail-container">
+                    <div class="mail-container-2">
+                        <label for="mailText">Uppdatera Mall</label>
                         <!--                    <form action="#" method="POST" th:action="@{/mailTemplate/updateTemplate}" id="mailForm">-->
-                        <textarea class="mail-textarea" name="mailText" th:text="${text}" required="required" wrap="hard"></textarea>
-                        <input class="search-customer-button"  value="Submit" onclick=sendText()>
+                        <textarea class="mail-textarea-2" name="mailText" id="mailText" th:text="${text}" required="required" wrap="hard"></textarea>
+
+                        <div class="right">
+                            <input class="btn right-btn" type="submit" value="UPPDATERA" onclick=sendText()>
+                        </div>
                         <!--                    </form>-->
                     </div>
                 </div>
