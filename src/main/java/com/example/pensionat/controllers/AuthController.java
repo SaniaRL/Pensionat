@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +46,6 @@ public class AuthController {
         return "login";
     }
 
-    //Ändring
     @PostMapping("/forgotPassword-24")
     public String forgotPassword24(@RequestParam(value="mail", required = false) String mail, Model model) {
         String resetToken = UUID.randomUUID().toString();
@@ -74,11 +72,10 @@ public class AuthController {
         return "login";
     }
 
-    //Ändring
     @GetMapping("/resetPassword")
     public String resetPassword(@RequestParam(value = "token") String token, Model model) {
         User user = userService.getUserByResetToken(token);
-        if (user == null || user.getResetTokenExpiry().isBefore(LocalDateTime.now())) {
+        if (user == null || user.getResetTokenExpire().isBefore(LocalDateTime.now())) {
             model.addAttribute("tokenError", true);
             return "login";
         }
@@ -87,13 +84,12 @@ public class AuthController {
         return "resetPassword";
     }
 
-    //Ändring
     @PostMapping("/updatePassword")
     public String updatePassword(@ModelAttribute PasswordFormDTO passwordFormDTO, Model model) {
         User user = userService.getUserByResetToken(passwordFormDTO.getToken());
         if (user != null && passwordFormDTO.getNewPassword().equals(passwordFormDTO.getConfirmPassword())) {
             userService.updatePassword(user.getUsername(), passwordFormDTO.getNewPassword());
-            userService.invalidateResetToken(user);
+            userService.removeResetToken(user);
             model.addAttribute("passwordUpdated", true);
             return "login";
         }

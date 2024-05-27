@@ -22,7 +22,6 @@ public interface UserRepo extends JpaRepository<User, UUID> {
 
     User findById(java.util.UUID id);
 
-    //Ändring
     User findByResetToken(String token);
 
 }

@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addToModel(int currentPage, Model model){
+    public void addToModel(int currentPage, Model model) {
         Page<SimpleUserDTO> u = getAllUsersPage(currentPage);
         model.addAttribute("allUsers", u.getContent());
         model.addAttribute("currentPage", currentPage);
@@ -109,37 +109,35 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updatePassword(String username, String newPassword) {
         User user = userRepo.findByUsername(username);
-        if(user != null) {
+        if (user != null) {
             String hash = getHashPassword(newPassword);
             user.setPassword(hash);
             userRepo.save(user);
         }
     }
 
-    private String getHashPassword(String password){
+    private String getHashPassword(String password) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder.encode(password);
     }
 
-    //Ändring
     @Override
     public void createPasswordResetTokenForUser(String email, String token) {
         User user = userRepo.findByUsername(email);
         user.setResetToken(token);
-        user.setResetTokenExpiry(LocalDateTime.now().plusHours(24)); // 24h
+        user.setResetTokenExpire(LocalDateTime.now().plusHours(24)); // 24h
         userRepo.save(user);
     }
 
-    //Ändring
     @Override
     public User getUserByResetToken(String token) {
         return userRepo.findByResetToken(token);
     }
-    //Ändring
+
     @Override
-    public void invalidateResetToken(User user) {
+    public void removeResetToken(User user) {
         user.setResetToken(null);
-        user.setResetTokenExpiry(null);
+        user.setResetTokenExpire(null);
         userRepo.save(user);
     }
 

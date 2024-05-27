@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -24,6 +23,8 @@ public class User {
     private String username;
     private String password;
     private Boolean enabled;
+    private String resetToken;
+    private LocalDateTime resetTokenExpire;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -33,7 +34,4 @@ public class User {
     )
     private Collection<Role> roles;
 
-    //Ändring
-    private String resetToken;
-    private LocalDateTime resetTokenExpiry;
 }

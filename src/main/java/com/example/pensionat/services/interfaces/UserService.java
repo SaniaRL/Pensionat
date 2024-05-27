@@ -20,5 +20,5 @@ public interface UserService {
     //Ändring
     void createPasswordResetTokenForUser(String email, String token);
     User getUserByResetToken(String token);
-    void invalidateResetToken(User user);
+    void removeResetToken(User user);
     }
