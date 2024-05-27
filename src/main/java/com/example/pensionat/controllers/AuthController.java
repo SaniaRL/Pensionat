@@ -74,6 +74,7 @@ public class AuthController {
 
     @GetMapping("/resetPassword")
     public String resetPassword(@RequestParam(value = "token") String token, Model model) {
+
         User user = userService.getUserByResetToken(token);
         if (user == null || user.getResetTokenExpire().isBefore(LocalDateTime.now())) {
             model.addAttribute("tokenError", true);

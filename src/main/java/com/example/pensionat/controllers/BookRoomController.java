@@ -2,11 +2,13 @@ package com.example.pensionat.controllers;
 
 import com.example.pensionat.dtos.BookingFormQueryDTO;
 import com.example.pensionat.dtos.BookingData;
+import com.example.pensionat.dtos.MailTemplateDTO;
 import com.example.pensionat.dtos.RoomDTO;
 import com.example.pensionat.services.impl.CustomerServiceImpl;
 import com.example.pensionat.services.impl.OrderLineServicelmpl;
 import com.example.pensionat.services.impl.RoomServicelmpl;
 import com.example.pensionat.services.impl.BookingServiceImpl;
+import com.example.pensionat.services.interfaces.MailTemplateService;
 import com.example.pensionat.services.providers.EmailConfigProvider;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -30,6 +32,7 @@ public class BookRoomController {
     BookingServiceImpl bookingService;
     CustomerServiceImpl customerService;
     OrderLineServicelmpl orderLineService;
+    MailTemplateService mailTemplateService;
     EmailConfigProvider emailConfigProvider;
 
     private final JavaMailSender emailSender;
@@ -95,9 +98,18 @@ public class BookRoomController {
         System.out.println("price after: " + price);
         model.addAttribute("price", price);
 
-        //TODO mall och så
-        String subject = "Bokningsbekräftelse";
-        String text = "Du bokade, yo. Från: " + bookingData.getStartDate() + " till: " + bookingData.getEndDate();
+        //TODO mall och så nu hårdkodar jag ändå vafan - dumt att namn blir subject ska det vara så nä?
+        long templateId = 2;
+        System.out.println("Before mailTemplate by id");
+        MailTemplateDTO mailTemplate = mailTemplateService.getMailTemplateById(templateId);
+        System.out.println("After mailTemplate by id");
+
+//        String text = "Du bokade, yo. Från: " + bookingData.getStartDate() + " till: " + bookingData.getEndDate();
+        String text = getTheRightText(mailTemplate.getBody(), bookingData);
+
+        //TODO denna har ju rätt text - bekräftelsemail 1 eller nåt. orimligt.
+        String subject = getTheRightText(mailTemplate.getName(), bookingData);
+
         try {
             MimeMessage message = emailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
@@ -111,6 +123,14 @@ public class BookRoomController {
         }
 
         return "bookingConfirmation";
+    }
+
+    private String getTheRightText(String text, BookingData bd) {
+
+        return text.replace("!!!!Namn!!!!", bd.getName())
+                .replace("!!!!E-post!!!!", bd.getEmail())
+                .replace("!!!!Startdatum!!!!", bd.getStartDate())
+                .replace("!!!!Slutdatum!!!!", bd.getEndDate());
     }
 
     @GetMapping("/bookingConfirmation")
