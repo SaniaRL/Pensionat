@@ -59,7 +59,7 @@ class BookRoomControllerTest {
         MimeMessage mockMimeMessage = new MimeMessage((Session) null);
         when(emailSender.createMimeMessage()).thenReturn(mockMimeMessage);
         MailTemplateDTO mailTemplate = new MailTemplateDTO(1L, "test", "testSubject", "for testing purposes");
-        when(mailTemplateService.getMailTemplateById(Mockito.anyLong())).thenReturn(mailTemplate);
+        when(mailTemplateService.getMailTemplateByName(Mockito.anyString())).thenReturn(mailTemplate);
     }
 
     OrderLineDTO orderLineDTO = new OrderLineDTO(1, "DOUBLE", 1);
@@ -123,7 +123,6 @@ class BookRoomControllerTest {
         List<OrderLineDTO> chosenRooms = new ArrayList<>();
         chosenRooms.add(orderLineDTO);
         bookingData.setChosenRooms(chosenRooms);
-
 
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonBookingData = objectMapper.writeValueAsString(bookingData);
