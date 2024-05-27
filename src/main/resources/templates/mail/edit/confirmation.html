@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8">
+    <title>pensionat</title>
+    <link rel="icon" type="image/x-icon" href="/images/house.png"/>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/universal.css">
+    <link rel="stylesheet" type="text/css" href="/css/mailTemplates.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=caveat:wght@400..700&family=poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body class="index-body">
+<div th:replace="~{fragments/NavBar::navBar('mailTemplates', 'confirmation')}"></div>
+<div class="header index-header">
+    <div>
+        <a th:href="@{/static}">
+            <img class="header-text" src="/images/BedBasse.png" alt="bed and basse pensionat">
+        </a>
+    </div>
+    <br>
+    <div>
+        <a th:href="@{/static}">
+            <img class="header-img" src="/images/house.png" alt="pensionat-ikon i blått">
+        </a>
+    </div>
+</div>
+<div class="content index-content">
+    <div class="templates-list">
+        <div class="template-item">
+            <div class="template-item-container">
+                <div class="mail-container">
+<!--                    <form action="#" method="POST" th:action="@{/mailTemplate/updateTemplate}" id="mailForm">-->
+                        <textarea class="mail-textarea" name="mailText" th:text="${text}" required="required" wrap="hard"></textarea>
+                        <input class="search-customer-button"  value="Submit" onclick=sendText()>
+<!--                    </form>-->
+                </div>
+            </div>
+        </div>
+        <div class="template-item">
+            <div class="template-item-container">
+                <div th:replace="~{mail/templates/mailTemplateConfirm}"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <p>&#9824; eddie boschek &#9829; sania runnfors larsson &#9827; sebastian karlsson &#9830; simon nordlund</p>
+</div>
+<script th:src="@{/js/menuexpand.js}"></script>
+<script th:src="@{/js/mailTemplate.js}"></script>
+</body>
+</html>
