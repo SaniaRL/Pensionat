@@ -9,6 +9,7 @@ import com.example.pensionat.services.impl.OrderLineServicelmpl;
 import com.example.pensionat.services.impl.RoomServicelmpl;
 import com.example.pensionat.services.impl.BookingServiceImpl;
 import com.example.pensionat.services.interfaces.MailTemplateService;
+import com.example.pensionat.services.providers.EmailConfigProvider;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,7 @@ public class BookRoomController {
     CustomerServiceImpl customerService;
     OrderLineServicelmpl orderLineService;
     MailTemplateService mailTemplateService;
+    EmailConfigProvider emailConfigProvider;
 
     private final JavaMailSender emailSender;
 
@@ -112,9 +114,9 @@ public class BookRoomController {
             MimeMessage message = emailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
             helper.setText(text, true);
-            helper.setTo("dominique.wiegand@ethereal.email");
+            helper.setTo(emailConfigProvider.getMailUsername());
             helper.setSubject(subject);
-            helper.setFrom("dominique.wiegand@ethereal.email");
+            helper.setFrom(emailConfigProvider.getMailUsername());
             emailSender.send(message);
         }catch (MessagingException e) {
             throw new RuntimeException(e);

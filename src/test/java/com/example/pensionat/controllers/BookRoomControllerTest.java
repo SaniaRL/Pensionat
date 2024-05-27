@@ -4,7 +4,11 @@ import com.example.pensionat.dtos.*;
 import com.example.pensionat.services.impl.BookingServiceImpl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.mail.Session;
+import jakarta.mail.internet.MimeMessage;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,6 +47,11 @@ class BookRoomControllerTest {
     @MockBean
     private JavaMailSender emailSender;
 
+    @BeforeEach
+    void setUp() {
+        MimeMessage mockMimeMessage = new MimeMessage((Session) null);
+        Mockito.when(emailSender.createMimeMessage()).thenReturn(mockMimeMessage);
+    }
 
     OrderLineDTO orderLineDTO = new OrderLineDTO(1, "DOUBLE", 1);
     LocalDate startDate = LocalDate.now();

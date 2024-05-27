@@ -14,7 +14,7 @@
           rel="stylesheet">
 </head>
 <body>
-<div th:replace="~{fragments/NavBar :: navBar(blacklist, blacklisted)}"></div>
+<div th:replace="~{fragments/NavBar :: navBar('blacklist', 'blacklisted')}"></div>
 <div class="header index-header">
     <div>
         <a th:href="@{/}">
@@ -30,7 +30,7 @@
 </div>
 
 <div class="content index-content">
-    <div class="allCustomers customers-background">
+    <div class="allCustomers customers-background background-fixed-center">
         <div class="placement-return-button">
             <div>
                 <form action="#" method="get" th:action="@{/customer/blacklist/}">
@@ -91,6 +91,7 @@
                 </li>
             </ul>
         </nav>
+
         <div th:if="${totalPages > 1}">
             Total Items : [[${totalItems}]]
             &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;

@@ -117,12 +117,15 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void addToModelBlacklist(int currentPage, Model model) throws IOException {
+        System.out.println("addToModelBlacklist");
         Page<SimpleBlacklistCustomerDTO> c = getBlacklistPage(currentPage);
+        System.out.println("Blacklist-page returned");
         model.addAttribute("allCustomers", c.getContent());
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalItems", c.getTotalElements());
         model.addAttribute("totalPages", c.getTotalPages());
         model.addAttribute("sort", "id");
+        System.out.println("all attributes added");
     }
 
     @Override
@@ -202,13 +205,17 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Page<SimpleBlacklistCustomerDTO> getBlacklistPage(int pageNum) throws IOException {
+        System.out.println("getBlacklistPage");
 
         Pageable pageable = PageRequest.of(pageNum - 1, 5);
 
         List<SimpleBlacklistCustomerDTO> blacklist = getBlacklist();
+        System.out.println("List blacklist");
 
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), blacklist.size());
+        System.out.println("before page");
+
         Page<SimpleBlacklistCustomerDTO> page = new PageImpl<>(blacklist.subList(start, end), pageable, blacklist.size());
 
         return page;
