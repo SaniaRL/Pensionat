@@ -48,7 +48,8 @@ public class MailTemplateController {
 
 
     @RequestMapping("/edit")
-    public String editTemplate(Model model, @RequestParam(required = false, defaultValue = "Bokningsbekräftelse") String variable) {
+    public String editTemplate(Model model) {
+        String variable = "Bokningsbekräftelse";
         //TODO Hämta alla variabler som kan användas idk what I am doing yeah freestyle bbk i properties??
         List<String> variables = MailTemplateVariables.getVariables(variable);
         model.addAttribute("variables", variables);
@@ -98,8 +99,7 @@ public class MailTemplateController {
         MailTemplateDTO selectedTemplate = mailTemplateService.getMailTemplateById(id);
 
         //TODO fix
-        String variable = "resetPassword";
-        List<String> variables = MailTemplateVariables.getVariables(variable);
+        List<String> variables = MailTemplateVariables.getVariables(selectedTemplate.getName());
         model.addAttribute("variables", variables);
 
         List<MailTemplateDTO> templateList = mailTemplateService.getAllTemplates();
