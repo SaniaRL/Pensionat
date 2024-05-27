@@ -3,6 +3,7 @@ package com.example.pensionat;
 import com.example.pensionat.models.*;
 import com.example.pensionat.models.events.*;
 import com.example.pensionat.repositories.*;
+import com.example.pensionat.services.providers.MailTemplateSeeder;
 import com.example.pensionat.services.providers.RoleAndUserDataSeeder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -22,6 +23,9 @@ public class PensionatApplication {
 
     @Autowired
     private RoleAndUserDataSeeder roleAndUserDataSeeder;
+
+    @Autowired
+    private MailTemplateSeeder mailTemplateSeeder;
 
     public static void main(String[] args) {
         if (args.length == 0) {
@@ -45,6 +49,7 @@ public class PensionatApplication {
     public CommandLineRunner commandLineRunner() {
         return args -> {
             roleAndUserDataSeeder.Seed();
+            mailTemplateSeeder.Seed();
         };
     }
 

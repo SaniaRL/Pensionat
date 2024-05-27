@@ -10,5 +10,6 @@ import lombok.Data;
 public class MailTemplateDTO {
     private Long id;
     private String name;
+    private String subject;
     private String body;
 }

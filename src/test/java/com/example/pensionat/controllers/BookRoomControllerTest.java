@@ -1,8 +1,10 @@
 package com.example.pensionat.controllers;
 
 import com.example.pensionat.dtos.*;
+import com.example.pensionat.models.MailTemplate;
 import com.example.pensionat.services.impl.BookingServiceImpl;
 
+import com.example.pensionat.services.impl.MailTemplateServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.mail.Session;
 import jakarta.mail.internet.MimeMessage;
@@ -18,6 +20,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -47,10 +51,15 @@ class BookRoomControllerTest {
     @MockBean
     private JavaMailSender emailSender;
 
+    @MockBean
+    private MailTemplateServiceImpl mailTemplateService;
+
     @BeforeEach
     void setUp() {
         MimeMessage mockMimeMessage = new MimeMessage((Session) null);
-        Mockito.when(emailSender.createMimeMessage()).thenReturn(mockMimeMessage);
+        when(emailSender.createMimeMessage()).thenReturn(mockMimeMessage);
+        MailTemplateDTO mailTemplate = new MailTemplateDTO(1L, "test", "testSubject", "for testing purposes");
+        when(mailTemplateService.getMailTemplateById(Mockito.anyLong())).thenReturn(mailTemplate);
     }
 
     OrderLineDTO orderLineDTO = new OrderLineDTO(1, "DOUBLE", 1);
@@ -114,6 +123,7 @@ class BookRoomControllerTest {
         List<OrderLineDTO> chosenRooms = new ArrayList<>();
         chosenRooms.add(orderLineDTO);
         bookingData.setChosenRooms(chosenRooms);
+
 
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonBookingData = objectMapper.writeValueAsString(bookingData);

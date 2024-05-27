@@ -1,9 +1,6 @@
 package com.example.pensionat.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +19,9 @@ public class MailTemplate {
     private Long id;
     @NotNull
     private String name;
-    @Column(columnDefinition = "text", length = 1024)
+    @NotNull
+    private String subject;
+    @Lob
+    @Column(length = 1024)
     private String body;
 }

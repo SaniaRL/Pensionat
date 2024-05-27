@@ -42,4 +42,13 @@ public class MailTemplateServiceImpl implements MailTemplateService {
         }
         return MailTemplateConverter.mailTemplateToMailTemplateDTO(m);
     }
+
+    @Override
+    public MailTemplateDTO getMailTemplateByName(String name) {
+        MailTemplate m = mailTemplateRepo.findByName(name);
+        if(m == null) {
+            return null;
+        }
+        return MailTemplateConverter.mailTemplateToMailTemplateDTO(m);
+    }
 }

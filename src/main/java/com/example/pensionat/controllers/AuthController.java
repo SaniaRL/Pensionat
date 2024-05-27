@@ -1,7 +1,10 @@
 package com.example.pensionat.controllers;
 
+import com.example.pensionat.dtos.MailTemplateDTO;
 import com.example.pensionat.dtos.PasswordFormDTO;
+import com.example.pensionat.dtos.ResetPasswordMailVariablesDTO;
 import com.example.pensionat.models.User;
+import com.example.pensionat.services.interfaces.MailTemplateService;
 import com.example.pensionat.services.interfaces.UserService;
 import com.example.pensionat.services.providers.EmailConfigProvider;
 import jakarta.mail.MessagingException;
@@ -26,6 +29,7 @@ public class AuthController {
     private final JavaMailSender emailSender;
     private final UserService userService;
     private final EmailConfigProvider emailConfigProvider;
+    private final MailTemplateService mailTemplateService;
 
     @RequestMapping("/login")
     public String loginPage(Model model,
@@ -52,8 +56,21 @@ public class AuthController {
         userService.createPasswordResetTokenForUser(mail, resetToken);
         String resetLink = emailConfigProvider.getMailResetlink() + resetToken;
 
-        String subject = "Återställ lösenord";
-        String message = "<div>Följ denna <a href=" + resetLink + ">länk</a>!</div>";
+        //TODO hårdkodat
+        ResetPasswordMailVariablesDTO rp = ResetPasswordMailVariablesDTO.builder()
+                .username(mail)
+                .link(resetLink)
+                .timeLimit("24")
+                .build();
+
+        //TODO hårdkodat
+        String name = "ÅterställLösenord";
+        MailTemplateDTO mailTemplateDTO = mailTemplateService.getMailTemplateByName(name);
+
+        String subject = mailTemplateDTO.getSubject();
+
+        String message = getTheRightText(mailTemplateDTO.getBody(), rp);
+//        String message = "<div>Följ denna <a href=" + resetLink + ">länk</a>!</div>";
 
         try {
             MimeMessage mimeMessage = emailSender.createMimeMessage();
@@ -99,42 +116,11 @@ public class AuthController {
         return "resetPassword";
     }
 
-    //TODO inte en service - en util? Var ska denna metod bo?
-    /*
-    private String generateResetPasswordToken(String username) {
-        String token = UUID.randomUUID().toString();
-        LocalDateTime timestamp = LocalDateTime.now();
-        return token + "%7C" + username + "%7C" + timestamp;
+    private String getTheRightText(String text, ResetPasswordMailVariablesDTO bd) {
+
+        return text.replace("!!!!Användarnamn!!!!", bd.getUsername())
+                .replace("!!!!Länk!!!!", bd.getLink())
+                .replace("!!!!Tidsbegränsning!!!!", bd.getTimeLimit());
     }
-
-    private String[] splitToken(String token) {
-        return token.split("\\|");
-    }
-    private String getMail(String token) {
-        String[] tokenArray = splitToken(token);
-        return tokenArray[1];
-    }
-    private LocalDateTime getDateTimeLimit24h(String token) {
-        String[] tokenArray = splitToken(token);
-
-        return LocalDateTime.parse(tokenArray[2], DateTimeFormatter.ISO_LOCAL_DATE_TIME).plusHours(24);
-    } */
-
-    /*
-    private String generateOTP(int length)
-    {
-        String str = "abcdefghijklmnopqrstuvwxyzABCD"
-                +"EFGHIJKLMNOPQRSTUVWXYZ0123456789-";
-        int n = str.length();
-
-        StringBuilder OTP= new StringBuilder();
-
-        for (int i = 1; i <= length; i++)
-            OTP.append(str.charAt((int) ((Math.random() * 10) % n)));
-
-        return(OTP.toString());
-    }
-
-     */
 
 }

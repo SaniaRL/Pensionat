@@ -1,9 +1,6 @@
 package com.example.pensionat.controllers;
 
-import com.example.pensionat.dtos.BookingFormQueryDTO;
-import com.example.pensionat.dtos.BookingData;
-import com.example.pensionat.dtos.MailTemplateDTO;
-import com.example.pensionat.dtos.RoomDTO;
+import com.example.pensionat.dtos.*;
 import com.example.pensionat.services.impl.CustomerServiceImpl;
 import com.example.pensionat.services.impl.OrderLineServicelmpl;
 import com.example.pensionat.services.impl.RoomServicelmpl;
