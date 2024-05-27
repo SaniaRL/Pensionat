@@ -606,9 +606,14 @@ input[type=number]::-webkit-inner-spin-button {
     padding: 4px;
 }
 
+.new-template-btn {
+    background-color: #4f4b6a;
+    color: #fff;
+}
+
+
 .edit-list-items:hover {
     background-color: #70ADB3;
-    color: #000;
     font-weight: 600;
     cursor: pointer;
 }
@@ -678,8 +683,4 @@ input[type=number]::-webkit-inner-spin-button {
     resize: none;
 }
 
-.new-template-btn {
-    background-color: #4f4b6a;
-    color: #fff;
-}
 
