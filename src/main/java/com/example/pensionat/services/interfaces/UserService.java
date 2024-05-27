@@ -13,8 +13,8 @@ public interface UserService {
     SimpleUserDTO getSimpleUserDtoByUsername(String username);
     Page<SimpleUserDTO> getUsersBySearch(String search, int pageNum);
     void deleteUserByUsername(String username);
-    void updateUser(SimpleUserDTO userDTO);
-    String addUser(DetailedUserDTO userDTO);
+    String updateUser(SimpleUserDTO userDTO, Model model);
+    String addUser(DetailedUserDTO userDTO, Model model);
     void updatePassword(String username, String newPassword);
 
     //Ändring

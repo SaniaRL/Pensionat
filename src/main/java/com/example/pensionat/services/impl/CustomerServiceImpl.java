@@ -164,6 +164,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public String updateOrAddToBlacklist(SimpleBlacklistCustomerDTO c) {
+        c.setEmail(c.getEmail().trim());
         try {
             String blacklistUrl = blacklistStreamAndUrlProvider.getBlacklistUrl();
             String postData = "{\"email\":\"" + c.getEmail() + "\",\"name\":\"" + c.getName() + "\",\"ok\":false}";

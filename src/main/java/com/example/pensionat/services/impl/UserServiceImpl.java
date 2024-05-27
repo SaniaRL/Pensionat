@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -78,7 +79,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(SimpleUserDTO userDTO) {
+    public String updateUser(SimpleUserDTO userDTO, Model model) {
+        model.addAttribute("username", userDTO.getUsername());
+        model.getAttribute("originalUsername");
+        userDTO.setUsername(userDTO.getUsername().trim());
+        userDTO.setUsername(userDTO.getUsername().trim());
+
+        if (userDTO.getUsername().isEmpty()) {
+            return "Användarnamnet får inte vara enbart mellanslag.";
+        }
+        if (userRepo.findByUsername(userDTO.getUsername()) != null &&
+                !Objects.equals(userRepo.findByUsername(
+                        userDTO.getUsername()).getUsername(), model.getAttribute("originalUsername"))) {
+            return "Användarnamnet " + userDTO.getUsername() + " är upptaget.";
+        }
+        System.out.println("ROLES: " + userDTO.getRoles());
+        if (userDTO.getRoles().isEmpty()) {
+            return "Välj minst en av rollerna.";
+        }
         User user = userRepo.findById(userDTO.getId());
         List<Role> roles = new ArrayList<>();
         for (SimpleRoleDTO roleDTO : userDTO.getRoles()) {
@@ -86,23 +104,40 @@ public class UserServiceImpl implements UserService {
             roles.add(role);
         }
         userRepo.save(UserConverter.simpleUserDtoToUser(userDTO, user, roles));
+
+        return "Konto med användarnamn " + userDTO.getUsername() + " uppdaterades!";
     }
 
     @Override
-    public String addUser(DetailedUserDTO userDTO) {
+    public String addUser(DetailedUserDTO userDTO, Model model) {
+        model.addAttribute("username", userDTO.getUsername());
+        model.addAttribute("password", userDTO.getPassword());
+
+        userDTO.setUsername(userDTO.getUsername().trim());
+        if (userDTO.getUsername().isEmpty()) {
+            return "Användarnamnet får inte vara enbart mellanslag.";
+        }
+        if (userDTO.getPassword().contains(" ")) {
+            return "Lösenordet får inte innehålla mellanslag.";
+        }
         if (userRepo.findByUsername(userDTO.getUsername()) != null) {
             return "Användarnamnet " + userDTO.getUsername() + " är upptaget.";
+        }
+        if (userDTO.getRoles() == null) {
+            return "Välj minst en av rollerna.";
         }
         List<Role> roles = new ArrayList<>();
         for (SimpleRoleDTO roleDTO : userDTO.getRoles()) {
             Role role = roleRepo.findByName(roleDTO.getName());
             roles.add(role);
         }
-
         String hashPassword = getHashPassword(userDTO.getPassword());
         userDTO.setPassword(hashPassword);
 
         userRepo.save(UserConverter.detailedUserDtoToUser(userDTO, roles));
+        model.addAttribute("username", null);
+        model.addAttribute("password", null);
+
         return "Konto med användarnamn " + userDTO.getUsername() + " skapades!";
     }
 

@@ -52,9 +52,11 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public String updateUser(@ModelAttribute("user") SimpleUserDTO userDTO, Model model) {
-        userService.updateUser(userDTO);
-        return "redirect:/user/";
+    public String updateUser(@ModelAttribute("user") SimpleUserDTO userDTO, @RequestParam("originalUsername") String originalUsername,  Model model) {
+        model.addAttribute("originalUsername", originalUsername);
+        String status = userService.updateUser(userDTO, model);
+        model.addAttribute("status", status);
+        return editUser(userDTO.getUsername(), model);
     }
 
     @GetMapping("/create")
@@ -66,7 +68,7 @@ public class UserController {
 
     @PostMapping("/add")
     public String addUser(DetailedUserDTO userDTO, Model model) {
-        String status = userService.addUser(userDTO);
+        String status = userService.addUser(userDTO, model);
         model.addAttribute("status", status);
         return showCreateUserAccountForm(model);
     }

@@ -16,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,14 +26,13 @@ import java.util.List;
 @PreAuthorize("isAuthenticated()")
 public class BookRoomController {
 
+    private final JavaMailSender emailSender;
     RoomServicelmpl roomService;
     BookingServiceImpl bookingService;
     CustomerServiceImpl customerService;
     OrderLineServicelmpl orderLineService;
     MailTemplateService mailTemplateService;
     EmailConfigProvider emailConfigProvider;
-
-    private final JavaMailSender emailSender;
 
     @PostMapping("/bookingSubmit")
     public String processBookingForm(@RequestParam boolean emptyBooking, @ModelAttribute BookingFormQueryDTO query, Model model) {
@@ -53,7 +53,7 @@ public class BookRoomController {
             model.addAttribute("beds", query.getBeds());
         }
 
-        if(status.isEmpty()){
+        if (status.isEmpty()) {
             model.addAttribute("availableRooms", availableRooms);
         }
 
@@ -75,7 +75,7 @@ public class BookRoomController {
     @PostMapping("/booking")
     public String updateBooking(@RequestParam int id, Model model) {
         model.addAttribute("bookingId", id);
-        return "booking";        
+        return "booking";
     }
 
     @PostMapping("/confirmBooking")
@@ -86,7 +86,7 @@ public class BookRoomController {
     @PostMapping("/submitBookingCustomer")
     public String submitBookingCustomer(@RequestBody BookingData bookingData, Model model) {
         List<Integer> res = bookingService.submitBookingCustomer(bookingData);
-        if(res.size() > 1){
+        if (res.size() > 1) {
             model.addAttribute("booked", res);
             return "redirect:/booking/update?id=" + bookingData.getId();
         }
@@ -115,7 +115,7 @@ public class BookRoomController {
             helper.setSubject(subject);
             helper.setFrom(emailConfigProvider.getMailUsername());
             emailSender.send(message);
-        }catch (MessagingException e) {
+        } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
 
