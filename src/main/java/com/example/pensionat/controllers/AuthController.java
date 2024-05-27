@@ -1,6 +1,7 @@
 package com.example.pensionat.controllers;
 
 import com.example.pensionat.dtos.PasswordFormDTO;
+import com.example.pensionat.models.User;
 import com.example.pensionat.services.interfaces.UserService;
 import com.example.pensionat.services.providers.EmailConfigProvider;
 import jakarta.mail.MessagingException;
@@ -13,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,15 +48,12 @@ public class AuthController {
 
     @PostMapping("/forgotPassword-24")
     public String forgotPassword24(@RequestParam(value="mail", required = false) String mail, Model model) {
-
-        String resetToken = generateResetPasswordToken(mail);
+        String resetToken = UUID.randomUUID().toString();
+        userService.createPasswordResetTokenForUser(mail, resetToken);
         String resetLink = emailConfigProvider.getMailResetlink() + resetToken;
 
-        //TODO lagra token
-
-        //TODO Hämta mall och shit men asså
         String subject = "Återställ lösenord";
-        String message = "<div>Följ denna <a href=" + resetLink + ">länk</a> !</div>";
+        String message = "<div>Följ denna <a href=" + resetLink + ">länk</a>!</div>";
 
         try {
             MimeMessage mimeMessage = emailSender.createMimeMessage();
@@ -71,54 +68,29 @@ public class AuthController {
             return "login";
         }
 
-        //Uppdatera GUI (Kanske skulle förvara texten här bak och kunna ha flera text idk)
         model.addAttribute("mailSent", true);
-
         return "login";
     }
 
     @GetMapping("/resetPassword")
     public String resetPassword(@RequestParam(value = "token") String token, Model model) {
 
-        String[] tokenArray = token.split("\\|");
-        if (tokenArray.length != 3) {
-            //TODO fixa detta chill idk
-            System.out.println("error token != 3");
-            System.out.println(tokenArray.length);
-            System.out.println(token);
+        User user = userService.getUserByResetToken(token);
+        if (user == null || user.getResetTokenExpire().isBefore(LocalDateTime.now())) {
             model.addAttribute("tokenError", true);
-            return "login";
-        }
-
-        //TODO kolla att token är legit
-
-        LocalDateTime timeLimit = getDateTimeLimit24h(token);
-
-        if(timeLimit.isBefore(LocalDateTime.now())) {
-            model.addAttribute("tokenError", true);
-            System.out.println("TimeLimit passed");
             return "login";
         }
 
         model.addAttribute("token", token);
-        System.out.println("Token added");
-
         return "resetPassword";
     }
 
     @PostMapping("/updatePassword")
     public String updatePassword(@ModelAttribute PasswordFormDTO passwordFormDTO, Model model) {
-
-        System.out.println("/updatePassword");
-        String token = passwordFormDTO.getToken();
-        String newPassword = passwordFormDTO.getNewPassword();
-        String confirmPassword = passwordFormDTO.getConfirmPassword();
-        String mail = getMail(token);
-        System.out.println("mail: " + mail);
-
-        if(newPassword.equals(confirmPassword)){
-            userService.updatePassword(mail, newPassword);
-            System.out.println("new pass == conf pass");
+        User user = userService.getUserByResetToken(passwordFormDTO.getToken());
+        if (user != null && passwordFormDTO.getNewPassword().equals(passwordFormDTO.getConfirmPassword())) {
+            userService.updatePassword(user.getUsername(), passwordFormDTO.getNewPassword());
+            userService.removeResetToken(user);
             model.addAttribute("passwordUpdated", true);
             return "login";
         }
@@ -128,7 +100,7 @@ public class AuthController {
     }
 
     //TODO inte en service - en util? Var ska denna metod bo?
-
+    /*
     private String generateResetPasswordToken(String username) {
         String token = UUID.randomUUID().toString();
         LocalDateTime timestamp = LocalDateTime.now();
@@ -146,7 +118,7 @@ public class AuthController {
         String[] tokenArray = splitToken(token);
 
         return LocalDateTime.parse(tokenArray[2], DateTimeFormatter.ISO_LOCAL_DATE_TIME).plusHours(24);
-    }
+    } */
 
     /*
     private String generateOTP(int length)

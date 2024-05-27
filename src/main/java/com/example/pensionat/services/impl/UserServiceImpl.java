@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addToModel(int currentPage, Model model){
+    public void addToModel(int currentPage, Model model) {
         Page<SimpleUserDTO> u = getAllUsersPage(currentPage);
         model.addAttribute("allUsers", u.getContent());
         model.addAttribute("currentPage", currentPage);
@@ -108,15 +109,36 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updatePassword(String username, String newPassword) {
         User user = userRepo.findByUsername(username);
-        if(user != null) {
+        if (user != null) {
             String hash = getHashPassword(newPassword);
             user.setPassword(hash);
             userRepo.save(user);
         }
     }
 
-    private String getHashPassword(String password){
+    private String getHashPassword(String password) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder.encode(password);
     }
+
+    @Override
+    public void createPasswordResetTokenForUser(String email, String token) {
+        User user = userRepo.findByUsername(email);
+        user.setResetToken(token);
+        user.setResetTokenExpire(LocalDateTime.now().plusHours(24)); // ändra till hours
+        userRepo.save(user);
+    }
+
+    @Override
+    public User getUserByResetToken(String token) {
+        return userRepo.findByResetToken(token);
+    }
+
+    @Override
+    public void removeResetToken(User user) {
+        user.setResetToken(null);
+        user.setResetTokenExpire(null);
+        userRepo.save(user);
+    }
+
 }

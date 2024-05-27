@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -23,6 +23,8 @@ public class User {
     private String username;
     private String password;
     private Boolean enabled;
+    private String resetToken;
+    private LocalDateTime resetTokenExpire;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -31,4 +33,5 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Collection<Role> roles;
+
 }
