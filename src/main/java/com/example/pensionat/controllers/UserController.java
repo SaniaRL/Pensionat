@@ -52,9 +52,11 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public String updateUser(@ModelAttribute("user") SimpleUserDTO userDTO, Model model) {
-        userService.updateUser(userDTO);
-        return "redirect:/user/";
+    public String updateUser(@ModelAttribute("user") SimpleUserDTO userDTO, @RequestParam("originalUsername") String originalUsername,  Model model) {
+        model.addAttribute("originalUsername", originalUsername);
+        String status = userService.updateUser(userDTO, model);
+        model.addAttribute("status", status);
+        return editUser(userDTO.getUsername(), model);
     }
 
     @GetMapping("/create")

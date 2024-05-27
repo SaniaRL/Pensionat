@@ -55,7 +55,8 @@
         <tr class="customer-row tr-user-update">
           <input th:field="*{id}" type="hidden">
           <td>
-            <input id="username" th:field="*{username}" type="text">
+            <input id="username" th:field="*{username}" type="text" required>
+            <input type="hidden" name="originalUsername" th:value="*{username}" />
           </td>
           <td>
             <div class="roles-list">
@@ -72,6 +73,7 @@
       </form>
       </tbody>
     </table>
+    <p class="bl-feedback" th:if="${status != null}" th:text="${status}"></p>
   </div>
 </div>
 
