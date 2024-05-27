@@ -1,23 +1,12 @@
 package com.example.pensionat.controllers;
 
-import com.example.pensionat.dtos.BookingData;
 import com.example.pensionat.dtos.MailTemplateDTO;
-import com.example.pensionat.dtos.MailText;
-import com.example.pensionat.dtos.OrderLineDTO;
-import com.example.pensionat.models.MailTemplate;
-import com.example.pensionat.repositories.MailTemplateRepo;
 import com.example.pensionat.services.interfaces.MailTemplateService;
 import com.example.pensionat.utils.MailTemplateVariables;
 import lombok.AllArgsConstructor;
-import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.swing.text.html.HTML;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -59,7 +48,6 @@ public class MailTemplateController {
 
         MailTemplateDTO m = mailTemplateService.getMailTemplateByName(variable);
         if(m != null) {
-            String text = "Skriv ny mall här eller välj befintlig mall att uppdatera";
             model.addAttribute("id", m.getId());
             model.addAttribute("name", m.getName());
             model.addAttribute("subject", m.getSubject());
@@ -111,12 +99,4 @@ public class MailTemplateController {
 
         return "mail/edit/edit";
     }
-
-/*
-    @RequestMapping("/")
-    public String getMailTemplate() {
-        return
-    }
-
- */
 }

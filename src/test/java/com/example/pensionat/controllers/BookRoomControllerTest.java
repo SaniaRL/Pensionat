@@ -20,6 +20,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -59,7 +60,7 @@ class BookRoomControllerTest {
         MimeMessage mockMimeMessage = new MimeMessage((Session) null);
         when(emailSender.createMimeMessage()).thenReturn(mockMimeMessage);
         MailTemplateDTO mailTemplate = new MailTemplateDTO(1L, "test", "testSubject", "for testing purposes");
-        when(mailTemplateService.getMailTemplateById(Mockito.anyLong())).thenReturn(mailTemplate);
+        when(mailTemplateService.getMailTemplateByName(anyString())).thenReturn(mailTemplate);
     }
 
     OrderLineDTO orderLineDTO = new OrderLineDTO(1, "DOUBLE", 1);
@@ -123,7 +124,6 @@ class BookRoomControllerTest {
         List<OrderLineDTO> chosenRooms = new ArrayList<>();
         chosenRooms.add(orderLineDTO);
         bookingData.setChosenRooms(chosenRooms);
-
 
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonBookingData = objectMapper.writeValueAsString(bookingData);
