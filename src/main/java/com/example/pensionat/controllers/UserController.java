@@ -45,6 +45,7 @@ public class UserController {
     @RequestMapping("/{username}/edit")
     public String editUser(@PathVariable String username, Model model){
         SimpleUserDTO user = userService.getSimpleUserDtoByUsername(username);
+        model.addAttribute("originalUsername", username);
         List<SimpleRoleDTO> roles = roleService.getAllRoles();
         model.addAttribute("user", user);
         model.addAttribute("selectableRoles", roles);
@@ -52,11 +53,12 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public String updateUser(@ModelAttribute("user") SimpleUserDTO userDTO, @RequestParam("originalUsername") String originalUsername,  Model model) {
+    public String updateUser(@ModelAttribute("user") SimpleUserDTO userDTO,
+                             @RequestParam("originalUsername") String originalUsername, Model model) {
         model.addAttribute("originalUsername", originalUsername);
         String status = userService.updateUser(userDTO, model);
         model.addAttribute("status", status);
-        return editUser(userDTO.getUsername(), model);
+        return editUser((String) model.getAttribute("originalUsername"), model);
     }
 
     @GetMapping("/create")

@@ -80,9 +80,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String updateUser(SimpleUserDTO userDTO, Model model) {
-        model.addAttribute("username", userDTO.getUsername());
-        model.getAttribute("originalUsername");
-        userDTO.setUsername(userDTO.getUsername().trim());
         userDTO.setUsername(userDTO.getUsername().trim());
 
         if (userDTO.getUsername().isEmpty()) {
@@ -104,6 +101,7 @@ public class UserServiceImpl implements UserService {
             roles.add(role);
         }
         userRepo.save(UserConverter.simpleUserDtoToUser(userDTO, user, roles));
+        model.addAttribute("originalUsername", userDTO.getUsername());
 
         return "Konto med användarnamn " + userDTO.getUsername() + " uppdaterades!";
     }
