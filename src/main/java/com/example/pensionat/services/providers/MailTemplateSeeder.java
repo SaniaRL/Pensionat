@@ -50,7 +50,8 @@ public class MailTemplateSeeder {
             addMailTemplate(MailTemplate.builder()
                     .name("ÅterställLösenord")
                     .subject("Återställ Lösenord - Bed&Basse")
-                    .body("YO").build());
+                    .body("<html><body>YO - du har glömt ditt lösenord lalala <a <a \n" +
+                            "href=\"!!!!Länk!!!!\">Länk<a></body></html>").build());
         }
     }
 
