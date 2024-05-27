@@ -51,10 +51,10 @@
       <tr class="customer-row update">
         <form id="customer-form" action="#" method="post" th:action="@{/customer/blacklist/form/add}">
           <td>
-            <input id="name" name="name" type="text">
+            <input id="name" name="name" type="text" required>
           </td>
           <td>
-            <input id="email" name="email" type="text" required>
+            <input id="email" name="email" type="email" required>
           </td>
         </form>
       </tr>

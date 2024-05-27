@@ -52,7 +52,7 @@
       <tr class="customer-row update-blacklist">
         <form id="customer-form" action="#" method="post" th:action="@{/customer/blacklist/update}" th:object="${kund}">
           <td>
-            <input id="name" th:field="*{name}" type="text">
+            <input id="name" th:field="*{name}" type="text" required>
           </td>
           <td>
             <input id="email" th:field="*{email}" type="hidden">

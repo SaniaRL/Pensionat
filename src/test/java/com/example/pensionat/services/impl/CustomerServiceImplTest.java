@@ -10,6 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -171,8 +172,38 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void updateOrAddToBlacklist() {     // Kolla att response code genererar rätt retur
+    public void updateOrAddToBlacklistShouldReturnCorrectly_Response200() throws Exception {
+        CustomerServiceImpl service = Mockito.spy(new CustomerServiceImpl(customerRepo, provider));
 
+        when(provider.getBlacklistUrl()).thenReturn("http://mockurl.com");
+        doReturn(200).when(service).sendHttpRequest(eq("POST"), anyString(), anyString());
+
+        String result = service.updateOrAddToBlacklist(blacklistCustomer);
+        assertEquals(blacklistCustomer.getEmail() + " är nu svartlistad!", result);
+    }
+
+    @Test
+    public void updateOrAddToBlacklistShouldReturnCorrectly_Response400Then204() throws Exception {
+        CustomerServiceImpl service = Mockito.spy(new CustomerServiceImpl(customerRepo, provider));
+
+        when(provider.getBlacklistUrl()).thenReturn("http://mockurl.com");
+        doReturn(400).when(service).sendHttpRequest(eq("POST"), anyString(), anyString());
+        doReturn(204).when(service).sendHttpRequest(eq("PUT"), anyString(), anyString());
+
+        String result = service.updateOrAddToBlacklist(blacklistCustomer);
+        assertEquals(blacklistCustomer.getEmail() + " är redan svartlistad. Uppgifter uppdaterade.", result);
+    }
+
+    @Test
+    public void updateOrAddToBlacklistShouldReturnCorrectly_Response400ThenNon204() throws Exception {
+        CustomerServiceImpl service = Mockito.spy(new CustomerServiceImpl(customerRepo, provider));
+
+        when(provider.getBlacklistUrl()).thenReturn("http://mockurl.com");
+        doReturn(400).when(service).sendHttpRequest(eq("POST"), anyString(), anyString());
+        doReturn(400).when(service).sendHttpRequest(eq("PUT"), anyString(), anyString());
+
+        String result = service.updateOrAddToBlacklist(blacklistCustomer);
+        assertEquals("Blacklist blev ej uppdaterad. kontakta support.", result);
     }
 
     @Test
