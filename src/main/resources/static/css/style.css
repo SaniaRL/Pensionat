@@ -595,9 +595,22 @@ input[type=number]::-webkit-inner-spin-button {
     border: 1px solid #4f4b6a;
     border-radius: 4px;
     margin: 2px 0;
-    padding: 3px;
     width: 160px;
 }
+
+.edit-list-items td {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    padding: 4px;
+}
+
+.new-template-btn {
+    background-color: #4f4b6a;
+    color: #fff;
+}
+
 
 .edit-list-items:hover {
     background-color: #70ADB3;
@@ -669,4 +682,5 @@ input[type=number]::-webkit-inner-spin-button {
 #mailText {
     resize: none;
 }
+
 
