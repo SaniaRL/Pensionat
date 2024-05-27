@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserService {
     public void createPasswordResetTokenForUser(String email, String token) {
         User user = userRepo.findByUsername(email);
         user.setResetToken(token);
-        user.setResetTokenExpire(LocalDateTime.now().plusHours(24)); // 24h
+        user.setResetTokenExpire(LocalDateTime.now().plusMinutes(10)); // ändra till hours
         userRepo.save(user);
     }
 
