@@ -95,17 +95,10 @@ public class BookRoomController {
         System.out.println("price after: " + price);
         model.addAttribute("price", price);
 
-        //TODO mall och så nu hårdkodar jag ändå vafan - dumt att namn blir subject ska det vara så nä?
-        long templateId = 2;
-        System.out.println("Before mailTemplate by id");
-        MailTemplateDTO mailTemplate = mailTemplateService.getMailTemplateById(templateId);
-        System.out.println("After mailTemplate by id");
+        MailTemplateDTO mailTemplate = mailTemplateService.getMailTemplateByName("Bokningsbekräftelse");
+        String text = getTheRightText(mailTemplate.getBody(), bookingData, price);
 
-//        String text = "Du bokade, yo. Från: " + bookingData.getStartDate() + " till: " + bookingData.getEndDate();
-        String text = getTheRightText(mailTemplate.getBody(), bookingData);
-
-        //TODO denna har ju rätt text - bekräftelsemail 1 eller nåt. orimligt.
-        String subject = getTheRightText(mailTemplate.getName(), bookingData);
+        String subject = getTheRightText(mailTemplate.getName(), bookingData, price);
 
         try {
             MimeMessage message = emailSender.createMimeMessage();
@@ -118,16 +111,15 @@ public class BookRoomController {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
-
         return "bookingConfirmation";
     }
 
-    private String getTheRightText(String text, BookingData bd) {
-
+    private String getTheRightText(String text, BookingData bd, double sum) {
         return text.replace("!!!!Namn!!!!", bd.getName())
                 .replace("!!!!E-post!!!!", bd.getEmail())
                 .replace("!!!!Startdatum!!!!", bd.getStartDate())
-                .replace("!!!!Slutdatum!!!!", bd.getEndDate());
+                .replace("!!!!Slutdatum!!!!", bd.getEndDate())
+                .replace("!!!!Totalsumma!!!!", String.valueOf(sum));
     }
 
     @GetMapping("/bookingConfirmation")

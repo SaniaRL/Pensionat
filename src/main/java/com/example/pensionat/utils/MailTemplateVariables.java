@@ -23,5 +23,4 @@ public class MailTemplateVariables {
     private static List<String> getOptionVariables(){
         return Arrays.asList("Bekräfta Bokning", "Återställ Lösenord");
     }
-
 }
