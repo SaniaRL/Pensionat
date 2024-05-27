@@ -48,15 +48,17 @@
                     </tr>
                     <tbody class="edit-list-list">
                     <tr class="edit-list-items" th:each="t : ${templateList}">
-                        <td>
-                            <a class="do-not-look-like-link new-template-btn"
-                               th:if="${t.id} != null and ${t.id} == ${id}"
+                        <td th:if="${t.id} != null and ${t.id} == ${id}" class="new-template-btn">
+                            <a class="do-not-look-like-link"
                                th:href="@{/mailTemplate/edit}"
                                th:text="'Ny mall'">
-                            </a><a class="do-not-look-like-link"
-                                   th:unless="${t.id} != null and ${t.id} == ${id}"
-                                   th:href="@{/mailTemplate/edit/{id}(id=${t.id})}"
-                                   th:text="${t.name}"></a></td>
+                            </a>
+                        </td>
+                        <td th:unless="${t.id} != null and ${t.id} == ${id}">
+                            <a class="do-not-look-like-link"
+                               th:href="@{/mailTemplate/edit/{id}(id=${t.id})}"
+                               th:text="${t.name}"></a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
