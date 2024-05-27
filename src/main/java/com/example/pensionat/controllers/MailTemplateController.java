@@ -75,8 +75,7 @@ public class MailTemplateController {
         System.out.println("Mail head = " + mailTemplateDTO.getName());
         System.out.println("Mail body = " + mailTemplateDTO.getBody());
 
-        //TODO change
-        String variable = "ResetPassword";
+        String variable = mailTemplateDTO.getName();
         List<String> variables = MailTemplateVariables.getVariables(variable);
         model.addAttribute("variables", variables);
         List<MailTemplateDTO> templateList = mailTemplateService.getAllTemplates();
