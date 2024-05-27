@@ -56,7 +56,7 @@
           <input th:field="*{id}" type="hidden">
           <td>
             <input id="username" th:field="*{username}" type="text" required>
-            <input type="hidden" name="originalUsername" th:value="*{username}" />
+            <input type="hidden" name="originalUsername" th:value="${originalUsername}" />
           </td>
           <td>
             <div class="roles-list">
