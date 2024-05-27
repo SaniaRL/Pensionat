@@ -124,9 +124,9 @@ public class UserServiceImpl implements UserService {
     //Ändring
     @Override
     public void createPasswordResetTokenForUser(String email, String token) {
-        User user = userRepo.findByUsername(email); // Ensure you have a method to find a user by email
+        User user = userRepo.findByUsername(email);
         user.setResetToken(token);
-        user.setResetTokenExpiry(LocalDateTime.now().plusHours(24)); // Token valid for 24 hours
+        user.setResetTokenExpiry(LocalDateTime.now().plusHours(24)); // 24h
         userRepo.save(user);
     }
 
