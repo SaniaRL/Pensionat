@@ -18,7 +18,7 @@ public class MailTemplateVariables {
         return Arrays.asList("Namn", "E-post", "Startdatum", "Slutdatum", "Totalsumma");
     }
     private static List<String> getResetPasswordVariables(){
-        return Arrays.asList("Namn", "E-post", "Slutdatum");
+        return Arrays.asList("Användarnamn", "Länk", "Tidsbegränsning");
     }
     private static List<String> getOptionVariables(){
         return Arrays.asList("Bekräfta Bokning", "Återställ Lösenord");

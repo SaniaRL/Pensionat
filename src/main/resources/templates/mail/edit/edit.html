@@ -60,8 +60,9 @@
                     <div class="template-item-container">
                         <div class="mail-container-2">
                             <input name="id" type="hidden" th:value="${id}">
+                            <input type="hidden" name="name" th:value="${name}">
                             <label for="edit-head"></label>
-                            <input id="edit-head" type="text" name="name" th:value="${name}">
+                            <input id="edit-head" type="text" name="subject" th:value="${subject}">
                             <label for="mailText"></label>
                             <textarea class="mail-textarea-2" name="body" id="mailText" th:text="${body}" required="required" wrap="hard"></textarea>
                             <div class="edit-btn-msg-div">

@@ -46,6 +46,7 @@ public class MailTemplateController {
         return "mail/edit/confirmation";
     }
 
+
     @RequestMapping("/edit")
     public String editTemplate(Model model, @RequestParam(required = false, defaultValue = "Re") String variable) {
         //TODO Hämta alla variabler som kan användas idk what I am doing yeah freestyle
@@ -57,7 +58,8 @@ public class MailTemplateController {
         //Lägg till nån text ändå kanske
         String text = "Skriv ny mall här eller välj befintlig mall att uppdatera";
         model.addAttribute("body", text);
-        model.addAttribute("name", "Ämne");
+        model.addAttribute("name", "tom");
+        model.addAttribute("subject", "Ämne");
 
         //TODO fix idk -1 yes
         model.addAttribute("id", null);
@@ -82,6 +84,7 @@ public class MailTemplateController {
 
         model.addAttribute("id", savedMailTemplate.getId());
         model.addAttribute("name", savedMailTemplate.getName());
+        model.addAttribute("subject", savedMailTemplate.getSubject());
         model.addAttribute("body", savedMailTemplate.getBody());
 
         model.addAttribute("templateSaved", true);
@@ -103,6 +106,7 @@ public class MailTemplateController {
 
         model.addAttribute("id", selectedTemplate.getId());
         model.addAttribute("name", selectedTemplate.getName());
+        model.addAttribute("subject", selectedTemplate.getSubject());
         model.addAttribute("body", selectedTemplate.getBody());
 
         return "mail/edit/edit";
