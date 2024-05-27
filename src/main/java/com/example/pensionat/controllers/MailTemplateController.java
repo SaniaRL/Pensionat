@@ -47,9 +47,9 @@ public class MailTemplateController {
     }
 
     @RequestMapping("/edit")
-    public String editTemplate(Model model) {
+    public String editTemplate(Model model, @RequestParam(required = false, defaultValue = "Re") String variable) {
         //TODO Hämta alla variabler som kan användas idk what I am doing yeah freestyle
-        List<String> variables = MailTemplateVariables.getBookingConfirmationVariables();
+        List<String> variables = MailTemplateVariables.getVariables(variable);
         model.addAttribute("variables", variables);
         //TODO Hämta alla mallar till en liten lista och lägg in i model
         List<MailTemplateDTO> templateList = mailTemplateService.getAllTemplates();
@@ -71,7 +71,9 @@ public class MailTemplateController {
         System.out.println("Mail head = " + mailTemplateDTO.getName());
         System.out.println("Mail body = " + mailTemplateDTO.getBody());
 
-        List<String> variables = MailTemplateVariables.getBookingConfirmationVariables();
+        //TODO change
+        String variable = "ResetPassword";
+        List<String> variables = MailTemplateVariables.getVariables(variable);
         model.addAttribute("variables", variables);
         List<MailTemplateDTO> templateList = mailTemplateService.getAllTemplates();
         model.addAttribute("templateList", templateList);
@@ -91,7 +93,9 @@ public class MailTemplateController {
     public String editTemplateById(Model model, @PathVariable Long id) {
         MailTemplateDTO selectedTemplate = mailTemplateService.getMailTemplateById(id);
 
-        List<String> variables = MailTemplateVariables.getBookingConfirmationVariables();
+        //TODO fix
+        String variable = "resetPassword";
+        List<String> variables = MailTemplateVariables.getVariables(variable);
         model.addAttribute("variables", variables);
 
         List<MailTemplateDTO> templateList = mailTemplateService.getAllTemplates();

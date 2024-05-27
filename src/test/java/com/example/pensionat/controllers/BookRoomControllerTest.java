@@ -3,6 +3,7 @@ package com.example.pensionat.controllers;
 import com.example.pensionat.dtos.*;
 import com.example.pensionat.services.impl.BookingServiceImpl;
 
+import com.example.pensionat.services.impl.MailTemplateServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.mail.Session;
 import jakarta.mail.internet.MimeMessage;
@@ -46,6 +47,9 @@ class BookRoomControllerTest {
 
     @MockBean
     private JavaMailSender emailSender;
+
+    @MockBean
+    private MailTemplateServiceImpl mailTemplateService;
 
     @BeforeEach
     void setUp() {

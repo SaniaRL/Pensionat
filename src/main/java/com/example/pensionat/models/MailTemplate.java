@@ -22,6 +22,8 @@ public class MailTemplate {
     private Long id;
     @NotNull
     private String name;
+    @NotNull
+    private String subject;
     @Column(columnDefinition = "text", length = 1024)
     private String body;
 }
