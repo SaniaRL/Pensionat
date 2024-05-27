@@ -121,6 +121,7 @@ public class UserServiceImpl implements UserService {
         return encoder.encode(password);
     }
 
+    //Ändring
     @Override
     public void createPasswordResetTokenForUser(String email, String token) {
         User user = userRepo.findByUsername(email); // Ensure you have a method to find a user by email
