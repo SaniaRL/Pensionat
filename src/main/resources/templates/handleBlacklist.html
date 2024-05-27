@@ -54,7 +54,12 @@
             <tr class="customer-row" th:each="c : ${allCustomers}">
                 <td th:text="${c.name}"></td>
                 <td th:text="${c.email}"></td>
-                <td th:text="${c.ok}"></td>
+<!--                <td th:text="${c.ok}"></td> -->
+                <td>
+                    <label for="checkbox">
+                        <input class="checkbox" id="checkbox" type="checkbox" th:checked="${c.ok}" disabled />
+                    </label>
+                </td>
                 <td class="td-icons edit"><a th:href="@{/customer/blacklist/{email}/update(email=${c.email})}">
                     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
                         <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->

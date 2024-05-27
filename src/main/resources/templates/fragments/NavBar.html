@@ -51,7 +51,21 @@
                     </li>
                 </ul>
             </div>
-            <div sec:authorize="isAuthenticated()" class="menu-logout">
+            <div sec:authorize="hasAuthority('Admin')" class="menu-user" th:classappend="${activePage == 'user'} ? 'active' : 'submenu-hidden'">
+                <h2 class="menu-title" onclick=expand(this)>ANVÄNDARKONTON</h2>
+                <ul class="submenu">
+                    <li>
+                        <a class="link" th:classappend="${activeSub == 'users'} ? 'activeSub' : ''" onclick="window.location.href='/user/'">Hantera användarkonton</a>
+                    </li>
+                    <li>
+                        <a class="link" th:classappend="${activeSub == 'newUser'} ? 'activeSub' : ''" onclick="window.location.href='/user/create'">Skapa nytt konto</a>
+                    </li>
+                </ul>
+            </div>
+            <div sec:authorize="hasAuthority('Admin')" class="menu-mail-template">
+                <h2 class="menu-title" onclick="window.location.href='/mailTemplate/edit'">REDIGERA MALLAR</h2>
+            </div>
+                <div sec:authorize="isAuthenticated()" class="menu-logout">
                 <h2 class="menu-title-sec" onclick="window.location.href='/logout'">LOGGA UT</h2>
             </div>
         </div>
