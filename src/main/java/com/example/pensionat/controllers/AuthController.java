@@ -103,7 +103,7 @@ public class AuthController {
     }
 
     //TODO inte en service - en util? Var ska denna metod bo?
-
+    /*
     private String generateResetPasswordToken(String username) {
         String token = UUID.randomUUID().toString();
         LocalDateTime timestamp = LocalDateTime.now();
@@ -121,7 +121,7 @@ public class AuthController {
         String[] tokenArray = splitToken(token);
 
         return LocalDateTime.parse(tokenArray[2], DateTimeFormatter.ISO_LOCAL_DATE_TIME).plusHours(24);
-    }
+    } */
 
     /*
     private String generateOTP(int length)
