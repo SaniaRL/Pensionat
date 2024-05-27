@@ -9,8 +9,8 @@ public class MailTemplateVariables {
 
     public static List<String> getVariables(String variable) {
         return switch (variable) {
-            case "Booking" -> getBookingConfirmationVariables();
-            case "ResetPassword" -> getResetPasswordVariables();
+            case "Bokningsbekräftelse" -> getBookingConfirmationVariables();
+            case "ÅterställLösenord" -> getResetPasswordVariables();
             default -> getOptionVariables();
         };
     }

@@ -48,21 +48,22 @@ public class MailTemplateController {
 
 
     @RequestMapping("/edit")
-    public String editTemplate(Model model, @RequestParam(required = false, defaultValue = "Re") String variable) {
-        //TODO Hämta alla variabler som kan användas idk what I am doing yeah freestyle
+    public String editTemplate(Model model, @RequestParam(required = false, defaultValue = "Bokningsbekräftelse") String variable) {
+        //TODO Hämta alla variabler som kan användas idk what I am doing yeah freestyle bbk i properties??
         List<String> variables = MailTemplateVariables.getVariables(variable);
         model.addAttribute("variables", variables);
-        //TODO Hämta alla mallar till en liten lista och lägg in i model
         List<MailTemplateDTO> templateList = mailTemplateService.getAllTemplates();
         model.addAttribute("templateList", templateList);
         //Lägg till nån text ändå kanske
-        String text = "Skriv ny mall här eller välj befintlig mall att uppdatera";
-        model.addAttribute("body", text);
-        model.addAttribute("name", "tom");
-        model.addAttribute("subject", "Ämne");
 
-        //TODO fix idk -1 yes
-        model.addAttribute("id", null);
+        MailTemplateDTO m = mailTemplateService.getMailTemplateByName(variable);
+        if(m != null) {
+            String text = "Skriv ny mall här eller välj befintlig mall att uppdatera";
+            model.addAttribute("id", m.getId());
+            model.addAttribute("name", m.getName());
+            model.addAttribute("subject", m.getSubject());
+            model.addAttribute("body", m.getBody());
+        }
         return "mail/edit/edit";
     }
 
