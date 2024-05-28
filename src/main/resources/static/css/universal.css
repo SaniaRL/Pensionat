@@ -56,6 +56,7 @@ body {
     inset: 0 auto 0 0;
     background-color: #4f4b6a;
     padding: 20px 0;
+    z-index: 100;
 
     /*-webkit-box-shadow: 14px 0 62px 2px rgba(255,0,255,0.71);*/
     /*-moz-box-shadow: 14px 0 62px 2px rgba(255,0,255,0.71);*/
@@ -68,6 +69,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 100%;
 }
 
 .link {
@@ -80,8 +82,10 @@ body {
 
 .menu-titles {
     width: 100%;
+    height: 100%;
     align-items: center;
     margin-top: 20px;
+    position: relative;
 }
 
 .menu h2 {
@@ -100,6 +104,13 @@ body {
     padding: 0;
     margin: 0;
     background-color: #635c8e;
+}
+
+.menu-logout {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: block;
 }
 
 .submenu {
