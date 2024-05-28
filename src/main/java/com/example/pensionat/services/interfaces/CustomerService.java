@@ -20,6 +20,9 @@ public interface CustomerService {
     SimpleCustomerDTO addCustomer(SimpleCustomerDTO c);
     String removeCustomerById(Long id);
     String updateCustomer(SimpleCustomerDTO c);
+
+    SimpleCustomerDTO getCustomerById(Long id);
+
     Page<SimpleCustomerDTO> getCustomersByEmail(String email, int num);
     Page<SimpleCustomerDTO> getAllCustomersPage(int pageNum);
     SimpleCustomerDTO getCustomerByEmail(String email);

@@ -27,6 +27,7 @@ public class Customer {
     @Size(min = 3, max = 30, message = "Min 3, Max 30")
     private String name;
     @Email
+    @Column(unique = true)
     private String email;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)
