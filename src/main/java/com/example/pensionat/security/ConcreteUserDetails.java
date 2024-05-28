@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class ConcreteUserDetails implements UserDetails {
-    private User user;
+    private final User user;
 
     public ConcreteUserDetails(User user) {
         this.user = user;
@@ -19,7 +19,7 @@ public class ConcreteUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         ArrayList<GrantedAuthority> authorities = new ArrayList<>();
-        for(Role role : user.getRoles()){
+        for (Role role : user.getRoles()) {
             SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.getName());
             authorities.add(authority);
         }

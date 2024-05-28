@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,7 +52,7 @@ public class AuthController {
     }
 
     @PostMapping("/forgotPassword-24")
-    public String forgotPassword24(@RequestParam(value="mail", required = false) String mail, Model model) {
+    public String forgotPassword24(@RequestParam(value = "mail", required = false) String mail, Model model) {
         String resetToken = UUID.randomUUID().toString();
         userService.createPasswordResetTokenForUser(mail, resetToken);
         String resetLink = emailConfigProvider.getMailResetlink() + resetToken;
@@ -63,7 +64,7 @@ public class AuthController {
                 .build();
 
         //TODO hårdkodat
-        String name = "ÅterställLösenord";
+        String name = emailConfigProvider.getMailResetPassword();
         MailTemplateDTO mailTemplateDTO = mailTemplateService.getMailTemplateByName(name);
 
         String subject = mailTemplateDTO.getSubject();

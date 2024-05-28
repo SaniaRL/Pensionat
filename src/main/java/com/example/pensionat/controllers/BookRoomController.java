@@ -95,7 +95,7 @@ public class BookRoomController {
         System.out.println("price after: " + price);
         model.addAttribute("price", price);
 
-        MailTemplateDTO mailTemplate = mailTemplateService.getMailTemplateByName("Bokningsbekräftelse");
+        MailTemplateDTO mailTemplate = mailTemplateService.getMailTemplateByName(emailConfigProvider.getMailVerification());
         String text = getTheRightText(mailTemplate.getBody(), bookingData, price);
 
         String subject = getTheRightText(mailTemplate.getName(), bookingData, price);
