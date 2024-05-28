@@ -11,6 +11,7 @@ public class MailTemplateSeeder {
     @Autowired
     MailTemplateRepo mailTemplateRepo;
 
+    @Autowired
     EmailConfigProvider emailConfigProvider;
 
     public void Seed() {
