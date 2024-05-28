@@ -23,8 +23,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @Email
+    @Email(message = "Email must include '@'")
     private String username;
+    @NotBlank(message = "Password is mandatory")
     private String password;
     private Boolean enabled;
     private String resetToken;
