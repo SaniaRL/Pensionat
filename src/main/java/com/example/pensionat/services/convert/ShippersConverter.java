@@ -21,13 +21,4 @@ public class ShippersConverter {
                 .phone(shipper.getPhone())
                 .build();
     }
-
-/* TempYolo
-    public static Shippers simpleShippersDTOToShippers(SimpleShippersDTO shipper) {
-        return Shippers.builder()
-                .id(shipper.getId())
-                .companyName(shipper.getCompanyName())
-                .phone(shipper.getPhone())
-                .build();
-    } */
 }

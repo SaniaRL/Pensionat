@@ -24,7 +24,6 @@ public class FetchContractCustomers implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        //Testa saveAll (Mocka)
         contractCustomersService.saveAll(contractCustomersService.fetchContractCustomers().getContractCustomerList());
     }
 }
