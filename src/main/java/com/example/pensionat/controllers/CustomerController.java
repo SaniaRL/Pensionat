@@ -23,14 +23,14 @@ public class CustomerController {
     private final BookingService bookingService;
 
     @RequestMapping("/{id}/removeHandler")
-    public String removeCustomerByIdHandler(@PathVariable Long id, Model model) {
+    public String removeCustomerByIdHandler(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         if (bookingService.getBookingByCustomerId(id)) {
-            model.addAttribute("status", "En kund kan inte tas bort om det finns aktiva bokningar");
+            redirectAttributes.addFlashAttribute("status", "En kund kan inte tas bort om det finns aktiva bokningar");
         }
         else {
             customerService.removeCustomerById(id);
         }
-        return handleCustomers(model);
+        return "redirect:/customer/";
     }
 
     @GetMapping("/{email}")
