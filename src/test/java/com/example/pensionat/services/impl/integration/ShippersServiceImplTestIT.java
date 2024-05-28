@@ -56,7 +56,8 @@ class ShippersServiceImplTestIT {
     @Test
     void fetchAndSaveShippersShouldSaveToDatabase() throws IOException {
         ShippersStreamProvider shippersStreamProvider = mock(ShippersStreamProvider.class);
-        when(shippersStreamProvider.getDataStream()).thenReturn(getClass().getClassLoader().getResourceAsStream("shippers.json"));
+        when(shippersStreamProvider.getDataStream()).thenReturn(getClass().getClassLoader()
+                                                    .getResourceAsStream("shippers.json"));
 
         shippersRepo.deleteAll();
 

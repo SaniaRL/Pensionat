@@ -27,7 +27,7 @@ public class Room {
     @NotNull(message = "Type of room is mandatory")
     private int typeOfRoom;
 
-    @NotNull(message = "Type of room is mandatory")
+    @NotNull(message = "Price of room is mandatory")
     private double price;
 
     @OneToMany(mappedBy = "room")
