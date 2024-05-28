@@ -10,6 +10,7 @@ import com.example.pensionat.services.providers.EmailConfigProvider;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -95,7 +96,7 @@ public class BookRoomController {
         System.out.println("price after: " + price);
         model.addAttribute("price", price);
 
-        MailTemplateDTO mailTemplate = mailTemplateService.getMailTemplateByName(emailConfigProvider.getMailVerification());
+        MailTemplateDTO mailTemplate = mailTemplateService.getMailTemplateByName("Bokningsbekräftelse");
         String text = getTheRightText(mailTemplate.getBody(), bookingData, price);
 
         String subject = getTheRightText(mailTemplate.getName(), bookingData, price);
