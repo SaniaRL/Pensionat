@@ -33,34 +33,55 @@
 
 <div class="content index-content">
 
-    <div class="section">
-        <div class="JAVAD23">
-            <a class="btn" th:href="@{/contractCustomer/handle/1}">
-                Tillbaka
+    <div>
+        <div class="btn-container">
+            <a class="return-link" th:href="@{/contractCustomer/}">
+                <div class="return-button">Tillbaka</div>
             </a>
         </div>
-        <div>
             <table class="customers-table" th:object="${kund}">
 
                 <tr class="customer-row">
-                    <td th:text="'ID: ' + ${kund.id}"></td>
-                    <td th:text="'Company Name: ' + ${kund.companyName}"></td>
-                </tr>
-                <tr>
-                    <td th:text="'Contact Name: ' + ${kund.contactName}"></td>
-                    <td th:text="'Company Title: ' + ${kund.contactTitle}"></td>
-                </tr>
-                <tr>
-                    <td th:text="'Adress: ' + ${kund.streetAddress}"></td>
-                    <td th:text="'City: ' + ${kund.city}"></td>
-                </tr>
-                <tr>
-                    <td th:text="'Postal code: ' + ${kund.postalCode}"></td>
-                    <td th:text="'Country: ' + ${kund.country}"></td>
-                </tr>
-                <tr>
-                    <td th:text="'Phone: ' + ${kund.phone}"></td>
-                    <td th:text="'Fax: ' + ${kund.fax}"></td>
+                    <td class="customer-column">
+                        <span class="column-name">ID</span>
+                        <span th:text="${kund.id}"></span>
+                    </td>
+                    <td class="customer-column">
+                        <span class="column-name">Företagsnamn</span>
+                        <span th:text="${kund.companyName}"></span>
+                    </td>
+                    <td class="customer-column">
+                        <span class="column-name">Kontaktnamn</span>
+                        <span th:text="${kund.contactName}"></span>
+                    </td>
+                    <td class="customer-column">
+                        <span class="column-name">Titel</span>
+                        <span th:text="${kund.contactTitle}"></span>
+                    </td>
+                    <td class="customer-column">
+                        <span class="column-name">Adress</span>
+                        <span th:text="${kund.streetAddress}"></span>
+                    </td>
+                    <td class="customer-column">
+                        <span class="column-name">Stad</span>
+                        <span th:text="${kund.city}"></span>
+                    </td>
+                    <td class="customer-column">
+                        <span class="column-name">Postnummer</span>
+                        <span th:text="${kund.postalCode}"></span>
+                    </td>
+                    <td class="customer-column">
+                        <span class="column-name">Land</span>
+                        <span th:text="${kund.country}"></span>
+                    </td>
+                    <td class="customer-column">
+                        <span class="column-name">Telefon</span>
+                        <span th:text="${kund.phone}"></span>
+                    </td>
+                    <td class="customer-column">
+                        <span class="column-name">Fax</span>
+                        <span th:text="${kund.fax}"></span>
+                    </td>
                 </tr>
             </table>
         </div>
