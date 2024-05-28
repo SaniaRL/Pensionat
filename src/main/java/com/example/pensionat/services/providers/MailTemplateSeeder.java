@@ -17,7 +17,7 @@ public class MailTemplateSeeder {
     public void Seed() {
         if (mailTemplateRepo.findByName(emailConfigProvider.getMailVerification()) == null) {
             addMailTemplate(MailTemplate.builder()
-                    .name("Bokningsbekräftelse")
+                    .name(emailConfigProvider.getMailVerification())
                     .subject("Bed&Basse - Bokningsbekräftelse")
                     .body("""
                             <html><body><style>
@@ -51,7 +51,7 @@ public class MailTemplateSeeder {
         }
         if (mailTemplateRepo.findByName(emailConfigProvider.getMailResetPassword()) == null) {
             addMailTemplate(MailTemplate.builder()
-                    .name("ÅterställLösenord")
+                    .name(emailConfigProvider.getMailResetPassword())
                     .subject("Återställ Lösenord - Bed&Basse")
                     .body("<html><body>YO - du har glömt ditt lösenord lalala <a <a \n" +
                             "href=\"!!!!Länk!!!!\">Länk<a></body></html>").build());
