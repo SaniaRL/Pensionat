@@ -63,7 +63,7 @@ public class AuthController {
                 .build();
 
         //TODO hårdkodat
-        String name = "ÅterställLösenord";
+        String name = emailConfigProvider.getMailResetPassword();
         MailTemplateDTO mailTemplateDTO = mailTemplateService.getMailTemplateByName(name);
 
         String subject = mailTemplateDTO.getSubject();

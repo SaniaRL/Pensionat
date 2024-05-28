@@ -2,6 +2,7 @@ package com.example.pensionat.controllers;
 
 import com.example.pensionat.dtos.MailTemplateDTO;
 import com.example.pensionat.services.interfaces.MailTemplateService;
+import com.example.pensionat.services.providers.EmailConfigProvider;
 import com.example.pensionat.utils.MailTemplateVariables;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import java.util.List;
 public class MailTemplateController {
 
     private final MailTemplateService mailTemplateService;
+    private final EmailConfigProvider emailConfigProvider;
 
     @GetMapping("/confirmation")
     public String confirmation(Model model) {
@@ -39,7 +41,7 @@ public class MailTemplateController {
 
     @RequestMapping("/edit")
     public String editTemplate(Model model) {
-        String variable = "Bokningsbekräftelse";
+        String variable = emailConfigProvider.getMailVerification();
         List<String> variables = MailTemplateVariables.getVariables(variable);
         model.addAttribute("variables", variables);
         List<MailTemplateDTO> templateList = mailTemplateService.getAllTemplates();

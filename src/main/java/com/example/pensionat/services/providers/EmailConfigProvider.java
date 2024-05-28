@@ -14,13 +14,13 @@ public class EmailConfigProvider {
     @Value("${spring.mail.password}")
     private String mailPassword;
 
-    @Value("${spring.mail.resetlink}")
+    @Value("${spring.mail.resetLink}")
     private String mailResetlink;
 
     @Value("${spring.mail.verification}")
     private String mailVerification;
 
-    @Value("${spring.mail.resetpassword}")
+    @Value("${spring.mail.resetPassword}")
     private String mailResetPassword;
 
 }
