@@ -23,7 +23,7 @@ th {
 
 tr {
     display: grid;
-    grid-template-columns: 40px 200px 350px 40px 40px;
+    grid-template-columns: 40px 200px 250px 40px 40px;
 }
 
 .tr-users {

@@ -45,7 +45,7 @@
     <table class="customers-table">
       <thead>
       <tr class="table-header tr-user-update">
-        <th>namn</th>
+        <th>email</th>
         <th>roles</th>
         <th>enabled</th>
       </tr>
@@ -55,7 +55,7 @@
         <tr class="customer-row tr-user-update">
           <input th:field="*{id}" type="hidden">
           <td>
-            <input id="username" th:field="*{username}" type="text" required>
+            <input id="username" th:field="*{username}" type="email" required>
             <input type="hidden" name="originalUsername" th:value="${originalUsername}" />
           </td>
           <td>
