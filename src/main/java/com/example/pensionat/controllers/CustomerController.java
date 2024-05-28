@@ -48,7 +48,6 @@ public class CustomerController {
             return "redirect:/customer/";
         }
         SimpleCustomerDTO c = customerService.getCustomerById(customer.getId());
-        model.addAttribute("kund", c);
         redirectAttributes.addFlashAttribute("status", response);
         return "redirect:/customer/"+c.getEmail();
     }

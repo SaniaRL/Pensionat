@@ -15,6 +15,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -104,10 +105,25 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void updateCustomer() {
+    void updateCustomer_shouldPass() {
         CustomerServiceImpl service = new CustomerServiceImpl(customerRepo, provider);
+
+        when(customerRepo.save(any(Customer.class))).thenReturn(customer);
+
         String feedback = service.updateCustomer(simpleCustomerDTO);
-        assertTrue(feedback.equalsIgnoreCase("Customer updated successfully"));
+        assertEquals("OK", feedback);
+        verify(customerRepo, times(1)).save(any(Customer.class));
+    }
+
+    @Test
+    void updateCustomer_shouldNotPass() {
+        CustomerServiceImpl service = new CustomerServiceImpl(customerRepo, provider);
+
+        when(customerRepo.save(any(Customer.class))).thenThrow(DataIntegrityViolationException.class);
+
+        String feedback = service.updateCustomer(simpleCustomerDTO);
+        assertEquals("Email already in use", feedback);
+        verify(customerRepo, times(1)).save(any(Customer.class));
     }
 
     @Test
