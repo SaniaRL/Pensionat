@@ -104,7 +104,7 @@ public class BookRoomController {
             MimeMessage message = emailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
             helper.setText(text, true);
-            helper.setTo(emailConfigProvider.getMailUsername());
+            helper.setTo(bookingData.getEmail());
             helper.setSubject(subject);
             helper.setFrom(emailConfigProvider.getMailUsername());
             emailSender.send(message);

@@ -56,7 +56,6 @@ public class AuthController {
         userService.createPasswordResetTokenForUser(mail, resetToken);
         String resetLink = emailConfigProvider.getMailResetlink() + resetToken;
 
-        //TODO hårdkodat
         ResetPasswordMailVariablesDTO rp = ResetPasswordMailVariablesDTO.builder()
                 .username(mail)
                 .link(resetLink)
