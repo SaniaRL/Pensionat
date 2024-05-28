@@ -75,8 +75,18 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public String updateCustomer(SimpleCustomerDTO c) {
         Customer cp = CustomerConverter.simpleCustomerDTOtoCustomer(c);
-        customerRepo.save(cp);
-        return "Customer updated successfully";
+        try {
+            customerRepo.save(cp);
+            return "OK";
+        }
+        catch (Exception e){
+             return "Email already in use";
+        }
+    }
+
+    @Override
+    public SimpleCustomerDTO getCustomerById(Long id) {
+        return customerRepo.findById(id).map(CustomerConverter::customerToSimpleCustomerDTO).orElse(null);
     }
 
     @Override

@@ -42,6 +42,15 @@
             </div>
         </div>
 
+        <div th:unless="${#strings.isEmpty(status)}">
+            <div class="overlay"></div>
+            <div class="error-pop-up customer-pop-up" id="errorPopup">
+                <p class="customer-pop-up-header">KUNDE EJ ÄNDRA E-POST</p>
+                <p class="customer-pop-up-text" th:text="${status}"></p>
+                <button class="customer-btn-pop-up btn" id="closeButton" onclick="this.parentElement.parentElement.style.display='none';">STÄNG FÖNSTER</button>
+            </div>
+        </div>
+
         <table class="customers-table">
             <tr class="table-header update">
                 <th> namn</th>
@@ -51,10 +60,10 @@
             <tr class="customer-row update">
                 <form id="customer-form" action="#" method="post" th:action="@{/customer/update}" th:object="${kund}">
                     <td>
-                        <input id="name" th:field="*{name}" type="text">
+                        <input id="name" th:field="*{name}" type="text" required minlength="3">
                     </td>
                     <td>
-                        <input id="email" th:field="*{email}" type="text">
+                        <input id="email" th:field="*{email}" type="email" required>
                     </td>
                     <input id="id" th:field="*{id}" type="hidden">
                 </form>

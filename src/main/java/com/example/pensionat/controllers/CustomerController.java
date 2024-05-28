@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 
@@ -32,7 +33,7 @@ public class CustomerController {
         return handleCustomers(model);
     }
 
-    @RequestMapping("/{email}/update")
+    @GetMapping("/{email}")
     public String updateCustomerHandler(@PathVariable String email, Model model){
         SimpleCustomerDTO c = customerService.getCustomerByEmail(email);
         model.addAttribute("kund", c);
@@ -40,11 +41,16 @@ public class CustomerController {
     }
 
     @PostMapping("/update")
-    public String handleCustomersUpdate(Model model, SimpleCustomerDTO customer){
-        customerService.updateCustomer(customer);
-        int currentPage = 1;
-        customerService.addToModel(currentPage, model);
-        return "handleCustomers";
+    public String handleCustomersUpdate(Model model, SimpleCustomerDTO customer, RedirectAttributes redirectAttributes){
+        String response = customerService.updateCustomer(customer);
+        if(response.equals("OK")){
+            customerService.addToModel(1, model);
+            return "redirect:/customer/";
+        }
+        SimpleCustomerDTO c = customerService.getCustomerById(customer.getId());
+        model.addAttribute("kund", c);
+        redirectAttributes.addFlashAttribute("status", response);
+        return "redirect:/customer/"+c.getEmail();
     }
 
     @RequestMapping("/customerOrNot")
