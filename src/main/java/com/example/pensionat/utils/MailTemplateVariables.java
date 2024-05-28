@@ -1,5 +1,8 @@
 package com.example.pensionat.utils;
 
+import com.example.pensionat.services.providers.EmailConfigProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,8 +12,8 @@ public class MailTemplateVariables {
 
     public static List<String> getVariables(String variable) {
         return switch (variable) {
-            case "Bokningsbekräftelse" -> getBookingConfirmationVariables();
-            case "ÅterställLösenord" -> getResetPasswordVariables();
+            case  "Bookingconfirmation" -> getBookingConfirmationVariables();
+            case "Resetpassword" -> getResetPasswordVariables();
             default -> getOptionVariables();
         };
     }
