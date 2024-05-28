@@ -5,6 +5,7 @@ import com.example.pensionat.services.interfaces.BookingService;
 import com.example.pensionat.services.interfaces.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,8 +24,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -65,6 +65,7 @@ class CustomerControllerTest {
 
     @BeforeEach
     void init() {
+        MockitoAnnotations.initMocks(this);
         Page<SimpleCustomerDTO> mockPage = new PageImpl<>(List.of(customer));
         when(customerService.getCustomerByEmail(anyString())).thenReturn(customer);
         when(customerService.removeCustomerById(anyLong())).thenReturn("Kund borta");
@@ -112,24 +113,47 @@ class CustomerControllerTest {
 
     @Test
     void updateCustomerHandler() throws Exception {
-        this.mvc.perform(get("/customer/{email}/update", email))
+        this.mvc.perform(get("/customer/{email}", email))
                 .andExpect(status().isOk()) //200 ok status hehe, ovan funka.
                 .andExpect(view().name("updateCustomers"))
                 .andExpect(model().attributeExists("kund"));
     }
 
     @Test
-    void handleCustomersUpdate() throws Exception {
+    void handleCustomersUpdate_shouldPass() throws Exception {
         SimpleCustomerDTO customer = new SimpleCustomerDTO("Test Customer", "test@example.com");
+        when(customerService.updateCustomer(customer)).thenReturn("OK");
         this.mvc.perform(post("/customer/update")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("email", customer.getEmail())
                         .param("name", customer.getName()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("handleCustomers"))
-                .andExpect(model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));
+                .andExpect(redirectedUrl("/customer/"));
+
+        verify(customerService, times(1)).updateCustomer(any(SimpleCustomerDTO.class));
+        verify(customerService, times(1)).addToModel(eq(1), any(Model.class));
     }
 
+//    @Test
+//    void handleCustomersUpdate_shouldNotPass() throws Exception {
+//        SimpleCustomerDTO customer = new SimpleCustomerDTO("Test Customer", "test@example.com");
+//        customer.setId(1L);
+//        SimpleCustomerDTO returnedCustomer = new SimpleCustomerDTO();
+//        returnedCustomer.setId(1L);
+//        returnedCustomer.setEmail("existing@example.com");
+//
+//        when(customerService.updateCustomer(any(SimpleCustomerDTO.class))).thenReturn("Email already in use");
+//        when(customerService.getCustomerById(1L)).thenReturn(returnedCustomer);
+//
+//        this.mvc.perform(post("/customer/update")
+//                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+//                        .param("email", customer.getEmail())
+//                        .param("name", customer.getName()))
+//                .andExpect(redirectedUrl("/customer/test@example.com"))
+//                .andExpect(flash().attribute("status", "Email already in use"));
+//
+//        verify(customerService, times(1)).updateCustomer(any(SimpleCustomerDTO.class));
+//        verify(customerService, times(1)).getCustomerById(1L);
+//    }
 
     @Test
     void loadCustomerOrNot() throws Exception {
