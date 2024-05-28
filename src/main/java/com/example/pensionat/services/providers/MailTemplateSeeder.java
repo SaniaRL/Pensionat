@@ -15,7 +15,7 @@ public class MailTemplateSeeder {
     EmailConfigProvider emailConfigProvider;
 
     public void Seed() {
-        if (mailTemplateRepo.findByName("Bokningsbekräftelse") == null) {
+        if (mailTemplateRepo.findByName(emailConfigProvider.getMailVerification()) == null) {
             addMailTemplate(MailTemplate.builder()
                     .name(emailConfigProvider.getMailVerification())
                     .subject("Bed&Basse - Bokningsbekräftelse")
@@ -49,7 +49,7 @@ public class MailTemplateSeeder {
                             house/96/huge_front_view_house_with_windows-home-256.png"
                             alt="House"></body></html>""").build());
         }
-        if (mailTemplateRepo.findByName("ÅterställLösenord") == null) {
+        if (mailTemplateRepo.findByName(emailConfigProvider.getMailResetPassword()) == null) {
             addMailTemplate(MailTemplate.builder()
                     .name(emailConfigProvider.getMailResetPassword())
                     .subject("Återställ Lösenord - Bed&Basse")
