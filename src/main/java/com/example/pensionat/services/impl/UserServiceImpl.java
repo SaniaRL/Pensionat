@@ -82,13 +82,10 @@ public class UserServiceImpl implements UserService {
     public String updateUser(SimpleUserDTO userDTO, Model model) {
         userDTO.setUsername(userDTO.getUsername().trim());
 
-        if (userDTO.getUsername().isEmpty()) {
-            return "Användarnamnet får inte vara enbart mellanslag.";
-        }
         if (userRepo.findByUsername(userDTO.getUsername()) != null &&
                 !Objects.equals(userRepo.findByUsername(
                         userDTO.getUsername()).getUsername(), model.getAttribute("originalUsername"))) {
-            return "Användarnamnet " + userDTO.getUsername() + " är upptaget.";
+            return userDTO.getUsername() + " är upptaget.";
         }
         System.out.println("ROLES: " + userDTO.getRoles());
         if (userDTO.getRoles().isEmpty()) {
@@ -111,15 +108,11 @@ public class UserServiceImpl implements UserService {
         model.addAttribute("username", userDTO.getUsername());
         model.addAttribute("password", userDTO.getPassword());
 
-        userDTO.setUsername(userDTO.getUsername().trim());
-        if (userDTO.getUsername().isEmpty()) {
-            return "Användarnamnet får inte vara enbart mellanslag.";
-        }
         if (userDTO.getPassword().contains(" ")) {
             return "Lösenordet får inte innehålla mellanslag.";
         }
         if (userRepo.findByUsername(userDTO.getUsername()) != null) {
-            return "Användarnamnet " + userDTO.getUsername() + " är upptaget.";
+            return userDTO.getUsername() + " är upptaget.";
         }
         if (userDTO.getRoles() == null) {
             return "Välj minst en av rollerna.";

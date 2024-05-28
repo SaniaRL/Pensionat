@@ -109,11 +109,6 @@ class EventServiceImplTest {
     }
 
     @Test
-    void extractMessage() {
-
-    }
-
-    @Test
     void mapToEventShouldMapCorrectlyRoomOpened() {
         Event actual = sut.mapToEvent(roomOpened);
 
