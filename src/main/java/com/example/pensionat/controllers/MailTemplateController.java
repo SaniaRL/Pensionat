@@ -2,7 +2,6 @@ package com.example.pensionat.controllers;
 
 import com.example.pensionat.dtos.BookingData;
 import com.example.pensionat.dtos.MailTemplateDTO;
-import com.example.pensionat.dtos.MailText;
 import com.example.pensionat.dtos.OrderLineDTO;
 import com.example.pensionat.models.MailTemplate;
 import com.example.pensionat.repositories.MailTemplateRepo;
@@ -113,11 +112,4 @@ public class MailTemplateController {
         return "mail/edit/edit";
     }
 
-/*
-    @RequestMapping("/")
-    public String getMailTemplate() {
-        return
-    }
-
- */
 }
