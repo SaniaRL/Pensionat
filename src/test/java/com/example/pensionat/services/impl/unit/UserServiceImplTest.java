@@ -1,5 +1,6 @@
 package com.example.pensionat.services.impl.unit;
 
+import com.example.pensionat.dtos.DetailedUserDTO;
 import com.example.pensionat.dtos.SimpleRoleDTO;
 import com.example.pensionat.dtos.SimpleUserDTO;
 import com.example.pensionat.models.Role;
@@ -45,6 +46,7 @@ class UserServiceImplTest {
                                 username, true, rolesDto1);
     SimpleUserDTO userDto2 = new SimpleUserDTO(UUID.fromString("632e8400-e29b-41d4-a716-446655440000"),
             username, true, rolesDto2);
+    DetailedUserDTO userDetailed = new DetailedUserDTO(username, "   ", true, rolesDto1);
 
     @Test
     void addToModel() {
@@ -71,11 +73,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void updateUser() {
-    }
-
-    @Test
-    public void whenUpdateUserUsernameTakenShouldReturnCorrectly() {
+    void whenUpdateUserUsernameTakenShouldReturnCorrectly() {
         when(userRepo.findByUsername(any(String.class))).thenReturn(user1);
         when(model.getAttribute("originalUsername")).thenReturn("differentUsername");
         UserServiceImpl service = new UserServiceImpl(userRepo, roleRepo);
@@ -86,7 +84,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    public void whenUpdateUserNoRolesSelectedShouldReturnCorrectly() {
+    void whenUpdateUserNoRolesSelectedShouldReturnCorrectly() {
         when(userRepo.findByUsername(any(String.class))).thenReturn(null);
         UserServiceImpl service = new UserServiceImpl(userRepo, roleRepo);
 
@@ -96,7 +94,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    public void whenUpdateUserSuccessShouldReturnCorrectly() {
+    void whenUpdateUserSuccessShouldReturnCorrectly() {
         when(userRepo.findByUsername(any(String.class))).thenReturn(null);
         when(userRepo.findById(any(UUID.class))).thenReturn(user1);
         when(roleRepo.findByName(any(String.class))).thenReturn(role1);
@@ -112,6 +110,26 @@ class UserServiceImplTest {
 
     @Test
     void addUser() {
+    }
+
+    @Test
+    void whenAddUserUserPasswordBlankSpacesShouldReturnCorrectly() {
+        UserServiceImpl service = new UserServiceImpl(userRepo, roleRepo);
+
+        String result = service.addUser(userDetailed, model);
+
+        assertEquals("Lösenordet får inte innehålla mellanslag.", result);
+    }
+
+    @Test
+    void whenAddUserUsernameTakenShouldReturnCorrectly() {
+        userDetailed.setPassword("password");
+        when(userRepo.findByUsername(any(String.class))).thenReturn(user1);
+        UserServiceImpl service = new UserServiceImpl(userRepo, roleRepo);
+
+        String result = service.addUser(userDetailed, model);
+
+        assertEquals(userDetailed.getUsername() + " är upptaget.", result);
     }
 
     @Test
