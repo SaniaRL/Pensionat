@@ -104,6 +104,7 @@ class UserServiceImplTest {
 
         String result = service.updateUser(userDto1, model);
 
+        verify(roleRepo, times(2)).findByName(any(String.class));
         verify(userRepo, times(1)).save(any(User.class));
         verify(model, times(1)).addAttribute("originalUsername", userDto1.getUsername());
         assertEquals("Konto med användarnamn " + userDto1.getUsername() + " uppdaterades!", result);
