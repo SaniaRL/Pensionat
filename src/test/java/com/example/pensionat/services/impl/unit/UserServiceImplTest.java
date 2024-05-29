@@ -16,7 +16,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class UserServiceImplTest {
@@ -36,12 +36,15 @@ class UserServiceImplTest {
     Collection<Role> roles = new ArrayList<>(Arrays.asList(role1, role2));
     SimpleRoleDTO roleDto1 = new SimpleRoleDTO("Admin");
     SimpleRoleDTO roleDto2 = new SimpleRoleDTO("Receptionist");
-    Collection<SimpleRoleDTO> rolesDto = new ArrayList<>(Arrays.asList(roleDto1, roleDto2));
+    Collection<SimpleRoleDTO> rolesDto1 = new ArrayList<>(Arrays.asList(roleDto1, roleDto2));
+    Collection<SimpleRoleDTO> rolesDto2 = new ArrayList<>();
 
     User user1 = new User(UUID.fromString("123e4567-e89b-12d3-a456-556642440000"), username, "password",
                     true, null, null, roles);
-    SimpleUserDTO userDTO1 = new SimpleUserDTO(UUID.fromString("550e8400-e29b-41d4-a716-446655440000"),
-                                username, true, rolesDto);
+    SimpleUserDTO userDto1 = new SimpleUserDTO(UUID.fromString("123e4567-e89b-12d3-a456-556642440000"),
+                                username, true, rolesDto1);
+    SimpleUserDTO userDto2 = new SimpleUserDTO(UUID.fromString("632e8400-e29b-41d4-a716-446655440000"),
+            username, true, rolesDto2);
 
     @Test
     void addToModel() {
@@ -77,9 +80,33 @@ class UserServiceImplTest {
         when(model.getAttribute("originalUsername")).thenReturn("differentUsername");
         UserServiceImpl service = new UserServiceImpl(userRepo, roleRepo);
 
-        String result = service.updateUser(userDTO1, model);
+        String result = service.updateUser(userDto1, model);
 
-        assertEquals(userDTO1.getUsername() + " är upptaget.", result);
+        assertEquals(userDto1.getUsername() + " är upptaget.", result);
+    }
+
+    @Test
+    public void whenUpdateUserNoRolesSelectedShouldReturnCorrectly() {
+        when(userRepo.findByUsername(any(String.class))).thenReturn(null);
+        UserServiceImpl service = new UserServiceImpl(userRepo, roleRepo);
+
+        String result = service.updateUser(userDto2, model);
+
+        assertEquals("Välj minst en av rollerna.", result);
+    }
+
+    @Test
+    public void whenUpdateUserSuccessShouldReturnCorrectly() {
+        when(userRepo.findByUsername(any(String.class))).thenReturn(null);
+        when(userRepo.findById(any(UUID.class))).thenReturn(user1);
+        when(roleRepo.findByName(any(String.class))).thenReturn(role1);
+        UserServiceImpl service = new UserServiceImpl(userRepo, roleRepo);
+
+        String result = service.updateUser(userDto1, model);
+
+        verify(userRepo, times(1)).save(any(User.class));
+        verify(model, times(1)).addAttribute("originalUsername", userDto1.getUsername());
+        assertEquals("Konto med användarnamn " + userDto1.getUsername() + " uppdaterades!", result);
     }
 
     @Test
