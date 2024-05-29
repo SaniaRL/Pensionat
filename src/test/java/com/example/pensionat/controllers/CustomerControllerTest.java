@@ -95,10 +95,9 @@ class CustomerControllerTest {
         when(bookingService.getBookingByCustomerId(customerId)).thenReturn(true); //när if sats är sann i controller
 
         this.mvc.perform(get("/customer/{id}/removeHandler", customerId))
-                .andExpect(status().isOk())
-                .andExpect(view().name("handleCustomers"))
-                .andExpect(model().attributeExists("status"))
-                .andExpect(model().attribute("status", "En kund kan inte tas bort om det finns aktiva bokningar"));
+                .andExpect(redirectedUrl("/customer/"))
+                .andExpect(flash().attributeExists("status"))
+                .andExpect(flash().attribute("status", "En kund kan inte tas bort om det finns aktiva bokningar"));
     }
 
     @Test
@@ -106,9 +105,7 @@ class CustomerControllerTest {
         when(bookingService.getBookingByCustomerId(customerId)).thenReturn(false); //när if sats är falsk
 
         this.mvc.perform(get("/customer/{id}/removeHandler", customerId))
-                .andExpect(status().isOk())
-                .andExpect(view().name("handleCustomers"))
-                .andExpect(model().attributeDoesNotExist("status"));
+                .andExpect(redirectedUrl("/customer/"));
     }
 
     @Test
