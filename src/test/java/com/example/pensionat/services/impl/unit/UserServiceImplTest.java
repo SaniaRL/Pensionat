@@ -11,8 +11,10 @@ import com.example.pensionat.services.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,7 +30,6 @@ class UserServiceImplTest {
     private RoleRepo roleRepo;
     @Mock
     private Model model;
-
 
     String username = "admin@mail.com";
     Collection<User> users = new ArrayList<>();
@@ -47,30 +48,6 @@ class UserServiceImplTest {
     SimpleUserDTO userDto2 = new SimpleUserDTO(UUID.fromString("632e8400-e29b-41d4-a716-446655440000"),
             username, true, rolesDto2);
     DetailedUserDTO userDetailed = new DetailedUserDTO(username, "   ", true, rolesDto1);
-
-    @Test
-    void addToModel() {
-    }
-
-    @Test
-    void addToModelUserSearch() {
-    }
-
-    @Test
-    void getAllUsersPage() {
-    }
-
-    @Test
-    void getSimpleUserDtoByUsername() {
-    }
-
-    @Test
-    void getUsersBySearch() {
-    }
-
-    @Test
-    void deleteUserByUsername() {
-    }
 
     @Test
     void whenUpdateUserUsernameTakenShouldReturnCorrectly() {
@@ -106,10 +83,6 @@ class UserServiceImplTest {
         verify(userRepo, times(1)).save(any(User.class));
         verify(model, times(1)).addAttribute("originalUsername", userDto1.getUsername());
         assertEquals("Konto med användarnamn " + userDto1.getUsername() + " uppdaterades!", result);
-    }
-
-    @Test
-    void addUser() {
     }
 
     @Test
@@ -161,20 +134,78 @@ class UserServiceImplTest {
         assertEquals("Konto med användarnamn " + userDetailed.getUsername() + " skapades!", result);
     }
 
-
     @Test
-    void updatePassword() {
+    void whenUpdatePasswordShouldSaveWithEncryptedPassword() {
+        String newPassword = "newpassword";
+        when(userRepo.findByUsername(any(String.class))).thenReturn(user1);
+        UserServiceImpl service = new UserServiceImpl(userRepo, roleRepo);
+
+        service.updatePassword(username, newPassword);
+
+        verify(userRepo).save(argThat(savedUser -> {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            return encoder.matches(newPassword, savedUser.getPassword());
+        }));
     }
 
     @Test
-    void createPasswordResetTokenForUser() {
+    void whenCreatePasswordResetTokenForUserShouldCreateToken() {
+        String token = "reset-token";
+        when(userRepo.findByUsername(any(String.class))).thenReturn(user1);
+        UserServiceImpl service = new UserServiceImpl(userRepo, roleRepo);
+
+        service.createPasswordResetTokenForUser(username, token);
+
+        verify(userRepo).save(argThat(savedUser -> token.equals(savedUser.getResetToken()) &&
+                savedUser.getResetTokenExpire().isAfter(LocalDateTime.now().plusHours(23))));
     }
 
     @Test
-    void getUserByResetToken() {
+    void whenGetUserByResetTokenShouldReturnCorrectUser() {
+        String token = "reset-token";
+        user1.setResetToken(token);
+        when(userRepo.findByResetToken(token)).thenReturn(user1);
+        UserServiceImpl service = new UserServiceImpl(userRepo, roleRepo);
+
+        User user = service.getUserByResetToken(token);
+
+        assertEquals(user1, user);
     }
 
     @Test
-    void removeResetToken() {
+    void whenRemoveResetTokenResetTokenAndResetTokenExpireShouldBeNull() {
+        user1.setResetToken("reset-token");
+        user1.setResetTokenExpire(LocalDateTime.now().plusHours(24));
+        UserServiceImpl service = new UserServiceImpl(userRepo, roleRepo);
+
+        service.removeResetToken(user1);
+
+        verify(userRepo).save(argThat(savedUser ->
+                savedUser.getResetToken() == null && savedUser.getResetTokenExpire() == null
+        ));
+    }
+
+    @Test
+    void addToModel() {
+    }
+
+    @Test
+    void addToModelUserSearch() {
+    }
+
+    @Test
+    void getAllUsersPage() {
+    }
+
+    @Test
+    void getSimpleUserDtoByUsername() {
+    }
+
+    @Test
+    void getUsersBySearch() {
+    }
+
+    @Test
+    void deleteUserByUsername() {
     }
 }
