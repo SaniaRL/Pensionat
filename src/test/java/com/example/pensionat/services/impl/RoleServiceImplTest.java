@@ -15,7 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class RoleServiceImplTest {
@@ -38,5 +38,6 @@ class RoleServiceImplTest {
         assertEquals(result.size(), 2);
         assertEquals(result.get(0).getName(), "AdminTest");
         assertEquals(result.get(1).getName(), "RepanTest");
+        verify(roleRepo, times(1)).findAll();
     }
 }
