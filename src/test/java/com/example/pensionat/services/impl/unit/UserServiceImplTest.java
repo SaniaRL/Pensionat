@@ -114,6 +114,7 @@ class UserServiceImplTest {
 
     @Test
     void whenAddUserUserPasswordBlankSpacesShouldReturnCorrectly() {
+        userDetailed.setPassword("   ");
         UserServiceImpl service = new UserServiceImpl(userRepo, roleRepo);
 
         String result = service.addUser(userDetailed, model);
@@ -131,6 +132,35 @@ class UserServiceImplTest {
 
         assertEquals(userDetailed.getUsername() + " är upptaget.", result);
     }
+
+    @Test
+    void whenAddUserNoRolesSelectedShouldReturnCorrectly() {
+        userDetailed.setPassword("password");
+        userDetailed.setRoles(null);
+        when(userRepo.findByUsername(any(String.class))).thenReturn(null);
+        UserServiceImpl service = new UserServiceImpl(userRepo, roleRepo);
+
+        String result = service.addUser(userDetailed, model);
+
+        assertEquals("Välj minst en av rollerna.", result);
+    }
+
+    @Test
+    void whenAddUserSuccessShouldReturnCorrectly() {
+        userDetailed.setPassword("password");
+        when(userRepo.findByUsername(any(String.class))).thenReturn(null);
+        when(roleRepo.findByName(any(String.class))).thenReturn(role1);
+        UserServiceImpl service = new UserServiceImpl(userRepo, roleRepo);
+
+        String result = service.addUser(userDetailed, model);
+
+        verify(roleRepo, times(2)).findByName(any(String.class));
+        verify(userRepo, times(1)).save(any(User.class));
+        verify(model, times(1)).addAttribute("username", null);
+        verify(model, times(1)).addAttribute("password", null);
+        assertEquals("Konto med användarnamn " + userDetailed.getUsername() + " skapades!", result);
+    }
+
 
     @Test
     void updatePassword() {
