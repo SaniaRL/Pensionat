@@ -87,7 +87,6 @@ public class UserServiceImpl implements UserService {
                         userDTO.getUsername()).getUsername(), model.getAttribute("originalUsername"))) {
             return userDTO.getUsername() + " är upptaget.";
         }
-        System.out.println("ROLES: " + userDTO.getRoles());
         if (userDTO.getRoles().isEmpty()) {
             return "Välj minst en av rollerna.";
         }
