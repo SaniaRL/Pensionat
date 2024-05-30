@@ -1,4 +1,4 @@
-package com.example.pensionat.services.impl;
+package com.example.pensionat.services.impl.unit;
 
 import com.example.pensionat.dtos.SimpleRoleDTO;
 import com.example.pensionat.models.Role;
