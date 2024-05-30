@@ -1,7 +1,7 @@
 package com.example.pensionat.services.convert;
 
-import com.example.pensionat.dtos.RoomDTO;
-import com.example.pensionat.dtos.SimpleOrderLineDTO;
+import com.example.pensionat.dtos.room.RoomDTO;
+import com.example.pensionat.dtos.orderline.SimpleOrderLineDTO;
 import com.example.pensionat.enums.RoomType;
 import com.example.pensionat.models.Room;
 import org.junit.jupiter.api.Test;

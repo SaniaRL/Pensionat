@@ -1,8 +1,8 @@
 package com.example.pensionat.services.impl.unit;
 
-import com.example.pensionat.dtos.AllCustomersDTO;
-import com.example.pensionat.dtos.ContractCustomerDTO;
-import com.example.pensionat.dtos.DetailedContractCustomerDTO;
+import com.example.pensionat.dtos.contractcustomer.AllCustomersDTO;
+import com.example.pensionat.dtos.contractcustomer.ContractCustomerDTO;
+import com.example.pensionat.dtos.contractcustomer.DetailedContractCustomerDTO;
 import com.example.pensionat.models.customers;
 import com.example.pensionat.repositories.ContractCustomersRepo;
 import com.example.pensionat.services.convert.ContractCustomerConverter;

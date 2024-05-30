@@ -1,8 +1,8 @@
 package com.example.pensionat.services.convert;
 
-import com.example.pensionat.dtos.DetailedRoomDTO;
-import com.example.pensionat.dtos.RoomDTO;
-import com.example.pensionat.dtos.SimpleOrderLineDTO;
+import com.example.pensionat.dtos.room.DetailedRoomDTO;
+import com.example.pensionat.dtos.room.RoomDTO;
+import com.example.pensionat.dtos.orderline.SimpleOrderLineDTO;
 import com.example.pensionat.models.Room;
 
 public class RoomConverter {

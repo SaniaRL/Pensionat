@@ -1,8 +1,8 @@
 package com.example.pensionat.services.impl;
 
-import com.example.pensionat.dtos.AllCustomersDTO;
-import com.example.pensionat.dtos.ContractCustomerDTO;
-import com.example.pensionat.dtos.DetailedContractCustomerDTO;
+import com.example.pensionat.dtos.contractcustomer.AllCustomersDTO;
+import com.example.pensionat.dtos.contractcustomer.ContractCustomerDTO;
+import com.example.pensionat.dtos.contractcustomer.DetailedContractCustomerDTO;
 import com.example.pensionat.models.allcustomers;
 import com.example.pensionat.models.customers;
 import com.example.pensionat.repositories.ContractCustomersRepo;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
 
 

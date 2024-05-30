@@ -1,16 +1,13 @@
 package com.example.pensionat.services.interfaces;
 
-import com.example.pensionat.dtos.AllCustomersDTO;
-import com.example.pensionat.dtos.ContractCustomerDTO;
-import com.example.pensionat.dtos.DetailedContractCustomerDTO;
-import com.example.pensionat.models.allcustomers;
+import com.example.pensionat.dtos.contractcustomer.AllCustomersDTO;
+import com.example.pensionat.dtos.contractcustomer.ContractCustomerDTO;
+import com.example.pensionat.dtos.contractcustomer.DetailedContractCustomerDTO;
 import com.example.pensionat.models.customers;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
 
 public interface ContractCustomerService {

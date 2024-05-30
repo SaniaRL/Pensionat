@@ -1,6 +1,6 @@
 package com.example.pensionat.controllers;
 
-import com.example.pensionat.dtos.SimpleOrderLineDTO;
+import com.example.pensionat.dtos.orderline.SimpleOrderLineDTO;
 import com.example.pensionat.models.Booking;
 import com.example.pensionat.models.OrderLine;
 import com.example.pensionat.models.Room;

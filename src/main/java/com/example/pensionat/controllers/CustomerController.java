@@ -1,7 +1,7 @@
 package com.example.pensionat.controllers;
 
-import com.example.pensionat.dtos.SimpleBlacklistCustomerDTO;
-import com.example.pensionat.dtos.SimpleCustomerDTO;
+import com.example.pensionat.dtos.blacklist.SimpleBlacklistCustomerDTO;
+import com.example.pensionat.dtos.customer.SimpleCustomerDTO;
 import com.example.pensionat.services.interfaces.BookingService;
 import com.example.pensionat.services.interfaces.CustomerService;
 import lombok.RequiredArgsConstructor;

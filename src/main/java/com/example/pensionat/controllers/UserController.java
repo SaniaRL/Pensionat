@@ -1,8 +1,8 @@
 package com.example.pensionat.controllers;
 
-import com.example.pensionat.dtos.DetailedUserDTO;
+import com.example.pensionat.dtos.user.DetailedUserDTO;
 import com.example.pensionat.dtos.SimpleRoleDTO;
-import com.example.pensionat.dtos.SimpleUserDTO;
+import com.example.pensionat.dtos.user.SimpleUserDTO;
 import com.example.pensionat.services.interfaces.RoleService;
 import com.example.pensionat.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;

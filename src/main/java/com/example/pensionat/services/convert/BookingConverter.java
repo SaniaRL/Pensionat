@@ -1,8 +1,8 @@
 package com.example.pensionat.services.convert;
 
-import com.example.pensionat.dtos.BookingDTO;
-import com.example.pensionat.dtos.DetailedBookingDTO;
-import com.example.pensionat.dtos.SimpleCustomerDTO;
+import com.example.pensionat.dtos.booking.BookingDTO;
+import com.example.pensionat.dtos.booking.DetailedBookingDTO;
+import com.example.pensionat.dtos.customer.SimpleCustomerDTO;
 import com.example.pensionat.models.Booking;
 import com.example.pensionat.models.Customer;
 import org.springframework.stereotype.Component;

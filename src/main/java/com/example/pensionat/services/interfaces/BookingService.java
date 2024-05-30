@@ -1,7 +1,7 @@
 package com.example.pensionat.services.interfaces;
 
 import com.example.pensionat.dtos.BookingData;
-import com.example.pensionat.dtos.DetailedBookingDTO;
+import com.example.pensionat.dtos.booking.DetailedBookingDTO;
 
 
 import java.util.List;
