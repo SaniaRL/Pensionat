@@ -54,7 +54,6 @@ class BookingServiceImplTest {
     private OrderLineServicelmpl orderLineService;
     @Mock
     private OrderLineRepo orderLineRepo;
-//    @InjectMocks
     BookingServiceImpl bookingServiceImpl;
     @MockBean
     private JavaMailSender emailSender;
