@@ -1,0 +1,196 @@
+package com.example.pensionat.controllers;
+
+import com.example.pensionat.dtos.SimpleRoleDTO;
+import com.example.pensionat.dtos.user.DetailedUserDTO;
+import com.example.pensionat.dtos.user.SimpleUserDTO;
+import com.example.pensionat.models.Role;
+import com.example.pensionat.models.User;
+import com.example.pensionat.services.interfaces.RoleService;
+import com.example.pensionat.services.interfaces.UserService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.ui.Model;
+
+import java.io.IOException;
+import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@WithMockUser(username="admin", roles={"USER", "ADMIN"})
+class UserControllerTest {
+
+    @Autowired
+    private MockMvc mvc;
+
+    @Autowired
+    private UserController userController;
+
+    @MockBean
+    private UserService userService;
+
+    @MockBean
+    private RoleService roleService;
+
+    @Mock
+    private Model model;
+
+    String username = "admin@mail.com";
+    Collection<User> users = new ArrayList<>();
+    Role role1 = new Role(UUID.fromString("f47ac10b-58cc-4372-a567-0e02b2c3d479"), "Admin", users);
+    Role role2 = new Role(UUID.fromString("550e8400-e29b-41d4-a716-446655440000"), "Receptionist", users);
+    Collection<Role> roles = new ArrayList<>(Arrays.asList(role1, role2));
+    SimpleRoleDTO roleDto1 = new SimpleRoleDTO("Admin");
+    SimpleRoleDTO roleDto2 = new SimpleRoleDTO("Receptionist");
+    Collection<SimpleRoleDTO> rolesDto1 = new ArrayList<>(Arrays.asList(roleDto1, roleDto2));
+    Collection<SimpleRoleDTO> rolesDto2 = new ArrayList<>();
+
+    User user1 = new User(UUID.fromString("123e4567-e89b-12d3-a456-556642440000"), username, "password",
+            true, null, null, roles);
+    SimpleUserDTO userDto1 = new SimpleUserDTO(UUID.fromString("123e4567-e89b-12d3-a456-556642440000"),
+            username, true, rolesDto1);
+    SimpleUserDTO userDto2 = new SimpleUserDTO(UUID.fromString("632e8400-e29b-41d4-a716-446655440000"),
+            username, true, rolesDto2);
+    DetailedUserDTO userDetailed = new DetailedUserDTO(username, "   ", true, rolesDto1);
+
+    private void mockAddToModel(Model model, Page<SimpleUserDTO> page) {
+        model.addAttribute("allCustomers", page.getContent());
+        model.addAttribute("currentPage", page.getNumber() + 1);
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("totalPages", page.getTotalPages());
+    }
+
+    @BeforeEach
+    void init() {
+        MockitoAnnotations.initMocks(this);
+        Page<SimpleUserDTO> mockPage = new PageImpl<>(List.of(userDto1));
+        when(userService.getSimpleUserDtoByUsername(anyString())).thenReturn(userDto1);
+        when(roleService.getAllRoles()).thenReturn((List<SimpleRoleDTO>) rolesDto1);
+        when(userService.updateUser(any(SimpleUserDTO.class), model)).thenReturn("Användaren är uppdaterad");
+
+        //when(userService.getCustomerByEmail(anyString())).thenReturn(customer);
+        //when(userService.removeCustomerById(anyLong())).thenReturn("Kund borta");
+
+        doAnswer(invocation -> {
+            Model model = invocation.getArgument(1);
+            mockAddToModel(model, mockPage);
+            return null;
+        }).when(userService).addToModel(anyInt(), any(Model.class));
+
+        doAnswer(invocation -> {
+            String search = invocation.getArgument(0);
+            int currentPage = invocation.getArgument(1);
+            Model model = invocation.getArgument(2);
+            mockAddToModel(model, new PageImpl<>(List.of(userDto1), PageRequest.of(currentPage - 1, 5), 1));
+            return null;
+        }).when(userService).addToModelUserSearch(anyString(), anyInt(), any(Model.class));
+    }
+
+    @Test
+    public void testHandleUsers() {
+        String viewName = userController.handleUsers(model);
+        assertEquals("handleUserAccounts", viewName);
+        verify(userService, times(1)).addToModel(anyInt(), eq(model));
+    }
+
+    @Test
+    public void testHandleByPage() {
+        String viewName = userController.handleByPage(model, 2);
+        assertEquals("handleUserAccounts", viewName);
+        verify(userService, times(1)).addToModel(eq(2), eq(model));
+    }
+
+    @Test
+    public void testDeleteUserByUsername() {
+        String viewName = userController.deleteUserByUsername("testuser", model);
+        assertEquals("redirect:/user/", viewName);
+        verify(userService, times(1)).deleteUserByUsername(eq("testuser"));
+    }
+
+    @Test
+    public void testEditUser() {
+        SimpleUserDTO userDTO = new SimpleUserDTO();
+        when(userService.getSimpleUserDtoByUsername(anyString())).thenReturn(userDTO);
+        List<SimpleRoleDTO> roles = new ArrayList<>();
+        when(roleService.getAllRoles()).thenReturn(roles);
+
+        String viewName = userController.editUser("testuser", model);
+        assertEquals("updateUserAccount", viewName);
+        assertEquals("testuser", model.getAttribute("originalUsername"));
+        assertEquals(userDTO, model.getAttribute("user"));
+        assertEquals(roles, model.getAttribute("selectableRoles"));
+
+        verify(userService, times(1)).getSimpleUserDtoByUsername(eq("testuser"));
+        verify(roleService, times(1)).getAllRoles();
+    }
+
+    @Test
+    public void testUpdateUser() {
+        SimpleUserDTO userDTO = new SimpleUserDTO();
+        when(userService.updateUser(any(SimpleUserDTO.class), any(Model.class))).thenReturn("status");
+        when(userService.getSimpleUserDtoByUsername(anyString())).thenReturn(userDTO);
+        List<SimpleRoleDTO> roles = new ArrayList<>();
+        when(roleService.getAllRoles()).thenReturn(roles);
+
+        String viewName = userController.updateUser(userDTO, "originalUser", model);
+        assertEquals("updateUserAccount", viewName);
+        assertEquals("originalUser", model.getAttribute("originalUsername"));
+        assertEquals("status", model.getAttribute("status"));
+
+        verify(userService, times(1)).updateUser(eq(userDTO), eq(model));
+    }
+
+    @Test
+    public void testShowCreateUserAccountForm() {
+        List<SimpleRoleDTO> roles = new ArrayList<>();
+        when(roleService.getAllRoles()).thenReturn(roles);
+
+        String viewName = userController.showCreateUserAccountForm(model);
+        assertEquals("createUserAccount", viewName);
+        assertEquals(roles, model.getAttribute("selectableRoles"));
+
+        verify(roleService, times(1)).getAllRoles();
+    }
+
+    @Test
+    public void testAddUser() {
+        DetailedUserDTO userDTO = new DetailedUserDTO();
+        when(userService.addUser(any(DetailedUserDTO.class), any(Model.class))).thenReturn("status");
+        List<SimpleRoleDTO> roles = new ArrayList<>();
+        when(roleService.getAllRoles()).thenReturn(roles);
+
+        String viewName = userController.addUser(userDTO, model);
+        assertEquals("createUserAccount", viewName);
+        assertEquals("status", model.getAttribute("status"));
+
+        verify(userService, times(1)).addUser(eq(userDTO), eq(model));
+    }
+
+    @Test
+    public void testUserSearch() throws IOException {
+        String viewName = userController.userSearch("test", model);
+        assertEquals("handleUserAccounts", viewName);
+        verify(userService, times(1)).addToModelUserSearch(eq("test"), anyInt(), eq(model));
+    }
+
+    @Test
+    public void testUserSearchByPage() throws IOException {
+        String viewName = userController.userSearchByPage("test", model, 2);
+        assertEquals("handleUserAccounts", viewName);
+        verify(userService, times(1)).addToModelUserSearch(eq("test"), eq(2), eq(model));
+    }
+}
