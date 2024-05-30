@@ -1,21 +1,16 @@
-package com.example.pensionat.dtos;
+package com.example.pensionat.dtos.blacklist;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DetailedBlacklistCustomerDTO {
-    private int id;
-    private String email;
+public class SimpleBlacklistCustomerDTO {
     private String name;
-    private String group;
-    private Date created;
+    private String email;
     private Boolean ok;
 }

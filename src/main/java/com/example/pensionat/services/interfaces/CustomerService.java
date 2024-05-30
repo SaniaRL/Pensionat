@@ -1,16 +1,15 @@
 package com.example.pensionat.services.interfaces;
 
-import com.example.pensionat.dtos.BlacklistResponse;
-import com.example.pensionat.dtos.DetailedBlacklistCustomerDTO;
-import com.example.pensionat.dtos.SimpleBlacklistCustomerDTO;
-import com.example.pensionat.dtos.SimpleCustomerDTO;
+import com.example.pensionat.dtos.blacklist.BlacklistResponse;
+import com.example.pensionat.dtos.blacklist.DetailedBlacklistCustomerDTO;
+import com.example.pensionat.dtos.blacklist.SimpleBlacklistCustomerDTO;
+import com.example.pensionat.dtos.customer.SimpleCustomerDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.http.HttpResponse;
 import java.util.List;
 

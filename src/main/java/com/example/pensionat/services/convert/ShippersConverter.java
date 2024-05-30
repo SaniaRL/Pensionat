@@ -1,7 +1,7 @@
 package com.example.pensionat.services.convert;
 
-import com.example.pensionat.dtos.DetailedShippersDTO;
-import com.example.pensionat.dtos.SimpleShippersDTO;
+import com.example.pensionat.dtos.shippers.DetailedShippersDTO;
+import com.example.pensionat.dtos.shippers.SimpleShippersDTO;
 import com.example.pensionat.models.Shippers;
 
 public class ShippersConverter {

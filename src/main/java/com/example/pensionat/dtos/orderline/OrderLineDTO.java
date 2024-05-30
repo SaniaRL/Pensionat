@@ -1,4 +1,4 @@
-package com.example.pensionat.dtos;
+package com.example.pensionat.dtos.orderline;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SimpleOrderLineDTO {
-
-    private Long bookingId;
-    private RoomDTO room;
+public class OrderLineDTO {
+    //Actually RoomId
+    private int id;
+    private String roomType;
     private int extraBeds;
 }

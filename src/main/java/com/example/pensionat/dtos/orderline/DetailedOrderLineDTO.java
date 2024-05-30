@@ -1,5 +1,7 @@
-package com.example.pensionat.dtos;
+package com.example.pensionat.dtos.orderline;
 
+import com.example.pensionat.dtos.booking.DetailedBookingDTO;
+import com.example.pensionat.dtos.room.RoomDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

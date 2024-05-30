@@ -1,7 +1,7 @@
 package com.example.pensionat.controllers;
 
 import com.example.pensionat.dtos.*;
-import com.example.pensionat.models.MailTemplate;
+import com.example.pensionat.dtos.orderline.OrderLineDTO;
 import com.example.pensionat.services.impl.BookingServiceImpl;
 
 import com.example.pensionat.services.impl.MailTemplateServiceImpl;

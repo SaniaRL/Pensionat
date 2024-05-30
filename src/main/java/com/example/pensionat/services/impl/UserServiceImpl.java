@@ -1,8 +1,8 @@
 package com.example.pensionat.services.impl;
 
-import com.example.pensionat.dtos.DetailedUserDTO;
+import com.example.pensionat.dtos.user.DetailedUserDTO;
 import com.example.pensionat.dtos.SimpleRoleDTO;
-import com.example.pensionat.dtos.SimpleUserDTO;
+import com.example.pensionat.dtos.user.SimpleUserDTO;
 import com.example.pensionat.models.Role;
 import com.example.pensionat.models.User;
 import com.example.pensionat.repositories.RoleRepo;

@@ -1,12 +1,10 @@
 package com.example.pensionat.services.impl;
 
 import com.example.pensionat.dtos.BookingFormQueryDTO;
-import com.example.pensionat.dtos.DetailedRoomDTO;
-import com.example.pensionat.dtos.RoomDTO;
+import com.example.pensionat.dtos.room.RoomDTO;
 import com.example.pensionat.enums.RoomType;
 import com.example.pensionat.models.Room;
 import com.example.pensionat.repositories.RoomRepo;
-import com.example.pensionat.services.impl.RoomServicelmpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -19,7 +17,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 

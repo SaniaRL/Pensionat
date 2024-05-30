@@ -1,6 +1,6 @@
 package com.example.pensionat.controllers;
 
-import com.example.pensionat.dtos.DetailedContractCustomerDTO;
+import com.example.pensionat.dtos.contractcustomer.DetailedContractCustomerDTO;
 import com.example.pensionat.services.interfaces.ContractCustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;

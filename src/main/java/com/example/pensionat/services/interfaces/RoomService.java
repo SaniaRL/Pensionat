@@ -1,10 +1,9 @@
 package com.example.pensionat.services.interfaces;
 
 import com.example.pensionat.dtos.BookingFormQueryDTO;
-import com.example.pensionat.dtos.DetailedRoomDTO;
-import com.example.pensionat.dtos.RoomDTO;
-import com.example.pensionat.dtos.SimpleOrderLineDTO;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.example.pensionat.dtos.room.DetailedRoomDTO;
+import com.example.pensionat.dtos.room.RoomDTO;
+import com.example.pensionat.dtos.orderline.SimpleOrderLineDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
 

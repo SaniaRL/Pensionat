@@ -1,6 +1,6 @@
 package com.example.pensionat;
 
-import com.example.pensionat.dtos.DetailedShippersDTO;
+import com.example.pensionat.dtos.shippers.DetailedShippersDTO;
 import com.example.pensionat.services.interfaces.ShippersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

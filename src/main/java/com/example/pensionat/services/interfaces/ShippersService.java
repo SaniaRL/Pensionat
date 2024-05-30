@@ -1,10 +1,9 @@
 package com.example.pensionat.services.interfaces;
 
-import com.example.pensionat.dtos.DetailedShippersDTO;
-import com.example.pensionat.dtos.SimpleShippersDTO;
+import com.example.pensionat.dtos.shippers.DetailedShippersDTO;
+import com.example.pensionat.dtos.shippers.SimpleShippersDTO;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 public interface ShippersService {
     SimpleShippersDTO getShippersById(Long id);
