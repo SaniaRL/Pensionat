@@ -18,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
@@ -30,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -149,29 +151,30 @@ class UserControllerTest {
     }
 
     @Test
-    public void testUpdateUser() {
-        SimpleUserDTO userDTO = new SimpleUserDTO();
-        when(userService.updateUser(any(SimpleUserDTO.class), any(Model.class))).thenReturn("status");
-        when(userService.getSimpleUserDtoByUsername(anyString())).thenReturn(userDTO);
-        List<SimpleRoleDTO> roles = new ArrayList<>();
-        when(roleService.getAllRoles()).thenReturn(roles);
+    public void updateUser() throws Exception {
+        this.mvc.perform(post("/user/update")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("id", String.valueOf(userDto1.getId()))
+                        .param("username", userDto1.getUsername())
+                        .param("enabled", String.valueOf(userDto1.getEnabled()))
+                        .param("roles", roleDto1.getName())
+                        .param("roles", roleDto2.getName())
+                        .param("originalUsername", username))
+                .andExpect(status().isOk())
+                .andExpect(view().name("updateUserAccount"))
+                .andExpect(model().attribute("status", "Konto med användarnamn " + userDto1.getUsername()
+                                                + " uppdaterades!"))
+                .andExpect(model().attribute("originalUsername", username));
 
-        String viewName = controller.updateUser(userDTO, "originalUser", model);
-        assertEquals("updateUserAccount", viewName);
-        assertEquals("originalUser", model.getAttribute("originalUsername"));
-        assertEquals("status", model.getAttribute("status"));
-
-        verify(userService, times(1)).updateUser(eq(userDTO), eq(model));
+        verify(userService, times(1)).updateUser(eq(userDto1), any(Model.class));
     }
 
     @Test
-    public void testShowCreateUserAccountForm() {
-        List<SimpleRoleDTO> roles = new ArrayList<>();
-        when(roleService.getAllRoles()).thenReturn(roles);
-
-        String viewName = controller.showCreateUserAccountForm(model);
-        assertEquals("createUserAccount", viewName);
-        assertEquals(roles, model.getAttribute("selectableRoles"));
+    public void testShowCreateUserAccountForm() throws Exception {
+        this.mvc.perform(get("/user/create"))
+                        .andExpect(status().isOk())
+                        .andExpect(view().name("createUserAccount"))
+                        .andExpect(model().attribute("selectableRoles", rolesDto1));
 
         verify(roleService, times(1)).getAllRoles();
     }
