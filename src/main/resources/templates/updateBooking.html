@@ -83,6 +83,8 @@
                         <td></td>
                     </tr>
                     </thead>
+                    <tbody id="ChosenList" class="show-rooms">
+                    <tr th:each="orderLine : ${chosenRooms}" class="room-row-av room-av-row">
                     <td class="room-id" th:text="${orderLine.room.id}"></td>
                     <td class="room-type" th:text="${orderLine.room.roomType.roomType}"></td>
                     <td>
