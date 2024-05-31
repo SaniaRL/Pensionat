@@ -70,13 +70,10 @@ public class ContractCustomerServiceImplTestIT {
 
         sut = new ContractCustomerServiceImpl(contractCustomerRepository, xmlStreamProvider);
 
-        // Arrange
         contractCustomerRepository.deleteAll();
 
-        // Act
         sut.saveAll(sut.fetchContractCustomers().getContractCustomerList());
 
-        //Assert
         assertEquals(3, contractCustomerRepository.count());
     }
 }

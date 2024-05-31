@@ -193,8 +193,8 @@ class CustomerControllerTest {
     void getCustomerByEmailByPage() throws Exception {
         int currentPage = 3;
         this.mvc.perform(get("/customer/")
-                        .param("search", email)  // Corrected from "email" to "search"
-                        .param("page", String.valueOf(currentPage)))  // Correctly adding the "page" parameter
+                        .param("search", email)
+                        .param("page", String.valueOf(currentPage)))
                 .andExpect(status().isOk())
                 .andExpect(view().name("handleCustomers"))
                 .andExpect(model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));

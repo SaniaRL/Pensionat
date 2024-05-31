@@ -52,7 +52,6 @@ public class ContractCustomerServiceImplTest {
 
     @BeforeEach()
     void setup() {
-        //Arrange here ?
         sut = new ContractCustomerServiceImpl(contractCustomersRepo, xmlStreamProvider);
         pageNum = 1;
         pageSize = 1;
@@ -92,7 +91,6 @@ public class ContractCustomerServiceImplTest {
 
         Page<ContractCustomerDTO> result = sut.getAllCustomersSortedPage(pageNum, sortBy, order, pageSize);
 
-        // Assert
         assertNotNull(result);
         assertEquals(customerList.size(), result.getTotalElements());
         assertEquals(customerList.size(), result.getTotalPages());
@@ -157,14 +155,11 @@ public class ContractCustomerServiceImplTest {
 
     @Test
     void whenFetchContractCustomersShouldMapCorrectly() throws IOException {
-        // Arrange
         when(xmlStreamProvider.getDataStream()).thenReturn(getClass().getClassLoader().getResourceAsStream("contract.xml"));
 
-        // Act men också arrange blir galen ju
         AllCustomersDTO result = sut.fetchContractCustomers();
         List<DetailedContractCustomerDTO> resultList = result.getContractCustomerList();
 
-        //Assert
         assertEquals(3, resultList.size());
         assertEquals(1, resultList.get(0).getId());
         assertEquals("Persson Kommanditbolag", resultList.get(0).getCompanyName());
