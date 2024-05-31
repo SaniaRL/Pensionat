@@ -12,23 +12,11 @@
 </head>
 
 <body>
+<div th:replace="~{fragments/NavBar :: navBar('booking', 'bookingSearch')}"></div>
+
 <div class="header booking-header">
     <a class="back-link" href="http://localhost:8080">&#129168;Tillbaka</a>
 </div>
-
-<div class="booking-info-div">
-    <p class="info-header">BOKNING</p>
-    <div class="info-layout">
-        <p class="info-variable">BokningID</p>
-        <p class="booking-info-values" id="booking-id" th:text="${booking.id}"></p>
-        <p class="info-variable">Namn:</p>
-        <p class="booking-info-values" id="booking-name" th:text="${booking.customer.name}"></p>
-        <p class="info-variable">Email:</p>
-        <p class="booking-info-values" id="booking-email" th:text="${booking.customer.email}"></p>
-    </div>
-    <button class="btn" id="delete-booking-btn" onclick="deleteWarning()">AVBOKA</button>
-</div>
-
 <div class="hidden no-div" id="no-div">
     <div class="error-pop-up">
         <p class="pop-up-header">NEJ</p>
@@ -36,7 +24,6 @@
         <button class="ok-btn-pop-up btn" onclick=closePopUp()>OK</button>
     </div>
 </div>
-
 <div th:unless="${#strings.isEmpty(status)}">
     <div class="error-pop-up" id="errorPopup">
         <p class="pop-up-header">Bokningen kan ej genomföras</p>
@@ -44,9 +31,7 @@
         <button class="ok-btn-pop-up btn" onclick="this.parentElement.parentElement.style.display='none';">OK</button>
     </div>
 </div>
-
 <div id="overlay" class="hidden"></div>
-
 <div class="hidden delete-warning">
     <div>
         <p class="delete-title">ÄR DU SÄKER PÅ ATT DU VILL RADERA BOKNING?</p>
@@ -57,50 +42,47 @@
 </div>
 
 <div class="content booking-content">
-
-    <form action="/booking/updateConfirm" method="post">
-        <div class="booking-options">
-            <div class="left">
-                <div>
-                    <label for="start-date" class="label">Check-in</label>
-                    <input type="date" id="start-date" name="startDate" th:value="${startDate != null ? startDate : #dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required></div>
-                <div>
-                    <label for="end-date" class="label">Check-out</label>
-                    <input type="date" id="end-date" name="endDate" th:value="${endDate != null ? endDate : ''}" required></div>
+    <div class="update-booking-friends">
+        <form action="/booking/updateConfirm" method="post">
+            <div class="booking-options">
+                <div class="left">
+                    <div>
+                        <label for="start-date" class="label">Check-in</label>
+                        <input type="date" id="start-date" name="startDate" th:value="${startDate != null ? startDate : #dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required></div>
+                    <div>
+                        <label for="end-date" class="label">Check-out</label>
+                        <input type="date" id="end-date" name="endDate" th:value="${endDate != null ? endDate : ''}" required></div>
+                </div>
+                <div class="right">
+                    <div>
+                        <label for="number-of-beds" class="label-s">Sängar</label>
+                        <input class="nr-input" type="number" id="number-of-beds" name="beds" th:value="${beds != null ? beds : '1'}" min="1" required>
+                    </div>
+                    <div>
+                        <label for="number-of-rooms" class="label-s">Rum</label>
+                        <input class="nr-input" type="number" id="number-of-rooms" name="rooms" th:value="${rooms != null ? rooms : '1'}" min="1" max="12" required>
+                    </div>
+                    <div>
+                        <input type="hidden" name="chosenRooms" th:value="${chosenRooms}">
+                    </div>
+                    <div>
+                        <input class="btn" type="submit" id="submit-booking" name="submit-booking" value="SÖK LEDIGA RUM" onclick="showAvailableRoomsDiv()">
+                    </div>
+                </div>
             </div>
-            <div class="right">
-                <div>
-                    <label for="number-of-beds" class="label-s">Sängar</label>
-                    <input class="nr-input" type="number" id="number-of-beds" name="beds" th:value="${beds != null ? beds : '1'}" min="1" required>
-                </div>
-                <div>
-                    <label for="number-of-rooms" class="label-s">Rum</label>
-                    <input class="nr-input" type="number" id="number-of-rooms" name="rooms" th:value="${rooms != null ? rooms : '1'}" min="1" max="12" required>
-                </div>
-                <div>
-                    <input type="hidden" name="chosenRooms" th:value="${chosenRooms}">
-                </div>
-                <div>
-                    <input class="btn" type="submit" id="submit-booking" name="submit-booking" value="SÖK LEDIGA RUM" onclick="showAvailableRoomsDiv()">
-                </div>
-            </div>
-        </div>
-    </form>
-
-    <div id="update-booking-chosen-rooms" >
-        <div class="scroll-shit">
-            <p class="title-booking">BOKNING</p>
-            <table>
-                <thead>
-                <tr class="header-rooms-idk">
-                    <td id="room-id-c">ID:</td>
-                    <td id="room-type-c">Rum:</td>
-                    <td id="default-beds-c">Sängar:</td>
-                    <td></td>
-                </tr>
-                </thead>
-                <tbody id="ChosenList" class="show-rooms">
-                <tr th:each="orderLine : ${chosenRooms}" class="room-row-av room-av-row">
+        </form>
+        <div id="update-booking-chosen-rooms" >
+            <div class="scroll-shit">
+                <p class="title-booking">BOKNING</p>
+                <table>
+                    <thead>
+                    <tr class="header-rooms-idk">
+                        <td id="room-id-c">ID:</td>
+                        <td id="room-type-c">Rum:</td>
+                        <td id="default-beds-c">Sängar:</td>
+                        <td></td>
+                    </tr>
+                    </thead>
                     <td class="room-id" th:text="${orderLine.room.id}"></td>
                     <td class="room-type" th:text="${orderLine.room.roomType.roomType}"></td>
                     <td>
@@ -113,51 +95,71 @@
                     <td class="remove-room-btn remove-add-btn">
                         <img src="/images/white_delete.png" alt="Remove" />
                     </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-
-    <div>
-        <div id="update-booking-empty-rooms" th:style="${#lists.isEmpty(availableRooms) ? 'display:none' : 'display:flex'}" >
-            <div class="scroll-shit">
-                <p class="title-booking">LEDIGA RUM</p>
-                <table>
-                    <thead>
-                    <tr class="header-rooms-idk">
-                        <td id="room-id">ID:</td>
-                        <td id="room-type">Rum:</td>
-                        <td id="default-beds">Sängar:</td>
-                        <td></td>
-                    </tr>
-                    </thead>
-                    <tbody id="AvailableList" class="show-rooms">
-                    <tr th:each="orderLine : ${availableRooms}" class="room-row-av room-chosen-row">
-                        <td class="room-id" th:text="${orderLine.room.id}"></td>
-                        <td class="room-type" th:text="${orderLine.room.roomType.roomType}"></td>
-                        <td>
-                            <label>
-                                <input class="bed-number" type="number" th:value="${orderLine.extraBeds}"
-                                       th:min="${orderLine.room.roomType.defaultNumberOfBeds}"
-                                       th:max="${orderLine.room.roomType.maxNumberOfBeds}">
-                            </label>
-                        </td>
-                        <td class="add-room-btn remove-add-btn">
-                            <img src="/images/white_plus.png" alt="Add" /></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-        <div><button class="booking-booking-btn btn" onclick=validateBooking()>BOKA</button></div>
-<!--        <div th:unless="${result.isEmpty()}">-->
-<!--            <div th:each="res : ${result}">-->
-<!--            </div>-->
-<!--        </div>-->
+        <div>
+            <div id="update-booking-empty-rooms" th:style="${#lists.isEmpty(availableRooms) ? 'display:none' : 'display:flex'}" >
+                <div class="scroll-shit">
+                    <p class="title-booking">LEDIGA RUM</p>
+                    <table>
+                        <thead>
+                        <tr class="header-rooms-idk">
+                            <td id="room-id">ID:</td>
+                            <td id="room-type">Rum:</td>
+                            <td id="default-beds">Sängar:</td>
+                            <td></td>
+                        </tr>
+                        </thead>
+                        <tbody id="AvailableList" class="show-rooms">
+                        <tr th:each="orderLine : ${availableRooms}" class="room-row-av room-chosen-row">
+                            <td class="room-id" th:text="${orderLine.room.id}"></td>
+                            <td class="room-type" th:text="${orderLine.room.roomType.roomType}"></td>
+                            <td>
+                                <label>
+                                    <input class="bed-number" type="number" th:value="${orderLine.extraBeds}"
+                                           th:min="${orderLine.room.roomType.defaultNumberOfBeds}"
+                                           th:max="${orderLine.room.roomType.maxNumberOfBeds}">
+                                </label>
+                            </td>
+                            <td class="add-room-btn remove-add-btn">
+                                <img src="/images/white_plus.png" alt="Add" /></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div><button class="booking-booking-btn btn" onclick=validateBooking()>BOKA</button></div>
+            <!--        <div th:unless="${result.isEmpty()}">-->
+            <!--            <div th:each="res : ${result}">-->
+            <!--            </div>-->
+            <!--        </div>-->
+        </div>
+
+
+
+
+
     </div>
+
+    <div class="booking-info-div">
+        <p class="info-header">BOKNING</p>
+        <div class="info-layout">
+            <p class="info-variable">BokningID</p>
+            <p class="booking-info-values" id="booking-id" th:text="${booking.id}"></p>
+            <p class="info-variable">Namn:</p>
+            <p class="booking-info-values" id="booking-name" th:text="${booking.customer.name}"></p>
+            <p class="info-variable">Email:</p>
+            <p class="booking-info-values" id="booking-email" th:text="${booking.customer.email}"></p>
+        </div>
+        <button class="btn" id="delete-booking-btn" onclick="deleteWarning()">AVBOKA</button>
+    </div>
+
+
 </div>
 <script th:src="@{/js/updateBookingScript.js}"></script>
+<script th:src="@{/js/menuExpand.js}"></script>
 </body>
 </html>

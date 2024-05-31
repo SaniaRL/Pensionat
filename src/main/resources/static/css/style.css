@@ -128,8 +128,8 @@ body {
 }
 
 .booking-content {
-    display: grid;
-    grid-template-rows: 1fr 230px 230px;
+    display: flex;
+    flex-direction: row;
     grid-gap: 6px;
     width: 600px;
     margin: 20px auto;
@@ -357,10 +357,8 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .booking-info-div {
-    position: absolute;
-    left: 180px;
-    top: 80px;
     width: 220px;
+    height: 450px;
     display: grid;
     grid-template-rows: 80px 1fr 80px;
     background-color: #d1d3d4;
@@ -418,6 +416,7 @@ input[type=number]::-webkit-inner-spin-button {
     border-radius: 12px;
     color: #4f4b6a;
     padding: 10px;
+    margin: 10px 0;
 }
 
 .booking-search-div {
