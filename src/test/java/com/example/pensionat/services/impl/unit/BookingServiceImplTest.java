@@ -1,4 +1,4 @@
-package com.example.pensionat.services.impl;
+package com.example.pensionat.services.impl.unit;
 
 import com.example.pensionat.dtos.*;
 import com.example.pensionat.dtos.booking.BookingDTO;
@@ -14,6 +14,9 @@ import com.example.pensionat.models.Customer;
 import com.example.pensionat.repositories.BookingRepo;
 import com.example.pensionat.repositories.CustomerRepo;
 import com.example.pensionat.repositories.OrderLineRepo;
+import com.example.pensionat.services.impl.BookingServiceImpl;
+import com.example.pensionat.services.impl.OrderLineServicelmpl;
+import com.example.pensionat.services.impl.RoomServicelmpl;
 import com.example.pensionat.services.interfaces.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,10 +1,11 @@
-package com.example.pensionat.services.impl;
+package com.example.pensionat.services.impl.unit;
 
 import com.example.pensionat.dtos.BookingFormQueryDTO;
 import com.example.pensionat.dtos.room.RoomDTO;
 import com.example.pensionat.enums.RoomType;
 import com.example.pensionat.models.Room;
 import com.example.pensionat.repositories.RoomRepo;
+import com.example.pensionat.services.impl.RoomServicelmpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -35,17 +36,6 @@ class RoomServicelmplTest {
 
     Long roomId = 301L;
     Room room = new Room(roomId, 2);
-
-
-    @Test
-    void addToModel() {
-
-    }
-
-    @Test
-    void getAllRoomsPage() {
-
-    }
 
     @Test
     void getRoomByID() {
@@ -102,6 +92,5 @@ class RoomServicelmplTest {
         expected = "";
         actual = service.enoughRooms(query6, queryRooms);
         assertEquals(expected, actual);
-
     }
 }

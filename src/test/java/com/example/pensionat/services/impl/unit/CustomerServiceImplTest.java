@@ -1,4 +1,4 @@
-package com.example.pensionat.services.impl;
+package com.example.pensionat.services.impl.unit;
 
 import com.example.pensionat.dtos.blacklist.BlacklistResponse;
 import com.example.pensionat.dtos.blacklist.DetailedBlacklistCustomerDTO;
@@ -7,6 +7,7 @@ import com.example.pensionat.dtos.customer.CustomerDTO;
 import com.example.pensionat.dtos.customer.SimpleCustomerDTO;
 import com.example.pensionat.models.Customer;
 import com.example.pensionat.repositories.CustomerRepo;
+import com.example.pensionat.services.impl.CustomerServiceImpl;
 import com.example.pensionat.services.providers.BlacklistStreamAndUrlProvider;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.BeforeEach;
@@ -224,11 +225,6 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void getBlacklistPage() {
-
-    }
-
-    @Test
     void whenGetBlacklistShouldReturnCorrectObject() throws IOException {
         array[0] = detailedBlacklistCustomer;
         CustomerServiceImpl service = new CustomerServiceImpl(customerRepo, provider);
@@ -260,30 +256,5 @@ class CustomerServiceImplTest {
         assertInstanceOf(Date.class, actual[2].getCreated());
         assertInstanceOf(Date.class, detailedBlacklistCustomer.getCreated());
         assertEquals(actual[2].getOk(), detailedBlacklistCustomer.getOk());
-    }
-
-    @Test
-    void makeHttpRequest() {
-
-    }
-
-    @Test
-    void addToModelBlacklist() {
-
-    }
-
-    @Test
-    void addToModelBlacklistSearch() {
-
-    }
-
-    @Test
-    void getBlacklistBySearch() {
-
-    }
-
-    @Test
-    void getCustomerFromBlacklistByEmail() {
-
     }
 }

@@ -1,4 +1,4 @@
-package com.example.pensionat.services.impl;
+package com.example.pensionat.services.impl.unit;
 
 import com.example.pensionat.dtos.booking.DetailedBookingDTO;
 import com.example.pensionat.dtos.customer.SimpleCustomerDTO;
@@ -12,6 +12,7 @@ import com.example.pensionat.models.OrderLine;
 import com.example.pensionat.models.Room;
 import com.example.pensionat.repositories.BookingRepo;
 import com.example.pensionat.repositories.OrderLineRepo;
+import com.example.pensionat.services.impl.OrderLineServicelmpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

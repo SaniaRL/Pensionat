@@ -184,28 +184,4 @@ class UserServiceImplTest {
                 savedUser.getResetToken() == null && savedUser.getResetTokenExpire() == null
         ));
     }
-
-    @Test
-    void addToModel() {
-    }
-
-    @Test
-    void addToModelUserSearch() {
-    }
-
-    @Test
-    void getAllUsersPage() {
-    }
-
-    @Test
-    void getSimpleUserDtoByUsername() {
-    }
-
-    @Test
-    void getUsersBySearch() {
-    }
-
-    @Test
-    void deleteUserByUsername() {
-    }
 }

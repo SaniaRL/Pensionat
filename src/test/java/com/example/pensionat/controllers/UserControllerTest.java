@@ -210,7 +210,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void testUserSearchByPage() throws Exception {
+    public void userSearchByPage() throws Exception {
         int currentPage = 2;
         this.mvc.perform(get("/user/")
                         .param("search", username)

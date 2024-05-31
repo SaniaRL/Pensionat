@@ -114,7 +114,6 @@ public class ContractCustomerServiceImplTest {
         verify(contractCustomersRepo, times(1)).findById(customerId);
     }
 
-    //Fundera på om vi verkligen ska ha denna - är det värt att testa? Idk. Inget känns på riktigt.
     @Test
     void getCustomerByIdWhenCustomerIsNull() {
         long customerId = 1000L;
@@ -148,9 +147,7 @@ public class ContractCustomerServiceImplTest {
             assertEquals(1, model.getAttribute("totalPages"));
         } catch (Exception e) {
             //TODO Flera olika exceptions ??? Inga exceptions ???
-
         }
-
     }
 
     @Test
@@ -185,5 +182,4 @@ public class ContractCustomerServiceImplTest {
 
         verify(contractCustomersRepo, times(1)).saveAll(any());
     }
-
 }

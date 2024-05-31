@@ -1,4 +1,4 @@
-package com.example.pensionat.services.impl;
+package com.example.pensionat.services.impl.unit;
 
 import com.example.pensionat.dtos.MailTemplateDTO;
 import com.example.pensionat.models.MailTemplate;
