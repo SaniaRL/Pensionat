@@ -435,10 +435,31 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .customer-search {
-    width: 300px;
-    border-radius: 8px;
-    font-size: 20px;
     height: 35px;
+    width: 300px;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    margin-bottom: 10px;
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 6px;
+    font-size: 16px;
+    input {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        height: 100%;
+        padding: 6px;
+    }
+}
+
+.search-clear {
+    cursor: pointer;
+    padding-right: 2px;
+    text-decoration: none;
+    color: inherit !important;
+    transition: none !important;
 }
 
 .search-customer-button {

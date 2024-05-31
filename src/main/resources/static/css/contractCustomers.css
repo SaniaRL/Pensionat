@@ -66,33 +66,6 @@ td {
     border-bottom: none;
 }
 
-.customer-search {
-    margin-bottom: 10px;
-    border: 2px solid black;
-    border-radius: 4px;
-    padding: 6px 0 6px 0;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    background-color: white;
-
-    input {
-        background-color: transparent;
-        border: none;
-        outline: none;
-        height: 100%;
-        padding: 6px;
-    }
-}
-
-.search-clear {
-    cursor: pointer;
-    padding-right: 2px;
-    text-decoration: none;
-    color: inherit !important;
-    transition: none !important;
-}
-
 .search-customer-button {
     display: none;
 }
