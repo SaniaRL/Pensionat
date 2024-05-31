@@ -72,7 +72,7 @@ body {
     margin-bottom: 20px;
     padding: 10px;
     border-radius: 8px; /* Rundade hörn */
-    font-size: 18px;
+    font-size: 14px;
 }
 
 
@@ -342,19 +342,18 @@ input[type=number]::-webkit-inner-spin-button {
     background-color: #d1d3d4;
     border: 3px solid #4f4b6a;
     border-radius: 12px;
-    width: 600px;
+    width: 400px;
     padding: 30px;
 }
 
 .con-btn {
     background-color: #4f4b6a;
     color: white;
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 600;
     border-radius: 8px;
-    padding: 8px;
-    width: 200px;
-    margin-left: 395px;
+    padding: 20px;
+    align-self: end;
 }
 
 .booking-info-div {
