@@ -23,11 +23,9 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
 
-import java.io.IOException;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -73,7 +71,7 @@ class UserControllerTest {
     DetailedUserDTO userDetailed = new DetailedUserDTO(username, "   ", true, rolesDto1);
 
     private void mockAddToModel(Model model, Page<SimpleUserDTO> page) {
-        model.addAttribute("allCustomers", page.getContent());
+        model.addAttribute("allUsers", page.getContent());
         model.addAttribute("currentPage", page.getNumber() + 1);
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("totalPages", page.getTotalPages());
@@ -88,7 +86,7 @@ class UserControllerTest {
         when(userService.updateUser(any(SimpleUserDTO.class), any(Model.class))).thenReturn(
                                     "Konto med användarnamn " + userDto1.getUsername() + " uppdaterades!");
         when(userService.addUser(any(DetailedUserDTO.class), any(Model.class))).thenReturn(
-                                    "Konto med användarnamn " + userDto1.getUsername() + " skapades!");
+                                    "Konto med användarnamn " + userDetailed.getUsername() + " skapades!");
 
         doAnswer(invocation -> {
             Model model = invocation.getArgument(1);
@@ -115,7 +113,9 @@ class UserControllerTest {
         this.mvc.perform(get("/user/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("handleUserAccounts"))
-                .andExpect(model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));
+                .andExpect(model().attributeExists("allUsers", "currentPage", "totalItems", "totalPages"));
+
+        verify(userService, times(1)).addToModel(eq(1), any(Model.class));
     }
 
     @Test
@@ -125,7 +125,9 @@ class UserControllerTest {
                 .param("page", String.valueOf(currentPage)))
                 .andExpect(status().isOk())
                 .andExpect(view().name("handleUserAccounts"))
-                .andExpect(model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));
+                .andExpect(model().attributeExists("allUsers", "currentPage", "totalItems", "totalPages"));
+
+        verify(userService, times(1)).addToModel(eq(2), any(Model.class));
     }
 
     @Test
@@ -170,7 +172,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void testShowCreateUserAccountForm() throws Exception {
+    public void showCreateUserAccountForm() throws Exception {
         this.mvc.perform(get("/user/create"))
                         .andExpect(status().isOk())
                         .andExpect(view().name("createUserAccount"))
@@ -180,30 +182,43 @@ class UserControllerTest {
     }
 
     @Test
-    public void testAddUser() {
-        DetailedUserDTO userDTO = new DetailedUserDTO();
-        when(userService.addUser(any(DetailedUserDTO.class), any(Model.class))).thenReturn("status");
-        List<SimpleRoleDTO> roles = new ArrayList<>();
-        when(roleService.getAllRoles()).thenReturn(roles);
+    public void addUser() throws Exception {
+        this.mvc.perform(post("/user/add")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("username", userDetailed.getUsername())
+                        .param("password", userDetailed.getPassword())
+                        .param("enabled", String.valueOf(userDetailed.getEnabled()))
+                        .param("roles", roleDto1.getName())
+                        .param("roles", roleDto2.getName()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("createUserAccount"))
+                .andExpect(model().attribute("status", "Konto med användarnamn " + userDetailed.getUsername()
+                        + " skapades!"));
 
-        String viewName = controller.addUser(userDTO, model);
-        assertEquals("createUserAccount", viewName);
-        assertEquals("status", model.getAttribute("status"));
-
-        verify(userService, times(1)).addUser(eq(userDTO), eq(model));
+        verify(userService, times(1)).addUser(eq(userDetailed), any(Model.class));
     }
 
     @Test
-    public void testUserSearch() throws IOException {
-        String viewName = controller.userSearch("test", model);
-        assertEquals("handleUserAccounts", viewName);
-        verify(userService, times(1)).addToModelUserSearch(eq("test"), anyInt(), eq(model));
+    public void userSearch() throws Exception {
+        this.mvc.perform(get("/user/")
+                .param("search", username))
+                .andExpect(status().isOk())
+                .andExpect(view().name("handleUserAccounts"))
+                .andExpect(model().attributeExists("allUsers", "currentPage", "totalItems", "totalPages"));
+
+        verify(userService, times(1)).addToModelUserSearch(eq(username), eq(1), any(Model.class));
     }
 
     @Test
-    public void testUserSearchByPage() throws IOException {
-        String viewName = controller.userSearchByPage("test", model, 2);
-        assertEquals("handleUserAccounts", viewName);
-        verify(userService, times(1)).addToModelUserSearch(eq("test"), eq(2), eq(model));
+    public void testUserSearchByPage() throws Exception {
+        int currentPage = 2;
+        this.mvc.perform(get("/user/")
+                        .param("search", username)
+                        .param("page", String.valueOf(currentPage)))
+                .andExpect(status().isOk())
+                .andExpect(view().name("handleUserAccounts"))
+                .andExpect(model().attributeExists("allUsers", "currentPage", "totalItems", "totalPages"));
+
+        verify(userService, times(1)).addToModelUserSearch(eq(username), eq(2), any(Model.class));
     }
 }
