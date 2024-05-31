@@ -1,25 +1,25 @@
 package com.example.pensionat.services.impl;
 
 import com.example.pensionat.dtos.*;
+import com.example.pensionat.dtos.booking.BookingDTO;
+import com.example.pensionat.dtos.booking.DetailedBookingDTO;
+import com.example.pensionat.dtos.customer.CustomerDTO;
+import com.example.pensionat.dtos.customer.SimpleCustomerDTO;
+import com.example.pensionat.dtos.orderline.DetailedOrderLineDTO;
+import com.example.pensionat.dtos.orderline.OrderLineDTO;
+import com.example.pensionat.dtos.room.RoomDTO;
 import com.example.pensionat.enums.RoomType;
 import com.example.pensionat.models.Booking;
 import com.example.pensionat.models.Customer;
-import com.example.pensionat.models.OrderLine;
 import com.example.pensionat.repositories.BookingRepo;
 import com.example.pensionat.repositories.CustomerRepo;
 import com.example.pensionat.repositories.OrderLineRepo;
-import com.example.pensionat.services.impl.BookingServiceImpl;
-import com.example.pensionat.services.impl.OrderLineServicelmpl;
-import com.example.pensionat.services.impl.RoomServicelmpl;
 import com.example.pensionat.services.interfaces.CustomerService;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
@@ -54,7 +54,6 @@ class BookingServiceImplTest {
     private OrderLineServicelmpl orderLineService;
     @Mock
     private OrderLineRepo orderLineRepo;
-//    @InjectMocks
     BookingServiceImpl bookingServiceImpl;
     @MockBean
     private JavaMailSender emailSender;

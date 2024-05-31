@@ -1,4 +1,4 @@
-package com.example.pensionat.dtos;
+package com.example.pensionat.dtos.shippers;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,10 @@
 package com.example.pensionat.services.convert;
 
-import com.example.pensionat.dtos.*;
+import com.example.pensionat.dtos.booking.DetailedBookingDTO;
+import com.example.pensionat.dtos.customer.SimpleCustomerDTO;
+import com.example.pensionat.dtos.orderline.DetailedOrderLineDTO;
+import com.example.pensionat.dtos.orderline.SimpleOrderLineDTO;
+import com.example.pensionat.dtos.room.RoomDTO;
 import com.example.pensionat.enums.RoomType;
 import com.example.pensionat.models.Booking;
 import com.example.pensionat.models.Customer;

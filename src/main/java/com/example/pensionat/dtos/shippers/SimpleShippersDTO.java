@@ -1,4 +1,4 @@
-package com.example.pensionat.dtos;
+package com.example.pensionat.dtos.shippers;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SimpleBlacklistCustomerDTO {
-    private String name;
-    private String email;
-    private Boolean ok;
+public class SimpleShippersDTO {
+    private Long id;
+    private String companyName;
+    private String phone;
 }

@@ -1,5 +1,6 @@
-package com.example.pensionat.dtos;
+package com.example.pensionat.dtos.booking;
 
+import com.example.pensionat.dtos.customer.CustomerDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

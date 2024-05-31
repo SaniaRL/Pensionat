@@ -1,6 +1,10 @@
 package com.example.pensionat.services.impl;
 
-import com.example.pensionat.models.Customer;
+import com.example.pensionat.dtos.booking.DetailedBookingDTO;
+import com.example.pensionat.dtos.customer.SimpleCustomerDTO;
+import com.example.pensionat.dtos.orderline.DetailedOrderLineDTO;
+import com.example.pensionat.dtos.orderline.OrderLineDTO;
+import com.example.pensionat.dtos.orderline.SimpleOrderLineDTO;
 import com.example.pensionat.models.OrderLine;
 import com.example.pensionat.repositories.OrderLineRepo;
 import com.example.pensionat.services.convert.OrderLineConverter;
@@ -8,12 +12,10 @@ import com.example.pensionat.services.interfaces.BookingService;
 import com.example.pensionat.services.interfaces.CustomerService;
 import com.example.pensionat.models.Booking;
 import com.example.pensionat.repositories.BookingRepo;
-import com.example.pensionat.repositories.CustomerRepo;
 import com.example.pensionat.dtos.*;
 import com.example.pensionat.services.convert.BookingConverter;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;

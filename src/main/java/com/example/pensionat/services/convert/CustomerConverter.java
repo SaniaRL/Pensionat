@@ -1,9 +1,9 @@
 package com.example.pensionat.services.convert;
 
-import com.example.pensionat.dtos.CustomerDTO;
-import com.example.pensionat.dtos.SimpleCustomerDTO;
-import com.example.pensionat.dtos.SimpleBlacklistCustomerDTO;
-import com.example.pensionat.dtos.DetailedBlacklistCustomerDTO;
+import com.example.pensionat.dtos.customer.CustomerDTO;
+import com.example.pensionat.dtos.customer.SimpleCustomerDTO;
+import com.example.pensionat.dtos.blacklist.SimpleBlacklistCustomerDTO;
+import com.example.pensionat.dtos.blacklist.DetailedBlacklistCustomerDTO;
 import com.example.pensionat.models.Customer;
 
 public class CustomerConverter {

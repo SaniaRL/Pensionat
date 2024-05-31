@@ -1,7 +1,7 @@
 package com.example.pensionat.services.interfaces;
 
-import com.example.pensionat.dtos.DetailedOrderLineDTO;
-import com.example.pensionat.dtos.SimpleOrderLineDTO;
+import com.example.pensionat.dtos.orderline.DetailedOrderLineDTO;
+import com.example.pensionat.dtos.orderline.SimpleOrderLineDTO;
 import com.example.pensionat.models.OrderLine;
 
 import java.util.List;

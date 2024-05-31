@@ -1,12 +1,10 @@
-package com.example.pensionat.dtos;
+package com.example.pensionat.dtos.room;
 
 import com.example.pensionat.enums.RoomType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
 
 @Data
 @NoArgsConstructor

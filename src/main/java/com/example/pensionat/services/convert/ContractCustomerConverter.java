@@ -1,8 +1,8 @@
 package com.example.pensionat.services.convert;
 
-import com.example.pensionat.dtos.*;
-import com.example.pensionat.models.Customer;
-import com.example.pensionat.models.Shippers;
+import com.example.pensionat.dtos.contractcustomer.AllCustomersDTO;
+import com.example.pensionat.dtos.contractcustomer.ContractCustomerDTO;
+import com.example.pensionat.dtos.contractcustomer.DetailedContractCustomerDTO;
 import com.example.pensionat.models.allcustomers;
 import com.example.pensionat.models.customers;
 

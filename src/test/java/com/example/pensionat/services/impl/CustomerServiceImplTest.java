@@ -1,10 +1,12 @@
 package com.example.pensionat.services.impl;
 
-import com.example.pensionat.controllers.AuthController;
-import com.example.pensionat.dtos.*;
+import com.example.pensionat.dtos.blacklist.BlacklistResponse;
+import com.example.pensionat.dtos.blacklist.DetailedBlacklistCustomerDTO;
+import com.example.pensionat.dtos.blacklist.SimpleBlacklistCustomerDTO;
+import com.example.pensionat.dtos.customer.CustomerDTO;
+import com.example.pensionat.dtos.customer.SimpleCustomerDTO;
 import com.example.pensionat.models.Customer;
 import com.example.pensionat.repositories.CustomerRepo;
-import com.example.pensionat.services.impl.CustomerServiceImpl;
 import com.example.pensionat.services.providers.BlacklistStreamAndUrlProvider;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;

@@ -1,4 +1,4 @@
-package com.example.pensionat.dtos;
+package com.example.pensionat.dtos.customer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BlacklistResponse {
+public class CustomerDTO {
 
-    String statusText;
-    Boolean ok;
+    private String name;
+    private String email;
 }

@@ -1,6 +1,6 @@
 package com.example.pensionat.services.impl.integration;
 
-import com.example.pensionat.dtos.DetailedShippersDTO;
+import com.example.pensionat.dtos.shippers.DetailedShippersDTO;
 import com.example.pensionat.repositories.ShippersRepo;
 import com.example.pensionat.services.impl.ShippersServiceImpl;
 import com.example.pensionat.services.interfaces.ShippersService;

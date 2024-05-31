@@ -1,6 +1,5 @@
-package com.example.pensionat.dtos;
+package com.example.pensionat.dtos.contractcustomer;
 
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

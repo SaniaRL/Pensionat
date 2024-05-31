@@ -1,6 +1,7 @@
 package com.example.pensionat.controllers;
 
 import com.example.pensionat.dtos.*;
+import com.example.pensionat.dtos.room.RoomDTO;
 import com.example.pensionat.services.impl.CustomerServiceImpl;
 import com.example.pensionat.services.impl.OrderLineServicelmpl;
 import com.example.pensionat.services.impl.RoomServicelmpl;

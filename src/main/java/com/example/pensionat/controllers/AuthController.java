@@ -69,7 +69,6 @@ public class AuthController {
         String subject = mailTemplateDTO.getSubject();
 
         String message = getTheRightText(mailTemplateDTO.getBody(), rp);
-//        String message = "<div>Följ denna <a href=" + resetLink + ">länk</a>!</div>";
 
         try {
             MimeMessage mimeMessage = emailSender.createMimeMessage();
