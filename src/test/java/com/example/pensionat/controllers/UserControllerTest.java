@@ -127,26 +127,24 @@ class UserControllerTest {
     }
 
     @Test
-    public void testDeleteUserByUsername() {
-        String viewName = controller.deleteUserByUsername("testuser", model);
-        assertEquals("redirect:/user/", viewName);
-        verify(userService, times(1)).deleteUserByUsername(eq("testuser"));
+    public void deleteUserByUsername() throws Exception {
+        this.mvc.perform(get("/user/{username}/remove", username))
+                .andExpect(status().isFound())
+                .andExpect(redirectedUrl("/user/"));
+
+        verify(userService, times(1)).deleteUserByUsername(eq(username));
     }
 
     @Test
-    public void testEditUser() {
-        SimpleUserDTO userDTO = new SimpleUserDTO();
-        when(userService.getSimpleUserDtoByUsername(anyString())).thenReturn(userDTO);
-        List<SimpleRoleDTO> roles = new ArrayList<>();
-        when(roleService.getAllRoles()).thenReturn(roles);
+    public void editUser() throws Exception {
+        this.mvc.perform(get("/user/{username}/edit", username))
+                .andExpect(status().isOk())
+                .andExpect(view().name("updateUserAccount"))
+                .andExpect(model().attribute("originalUsername", username))
+                .andExpect(model().attribute("user", userDto1))
+                .andExpect(model().attribute("selectableRoles", rolesDto1));
 
-        String viewName = controller.editUser("testuser", model);
-        assertEquals("updateUserAccount", viewName);
-        assertEquals("testuser", model.getAttribute("originalUsername"));
-        assertEquals(userDTO, model.getAttribute("user"));
-        assertEquals(roles, model.getAttribute("selectableRoles"));
-
-        verify(userService, times(1)).getSimpleUserDtoByUsername(eq("testuser"));
+        verify(userService, times(1)).getSimpleUserDtoByUsername(eq(username));
         verify(roleService, times(1)).getAllRoles();
     }
 
