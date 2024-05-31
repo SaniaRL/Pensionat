@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
 </head>
 <body>
+<div th:replace="~{fragments/NavBar :: navBar('', '')}"></div>
+
     <div class="container-1">
         <div>
             <h1 class="header-confirmation-page">Bokningsbekräftelse</h1>
@@ -55,6 +57,8 @@
             <a class="back-link" href="/">Startsidan</a>
         </div>
     </div>
-    <script th:src="@{/js/bookingConfirmation.js}"></script>
+<script th:src="@{/js/bookingConfirmation.js}"></script>
+<script th:src="@{/js/menuExpand.js}"></script>
+
 </body>
 </html>
