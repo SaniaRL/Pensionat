@@ -77,7 +77,6 @@ public class UserController {
 
     @GetMapping(value = "/", params = "search")
     public String userSearch(@RequestParam String search, Model model) throws IOException {
-        System.out.println("SÖKORD: " + search);
         int currentPage = 1;
         userService.addToModelUserSearch(search, currentPage, model);
         return "handleUserAccounts";
