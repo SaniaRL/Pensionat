@@ -25,20 +25,23 @@ import org.springframework.ui.Model;
 import java.io.IOException;
 import java.util.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@WithMockUser(username="admin", roles={"USER", "ADMIN"})
+@WithMockUser(username="admin", authorities={"Admin"})
 class UserControllerTest {
 
     @Autowired
     private MockMvc mvc;
 
     @Autowired
-    private UserController userController;
+    private UserController controller;
 
     @MockBean
     private UserService userService;
@@ -80,10 +83,10 @@ class UserControllerTest {
         Page<SimpleUserDTO> mockPage = new PageImpl<>(List.of(userDto1));
         when(userService.getSimpleUserDtoByUsername(anyString())).thenReturn(userDto1);
         when(roleService.getAllRoles()).thenReturn((List<SimpleRoleDTO>) rolesDto1);
-        when(userService.updateUser(any(SimpleUserDTO.class), model)).thenReturn("Användaren är uppdaterad");
-
-        //when(userService.getCustomerByEmail(anyString())).thenReturn(customer);
-        //when(userService.removeCustomerById(anyLong())).thenReturn("Kund borta");
+        when(userService.updateUser(any(SimpleUserDTO.class), any(Model.class))).thenReturn(
+                                    "Konto med användarnamn " + userDto1.getUsername() + " uppdaterades!");
+        when(userService.addUser(any(DetailedUserDTO.class), any(Model.class))).thenReturn(
+                                    "Konto med användarnamn " + userDto1.getUsername() + " skapades!");
 
         doAnswer(invocation -> {
             Model model = invocation.getArgument(1);
@@ -101,22 +104,31 @@ class UserControllerTest {
     }
 
     @Test
-    public void testHandleUsers() {
-        String viewName = userController.handleUsers(model);
-        assertEquals("handleUserAccounts", viewName);
-        verify(userService, times(1)).addToModel(anyInt(), eq(model));
+    public void contextLoads() throws Exception {
+        assertThat(controller).isNotNull();
     }
 
     @Test
-    public void testHandleByPage() {
-        String viewName = userController.handleByPage(model, 2);
-        assertEquals("handleUserAccounts", viewName);
-        verify(userService, times(1)).addToModel(eq(2), eq(model));
+    public void handleUsers() throws Exception {
+        this.mvc.perform(get("/user/"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("handleUserAccounts"))
+                .andExpect(model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));
+    }
+
+    @Test
+    public void handleByPage() throws Exception {
+        int currentPage = 2;
+        this.mvc.perform(get("/user/")
+                .param("page", String.valueOf(currentPage)))
+                .andExpect(status().isOk())
+                .andExpect(view().name("handleUserAccounts"))
+                .andExpect(model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));
     }
 
     @Test
     public void testDeleteUserByUsername() {
-        String viewName = userController.deleteUserByUsername("testuser", model);
+        String viewName = controller.deleteUserByUsername("testuser", model);
         assertEquals("redirect:/user/", viewName);
         verify(userService, times(1)).deleteUserByUsername(eq("testuser"));
     }
@@ -128,7 +140,7 @@ class UserControllerTest {
         List<SimpleRoleDTO> roles = new ArrayList<>();
         when(roleService.getAllRoles()).thenReturn(roles);
 
-        String viewName = userController.editUser("testuser", model);
+        String viewName = controller.editUser("testuser", model);
         assertEquals("updateUserAccount", viewName);
         assertEquals("testuser", model.getAttribute("originalUsername"));
         assertEquals(userDTO, model.getAttribute("user"));
@@ -146,7 +158,7 @@ class UserControllerTest {
         List<SimpleRoleDTO> roles = new ArrayList<>();
         when(roleService.getAllRoles()).thenReturn(roles);
 
-        String viewName = userController.updateUser(userDTO, "originalUser", model);
+        String viewName = controller.updateUser(userDTO, "originalUser", model);
         assertEquals("updateUserAccount", viewName);
         assertEquals("originalUser", model.getAttribute("originalUsername"));
         assertEquals("status", model.getAttribute("status"));
@@ -159,7 +171,7 @@ class UserControllerTest {
         List<SimpleRoleDTO> roles = new ArrayList<>();
         when(roleService.getAllRoles()).thenReturn(roles);
 
-        String viewName = userController.showCreateUserAccountForm(model);
+        String viewName = controller.showCreateUserAccountForm(model);
         assertEquals("createUserAccount", viewName);
         assertEquals(roles, model.getAttribute("selectableRoles"));
 
@@ -173,7 +185,7 @@ class UserControllerTest {
         List<SimpleRoleDTO> roles = new ArrayList<>();
         when(roleService.getAllRoles()).thenReturn(roles);
 
-        String viewName = userController.addUser(userDTO, model);
+        String viewName = controller.addUser(userDTO, model);
         assertEquals("createUserAccount", viewName);
         assertEquals("status", model.getAttribute("status"));
 
@@ -182,14 +194,14 @@ class UserControllerTest {
 
     @Test
     public void testUserSearch() throws IOException {
-        String viewName = userController.userSearch("test", model);
+        String viewName = controller.userSearch("test", model);
         assertEquals("handleUserAccounts", viewName);
         verify(userService, times(1)).addToModelUserSearch(eq("test"), anyInt(), eq(model));
     }
 
     @Test
     public void testUserSearchByPage() throws IOException {
-        String viewName = userController.userSearchByPage("test", model, 2);
+        String viewName = controller.userSearchByPage("test", model, 2);
         assertEquals("handleUserAccounts", viewName);
         verify(userService, times(1)).addToModelUserSearch(eq("test"), eq(2), eq(model));
     }
