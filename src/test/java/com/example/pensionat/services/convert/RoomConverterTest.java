@@ -32,16 +32,10 @@ class RoomConverterTest {
     }
 
     @Test
-    void roomToDetailedRoomDto() {
-
-    }
-
-    @Test
     void orderLineToRoomDTO() {
         RoomDTO actual = RoomConverter.orderLineToRoomDTO(orderLineDTO);
 
         assertEquals(actual.getId(), orderLineDTO.getRoom().getId());
         assertEquals(actual.getRoomType(), orderLineDTO.getRoom().getRoomType());
     }
-
 }

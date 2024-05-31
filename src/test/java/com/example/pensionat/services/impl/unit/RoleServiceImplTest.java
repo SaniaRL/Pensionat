@@ -5,12 +5,9 @@ import com.example.pensionat.models.Role;
 import com.example.pensionat.models.User;
 import com.example.pensionat.repositories.RoleRepo;
 import com.example.pensionat.services.convert.RoleConverter;
-import com.example.pensionat.services.interfaces.RoleService;
-import com.example.pensionat.services.providers.RoleAndUserDataSeeder;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.*;
 

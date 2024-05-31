@@ -167,8 +167,6 @@ class CustomerControllerTest {
                 .andExpect(model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));
     }
 
-
-
     @Test
     void handleByPage() throws Exception {
         int currentPage = 2;
@@ -177,7 +175,6 @@ class CustomerControllerTest {
                 .andExpect(view().name("handleCustomers"))
                 .andExpect(model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));
     }
-
 
     @Test
     void getCustomerByEmail() throws Exception {
@@ -188,7 +185,6 @@ class CustomerControllerTest {
                 .andExpect(model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));
     }
 
-
     @Test
     void getCustomerByEmailByPage() throws Exception {
         int currentPage = 3;
@@ -198,46 +194,5 @@ class CustomerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("handleCustomers"))
                 .andExpect(model().attributeExists("allCustomers", "currentPage", "totalItems", "totalPages"));
-    }
-
-
-    @Test
-    void checkIfEmailBlacklisted() {
-
-    }
-
-    @Test
-    void addToBlacklist() {
-
-    }
-
-    @Test
-    void updateBlacklist() {
-
-    }
-
-    @Test
-    void handleBlacklist() {
-
-    }
-
-    @Test
-    void handleBlacklistByPage() {
-
-    }
-
-    @Test
-    void handleBlacklistSearch() {
-
-    }
-
-    @Test
-    void handleBlacklistByPageSearch() {
-
-    }
-
-    @Test
-    void showBlacklistForm() {
-
     }
 }

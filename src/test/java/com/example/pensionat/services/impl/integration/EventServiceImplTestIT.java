@@ -1,12 +1,9 @@
 package com.example.pensionat.services.impl.integration;
 
-import com.example.pensionat.models.events.Event;
 import com.example.pensionat.repositories.EventRepo;
 import com.example.pensionat.services.interfaces.EventService;
-import com.rabbitmq.client.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mail.javamail.JavaMailSender;
 
