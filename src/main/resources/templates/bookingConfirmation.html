@@ -3,58 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <title>Confirmation</title>
-    <link rel="icon" type="image/x-icon" href="/images/house.png"/>
-    <link rel="stylesheet" type="text/css" href="/css/universal.css">
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link rel="stylesheet" type="text/css" href="/css/bookingConfirmation.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
+    <link href="/images/house.png" rel="icon" type="image/x-icon"/>
+    <link href="/css/universal.css" rel="stylesheet" type="text/css">
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/css/bookingConfirmation.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container-1">
-        <div>
-            <h1 class="header-confirmation-page">Bokningsbekräftelse</h1>
-        </div>
-        <div class="container-2">
-            <p class="bold">Kund:</p>
-            <p id="customer-name-email"></p>
-        </div>
+<div th:replace="~{fragments/NavBar :: navBar('', '')}"></div>
+<div class="container-1">
+    <div>
+        <h1 class="header-confirmation-page">Bokningsbekräftelse</h1>
+    </div>
+    <div class="container-2">
+        <p class="bold">Kund:</p>
+        <p id="customer-name-email"></p>
+    </div>
 
-        <div class="container-3">
+    <div class="container-3">
         <div class="container-4">
             <p class="bold">Bokning:</p>
             <div>
-                <p id="checkin-p" th:text="'Incheckning: '+${startDate}" />
-                <p id="checkout-p" th:text="'Utcheckning: '+${endDate}" />
+                <p id="checkin-p" th:text="'Incheckning: '+${startDate}"/>
+                <p id="checkout-p" th:text="'Utcheckning: '+${endDate}"/>
             </div>
             <div>
                 <p class="skinny">PRIS: </p>
-                <p id="price-p" class="fat" th:text="${#numbers.formatCurrency(price)}" />
+                <p class="fat" id="price-p" th:text="${#numbers.formatCurrency(price)}"/>
             </div>
         </div>
 
         <div class="container-5">
             <table>
                 <tbody class="show-rooms-confirmation-page">
-                    <tr class="header-rooms-confirmation-page">
-                        <td>Room ID:</td>
-                        <td>Room Type:</td>
-                        <td>Beds:</td>
-                        <td></td>
-                    </tr>
+                <tr class="header-rooms-confirmation-page">
+                    <td>Room ID:</td>
+                    <td>Room Type:</td>
+                    <td>Beds:</td>
+                    <td></td>
+                </tr>
 
-                    <tr th:each="orderLine : ${orderLines}" class="room-row-confirmation-page">
-                        <td th:text="${orderLine.id}"></td>
-                        <td th:text="${orderLine.roomType}"></td>
-                        <td th:text="${orderLine.extraBeds} + ${orderLine.roomType.defaultNumberOfBeds}"></td>
-                    </tr>
+                <tr class="room-row-confirmation-page" th:each="orderLine : ${orderLines}">
+                    <td th:text="${orderLine.id}"></td>
+                    <td th:text="${orderLine.roomType}"></td>
+                    <td th:text="${orderLine.extraBeds} + ${orderLine.roomType.defaultNumberOfBeds}"></td>
+                </tr>
                 </tbody>
             </table>
         </div>
-        </div>
-        <div class="header-confirmation-page">
-            <a class="back-link" href="/">Startsidan</a>
-        </div>
     </div>
-    <script th:src="@{/js/bookingConfirmation.js}"></script>
+    <div class="header-confirmation-page">
+        <a class="back-link" href="/">Startsidan</a>
+    </div>
+</div>
+<script th:src="@{/js/bookingConfirmation.js}"></script>
 </body>
 </html>
