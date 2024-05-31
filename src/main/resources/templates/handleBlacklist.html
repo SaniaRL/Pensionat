@@ -34,7 +34,10 @@
         <div class="placement-return-button">
             <div>
                 <form action="#" method="get" th:action="@{/customer/blacklist/}">
-                    <input class="customer-search" name="search" placeholder="Sök" type="text" value="">
+                    <div class="customer-search">
+                        <input name="search" placeholder="Sök" type="text" th:value="${search}">
+                        <a th:unless="${#strings.isEmpty(search)}" class="search-clear" th:href="@{/customer/blacklist}">X</a>
+                    </div>
                     <input class="search-customer-button" type="submit" value="Submit">
                 </form>
             </div>

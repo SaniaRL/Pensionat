@@ -57,7 +57,10 @@
 
             <div>
                 <form action="#" method="get" th:action="@{/customer/}">
-                    <input class="customer-search" name="search" placeholder="Sök" type="text" value="">
+                    <div class="customer-search">
+                        <input name="search" placeholder="Sök" type="text" th:value="${search}">
+                        <a th:unless="${#strings.isEmpty(search)}" class="search-clear" th:href="@{/customer/}">X</a>
+                    </div>
                     <input class="search-customer-button" type="submit" value="Submit">
                 </form>
             </div>

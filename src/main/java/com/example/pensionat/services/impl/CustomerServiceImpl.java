@@ -64,6 +64,7 @@ public class CustomerServiceImpl implements CustomerService {
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalItems", c.getTotalElements());
         model.addAttribute("totalPages", c.getTotalPages());
+        model.addAttribute("search", email);
     }
 
     @Override
